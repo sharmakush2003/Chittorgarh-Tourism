@@ -40,6 +40,7 @@ export default function Plan() {
 
         // 2. Send Email via our own Next.js API (Nodemailer)
         try {
+            console.log("Client: Sending POST request to /api/send-itinerary");
             const response = await fetch('/api/send-itinerary', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -48,11 +49,13 @@ export default function Plan() {
                     email: formData.email,
                     date: formData.date,
                     interest: `${activeTab} Day Tour`,
-                    itinerary: itineraries[activeTab] // Send full details to API
+                    itinerary: itineraries[activeTab]
                 })
             });
 
+            console.log("Client: Received response status:", response.status);
             const result = await response.json();
+            console.log("Client: Received result:", result);
 
             if (!response.ok) {
                 throw new Error(result.message || "Failed to send email");

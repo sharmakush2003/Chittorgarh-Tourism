@@ -28,16 +28,13 @@ export async function POST(request) {
                 user: emailUser,
                 pass: emailPass,
             },
+            // Add connection timeout
+            connectionTimeout: 10000,
+            greetingTimeout: 10000,
+            socketTimeout: 20000,
         });
 
-        // Verify transporter connection
-        try {
-            await transporter.verify();
-            console.log("✅ Transporter verified successfully");
-        } catch (verifyError) {
-            console.error("❌ Transporter verification failed:", verifyError);
-            throw verifyError;
-        }
+        console.log("Attempting to send mail to:", email);
 
         // 4. Construct Email Content
         const mailOptions = {
