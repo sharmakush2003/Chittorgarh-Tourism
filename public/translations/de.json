@@ -2,6 +2,7 @@
     "nav.home": "Startseite",
     "nav.explore": "Erkunden",
     "nav.chronicles": "Chroniken",
+    "nav.stays": "Unterkünfte",
     "nav.planTrip": "Reise planen",
     "hero.badge": "Gegr. 7. Jahrhundert · Rajasthan, Indien",
     "hero.line1": "Die Saga von",
@@ -54,7 +55,8 @@
     "modal.sub": "Wählen Sie Ihr Land, um Ihr Erlebnis zu personalisieren.",
     "modal.search": "Länder suchen...",
     "modal.skip": "Überspringen und auf Englisch fortfahren",
-    "nav.stays": "Unterkünfte",
     "modal.confirm": "Weiter",
-    "modal.detected": "Wir haben festgestellt, dass Sie in"
+    "modal.detected": "Wir haben festgestellt, dass Sie in",
+    "chron.footer.aiNote": "Die kinematografischen Illustrationen in dieser Chronik wurden mithilfe fortschrittlicher Künstlicher Intelligenz neu interpretiert, um die zeitlosen Legenden von Mewar zu visualisieren.",
+    "chron.footer.heritage": "Chittorgarh: Wo Geschichte in Stein und Seele eingemeißelt ist."
 }

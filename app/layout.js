@@ -23,6 +23,18 @@ const jost = Jost({
 export const metadata = {
   title: "Chittorgarh Tourism — The Saga of Bravery & Sacrifice",
   description: "Discover Chittorgarh Fort — Rajasthan's mightiest citadel. Plan your journey and explore heritage sites.",
+  manifest: "/manifest.json",
+  themeColor: "#D4AF37",
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "black-translucent",
+    title: "Chittorgarh Tourism",
+  },
+  viewport: {
+    width: "device-width",
+    initialScale: 1,
+    maximumScale: 1,
+  },
 };
 
 export default function RootLayout({ children }) {

@@ -3,6 +3,7 @@
 import { useLanguage } from "@/context/LanguageContext";
 import { useEffect, useState, useRef } from "react";
 import { Flower, Shield, Heart, Flame, Star, ArrowRight, Music } from "lucide-react";
+import Image from "next/image";
 
 export default function Chronicles() {
     const { t } = useLanguage();
@@ -98,10 +99,13 @@ export default function Chronicles() {
                                 </div>
 
                                 <div className="legend-image-container">
-                                    <img
+                                    <Image
                                         src={`/${legend.id}.png`}
                                         alt={t(`legend.${legend.id}.title`)}
                                         className="legend-card-image"
+                                        width={600}
+                                        height={400}
+                                        style={{ objectFit: 'cover', width: '100%', height: '100%' }}
                                     />
                                 </div>
 
