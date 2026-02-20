@@ -8,6 +8,8 @@ export default function Background3D() {
     const canvasRef = useRef(null);
     const pathname = usePathname();
     const isHome = pathname === "/";
+    const isChronicles = pathname === "/chronicles";
+    const showParticles = isHome || isChronicles;
 
     useEffect(() => {
         if (!canvasRef.current) return;
@@ -183,7 +185,7 @@ export default function Background3D() {
                 height: '100%',
                 zIndex: -1,
                 pointerEvents: 'none',
-                opacity: isHome ? 1 : 0,
+                opacity: showParticles ? 1 : 0,
                 transition: 'opacity 0.5s ease-in-out'
             }}
         />
