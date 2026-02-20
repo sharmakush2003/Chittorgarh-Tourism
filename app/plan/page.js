@@ -39,11 +39,18 @@ export default function Plan() {
         }
 
         // 2. Send Email via our own Next.js API (Nodemailer)
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => {
+            controller.abort();
+            setStatus("timeout"); // Custom state for "Functionality not working right now"
+        }, 5000); // 5 Seconds as requested
+
         try {
-            console.log("Client: Sending POST request to /api/send-itinerary");
+            console.log("Client: Sending POST request with 5s timeout...");
             const response = await fetch('/api/send-itinerary', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
+                signal: controller.signal,
                 body: JSON.stringify({
                     name: formData.name,
                     email: formData.email,
@@ -53,9 +60,12 @@ export default function Plan() {
                 })
             });
 
+            clearTimeout(timeoutId);
+
+            if (status === "timeout") return; // Already handled by timeout
+
             console.log("Client: Received response status:", response.status);
             const result = await response.json();
-            console.log("Client: Received result:", result);
 
             if (!response.ok) {
                 throw new Error(result.message || "Failed to send email");
@@ -65,9 +75,14 @@ export default function Plan() {
             setFormData({ name: "", email: "", date: "", interest: "1 Day Tour" });
             setTimeout(() => setStatus("idle"), 5000);
         } catch (error) {
-            console.error("Error submitting form: ", error);
-            setStatus("error");
-            alert(`Error: ${error.message}`);
+            clearTimeout(timeoutId);
+            if (error.name === 'AbortError') {
+                console.warn("Client: Request aborted due to timeout");
+                // setStatus("timeout") is already set by the timeoutId function
+            } else {
+                console.error("Error submitting form: ", error);
+                setStatus("error");
+            }
         }
     };
 
@@ -464,6 +479,7 @@ export default function Plan() {
                             {status === 'loading' ? 'Sending Mail...' : 'Email Me This Itinerary'}
                         </button>
                         {status === 'success' && <p style={{ color: 'green', marginTop: '1rem', textAlign: 'center' }}>Email Sent Successfully! Check your inbox.</p>}
+                        {status === 'timeout' && <p style={{ color: '#d97706', marginTop: '1rem', textAlign: 'center', fontWeight: '600' }}>Mail functionality not working right now. Please try again later.</p>}
                         {status === 'error' && <p style={{ color: 'red', marginTop: '1rem', textAlign: 'center' }}>Something went wrong. Please try again.</p>}
                     </form>
                 </div>

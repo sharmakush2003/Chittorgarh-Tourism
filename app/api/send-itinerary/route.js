@@ -21,20 +21,23 @@ export async function POST(request) {
             return NextResponse.json({ message: 'Server misconfigured: Missing email credentials', success: false }, { status: 500 });
         }
 
-        // 3. Configure Transporter (Gmail)
+        // 3. Configure Transporter (Gmail) - Optimized for speed
         const transporter = nodemailer.createTransport({
             service: 'gmail',
+            pool: true, // Reuse connections
+            maxConnections: 3,
+            maxMessages: 100,
             auth: {
                 user: emailUser,
                 pass: emailPass,
             },
-            // Add connection timeout
-            connectionTimeout: 10000,
-            greetingTimeout: 10000,
-            socketTimeout: 20000,
+            // Aggressive timeouts for mobile network stability
+            connectionTimeout: 5000,
+            greetingTimeout: 5000,
+            socketTimeout: 10000,
         });
 
-        console.log("Attempting to send mail to:", email);
+        console.log("Client request IP suspected mobile or latent. Attempting prioritized mail send to:", email);
 
         // 4. Construct Email Content
         const mailOptions = {
