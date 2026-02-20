@@ -14,6 +14,8 @@ export async function POST(request) {
         const emailUser = process.env.EMAIL_USER;
         const emailPass = process.env.EMAIL_PASS;
 
+        console.log("Attempting to send email from:", emailUser);
+
         if (!emailUser || !emailPass) {
             console.error("⚠️  Email credentials not found in environment variables.");
             return NextResponse.json({ message: 'Server misconfigured: Missing email credentials', success: false }, { status: 500 });
@@ -27,6 +29,15 @@ export async function POST(request) {
                 pass: emailPass,
             },
         });
+
+        // Verify transporter connection
+        try {
+            await transporter.verify();
+            console.log("✅ Transporter verified successfully");
+        } catch (verifyError) {
+            console.error("❌ Transporter verification failed:", verifyError);
+            throw verifyError;
+        }
 
         // 4. Construct Email Content
         const mailOptions = {
@@ -81,11 +92,13 @@ export async function POST(request) {
         };
 
         // 5. Send Email
-        await transporter.sendMail(mailOptions);
+        console.log("Sending mail...");
+        const info = await transporter.sendMail(mailOptions);
+        console.log("✅ Message sent: %s", info.messageId);
 
         return NextResponse.json({ message: 'Email sent successfully', success: true });
     } catch (error) {
-        console.error('Error sending itinerary email:', error);
+        console.error('❌ Error sending itinerary email:', error);
         return NextResponse.json({ message: 'Failed to send email', error: error.message }, { status: 500 });
     }
 }
