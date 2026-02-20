@@ -727,17 +727,20 @@ footer {
   letter-spacing: 1px;
 }
 
-/* Weather Widget Wrapper */
-.weather-widget-wrapper {
+/* Hero Widgets (Weather + Visitor Stats) */
+.hero-widgets {
   position: fixed;
   bottom: 80px;
   right: 20px;
   z-index: 100;
-  display: block;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  align-items: flex-end;
 }
 
 @media (max-width: 768px) {
-  .weather-widget-wrapper {
+  .hero-widgets {
     display: none;
   }
 }
