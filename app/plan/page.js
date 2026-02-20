@@ -27,26 +27,22 @@ export default function Plan() {
         e.preventDefault();
         setStatus("loading");
 
-        // 1. Try to save to Firebase (Best Effort - Non-blocking)
-        try {
-            await addDoc(collection(db, "itinerary_requests"), {
-                ...formData,
-                createdAt: serverTimestamp(),
-                itineraryType: `${activeTab} Day Itinerary`
-            });
-        } catch (dbError) {
-            console.warn("Firestore write failed (likely permissions), continuing to email:", dbError);
-        }
-
-        // 2. Send Email via our own Next.js API (Nodemailer)
+        // 1. Send Email (PRIMARY GOAL) - Wrapped in Timeout
         const controller = new AbortController();
         const timeoutId = setTimeout(() => {
             controller.abort();
-            setStatus("timeout"); // Custom state for "Functionality not working right now"
-        }, 5000); // 5 Seconds as requested
+            setStatus("timeout");
+        }, 5000);
+
+        // 2. Try to save to Firebase (NON-BLOCKING BACKGROUND TASK)
+        // We do this without await so it doesn't block the email or the timeout
+        addDoc(collection(db, "itinerary_requests"), {
+            ...formData,
+            createdAt: serverTimestamp(),
+            itineraryType: `${activeTab} Day Itinerary`
+        }).catch(err => console.warn("Background Firestore write failed:", err));
 
         try {
-            console.log("Client: Sending POST request with 5s timeout...");
             const response = await fetch('/api/send-itinerary', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -62,28 +58,17 @@ export default function Plan() {
 
             clearTimeout(timeoutId);
 
-            if (controller.signal.aborted) {
-                console.warn("Client: Request finished but already aborted by timeout");
-                return;
-            }
+            if (controller.signal.aborted) return;
 
-            console.log("Client: Received response status:", response.status);
-            const result = await response.json();
-
-            if (!response.ok) {
-                throw new Error(result.message || "Failed to send email");
-            }
+            if (!response.ok) throw new Error("Server error");
 
             setStatus("success");
             setFormData({ name: "", email: "", date: "", interest: "1 Day Tour" });
             setTimeout(() => setStatus("idle"), 5000);
         } catch (error) {
             clearTimeout(timeoutId);
-            if (error.name === 'AbortError') {
-                console.warn("Client: Request aborted due to timeout");
-                // setStatus("timeout") is already set by the timeoutId function
-            } else {
-                console.error("Error submitting form: ", error);
+            if (error.name !== 'AbortError') {
+                console.error("Submission error:", error);
                 setStatus("error");
             }
         }
