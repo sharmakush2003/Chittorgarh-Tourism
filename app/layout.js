@@ -22,7 +22,7 @@ const jost = Jost({
 
 export const metadata = {
   title: "Chittorgarh Tourism — The Saga of Bravery & Sacrifice",
-  description: "Discover Chittorgarh Fort — Rajasthan's mightiest citadel. Plan your journey, explore heritage sites, and connect with master artisans.",
+  description: "Discover Chittorgarh Fort — Rajasthan's mightiest citadel. Plan your journey and explore heritage sites.",
 };
 
 export default function RootLayout({ children }) {

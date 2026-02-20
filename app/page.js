@@ -31,9 +31,6 @@ export default function Home() {
             <Link href="/plan" className="btn-gold">
               {t("hero.cta1")}
             </Link>
-            <Link href="/artisans" className="btn-outline">
-              {t("hero.cta2")}
-            </Link>
           </div>
         </div>
         <div className="hero-scroll-hint">
