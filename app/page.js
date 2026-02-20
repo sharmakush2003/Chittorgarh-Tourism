@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useLanguage } from "@/context/LanguageContext";
 import WeatherWidget from "@/components/WeatherWidget";
+import VisitorStats from "@/components/VisitorStats";
 
 export default function Home() {
   const { t } = useLanguage();
@@ -12,8 +13,9 @@ export default function Home() {
 
       {/* ═══ HERO ══════════════════════════════════ */}
       <header id="home" className="hero">
-        <div className="weather-widget-wrapper">
+        <div className="hero-widgets">
           <WeatherWidget />
+          <VisitorStats />
         </div>
         <div className="hero-content">
           <div className="hero-eyebrow">
