@@ -1,14 +1,12 @@
 {
     "nav.home": "Startseite",
     "nav.explore": "Erkunden",
-    "nav.artisans": "Handwerker",
     "nav.planTrip": "Reise planen",
     "hero.badge": "Gegr. 7. Jahrhundert · Rajasthan, Indien",
     "hero.line1": "Die Saga von",
     "hero.line2": "Tapferkeit & Opfer",
     "hero.sub": "Wandern Sie durch 700 Acres lebendiger Geschichte. Eine Festung, die den Aufstieg und Fall von Imperien bezeugte, in Stein erbaut und durch Legende am Leben erhalten.",
     "hero.cta1": "Ihre Reise planen →",
-    "hero.cta2": "Handwerker entdecken",
     "stats.l1": "Jährliche Besucher",
     "stats.l2": "Festungskomplex",
     "stats.l3": "Meisterhandwerker",
@@ -48,6 +46,7 @@
     "modal.sub": "Wählen Sie Ihr Land, um Ihr Erlebnis zu personalisieren.",
     "modal.search": "Länder suchen...",
     "modal.skip": "Überspringen und auf Englisch fortfahren",
+    "nav.stays": "Unterkünfte",
     "modal.confirm": "Weiter",
     "modal.detected": "Wir haben festgestellt, dass Sie in"
 }
