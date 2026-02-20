@@ -12,7 +12,7 @@ export default function Home() {
 
       {/* ═══ HERO ══════════════════════════════════ */}
       <header id="home" className="hero">
-        <div style={{ position: 'fixed', bottom: '80px', right: '20px', zIndex: 100 }}>
+        <div className="weather-widget-wrapper">
           <WeatherWidget />
         </div>
         <div className="hero-content">

@@ -726,3 +726,18 @@ footer {
   font-size: 0.8rem;
   letter-spacing: 1px;
 }
+
+/* Weather Widget Wrapper */
+.weather-widget-wrapper {
+  position: fixed;
+  bottom: 80px;
+  right: 20px;
+  z-index: 100;
+  display: block;
+}
+
+@media (max-width: 768px) {
+  .weather-widget-wrapper {
+    display: none;
+  }
+}
