@@ -7,6 +7,7 @@ import { useLanguage } from "@/context/LanguageContext";
 
 export default function Navbar() {
     const [scrolled, setScrolled] = useState(false);
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
     const pathname = usePathname();
     const { t } = useLanguage();
 
@@ -18,55 +19,66 @@ export default function Navbar() {
         return () => window.removeEventListener("scroll", handleScroll);
     }, []);
 
+    // Close menu when route changes
+    useEffect(() => {
+        setIsMenuOpen(false);
+    }, [pathname]);
+
     const isActive = (path) => pathname === path ? "active" : "";
 
-    return (
-        <nav className={`navbar ${scrolled ? "scrolled" : ""}`} id="navbar">
-            <Link href="/" className="logo">
-                <div className="logo-name">
-                    Chittorgarh<span> Tourism</span>
-                </div>
-            </Link>
-            <ul className="nav-links">
-                <li>
-                    <Link href="/" className={isActive("/")}>
-                        {t("nav.home")}
-                    </Link>
-                </li>
-                <li>
-                    <Link href="/explore" className={isActive("/explore")}>
-                        {t("nav.explore")}
-                    </Link>
-                </li>
-                <li>
-                    <Link href="/stays" className={isActive("/stays")}>
-                        {t("nav.stays")}
-                    </Link>
-                </li>
-                <li>
-                    <Link href="/artisans" className={isActive("/artisans")}>
-                        {t("nav.artisans")}
-                    </Link>
-                </li>
-                <li>
-                    <Link href="/plan" className={isActive("/plan")}>
-                        {t("nav.planTrip")}
-                    </Link>
-                </li>
-            </ul>
+    const navLinks = [
+        { href: "/", label: t("nav.home") },
+        { href: "/explore", label: t("nav.explore") },
+        { href: "/stays", label: t("nav.stays") },
+        { href: "/artisans", label: t("nav.artisans") },
+        { href: "/plan", label: t("nav.planTrip") },
+    ];
 
-            <style jsx>{`
-                .navbar {
-                    display: flex;
-                    justify-content: space-between;
-                    align-items: center;
-                    width: 100%;
-                }
-                
-                .logo {
-                    text-decoration: none;
-                }
-            `}</style>
-        </nav>
+    return (
+        <>
+            <nav className={`navbar ${scrolled ? "scrolled" : ""}`} id="navbar">
+                <Link href="/" className="logo">
+                    <div className="logo-name">
+                        Chittorgarh<span> Tourism</span>
+                    </div>
+                </Link>
+
+                {/* Desktop Links */}
+                <ul className="nav-links">
+                    {navLinks.map((link) => (
+                        <li key={link.href}>
+                            <Link href={link.href} className={isActive(link.href)}>
+                                {link.label}
+                            </Link>
+                        </li>
+                    ))}
+                </ul>
+
+                {/* Mobile Menu Button */}
+                <button
+                    className={`mobile-menu-btn ${isMenuOpen ? "open" : ""}`}
+                    onClick={() => setIsMenuOpen(!isMenuOpen)}
+                    aria-label="Toggle Menu"
+                >
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </nav>
+
+            {/* Mobile Navigation Overlay */}
+            <div className={`mobile-nav ${isMenuOpen ? "open" : ""}`}>
+                {navLinks.map((link) => (
+                    <Link
+                        key={link.href}
+                        href={link.href}
+                        className={isActive(link.href)}
+                        onClick={() => setIsMenuOpen(false)}
+                    >
+                        {link.label}
+                    </Link>
+                ))}
+            </div>
+        </>
     );
 }
