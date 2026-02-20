@@ -367,7 +367,9 @@ export default function Plan() {
             {/* ═══ PAGE HEADER ═══════════════════════════ */}
             <header className="hero page-header" style={{ background: 'transparent', minHeight: '50vh' }}>
                 <div className="hero-content">
-                    <h1>{t("nav.plan")}</h1>
+                    <h1>
+                        {t("plan.title1") || "Craft Your"} <span>{t("plan.title2") || "Royal Journey"}</span>
+                    </h1>
                     <p className="hero-sub" style={{ maxWidth: '600px', margin: '0 auto' }}>
                         Curated experiences to help you explore the best of the Land of Sacrifice.
                     </p>
