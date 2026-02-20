@@ -62,7 +62,10 @@ export default function Plan() {
 
             clearTimeout(timeoutId);
 
-            if (status === "timeout") return; // Already handled by timeout
+            if (controller.signal.aborted) {
+                console.warn("Client: Request finished but already aborted by timeout");
+                return;
+            }
 
             console.log("Client: Received response status:", response.status);
             const result = await response.json();
