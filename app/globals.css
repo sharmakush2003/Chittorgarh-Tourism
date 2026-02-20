@@ -741,10 +741,6 @@ footer {
 
 @media (max-width: 768px) {
   .hero-widgets {
-    bottom: 12px;
-    right: 10px;
-    gap: 0.5rem;
-    transform: scale(0.85);
-    transform-origin: bottom right;
+    display: none;
   }
 }
