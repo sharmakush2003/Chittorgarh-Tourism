@@ -5,15 +5,30 @@ import enTranslations from "@/lib/translations.js";
 
 const LanguageContext = createContext();
 
+// Read localStorage safely (SSR-safe) to get the initial language
+function getInitialLang() {
+    if (typeof window === 'undefined') return 'en';
+    try {
+        const saved = localStorage.getItem("ctt_locale");
+        if (!saved) return 'en';
+        if (saved.startsWith('{')) {
+            const parsed = JSON.parse(saved);
+            return parsed?.lang || 'en';
+        }
+        return saved;
+    } catch (e) {
+        return 'en';
+    }
+}
+
 export function LanguageProvider({ children }) {
-    const [lang, setLang] = useState("en");
-    // Initialize with English translations immediately
+    // Initialize directly from localStorage — no race condition on mobile
+    const [lang, setLang] = useState(() => getInitialLang());
     const [translations, setTranslations] = useState(enTranslations);
-    const [loading, setLoading] = useState(false); // No longer loading initially
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         const loadTranslations = async () => {
-            // If it's English, we already have it
             if (lang === 'en') {
                 setTranslations(enTranslations);
                 setLoading(false);
@@ -28,8 +43,6 @@ export function LanguageProvider({ children }) {
                 if (!res.ok) {
                     console.warn(`Translation file not found for ${lang}, falling back to English.`);
                     setTranslations(enTranslations);
-                    // If we fall back, we might want to revert lang state too, but keeping the 'intent' is often better UI
-                    // unless we want to force 'en'. Let's keep the user's choice but show EN text.
                 } else {
                     const data = await res.json();
                     setTranslations(data);
@@ -42,11 +55,8 @@ export function LanguageProvider({ children }) {
             }
         };
 
-        // Only load if it's NOT the initial render with 'en' which is already set
-        // But we need to react to lang changes
         loadTranslations();
 
-        // Safe DOM updates after mount
         if (typeof window !== 'undefined') {
             document.documentElement.lang = lang;
         }
@@ -60,25 +70,6 @@ export function LanguageProvider({ children }) {
         setLang(code);
         localStorage.setItem("ctt_locale", code);
     };
-
-    // Check localStorage on mount
-    useEffect(() => {
-        const saved = localStorage.getItem("ctt_locale");
-        if (saved && saved !== "en") {
-            // Support legacy JSON-stringified locale objects
-            if (saved.startsWith('{')) {
-                try {
-                    const parsed = JSON.parse(saved);
-                    if (parsed && parsed.lang) {
-                        setLang(parsed.lang);
-                        localStorage.setItem("ctt_locale", parsed.lang);
-                        return;
-                    }
-                } catch (e) { }
-            }
-            setLang(saved);
-        }
-    }, []);
 
     return (
         <LanguageContext.Provider value={{ lang, changeLanguage, t, loading }}>
