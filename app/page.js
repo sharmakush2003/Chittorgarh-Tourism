@@ -82,7 +82,7 @@ export default function Home() {
         <div className="container">
           <span
             className="eyebrow reveal"
-            style={{ color: "var(--gold-lt)" }}
+            style={{ color: "var(--gold-light)" }}
           >
             {t("cta.eyebrow")}
           </span>
