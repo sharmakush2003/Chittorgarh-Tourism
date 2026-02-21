@@ -91,12 +91,26 @@ export default function VisitorGate() {
         setStatus("done");
     };
 
+    const [hasLocale, setHasLocale] = useState(false);
+
+    useEffect(() => {
+        // Check for locale immediately and then periodically or via event
+        const checkLocale = () => {
+            const locale = localStorage.getItem("ctt_locale");
+            if (locale) setHasLocale(true);
+        };
+
+        checkLocale();
+        const interval = setInterval(checkLocale, 500); // 500ms check is safe and fast enough
+
+        return () => clearInterval(interval);
+    }, []);
+
     // Render nothing when done or still in idle state
     if (status === "done" || status === "idle") return null;
 
     // Delay showing any VisitorGate UI until Language selection is complete
     // This ensures we ask "Need travel help?" AFTER the language prompt as requested.
-    const hasLocale = typeof window !== 'undefined' && localStorage.getItem("ctt_locale");
     if (!hasLocale) return null;
 
     // Thin loading veil while checking geo (fast, ~100ms — doesn't block page render)
