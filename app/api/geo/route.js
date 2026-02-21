@@ -10,15 +10,17 @@ export async function GET(request) {
         const forwarded = request.headers.get('x-forwarded-for');
         const ip = forwarded ? forwarded.split(',')[0].trim() : '127.0.0.1';
 
-        // In local dev, localhost IPs cannot be resolved — return tourist mode so the flow is testable
+        // In local dev, localhost IPs cannot be resolved.
+        // We simulate a LOCAL Chittorgarh visitor so the local modal + "View Travel Info" button can be tested.
+        // Change isChittorgarh/isRajasthan to false here to test the tourist redirect flow instead.
         const isLocalDev = ip === '127.0.0.1' || ip === '::1' || ip.startsWith('192.168.') || ip.startsWith('10.');
         if (isLocalDev) {
             return NextResponse.json({
-                city: 'Localhost',
-                regionName: 'Dev',
+                city: 'Chittorgarh',
+                regionName: 'Rajasthan',
                 country: 'IN',
-                isChittorgarh: false,
-                isRajasthan: false,
+                isChittorgarh: true,
+                isRajasthan: true,
                 devMode: true,
             });
         }
