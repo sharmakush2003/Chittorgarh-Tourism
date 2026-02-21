@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 
 // Configurable region identifiers
-const CHITTORGARH_CITIES = ['chittorgarh', 'chittor', 'chittaurgarh'];
+const CHITTORGARH_CITIES = ['chittorgarh', 'chittor', 'chittaurgarh', 'chanderiya', 'chanderia', 'senthi', 'bapawar'];
 const RAJASTHAN_NAMES = ['rajasthan'];
 
 export async function GET(request) {

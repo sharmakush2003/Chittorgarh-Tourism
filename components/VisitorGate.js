@@ -43,11 +43,8 @@ export default function VisitorGate() {
                 if (data.isChittorgarh || data.isRajasthan) {
                     setStatus("local");
                 } else {
-                    // Tourist — brief pause then redirect so page doesn't flash
-                    setTimeout(() => {
-                        router.replace("/how-to-reach");
-                    }, 600);
-                    setStatus("redirecting");
+                    // Tourist — show choice modal
+                    setStatus("tourist_prompt");
                 }
             })
             .catch(() => {
@@ -71,7 +68,21 @@ export default function VisitorGate() {
         router.push("/how-to-reach");
     };
 
+    const handleTouristYes = () => {
+        markVisited("tourist");
+        setStatus("done");
+        router.push("/how-to-reach");
+    };
+
+    const handleTouristNo = () => {
+        markVisited("tourist");
+        setStatus("done");
+        router.push("/");
+    };
+
     const handleFallbackTourist = () => {
+        markVisited("tourist");
+        setStatus("done");
         router.replace("/how-to-reach");
     };
 
@@ -82,6 +93,11 @@ export default function VisitorGate() {
 
     // Render nothing when done or still in idle state
     if (status === "done" || status === "idle") return null;
+
+    // Delay showing any VisitorGate UI until Language selection is complete
+    // This ensures we ask "Need travel help?" AFTER the language prompt as requested.
+    const hasLocale = typeof window !== 'undefined' && localStorage.getItem("ctt_locale");
+    if (!hasLocale) return null;
 
     // Thin loading veil while checking geo (fast, ~100ms — doesn't block page render)
     if (status === "checking" || status === "redirecting") {
@@ -103,6 +119,29 @@ export default function VisitorGate() {
                         </button>
                         <button className="vg-btn-ghost" onClick={handleLocalViewTravel}>
                             View Travel Info
+                        </button>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
+    // ── TOURIST PROMPT ───────────────────────────────────────────────────────
+    if (status === "tourist_prompt") {
+        return (
+            <div className="vg-overlay" role="dialog" aria-modal="true" aria-labelledby="vg-tourist-title">
+                <div className="vg-modal vg-modal--tourist">
+                    <div className="vg-modal-emblem">✦</div>
+                    <h2 className="vg-modal-title" id="vg-tourist-title">Welcome</h2>
+                    <p className="vg-modal-body">
+                        Do you need help with travel information on how to reach Chittorgarh?
+                    </p>
+                    <div className="vg-local-actions">
+                        <button className="btn-gold vg-btn-primary" onClick={handleTouristYes}>
+                            Yes, Guide Me
+                        </button>
+                        <button className="vg-btn-ghost" onClick={handleTouristNo}>
+                            No, Enter Home
                         </button>
                     </div>
                 </div>
