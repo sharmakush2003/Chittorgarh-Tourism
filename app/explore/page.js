@@ -15,8 +15,8 @@ export default function Explore() {
             {/* ═══ CONTENT ═══════════════════════════════ */}
             <main className="main-content">
                 <header className="header-section text-center">
-                    <span className="eyebrow">The Pride of Rajasthan</span>
-                    <h1 className="title text-gold">Major Tourist Attractions</h1>
+                    <span className="eyebrow">{t("exp.eyebrow")}</span>
+                    <h1 className="title text-gold">{t("exp.header")}</h1>
                     <div className="divider"></div>
                 </header>
 
@@ -162,14 +162,14 @@ export default function Explore() {
                     </div>
 
                     <div className="view-more-section">
-                        <p className="view-more-text">Explore more of the royal heritage</p>
+                        <p className="view-more-text">{t("exp.footerText")}</p>
                         <a
                             href="https://www.tourism.rajasthan.gov.in/chittorgarh.html"
                             target="_blank"
                             rel="noopener noreferrer"
                             className="view-more-btn"
                         >
-                            View More Tourist Sites <ArrowRight size={18} />
+                            {t("exp.footerBtn")} <ArrowRight size={18} />
                         </a>
                     </div>
                 </div>
@@ -403,19 +403,19 @@ function GlassCard({ title, desc, time, dist, delay, link, image, imgPos = 'cent
                         <button
                             onClick={handleDirections}
                             className="action-btn-text"
-                            title="Get Directions"
+                            title={t("btn.directions")}
                         >
                             <Navigation size={16} />
-                            <span>Directions</span>
+                            <span>{t("btn.directions")}</span>
                         </button>
                         <div className="divider-vertical"></div>
                         <button
                             onClick={() => setShowEmailModal(true)}
                             className="action-btn-text"
-                            title="Send Details via Email"
+                            title={t("btn.shareInfo")}
                         >
                             <Share2 size={16} />
-                            <span>Share Info</span>
+                            <span>{t("btn.shareInfo")}</span>
                         </button>
                     </div>
 
@@ -432,27 +432,27 @@ function GlassCard({ title, desc, time, dist, delay, link, image, imgPos = 'cent
                         <button className="close-btn" onClick={() => setShowEmailModal(false)}>
                             <X size={20} />
                         </button>
-                        <h3 className="modal-title">Share Details</h3>
-                        <p className="modal-subtitle">Send details for <strong>{title}</strong> to your email.</p>
+                        <h3 className="modal-title">{t("modal.shareTitle")}</h3>
+                        <p className="modal-subtitle">{t("modal.shareSub")}</p>
 
                         <form onSubmit={handleSendEmail} className="email-form">
                             <input
                                 type="email"
-                                placeholder="Enter your email address"
+                                placeholder={t("modal.emailPlaceholder")}
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
                                 required
                                 className="email-input"
                             />
                             <button type="submit" className="send-btn" disabled={sending}>
-                                {sending ? 'Sending...' : (
-                                    <>Send <Send size={16} /></>
+                                {sending ? t("modal.sending") : (
+                                    <>{t("modal.send")} <Send size={16} /></>
                                 )}
                             </button>
                         </form>
 
-                        {status === 'success' && <p className="status-msg success">Email sent successfully!</p>}
-                        {status === 'error' && <p className="status-msg error">Failed to send email. Try again.</p>}
+                        {status === 'success' && <p className="status-msg success">{t("modal.success")}</p>}
+                        {status === 'error' && <p className="status-msg error">{t("modal.error")}</p>}
                     </div>
                 </div>
             )}
