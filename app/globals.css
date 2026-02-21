@@ -782,23 +782,25 @@ footer {
   }
 }
 
-/* Modal panel  matches LanguagePrompt design language */
+/* Modal panel  premium dark glassy theme */
 .vg-modal {
-  background: var(--cream);
-  border: 1px solid var(--gold);
-  border-radius: 2px;
-  padding: 3rem 2.5rem;
-  max-width: 480px;
+  background: rgba(15, 10, 6, 0.9);
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  border-radius: 16px;
+  padding: 3.5rem 2.5rem;
+  max-width: 500px;
   width: 100%;
   text-align: center;
-  box-shadow: 0 30px 60px -10px rgba(0, 0, 0, 0.6);
-  animation: vgSlideUp 0.5s cubic-bezier(0.22, 1, 0.36, 1) 0.1s both;
+  box-shadow: 0 40px 100px -20px rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  animation: vgSlideUp 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
 @keyframes vgSlideUp {
   from {
     opacity: 0;
-    transform: translateY(24px);
+    transform: translateY(40px);
   }
 
   to {
@@ -807,29 +809,32 @@ footer {
   }
 }
 
-/* Fort emblem icon */
+/* Fort emblem icon / decoration */
 .vg-modal-emblem {
-  font-size: 2.5rem;
-  margin-bottom: 1rem;
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
   display: block;
+  color: var(--gold);
+  opacity: 0.8;
 }
 
 /* Modal heading */
 .vg-modal-title {
   font-family: var(--ff-display);
-  font-size: clamp(2rem, 5vw, 3rem);
-  color: var(--text-main);
-  font-weight: 600;
-  margin-bottom: 0.75rem;
-  line-height: 1.2;
+  font-size: clamp(2.2rem, 5vw, 3.5rem);
+  color: #fff;
+  font-weight: 500;
+  margin-bottom: 1rem;
+  line-height: 1.1;
+  text-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
 }
 
 /* Modal body text */
 .vg-modal-body {
-  color: var(--text-muted);
-  font-size: 1rem;
-  line-height: 1.65;
-  margin-bottom: 2rem;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 1.05rem;
+  line-height: 1.7;
+  margin-bottom: 2.5rem;
   font-weight: 300;
 }
 
@@ -837,69 +842,74 @@ footer {
 .vg-local-actions {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 1.25rem;
 }
 
 .vg-btn-ghost {
-  padding: 0.9rem 2rem;
-  border: 1px solid rgba(0, 0, 0, 0.2);
-  color: var(--text-muted);
-  font-size: 0.8rem;
-  font-weight: 600;
-  letter-spacing: 1.5px;
+  padding: 1rem 2rem;
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  color: rgba(212, 175, 55, 0.8);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 2px;
   text-transform: uppercase;
   cursor: pointer;
   transition: var(--transition);
   background: transparent;
+  border-radius: 4px;
 }
 
 .vg-btn-ghost:hover {
   border-color: var(--gold);
   color: var(--gold);
+  background: rgba(212, 175, 55, 0.05);
 }
 
-/*  Fallback Modal  two choice cards  */
+/*  Fallback Modal  choice cards  */
 .vg-choice-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 1rem;
-  margin-top: 0.5rem;
+  gap: 1.25rem;
+  margin-top: 1rem;
 }
 
 .vg-choice-card {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.5rem;
-  padding: 1.5rem 1rem;
-  border: 1px solid rgba(0, 0, 0, 0.1);
-  background: #fff;
+  gap: 0.75rem;
+  padding: 2rem 1.5rem;
+  border: 1px solid rgba(212, 175, 55, 0.15);
+  background: rgba(255, 255, 255, 0.03);
   cursor: pointer;
   transition: var(--transition);
+  border-radius: 8px;
 }
 
 .vg-choice-card:hover {
   border-color: var(--gold);
-  background: #fffbef;
-  transform: translateY(-4px);
-  box-shadow: 0 10px 30px -8px rgba(212, 175, 55, 0.25);
+  background: rgba(212, 175, 55, 0.08);
+  transform: translateY(-5px);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
 }
 
 .vg-choice-icon {
-  font-size: 2rem;
+  font-size: 2.2rem;
+  color: var(--gold);
 }
 
 .vg-choice-label {
   font-family: var(--ff-display);
-  font-size: 1rem;
-  font-weight: 600;
-  color: var(--text-main);
+  font-size: 1.15rem;
+  font-weight: 500;
+  color: #fff;
 }
 
 .vg-choice-sub {
-  font-size: 0.75rem;
-  color: var(--text-muted);
-  letter-spacing: 0.5px;
+  font-size: 0.78rem;
+  color: rgba(255, 255, 255, 0.4);
+  letter-spacing: 1px;
+  text-transform: uppercase;
 }
 
 /* Mobile: stack choice cards */

@@ -11,10 +11,13 @@ export async function GET(request) {
         const ip = forwarded ? forwarded.split(',')[0].trim() : '127.0.0.1';
 
         // In local dev, localhost IPs cannot be resolved.
-        // We simulate a LOCAL Chittorgarh visitor so the local modal + "View Travel Info" button can be tested.
-        // Change isChittorgarh/isRajasthan to false here to test the tourist redirect flow instead.
-        const isLocalDev = ip === '127.0.0.1' || ip === '::1' || ip.startsWith('192.168.') || ip.startsWith('10.');
-        if (isLocalDev) {
+        const isLocalDev = ip === '127.0.0.1' || ip === '::1';
+
+        // Allow manual testing via query param: /api/geo?sim=local or /api/geo?sim=tourist
+        const { searchParams } = new URL(request.url);
+        const sim = searchParams.get('sim');
+
+        if (sim === 'local' || (isLocalDev && sim !== 'tourist')) {
             return NextResponse.json({
                 city: 'Chittorgarh',
                 regionName: 'Rajasthan',

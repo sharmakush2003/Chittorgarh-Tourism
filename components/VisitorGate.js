@@ -91,12 +91,10 @@ export default function VisitorGate() {
     // ── LOCAL MODAL ───────────────────────────────────────────────────────────
     if (status === "local") {
         return (
-            <div className="vg-overlay" role="dialog" aria-modal="true" aria-labelledby="vg-local-title">
+            <div className="vg-overlay" role="dialog" aria-modal="true" aria-labelledby="vg-local-body">
                 <div className="vg-modal vg-modal--local">
-                    <div className="vg-modal-emblem">🏰</div>
-                    <h2 className="vg-modal-title" id="vg-local-title">Jai Chittorgarh!</h2>
-                    <p className="vg-modal-body">
-                        Welcome! Since you're already familiar with this historic city,
+                    <p className="vg-modal-body" id="vg-local-body">
+                        Welcome! As a local of this historic land,
                         you can enter the site directly. Or explore our travel guide for visitors.
                     </p>
                     <div className="vg-local-actions">
@@ -118,19 +116,17 @@ export default function VisitorGate() {
             <div className="vg-overlay" role="dialog" aria-modal="true" aria-labelledby="vg-fallback-title">
                 <div className="vg-modal vg-modal--fallback">
                     <div className="vg-modal-emblem">✦</div>
-                    <h2 className="vg-modal-title" id="vg-fallback-title">Welcome to Chittorgarh</h2>
+                    <h2 className="vg-modal-title" id="vg-fallback-title">Welcome</h2>
                     <p className="vg-modal-body">
                         To guide you better, tell us about your visit:
                     </p>
                     <div className="vg-choice-grid">
                         <button className="vg-choice-card" onClick={handleFallbackTourist}>
-                            <span className="vg-choice-icon">🗺️</span>
-                            <span className="vg-choice-label">I'm planning a visit</span>
-                            <span className="vg-choice-sub">Show me how to reach</span>
+                            <span className="vg-choice-label">I am a Visitor</span>
+                            <span className="vg-choice-sub">Guide me to Chittorgarh</span>
                         </button>
                         <button className="vg-choice-card" onClick={handleFallbackLocal}>
-                            <span className="vg-choice-icon">🏰</span>
-                            <span className="vg-choice-label">I'm from Chittorgarh</span>
+                            <span className="vg-choice-label">I am a Local</span>
                             <span className="vg-choice-sub">Enter the site directly</span>
                         </button>
                     </div>
