@@ -67,6 +67,7 @@ export default function VisitorGate() {
 
     const handleLocalViewTravel = () => {
         markVisited("local");
+        setStatus("done");
         router.push("/how-to-reach");
     };
 
