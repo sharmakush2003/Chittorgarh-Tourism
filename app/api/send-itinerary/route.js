@@ -190,6 +190,7 @@ export async function POST(request) {
               <a href="${siteUrl}/explore" style="display:inline-block; background:linear-gradient(135deg,#D4AF37,#B8860B); color:#0F0A06; padding:12px 28px; text-decoration:none; border-radius:4px; font-size:11px; font-weight:700; letter-spacing:2px; text-transform:uppercase; margin-bottom:24px;">View All Attractions &rarr;</a>
               <div style="border-top:1px solid rgba(255,255,255,0.05); padding-top:16px;">
                 <p style="margin:0; font-size:10px; color:rgba(255,255,255,0.2);">&copy; ${year} Chittorgarh Tourism. All rights reserved. &nbsp;·&nbsp; Rajasthan, India</p>
+                <p style="margin:4px 0 0; font-size:10px; color:rgba(255,255,255,0.2); font-style:italic;">Designed with ❤️ by Kush Sharma</p>
                 <p style="margin:6px 0 0; font-size:10px; color:rgba(255,255,255,0.12);">You received this because you requested your itinerary from our website.</p>
               </div>
             </td>

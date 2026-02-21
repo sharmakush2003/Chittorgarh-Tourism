@@ -206,6 +206,9 @@ export async function POST(request) {
                 <p style="margin:0; font-size:10px; color:rgba(255,255,255,0.2); letter-spacing:0.5px;">
                   &copy; ${year} Chittorgarh Tourism. All rights reserved. &nbsp;·&nbsp; Rajasthan, India
                 </p>
+                <p style="margin:4px 0 0; font-size:10px; color:rgba(255,255,255,0.2); font-style:italic; letter-spacing:0.5px;">
+                  Designed with ❤️ by Kush Sharma
+                </p>
                 <p style="margin:6px 0 0; font-size:10px; color:rgba(255,255,255,0.15);">
                   You received this because someone shared this heritage site with you.
                 </p>
