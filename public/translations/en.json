@@ -151,5 +151,7 @@
     "fact.7": "There are 7 massive gateways (Pols) to enter the citadel, each with its own historical significance.",
     "fact.8": "Rani Padmini's Palace is uniquely built amidst a beautiful lotus pool.",
     "fact.9": "Kirti Stambh (Tower of Fame) is a 12th-century tower dedicated to the first Jain Tirthankara, Adinath.",
-    "fact.10": "The Gaumukh Reservoir is a sacred water body fed by a spring that flows from a carved cow's mouth."
+    "fact.10": "The Gaumukh Reservoir is a sacred water body fed by a spring that flows from a carved cow's mouth.",
+    "attr.padmini.name": "Padmini Palace",
+    "attr.padmini.desc": "A beautiful palace surrounded by water, famous as the site where Rani Padmini's courage and sacrifice became a legend."
 }

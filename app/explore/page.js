@@ -2,6 +2,7 @@
 
 import { useLanguage } from "@/context/LanguageContext";
 import { Flower, Calendar, MapPin, ArrowRight, Sun, Wind, Cloud } from 'lucide-react';
+import FortMap from "@/components/FortMap";
 
 export default function Explore() {
     const { t } = useLanguage();
@@ -160,6 +161,8 @@ export default function Explore() {
                             image="/light_sound_show.jpg"
                         />
                     </div>
+
+                    <FortMap />
 
                     <div className="view-more-section">
                         <p className="view-more-text">{t("exp.footerText")}</p>
