@@ -1237,6 +1237,145 @@ footer {
   text-transform: uppercase;
 }
 
+/*  Premium Navbar Language Selector  */
+.nav-lang-selector {
+  position: relative;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  margin-left: 1rem;
+}
+
+.nav-lang-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(212, 175, 55, 0.2);
+  color: #fff;
+  padding: 0.5rem 1rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  border-radius: 2px;
+  backdrop-filter: blur(5px);
+}
+
+.nav-lang-btn:hover {
+  background: rgba(212, 175, 55, 0.1);
+  border-color: var(--gold);
+  transform: translateY(-1px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.lang-icon {
+  font-size: 0.9rem;
+  opacity: 0.8;
+}
+
+.lang-text {
+  border-right: 1px solid rgba(255, 255, 255, 0.2);
+  padding-right: 0.6rem;
+}
+
+.lang-chevron {
+  font-size: 0.6rem;
+  transition: transform 0.3s ease;
+  color: var(--gold);
+}
+
+.lang-chevron.open {
+  transform: rotate(180deg);
+}
+
+.nav-lang-dropdown {
+  position: absolute;
+  top: calc(100% + 1rem);
+  right: 0;
+  background: rgba(15, 10, 6, 0.95);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  min-width: 160px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+  z-index: 1001;
+  transform-origin: top right;
+  animation: dropdownFade 0.3s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes dropdownFade {
+  from {
+    opacity: 0;
+    transform: translateY(-10px) scale(0.95);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.dropdown-inner {
+  padding: 0.5rem;
+}
+
+.nav-lang-dropdown div {
+  padding: 0.8rem 1.2rem;
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.7);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  border-radius: 2px;
+}
+
+.nav-lang-dropdown div:hover {
+  background: rgba(212, 175, 55, 0.1);
+  color: #fff;
+  padding-left: 1.5rem;
+}
+
+.nav-lang-dropdown div.active {
+  color: var(--gold);
+  background: rgba(212, 175, 55, 0.05);
+}
+
+.flag {
+  font-size: 1.1rem;
+}
+
+/*  Mobile Language Grid Refined  */
+.mobile-lang-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.75rem;
+  padding: 1.5rem;
+  width: 90%;
+  margin: 1rem auto 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.mobile-lang-grid button {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.8);
+  padding: 0.8rem 0;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+  transition: all 0.3s ease;
+}
+
+.mobile-lang-grid button:active {
+  background: var(--gold);
+  border-color: var(--gold);
+  color: #000;
+}
+
+/* Map Section */
 .htr-map-wrap {
   border: 1px solid rgba(212, 175, 55, 0.2);
   border-radius: 12px;

@@ -8,8 +8,9 @@ import { useLanguage } from "@/context/LanguageContext";
 export default function Navbar() {
     const [scrolled, setScrolled] = useState(false);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const [isLangOpen, setIsLangOpen] = useState(false);
     const pathname = usePathname();
-    const { t } = useLanguage();
+    const { lang, changeLanguage, t } = useLanguage();
 
     useEffect(() => {
         const handleScroll = () => {
@@ -53,6 +54,39 @@ export default function Navbar() {
                             </Link>
                         </li>
                     ))}
+                    {/* Premium Language Selector */}
+                    <li className="nav-lang-selector">
+                        <button
+                            className="nav-lang-btn"
+                            onClick={() => setIsLangOpen(!isLangOpen)}
+                            aria-label="Switch Language"
+                        >
+                            <span className="lang-icon">🌐</span>
+                            <span className="lang-text">{lang.toUpperCase()}</span>
+                            <span className={`lang-chevron ${isLangOpen ? 'open' : ''}`}>▾</span>
+                        </button>
+                        {isLangOpen && (
+                            <div className="nav-lang-dropdown">
+                                <div className="dropdown-inner">
+                                    <div onClick={() => { changeLanguage("en"); setIsLangOpen(false); }} className={lang === 'en' ? 'active' : ''}>
+                                        <span className="flag">🇺🇸</span> English
+                                    </div>
+                                    <div onClick={() => { changeLanguage("hi"); setIsLangOpen(false); }} className={lang === 'hi' ? 'active' : ''}>
+                                        <span className="flag">🇮🇳</span> हिंदी
+                                    </div>
+                                    <div onClick={() => { changeLanguage("fr"); setIsLangOpen(false); }} className={lang === 'fr' ? 'active' : ''}>
+                                        <span className="flag">🇫🇷</span> Français
+                                    </div>
+                                    <div onClick={() => { changeLanguage("de"); setIsLangOpen(false); }} className={lang === 'de' ? 'active' : ''}>
+                                        <span className="flag">🇩🇪</span> Deutsch
+                                    </div>
+                                    <div onClick={() => { changeLanguage("ja"); setIsLangOpen(false); }} className={lang === 'ja' ? 'active' : ''}>
+                                        <span className="flag">🇯🇵</span> 日本語
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+                    </li>
                 </ul>
 
                 {/* Mobile Menu Button */}
@@ -79,6 +113,15 @@ export default function Navbar() {
                         {link.label}
                     </Link>
                 ))}
+
+                {/* Mobile Language Selection */}
+                <div className="mobile-lang-grid">
+                    <button onClick={() => { changeLanguage("en"); setIsMenuOpen(false); }}>EN</button>
+                    <button onClick={() => { changeLanguage("hi"); setIsMenuOpen(false); }}>HI</button>
+                    <button onClick={() => { changeLanguage("fr"); setIsMenuOpen(false); }}>FR</button>
+                    <button onClick={() => { changeLanguage("de"); setIsMenuOpen(false); }}>DE</button>
+                    <button onClick={() => { changeLanguage("ja"); setIsMenuOpen(false); }}>JA</button>
+                </div>
             </div>
         </>
     );
