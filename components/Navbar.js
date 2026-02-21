@@ -32,6 +32,7 @@ export default function Navbar() {
         { href: "/chronicles", label: t("nav.chronicles") },
         { href: "/stays", label: t("nav.stays") },
         { href: "/plan", label: t("nav.planTrip") },
+        { href: "/how-to-reach", label: t("nav.howToReach") },
     ];
 
     return (

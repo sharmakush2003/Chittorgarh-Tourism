@@ -4,6 +4,7 @@ import Footer from "@/components/Footer";
 import ScrollReveal from "@/components/ScrollReveal";
 import LanguagePrompt from "@/components/LanguagePrompt";
 import Background3D from "@/components/Background3D";
+import VisitorGate from "@/components/VisitorGate";
 import { LanguageProvider } from "@/context/LanguageContext";
 import "./globals.css";
 
@@ -43,6 +44,7 @@ export default function RootLayout({ children }) {
       <body className={`${cormorant.variable} ${jost.variable}`}>
         <Background3D />
         <LanguageProvider>
+          <VisitorGate />
           <Navbar />
           <LanguagePrompt />
           {children}

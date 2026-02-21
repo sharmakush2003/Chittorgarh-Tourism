@@ -1,4 +1,6 @@
 {
-    "total": 0,
-    "referrers": {}
+  "total": 10,
+  "referrers": {
+    "Direct": 10
+  }
 }
