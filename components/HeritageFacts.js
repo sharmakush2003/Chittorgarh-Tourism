@@ -196,7 +196,7 @@ export default function HeritageFacts() {
                     transform: scale(1.1);
                 }
 
-                @media (max-width: 768px) {
+                @media (max-width: 1024px) {
                     .facts-widget {
                         display: none;
                     }
