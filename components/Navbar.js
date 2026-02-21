@@ -115,12 +115,15 @@ export default function Navbar() {
                 ))}
 
                 {/* Mobile Language Selection */}
-                <div className="mobile-lang-grid">
-                    <button onClick={() => { changeLanguage("en"); setIsMenuOpen(false); }}>EN</button>
-                    <button onClick={() => { changeLanguage("hi"); setIsMenuOpen(false); }}>HI</button>
-                    <button onClick={() => { changeLanguage("fr"); setIsMenuOpen(false); }}>FR</button>
-                    <button onClick={() => { changeLanguage("de"); setIsMenuOpen(false); }}>DE</button>
-                    <button onClick={() => { changeLanguage("ja"); setIsMenuOpen(false); }}>JA</button>
+                <div className="mobile-lang-section">
+                    <span className="mobile-lang-label">{t("nav.selectLanguage")}</span>
+                    <div className="mobile-lang-grid">
+                        <button onClick={() => { changeLanguage("en"); setIsMenuOpen(false); }}>EN</button>
+                        <button onClick={() => { changeLanguage("hi"); setIsMenuOpen(false); }}>HI</button>
+                        <button onClick={() => { changeLanguage("fr"); setIsMenuOpen(false); }}>FR</button>
+                        <button onClick={() => { changeLanguage("de"); setIsMenuOpen(false); }}>DE</button>
+                        <button onClick={() => { changeLanguage("ja"); setIsMenuOpen(false); }}>JA</button>
+                    </div>
                 </div>
             </div>
         </>
