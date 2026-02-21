@@ -11,8 +11,7 @@ const FROM_CITY_KEY = "ctt_fromCity";
  *
  * Flow:
  *   localStorage[ctt_visited] set  →  render nothing (repeat visit)
- *   First visit, local (Chittorgarh/Rajasthan)  →  show LOCAL welcome modal
- *   First visit, tourist  →  brief loading then redirect to /how-to-reach
+ *   First visit  →  show "Need travel help?" prompt modal
  *   API failure  →  show FALLBACK manual choice modal
  */
 export default function VisitorGate() {
@@ -40,12 +39,8 @@ export default function VisitorGate() {
                     localStorage.setItem(FROM_CITY_KEY, data.city);
                 }
 
-                if (data.isChittorgarh || data.isRajasthan) {
-                    setStatus("local");
-                } else {
-                    // Tourist — show choice modal
-                    setStatus("tourist_prompt");
-                }
+                // Treat everyone as needing a prompt for their first visit
+                setStatus("tourist_prompt");
             })
             .catch(() => {
                 clearTimeout(timeout);
@@ -55,17 +50,6 @@ export default function VisitorGate() {
 
     const markVisited = (value = "true") => {
         localStorage.setItem(VISITED_KEY, value);
-    };
-
-    const handleLocalContinue = () => {
-        markVisited("local");
-        setStatus("done");
-    };
-
-    const handleLocalViewTravel = () => {
-        markVisited("local");
-        setStatus("done");
-        router.push("/how-to-reach");
     };
 
     const handleTouristYes = () => {
@@ -87,7 +71,7 @@ export default function VisitorGate() {
     };
 
     const handleFallbackLocal = () => {
-        markVisited("local");
+        markVisited("tourist");
         setStatus("done");
     };
 
@@ -116,28 +100,6 @@ export default function VisitorGate() {
     // Thin loading veil while checking geo (fast, ~100ms — doesn't block page render)
     if (status === "checking" || status === "redirecting") {
         return <div className="vg-loading-veil" aria-hidden="true" />;
-    }
-
-    // ── LOCAL MODAL ───────────────────────────────────────────────────────────
-    if (status === "local") {
-        return (
-            <div className="vg-overlay" role="dialog" aria-modal="true" aria-labelledby="vg-local-body">
-                <div className="vg-modal vg-modal--local">
-                    <p className="vg-modal-body" id="vg-local-body">
-                        Welcome! As a local of this historic land,
-                        you can enter the site directly. Or explore our travel guide for visitors.
-                    </p>
-                    <div className="vg-local-actions">
-                        <button className="btn-gold vg-btn-primary" onClick={handleLocalContinue}>
-                            Continue to Website
-                        </button>
-                        <button className="vg-btn-ghost" onClick={handleLocalViewTravel}>
-                            View Travel Info
-                        </button>
-                    </div>
-                </div>
-            </div>
-        );
     }
 
     // ── TOURIST PROMPT ───────────────────────────────────────────────────────
