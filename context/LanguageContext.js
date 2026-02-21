@@ -45,7 +45,11 @@ export function LanguageProvider({ children }) {
         // Only load if it's NOT the initial render with 'en' which is already set
         // But we need to react to lang changes
         loadTranslations();
-        document.documentElement.lang = lang;
+
+        // Safe DOM updates after mount
+        if (typeof window !== 'undefined') {
+            document.documentElement.lang = lang;
+        }
     }, [lang]);
 
     const t = (key) => {
@@ -61,6 +65,17 @@ export function LanguageProvider({ children }) {
     useEffect(() => {
         const saved = localStorage.getItem("ctt_locale");
         if (saved && saved !== "en") {
+            // Support legacy JSON-stringified locale objects
+            if (saved.startsWith('{')) {
+                try {
+                    const parsed = JSON.parse(saved);
+                    if (parsed && parsed.lang) {
+                        setLang(parsed.lang);
+                        localStorage.setItem("ctt_locale", parsed.lang);
+                        return;
+                    }
+                } catch (e) { }
+            }
             setLang(saved);
         }
     }, []);

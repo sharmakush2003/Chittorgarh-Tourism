@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useRef } from "react";
 import { useRouter } from "next/navigation";
+import HeritageFacts from "@/components/HeritageFacts";
 
 const FROM_CITY_KEY = "ctt_fromCity";
 const VISITED_KEY = "ctt_visited";
@@ -314,33 +315,33 @@ export default function HowToReachPage() {
                         </h2>
                     </div>
                     <div className="htr-transport-grid">
-                        {TRANSPORT.map((t) => {
+                        {TRANSPORT.map((item) => {
                             // If local, prioritize the Local Transport card
-                            const isLocalTransport = t.mode === "Local Transport";
+                            const isLocalTransport = item.mode === "Local Transport";
                             const showCardAtTop = cityMatch?.local && isLocalTransport;
 
                             return (
-                                <div className={`htr-card ${showCardAtTop ? "htr-card-featured" : ""}`} key={t.mode}>
-                                    {t.badge && <span className="htr-badge">{t.badge}</span>}
-                                    <img src={t.icon} alt={t.mode} className="htr-card-img" />
+                                <div className={`htr-card ${showCardAtTop ? "htr-card-featured" : ""}`} key={item.mode}>
+                                    {item.badge && <span className="htr-badge">{item.badge}</span>}
+                                    <img src={item.icon} alt={item.mode} className="htr-card-img" />
                                     <div className="htr-card-body">
-                                        <div className="htr-card-mode">{t.mode}</div>
-                                        <h3 className="htr-card-heading">{t.heading}</h3>
-                                        <p className="htr-card-desc">{t.desc}</p>
+                                        <div className="htr-card-mode">{item.mode}</div>
+                                        <h3 className="htr-card-heading">{item.heading}</h3>
+                                        <p className="htr-card-desc">{item.desc}</p>
                                         <ul className="htr-card-details">
-                                            {t.details.map((d, i) => (
+                                            {item.details.map((d, i) => (
                                                 <li key={i}>
                                                     <span className="htr-bullet">✦</span>{d}
                                                 </li>
                                             ))}
                                         </ul>
                                         <a
-                                            href={t.bookUrl}
+                                            href={item.bookUrl}
                                             target="_blank"
                                             rel="noopener noreferrer"
                                             className="htr-book-btn"
                                         >
-                                            {t.bookLabel} →
+                                            {item.bookLabel} →
                                         </a>
                                     </div>
                                 </div>
@@ -444,6 +445,7 @@ export default function HowToReachPage() {
                 </button>
                 <p className="htr-cta-note">You won&apos;t see this screen again on your next visit.</p>
             </div>
+            <HeritageFacts />
         </div>
     );
 }

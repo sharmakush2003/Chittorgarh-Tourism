@@ -31,16 +31,17 @@ export const metadata = {
     statusBarStyle: "black-translucent",
     title: "Chittorgarh Tourism",
   },
-  viewport: {
-    width: "device-width",
-    initialScale: 1,
-    maximumScale: 1,
-  },
+};
+
+export const viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
 };
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body className={`${cormorant.variable} ${jost.variable}`}>
         <Background3D />
         <LanguageProvider>
