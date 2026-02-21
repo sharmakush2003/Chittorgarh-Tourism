@@ -126,7 +126,7 @@ export default function Stays() {
 
             {/* ═══ PAGE HEADER ═══════════════════════════ */}
             <header className="header-section">
-                <span className="eyebrow">{t("stays.eyebrow") || "Royal Hospitality"}</span>
+                <span className="eyebrow">{t("stays.eyebrow")}</span>
                 <h1 className="title">{t("stays.title")}</h1>
                 <div className="divider"></div>
             </header>
@@ -230,7 +230,7 @@ function HotelGlassCard({ hotel, delay, t }) {
                         <div className="meta-row">
                             <Hotel className="meta-icon" />
                             <div>
-                                <span className="meta-label">{t("lbl.rooms") || "ROOM TYPES"}</span>
+                                <span className="meta-label">{t("lbl.rooms")}</span>
                                 <span className="meta-val">{t(`hotel.${hotel.id}.rooms`)}</span>
                             </div>
                         </div>
@@ -246,22 +246,22 @@ function HotelGlassCard({ hotel, delay, t }) {
                     <div className="card-actions-row">
                         <button onClick={handleDirections} className="action-btn-text">
                             <Navigation size={16} />
-                            <span>Directions</span>
+                            <span>{t("btn.directions")}</span>
                         </button>
                         <div className="divider-vertical"></div>
                         <button onClick={() => setShowEmailModal(true)} className="action-btn-text">
                             <Share2 size={16} />
-                            <span>Share Info</span>
+                            <span>{t("btn.shareInfo")}</span>
                         </button>
                     </div>
 
                     <div className="hotel-footer">
                         <div className="price-tag">
                             <span className="price-val">{hotel.price}</span>
-                            <span className="price-unit">/ night</span>
+                            <span className="price-unit">{t("lbl.perNight")}</span>
                         </div>
                         <a href={hotel.mmtUrl} target="_blank" rel="noopener noreferrer" className="read-more">
-                            Details <ArrowRight className="arrow" size={16} />
+                            {t("btn.details")} <ArrowRight className="arrow" size={16} />
                         </a>
                     </div>
                 </div>
@@ -274,25 +274,25 @@ function HotelGlassCard({ hotel, delay, t }) {
                         <button className="close-btn" onClick={() => setShowEmailModal(false)}>
                             <X size={20} />
                         </button>
-                        <h3 className="modal-title">Share Hotel Details</h3>
-                        <p className="modal-subtitle">Send details for <strong>{t(`hotel.${hotel.id}.name`)}</strong> to your email.</p>
+                        <h3 className="modal-title">{t("modal.shareTitle")}</h3>
+                        <p className="modal-subtitle">{t("modal.shareSub")}</p>
 
                         <form onSubmit={handleSendEmail} className="email-form">
                             <input
                                 type="email"
-                                placeholder="Enter your email"
+                                placeholder={t("modal.emailPlaceholder")}
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
                                 required
                                 className="email-input"
                             />
                             <button type="submit" className="send-btn" disabled={sending}>
-                                {sending ? 'Sending...' : <>Send <Send size={16} /></>}
+                                {sending ? t("modal.sending") : <>{t("modal.send")} <Send size={16} /></>}
                             </button>
                         </form>
 
-                        {status === 'success' && <p className="status-msg success">Sent successfully!</p>}
-                        {status === 'error' && <p className="status-msg error">Failed to send.</p>}
+                        {status === 'success' && <p className="status-msg success">{t("modal.success")}</p>}
+                        {status === 'error' && <p className="status-msg error">{t("modal.error")}</p>}
                     </div>
                 </div>
             )}

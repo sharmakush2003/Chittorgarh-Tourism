@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useLanguage } from "@/context/LanguageContext";
@@ -11,6 +11,25 @@ export default function Navbar() {
     const [isLangOpen, setIsLangOpen] = useState(false);
     const pathname = usePathname();
     const { lang, changeLanguage, t } = useLanguage();
+    const langRef = useRef(null);
+
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (langRef.current && !langRef.current.contains(event.target)) {
+                setIsLangOpen(false);
+            }
+        };
+
+        if (isLangOpen) {
+            document.addEventListener("mousedown", handleClickOutside);
+        } else {
+            document.removeEventListener("mousedown", handleClickOutside);
+        }
+
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, [isLangOpen]);
 
     useEffect(() => {
         const handleScroll = () => {
@@ -55,7 +74,7 @@ export default function Navbar() {
                         </li>
                     ))}
                     {/* Premium Language Selector */}
-                    <li className="nav-lang-selector">
+                    <li className="nav-lang-selector" ref={langRef}>
                         <button
                             className="nav-lang-btn"
                             onClick={() => setIsLangOpen(!isLangOpen)}

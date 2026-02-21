@@ -3,6 +3,7 @@
 import { useEffect, useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 import HeritageFacts from "@/components/HeritageFacts";
+import { useLanguage } from "@/context/LanguageContext";
 
 const FROM_CITY_KEY = "ctt_fromCity";
 const VISITED_KEY = "ctt_visited";
@@ -23,49 +24,38 @@ const POPULAR_CITIES = ["Delhi", "Jaipur", "Udaipur", "Mumbai", "Ahmedabad", "Ko
 
 const TRANSPORT = [
     {
+        _key: "train",
         icon: "/railway_station.jpg",
         mode: "By Train",
-        heading: "Chittorgarh Railway Station",
-        desc: "Direct trains from Delhi, Udaipur, Jaipur, Mumbai & Kota. The Chetak Express & Mewar Express are popular routes.",
-        details: ["Chetak Express (Delhi ↔ Udaipur)", "Mewar Express (Delhi ↔ Udaipur)", "Regular trains from Kota & Jaipur"],
-        badge: "Most Popular",
+        badge: "htr.badge.popular",
         bookUrl: "https://www.irctc.co.in/nget/train-search",
-        bookLabel: "Book on IRCTC",
     },
     {
+        _key: "air",
         icon: "/airport.jpg",
         mode: "By Air",
-        heading: "Maharana Pratap Airport, Udaipur",
-        desc: "Nearest airport is Udaipur (UDR), ~115 km away. Cabs and buses connect you to Chittorgarh in 2 hours.",
-        details: ["Udaipur Airport (UDR) — 115 km", "Cab: ~2 hrs · ₹1,400–1,800", "Jaipur Airport (JAI) — 320 km"],
         badge: null,
         bookUrl: "https://www.makemytrip.com/flights/",
-        bookLabel: "Search Flights",
     },
     {
+        _key: "bus",
         icon: "/bus.jpg",
         mode: "By Bus",
-        heading: "RSRTC Bus Services",
-        desc: "Rajasthan State buses run regularly from Udaipur, Jaipur, Kota and Ajmer. Volvo coaches available.",
-        details: ["RSRTC from Udaipur & Jaipur", "Volvo coaches from Kota", "Private sleeper buses available"],
         badge: null,
         bookUrl: "https://rsrtconline.rajasthan.gov.in/",
-        bookLabel: "Book on RSRTC",
     },
     {
+        _key: "local",
         icon: "/nh.jpg",
         mode: "Local Transport",
-        heading: "Inside Chittorgarh City",
-        desc: "Since you are already in the city, the Fort is just a short hop away. E-Rickshaws and Auto Rickshaws are the best way.",
-        details: ["E-Rickshaw: ₹20–40 per person", "Auto Rickshaw (Full): ₹150–200", "Bikes/Scooters on rent available"],
-        badge: "Internal Directions",
+        badge: "htr.badge.internal",
         bookUrl: "https://www.google.com/maps/dir/?api=1&destination=Chittorgarh+Fort,+Chittorgarh,+Rajasthan",
-        bookLabel: "Google Maps Directions",
     },
 ];
 
 // ── Location Prompt Overlay ──────────────────────────────────────────
 function LocationPrompt({ onCityDetected }) {
+    const { t } = useLanguage();
     const [step, setStep] = useState("prompt"); // "prompt" | "loading" | "manual" | "error"
     const [manualInput, setManualInput] = useState("");
     const [errorMsg, setErrorMsg] = useState("");
@@ -93,7 +83,7 @@ function LocationPrompt({ onCityDetected }) {
 
     const handleGPS = () => {
         if (!navigator.geolocation) {
-            setErrorMsg("Your browser doesn't support GPS location.");
+            setErrorMsg(t("htr.errNoGPS"));
             setStep("manual");
             return;
         }
@@ -105,15 +95,15 @@ function LocationPrompt({ onCityDetected }) {
                     localStorage.setItem(FROM_CITY_KEY, city);
                     onCityDetected(city);
                 } else {
-                    setErrorMsg("Couldn't determine your city from GPS. Please enter it below.");
+                    setErrorMsg(t("htr.errGPSFail"));
                     setStep("manual");
                 }
             },
             (err) => {
                 const msg =
                     err.code === 1
-                        ? "Location permission denied. Please enter your city below."
-                        : "Unable to get your location. Please enter your city below.";
+                        ? t("htr.errPermission")
+                        : t("htr.errLocation");
                 setErrorMsg(msg);
                 setStep("manual");
             },
@@ -144,40 +134,40 @@ function LocationPrompt({ onCityDetected }) {
 
                 {step === "prompt" && (
                     <>
-                        <h3 className="htr-location-title">Where are you travelling from?</h3>
+                        <h3 className="htr-location-title">{t("htr.locPromptTitle")}</h3>
                         <p className="htr-location-sub">
-                            Share your location and we&apos;ll show you the best route to Chittorgarh — distance, drive time, and transport options personalised for you.
+                            {t("htr.locPromptSub")}
                         </p>
                         <div className="htr-location-actions">
                             <button className="htr-loc-btn-primary" onClick={handleGPS}>
-                                <span>📡</span> Detect My Location
+                                <span>📡</span> {t("htr.detectLoc")}
                             </button>
                             <button className="htr-loc-btn-secondary" onClick={() => { setStep("manual"); setTimeout(() => inputRef.current?.focus(), 100); }}>
-                                ✏️ Enter City Manually
+                                ✏️ {t("htr.enterCity")}
                             </button>
                         </div>
-                        <button className="htr-loc-skip" onClick={handleSkip}>Skip personalisation</button>
+                        <button className="htr-loc-skip" onClick={handleSkip}>{t("htr.skip")}</button>
                     </>
                 )}
 
                 {step === "loading" && (
                     <>
-                        <h3 className="htr-location-title">Detecting your location…</h3>
-                        <p className="htr-location-sub">Please allow location access in the browser prompt above.</p>
+                        <h3 className="htr-location-title">{t("htr.detecting")}</h3>
+                        <p className="htr-location-sub">{t("htr.allowAccess")}</p>
                         <div className="htr-loc-spinner" />
                     </>
                 )}
 
                 {step === "manual" && (
                     <>
-                        <h3 className="htr-location-title">Enter your departure city</h3>
+                        <h3 className="htr-location-title">{t("htr.enterDepCity")}</h3>
                         {errorMsg && <p className="htr-loc-error">{errorMsg}</p>}
                         <div className="htr-loc-input-row">
                             <input
                                 ref={inputRef}
                                 type="text"
                                 className="htr-loc-input"
-                                placeholder="e.g. Delhi, Mumbai, Pune…"
+                                placeholder={t("htr.cityPlaceholder")}
                                 value={manualInput}
                                 onChange={(e) => setManualInput(e.target.value)}
                                 onKeyDown={(e) => e.key === "Enter" && handleManualConfirm()}
@@ -187,7 +177,7 @@ function LocationPrompt({ onCityDetected }) {
                                 onClick={handleManualConfirm}
                                 disabled={!manualInput.trim()}
                             >
-                                Confirm →
+                                {t("htr.confirm")} →
                             </button>
                         </div>
                         <div className="htr-popular-row">
@@ -197,7 +187,7 @@ function LocationPrompt({ onCityDetected }) {
                                 </button>
                             ))}
                         </div>
-                        <button className="htr-loc-skip" onClick={handleSkip}>Skip personalisation</button>
+                        <button className="htr-loc-skip" onClick={handleSkip}>{t("htr.skip")}</button>
                     </>
                 )}
             </div>
@@ -207,6 +197,7 @@ function LocationPrompt({ onCityDetected }) {
 
 // ── Main Page ────────────────────────────────────────────────────────
 export default function HowToReachPage() {
+    const { t } = useLanguage();
     const router = useRouter();
     const [fromCity, setFromCity] = useState(null);
     const [cityMatch, setCityMatch] = useState(null);
@@ -265,41 +256,41 @@ export default function HowToReachPage() {
 
             {/* ── HERO ── */}
             <div className="htr-hero">
-                <span className="htr-eyebrow">Travel Guide · Rajasthan, India</span>
+                <span className="htr-eyebrow">{t("htr.eyebrow")}</span>
                 <h1 className="htr-hero-title">
-                    Getting to
-                    <em>Chittorgarh</em>
+                    {t("htr.hero.title1")}
+                    <em>{t("htr.hero.title2")}</em>
                 </h1>
                 <p className="htr-hero-sub">
-                    Plan your journey to one of India&apos;s greatest forts. Here&apos;s every way to reach this historic city.
+                    {t("htr.hero.sub")}
                 </p>
                 <div className="htr-divider" />
 
                 {cityMatch?.local ? (
                     <div className="htr-detected-pill-wrap">
                         <span className="htr-detected-pill">
-                            📍 Welcome {fromCity}! You are already in Chittorgarh.
+                            📍 {t("htr.welcomeLocal").replace("{city}", fromCity)}
                         </span>
                         <button className="htr-change-city" onClick={handleChangeCity}>
-                            Change starting point ✎
+                            {t("htr.changePoint")} ✎
                         </button>
                     </div>
                 ) : cityMatch ? (
                     <div className="htr-detected-pill-wrap">
                         <span className="htr-detected-pill">
-                            📍 From {fromCity}: ~{cityMatch.km} km &nbsp;·&nbsp; Drive {cityMatch.drive} &nbsp;·&nbsp; Train {cityMatch.train}
+                            📍 {t("htr.from")}: {fromCity} ~{cityMatch.km} km &nbsp;·&nbsp; {t("htr.drive")} {cityMatch.drive} &nbsp;·&nbsp; {t("htr.train")} {cityMatch.train}
                         </span>
                         <button className="htr-change-city" onClick={handleChangeCity}>
-                            Change city ✎
+                            {t("htr.changeCity")} ✎
                         </button>
                     </div>
                 ) : fromCity ? (
                     <div className="htr-detected-pill-wrap">
                         <span className="htr-detected-pill">
-                            📍 Travelling from {fromCity}
+                            📍 {t("htr.travellingFrom").replace("{city}", fromCity)}
                         </span>
                         <button className="htr-change-city" onClick={handleChangeCity}>
-                            Change city ✎
+                            {t("htr.changeCity")} ✎
                         </button>
                     </div>
                 ) : null}
@@ -309,9 +300,9 @@ export default function HowToReachPage() {
             <section className="htr-section">
                 <div className="container">
                     <div className="htr-section-header">
-                        <span className="htr-section-eyebrow">Ways to Reach</span>
+                        <span className="htr-section-eyebrow">{t("htr.ways")}</span>
                         <h2 className="htr-section-title">
-                            {cityMatch?.local ? "Your Local Guide" : "Choose Your Route"}
+                            {cityMatch?.local ? t("htr.localGuide") : t("htr.chooseRoute")}
                         </h2>
                     </div>
                     <div className="htr-transport-grid">
@@ -322,16 +313,16 @@ export default function HowToReachPage() {
 
                             return (
                                 <div className={`htr-card ${showCardAtTop ? "htr-card-featured" : ""}`} key={item.mode}>
-                                    {item.badge && <span className="htr-badge">{item.badge}</span>}
-                                    <img src={item.icon} alt={item.mode} className="htr-card-img" />
+                                    {item.badge && <span className="htr-badge">{t(item.badge)}</span>}
+                                    <img src={item.icon} alt={t(`htr.mode.${item._key}`)} className="htr-card-img" />
                                     <div className="htr-card-body">
-                                        <div className="htr-card-mode">{item.mode}</div>
-                                        <h3 className="htr-card-heading">{item.heading}</h3>
-                                        <p className="htr-card-desc">{item.desc}</p>
+                                        <div className="htr-card-mode">{t(`htr.mode.${item._key}`)}</div>
+                                        <h3 className="htr-card-heading">{t(`htr.head.${item._key}`)}</h3>
+                                        <p className="htr-card-desc">{t(`htr.desc.${item._key}`)}</p>
                                         <ul className="htr-card-details">
-                                            {item.details.map((d, i) => (
+                                            {[0, 1, 2].map((i) => (
                                                 <li key={i}>
-                                                    <span className="htr-bullet">✦</span>{d}
+                                                    <span className="htr-bullet">✦</span>{t(`htr.detail.${item._key}.${i}`)}
                                                 </li>
                                             ))}
                                         </ul>
@@ -341,7 +332,7 @@ export default function HowToReachPage() {
                                             rel="noopener noreferrer"
                                             className="htr-book-btn"
                                         >
-                                            {item.bookLabel} →
+                                            {t(`htr.btn.${item._key}`)} →
                                         </a>
                                     </div>
                                 </div>
@@ -355,17 +346,17 @@ export default function HowToReachPage() {
             <section className="htr-section" style={{ paddingTop: 0 }}>
                 <div className="container">
                     <div className="htr-section-header">
-                        <span className="htr-section-eyebrow">Distance Reference</span>
-                        <h2 className="htr-section-title">From Major Cities</h2>
+                        <span className="htr-section-eyebrow">{t("htr.distRef")}</span>
+                        <h2 className="htr-section-title">{t("htr.fromMajor")}</h2>
                     </div>
                     <div className="htr-table-wrap">
                         <table className="htr-table">
                             <thead>
                                 <tr>
-                                    <th>City</th>
-                                    <th>Distance</th>
-                                    <th>By Road</th>
-                                    <th>By Train</th>
+                                    <th>{t("htr.tblCity")}</th>
+                                    <th>{t("htr.tblDist")}</th>
+                                    <th>{t("htr.tblRoad")}</th>
+                                    <th>{t("htr.tblTrain")}</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -374,8 +365,8 @@ export default function HowToReachPage() {
                                     return (
                                         <tr key={d.city} className={isHighlight ? "htr-row-highlight" : ""}>
                                             <td>
-                                                {d.city}
-                                                {isHighlight && <span className="htr-you-tag">← You</span>}
+                                                {t(`htr.city.${d.city}`)}
+                                                {isHighlight && <span className="htr-you-tag">← {t("htr.you")}</span>}
                                             </td>
                                             <td>{d.km} km</td>
                                             <td>{d.drive}</td>
@@ -393,9 +384,9 @@ export default function HowToReachPage() {
             <section className="htr-section" style={{ paddingTop: 0 }}>
                 <div className="container">
                     <div className="htr-section-header">
-                        <span className="htr-section-eyebrow">Location</span>
+                        <span className="htr-section-eyebrow">{t("htr.location")}</span>
                         <h2 className="htr-section-title">
-                            {fromCity ? `Route from ${fromCity}` : "Find Us on the Map"}
+                            {fromCity ? t("htr.routeFrom").replace("{city}", fromCity) : t("htr.findUs")}
                         </h2>
                     </div>
                     <div className="htr-map-wrap">
@@ -435,15 +426,15 @@ export default function HowToReachPage() {
             <div className="htr-cta">
                 <span className="htr-cta-emblem">🏰</span>
                 <h2 className="htr-cta-title">
-                    Ready to <em>Explore?</em>
+                    {t("htr.cta.title")}
                 </h2>
                 <p className="htr-cta-sub">
-                    You&apos;re all set. Step into 700 acres of living history, bravery, and heritage.
+                    {t("htr.cta.sub")}
                 </p>
                 <button className="btn-gold htr-cta-btn" onClick={handleStartExploring}>
-                    Start Exploring Chittorgarh →
+                    {t("htr.cta.btn")}
                 </button>
-                <p className="htr-cta-note">You won&apos;t see this screen again on your next visit.</p>
+                <p className="htr-cta-note">{t("htr.cta.note")}</p>
             </div>
             <HeritageFacts />
         </div>

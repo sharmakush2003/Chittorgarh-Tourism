@@ -21,13 +21,23 @@ function getInitialLang() {
     }
 }
 
+// Use 'en' as the initial state so SSR matches the first client render (Hydration fix)
 export function LanguageProvider({ children }) {
-    // Initialize directly from localStorage — no race condition on mobile
-    const [lang, setLang] = useState(() => getInitialLang());
+    const [lang, setLang] = useState('en');
     const [translations, setTranslations] = useState(enTranslations);
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
+    const [isMounted, setIsMounted] = useState(false);
+
+    // Run once on mount to get the actual saved language
+    useEffect(() => {
+        const savedLang = getInitialLang();
+        setLang(savedLang);
+        setIsMounted(true);
+    }, []);
 
     useEffect(() => {
+        if (!isMounted) return;
+
         const loadTranslations = async () => {
             if (lang === 'en') {
                 setTranslations(enTranslations);
@@ -60,7 +70,7 @@ export function LanguageProvider({ children }) {
         if (typeof window !== 'undefined') {
             document.documentElement.lang = lang;
         }
-    }, [lang]);
+    }, [lang, isMounted]);
 
     const t = (key) => {
         return translations[key] || key;
@@ -71,9 +81,11 @@ export function LanguageProvider({ children }) {
         localStorage.setItem("ctt_locale", code);
     };
 
+    // Prevent hydration mismatch by not rendering until mounted client-side
+    if (!isMounted) return null;
+
     return (
         <LanguageContext.Provider value={{ lang, changeLanguage, t, loading }}>
-            {/* Removed opacity transition wrapper to make initial render instant and solid */}
             {children}
         </LanguageContext.Provider>
     );
