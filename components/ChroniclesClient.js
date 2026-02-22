@@ -3,6 +3,7 @@
 import { useLanguage } from "@/context/LanguageContext";
 import { Flower, Shield, Heart, Music, ArrowRight } from "lucide-react";
 import Image from "next/image";
+import RoyalLineage from "@/components/RoyalLineage";
 
 export default function ChroniclesClient() {
     const { t } = useLanguage();
@@ -56,6 +57,8 @@ export default function ChroniclesClient() {
                     <p className="hero-subtitle">{t("chron.hero.sub")}</p>
                 </div>
             </header>
+
+            <RoyalLineage />
 
             {/* ═══ TIMELINE SECTION ═══════════════════════ */}
             <main className="timeline-container">
