@@ -18,6 +18,7 @@ export default function GalleryClient({ images }) {
             const windowHeight = window.innerHeight;
             const elementVisible = 100;
 
+            // Handle fade-in reveal
             reveals.forEach((reveal) => {
                 const elementTop = reveal.getBoundingClientRect().top;
                 if (elementTop < windowHeight - elementVisible) {
