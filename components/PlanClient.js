@@ -132,6 +132,7 @@ export default function PlanClient() {
             min-height: 100vh;
             position: relative;
             color: #fff;
+            padding-top: 160px; /* Space for Navbar */
         }
         .fixed-bg {
             position: fixed;

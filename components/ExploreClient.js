@@ -214,7 +214,7 @@ export default function ExploreClient() {
                 }
 
                 .main-content {
-                    padding-top: 120px; /* Space for Navbar */
+                    padding-top: 160px; /* Space for Navbar */
                 }
 
                 .header-section {
