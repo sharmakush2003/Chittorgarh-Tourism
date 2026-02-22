@@ -22,7 +22,7 @@ const jost = Jost({
 });
 
 export const metadata = {
-  metadataBase: new URL('https://chittorgarh-tourism.vercel.app'),
+  metadataBase: new URL('https://chittorgarh-tourism-five.vercel.app'),
   title: {
     default: "Chittorgarh Tourism — The Saga of Bravery & Sacrifice",
     template: "%s | Chittorgarh Tourism"
@@ -31,7 +31,7 @@ export const metadata = {
   keywords: ["Chittorgarh Fort", "Rajasthan Tourism", "Mewar History", "Rani Padmini", "Maharana Pratap", "Indian Heritage Sites"],
   authors: [{ name: "Chittorgarh Tourism Authority" }],
   creator: "Chittorgarh Tourism",
-  canonical: "https://chittorgarh-tourism.vercel.app",
+  canonical: "https://chittorgarh-tourism-five.vercel.app",
   manifest: "/manifest.json",
   themeColor: "#D4AF37",
   appleWebApp: {
@@ -42,7 +42,7 @@ export const metadata = {
   openGraph: {
     title: "Chittorgarh Tourism — The Saga of Bravery & Sacrifice",
     description: "Discover Rajasthan's mightiest citadel.",
-    url: "https://chittorgarh-tourism.vercel.app",
+    url: "https://chittorgarh-tourism-five.vercel.app",
     siteName: "Chittorgarh Tourism",
     images: [
       {
@@ -76,8 +76,8 @@ export default function RootLayout({ children }) {
     '@type': 'TouristAttraction',
     name: 'Chittorgarh Fort',
     description: "Rajasthan's mightiest citadel and a UNESCO World Heritage Site.",
-    url: 'https://chittorgarh-tourism.vercel.app',
-    image: 'https://chittorgarh-tourism.vercel.app/Pride.webp',
+    url: 'https://chittorgarh-tourism-five.vercel.app',
+    image: 'https://chittorgarh-tourism-five.vercel.app/Pride.webp',
     address: {
       '@type': 'PostalAddress',
       addressLocality: 'Chittorgarh',
