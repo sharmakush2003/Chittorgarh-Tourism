@@ -416,7 +416,7 @@ export default function HowToReachPage() {
                     </div>
                     {fromCity && (
                         <p style={{ textAlign: "center", marginTop: "1rem", fontSize: "0.85rem", opacity: 0.6 }}>
-                            Showing estimated road route from {fromCity}.
+                            {t("htr.showingRoute")} {fromCity}.
                         </p>
                     )}
                 </div>

@@ -368,10 +368,10 @@ export default function Plan() {
             <header className="hero page-header" style={{ background: 'transparent', minHeight: '50vh' }}>
                 <div className="hero-content">
                     <h1>
-                        {t("plan.title1") || "Craft Your"} <span>{t("plan.title2") || "Royal Journey"}</span>
+                        {t("plan.title1")} <span>{t("plan.title2")}</span>
                     </h1>
                     <p className="hero-sub" style={{ maxWidth: '600px', margin: '0 auto' }}>
-                        Curated experiences to help you explore the best of the Land of Sacrifice.
+                        {t("plan.sub")}
                     </p>
                 </div>
             </header>
@@ -386,30 +386,30 @@ export default function Plan() {
                                 className={`tab-btn ${activeTab === day ? 'active' : ''}`}
                                 onClick={() => setActiveTab(day)}
                             >
-                                {day} Day Itinerary
+                                {day} {t("plan.tabLabel")}
                             </button>
                         ))}
                     </div>
 
                     <div className="itinerary-card">
                         <div className="card-header">
-                            <h2>{itineraries[activeTab].title}</h2>
-                            <p>{itineraries[activeTab].desc}</p>
+                            <h2>{t(`plan.${activeTab}.title`)}</h2>
+                            <p>{t(`plan.${activeTab}.desc`)}</p>
                         </div>
                         <div className="card-body">
-                            <h3 style={{ textAlign: 'center', color: 'var(--text-muted)', fontSize: '0.9rem', textTransform: 'uppercase', letterSpacing: '2px' }}>Highlights</h3>
+                            <h3 style={{ textAlign: 'center', color: 'var(--text-muted)', fontSize: '0.9rem', textTransform: 'uppercase', letterSpacing: '2px' }}>{t("plan.highlights")}</h3>
                             <div className="highlights">
-                                {itineraries[activeTab].highlights.map((h, i) => (
-                                    <span key={i} className="tag">{h}</span>
+                                {itineraries[activeTab].highlights.map((_, i) => (
+                                    <span key={i} className="tag">{t(`plan.${activeTab}.hlt.${i}`)}</span>
                                 ))}
                             </div>
 
                             <div className="timeline">
-                                {itineraries[activeTab].schedule.map((item, index) => (
+                                {itineraries[activeTab].schedule.map((_, index) => (
                                     <div key={index} className="timeline-item">
-                                        <span className="time">{item.time}</span>
-                                        <span className="activity-title">{item.title}</span>
-                                        <p className="activity-desc">{item.activity}</p>
+                                        <span className="time">{t(`plan.${activeTab}.sch.${index}.time`)}</span>
+                                        <span className="activity-title">{t(`plan.${activeTab}.sch.${index}.title`)}</span>
+                                        <p className="activity-desc">{t(`plan.${activeTab}.sch.${index}.activity`)}</p>
                                     </div>
                                 ))}
                             </div>
@@ -422,33 +422,33 @@ export default function Plan() {
             <section className="request-form">
                 <div className="container form-container">
                     <h3 style={{ textAlign: 'center', fontFamily: 'var(--ff-display)', fontSize: '2rem', marginBottom: '2rem', color: 'var(--dark-brown)' }}>
-                        {t("cta.title")}
+                        {t("plan.form.title")}
                     </h3>
                     <form className="plan-form reveal" onSubmit={handleSubmit}>
                         <div className="form-group">
-                            <label>Name / नाम</label>
+                            <label>{t("plan.form.name")}</label>
                             <input
                                 type="text"
                                 name="name"
-                                placeholder="Your Full Name"
+                                placeholder={t("plan.form.namePlaceholder")}
                                 value={formData.name}
                                 onChange={handleInputChange}
                                 required
                             />
                         </div>
                         <div className="form-group">
-                            <label>Email</label>
+                            <label>{t("plan.form.email")}</label>
                             <input
                                 type="email"
                                 name="email"
-                                placeholder="example@mail.com"
+                                placeholder={t("plan.form.emailPlaceholder")}
                                 value={formData.email}
                                 onChange={handleInputChange}
                                 required
                             />
                         </div>
                         <div className="form-group">
-                            <label>Travel Date / यात्रा की तिथि</label>
+                            <label>{t("plan.form.date")}</label>
                             <input
                                 type="date"
                                 name="date"
@@ -462,15 +462,15 @@ export default function Plan() {
                         <input type="hidden" name="interest" value={`${activeTab} Day Tour`} />
 
                         <div style={{ background: '#fdfbf7', padding: '10px', marginBottom: '20px', borderLeft: '4px solid var(--gold)', color: '#666', fontSize: '0.9rem' }}>
-                            Sending: <strong>{activeTab} Day Itinerary</strong>
+                            {t("plan.form.sending")} <strong>{activeTab} {t("plan.tabLabel")}</strong>
                         </div>
 
                         <button className="btn-gold" style={{ width: "100%" }} disabled={status === 'loading'}>
-                            {status === 'loading' ? 'Sending Mail...' : 'Email Me This Itinerary'}
+                            {status === 'loading' ? t("plan.form.submitLoading") : t("plan.form.submitIdle")}
                         </button>
-                        {status === 'success' && <p style={{ color: 'green', marginTop: '1rem', textAlign: 'center' }}>Email Sent Successfully! Check your inbox.</p>}
-                        {status === 'timeout' && <p style={{ color: '#d97706', marginTop: '1rem', textAlign: 'center', fontWeight: '600' }}>Mail functionality not working right now. Please try again later.</p>}
-                        {status === 'error' && <p style={{ color: 'red', marginTop: '1rem', textAlign: 'center' }}>Something went wrong. Please try again.</p>}
+                        {status === 'success' && <p style={{ color: 'green', marginTop: '1rem', textAlign: 'center' }}>{t("plan.form.success")}</p>}
+                        {status === 'timeout' && <p style={{ color: '#d97706', marginTop: '1rem', textAlign: 'center', fontWeight: '600' }}>{t("plan.form.timeout")}</p>}
+                        {status === 'error' && <p style={{ color: 'red', marginTop: '1rem', textAlign: 'center' }}>{t("plan.form.error")}</p>}
                     </form>
                 </div>
             </section>

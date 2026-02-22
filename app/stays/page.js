@@ -215,7 +215,7 @@ function HotelGlassCard({ hotel, delay, t }) {
                             {hotel.imgSymbol}
                         </div>
                     )}
-                    <div className="rating-badge">MakeMyTrip: {hotel.rating}</div>
+                    <div className="rating-badge">{t("lbl.mmt")} {hotel.rating}</div>
                 </div>
 
                 <div className="card-content">
@@ -238,7 +238,7 @@ function HotelGlassCard({ hotel, delay, t }) {
                             <MapPin className="meta-icon" />
                             <div>
                                 <span className="meta-label">{t("lbl.distance")}</span>
-                                <span className="meta-val">{hotel.distStation} from Station</span>
+                                <span className="meta-val">{hotel.distStation} {t("lbl.fromStation")}</span>
                             </div>
                         </div>
                     </div>

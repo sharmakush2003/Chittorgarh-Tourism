@@ -25,7 +25,7 @@ export default function LanguagePrompt() {
     const [isVisible, setIsVisible] = useState(false);
     const [country, setCountry] = useState("");
     const [language, setLanguage] = useState("en");
-    const { changeLanguage } = useLanguage();
+    const { t, changeLanguage } = useLanguage();
 
     useEffect(() => {
         // Check if user has already selected a language
@@ -150,15 +150,15 @@ export default function LanguagePrompt() {
         }
       `}</style>
             <div className="language-modal">
-                <h2 className="modal-title">Welcome</h2>
+                <h2 className="modal-title">{t("prompt.welcome")}</h2>
                 <p className="modal-desc">
-                    To provide the best experience, please tell us where you are visiting from.
+                    {t("prompt.desc")}
                 </p>
 
                 <div className="form-group">
-                    <label>Select Country / Territory</label>
+                    <label>{t("prompt.country")}</label>
                     <select value={country} onChange={handleCountryChange}>
-                        <option value="" disabled>-- Select Country --</option>
+                        <option value="" disabled>{t("prompt.countryPlaceholder")}</option>
                         {COUNTRIES.map(c => (
                             <option key={c.code} value={c.code}>{c.name}</option>
                         ))}
@@ -166,7 +166,7 @@ export default function LanguagePrompt() {
                 </div>
 
                 <div className="form-group">
-                    <label>Preferred Language</label>
+                    <label>{t("prompt.language")}</label>
                     <select value={language} onChange={(e) => setLanguage(e.target.value)}>
                         {LANGUAGES.map(l => (
                             <option key={l.code} value={l.code}>{l.name}</option>
@@ -179,7 +179,7 @@ export default function LanguagePrompt() {
                     onClick={handleConfirm}
                     disabled={!country}
                 >
-                    Enter Site
+                    {t("prompt.enter")}
                 </button>
             </div>
         </div>

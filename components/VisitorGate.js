@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { useLanguage } from "@/context/LanguageContext";
 
 const VISITED_KEY = "ctt_visited";
 const FROM_CITY_KEY = "ctt_fromCity";
@@ -16,6 +17,7 @@ const FROM_CITY_KEY = "ctt_fromCity";
  */
 export default function VisitorGate() {
     const router = useRouter();
+    const { t } = useLanguage();
     const [status, setStatus] = useState("idle"); // idle | checking | local | tourist | fallback | done
 
     useEffect(() => {
@@ -108,16 +110,16 @@ export default function VisitorGate() {
             <div className="vg-overlay" role="dialog" aria-modal="true" aria-labelledby="vg-tourist-title">
                 <div className="vg-modal vg-modal--tourist">
                     <div className="vg-modal-emblem">✦</div>
-                    <h2 className="vg-modal-title" id="vg-tourist-title">Welcome</h2>
+                    <h2 className="vg-modal-title" id="vg-tourist-title">{t("gate.tourist.title")}</h2>
                     <p className="vg-modal-body">
-                        Do you need help with travel information on how to reach Chittorgarh?
+                        {t("gate.tourist.body")}
                     </p>
                     <div className="vg-local-actions">
                         <button className="btn-gold vg-btn-primary" onClick={handleTouristYes}>
-                            Yes, Guide Me
+                            {t("gate.tourist.yes")}
                         </button>
                         <button className="vg-btn-ghost" onClick={handleTouristNo}>
-                            No, Enter Home
+                            {t("gate.tourist.no")}
                         </button>
                     </div>
                 </div>
@@ -131,18 +133,18 @@ export default function VisitorGate() {
             <div className="vg-overlay" role="dialog" aria-modal="true" aria-labelledby="vg-fallback-title">
                 <div className="vg-modal vg-modal--fallback">
                     <div className="vg-modal-emblem">✦</div>
-                    <h2 className="vg-modal-title" id="vg-fallback-title">Welcome</h2>
+                    <h2 className="vg-modal-title" id="vg-fallback-title">{t("gate.fallback.title")}</h2>
                     <p className="vg-modal-body">
-                        To guide you better, tell us about your visit:
+                        {t("gate.fallback.body")}
                     </p>
                     <div className="vg-choice-grid">
                         <button className="vg-choice-card" onClick={handleFallbackTourist}>
-                            <span className="vg-choice-label">I am a Visitor</span>
-                            <span className="vg-choice-sub">Guide me to Chittorgarh</span>
+                            <span className="vg-choice-label">{t("gate.fallback.touristTag")}</span>
+                            <span className="vg-choice-sub">{t("gate.fallback.touristSub")}</span>
                         </button>
                         <button className="vg-choice-card" onClick={handleFallbackLocal}>
-                            <span className="vg-choice-label">I am a Local</span>
-                            <span className="vg-choice-sub">Enter the site directly</span>
+                            <span className="vg-choice-label">{t("gate.fallback.localTag")}</span>
+                            <span className="vg-choice-sub">{t("gate.fallback.localSub")}</span>
                         </button>
                     </div>
                 </div>

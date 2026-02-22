@@ -36,7 +36,7 @@ export default function Home() {
           </div>
         </div>
         <div className="hero-scroll-hint">
-          <span>Scroll</span>
+          <span>{t("hero.scroll")}</span>
           <div className="scroll-line"></div>
         </div>
       </header>
@@ -45,19 +45,19 @@ export default function Home() {
       <section className="stats-band">
         <div className="container">
           <div className="stat-item reveal">
-            <div className="number">1.5M+</div>
+            <div className="number">{t("stats.n1")}</div>
             <div className="label">
               {t("stats.l1")}
             </div>
           </div>
           <div className="stat-item reveal reveal-delay-1">
-            <div className="number">700 Acres</div>
+            <div className="number">{t("stats.n2")}</div>
             <div className="label">
               {t("stats.l2")}
             </div>
           </div>
           <div className="stat-item reveal reveal-delay-2">
-            <div className="number">500+</div>
+            <div className="number">{t("stats.n3")}</div>
             <div className="label">
               {t("stats.l3")}
             </div>

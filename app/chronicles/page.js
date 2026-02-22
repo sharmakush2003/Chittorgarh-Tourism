@@ -121,7 +121,7 @@ export default function Chronicles() {
                                         className="explore-saga"
                                         style={{ color: legend.accent, textDecoration: 'none' }}
                                     >
-                                        Explore Saga <ArrowRight size={16} />
+                                        {t("chron.btn.explore")} <ArrowRight size={16} />
                                     </a>
                                 </div>
                             </div>

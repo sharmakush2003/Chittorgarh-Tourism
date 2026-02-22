@@ -1,7 +1,7 @@
 "use client";
 
 import { createContext, useContext, useState, useEffect } from "react";
-import enTranslations from "@/lib/translations.js";
+import enTranslations from "@/public/translations/en.json";
 
 const LanguageContext = createContext();
 
@@ -24,7 +24,7 @@ function getInitialLang() {
 // Use 'en' as the initial state so SSR matches the first client render (Hydration fix)
 export function LanguageProvider({ children }) {
     const [lang, setLang] = useState('en');
-    const [translations, setTranslations] = useState(enTranslations);
+    const [translations, setTranslations] = useState(null);
     const [loading, setLoading] = useState(true);
     const [isMounted, setIsMounted] = useState(false);
 
@@ -39,27 +39,27 @@ export function LanguageProvider({ children }) {
         if (!isMounted) return;
 
         const loadTranslations = async () => {
+            setLoading(true);
             if (lang === 'en') {
                 setTranslations(enTranslations);
                 setLoading(false);
                 return;
             }
 
-            setLoading(true);
             try {
                 console.log(`Fetching translation for: ${lang}`);
-                const res = await fetch(`/translations/${lang}.json`);
+                const res = await fetch(`/translations/${lang}.json?v=${new Date().getTime()}`);
 
                 if (!res.ok) {
-                    console.warn(`Translation file not found for ${lang}, falling back to English.`);
-                    setTranslations(enTranslations);
+                    console.warn(`Translation file not found for ${lang}. Generating strict placeholders.`);
+                    setTranslations({});
                 } else {
                     const data = await res.json();
                     setTranslations(data);
                 }
             } catch (err) {
                 console.error("Language load failed:", err);
-                setTranslations(enTranslations);
+                setTranslations({});
             } finally {
                 setLoading(false);
             }
@@ -73,7 +73,15 @@ export function LanguageProvider({ children }) {
     }, [lang, isMounted]);
 
     const t = (key) => {
-        return translations[key] || key;
+        if (!translations) return "";
+        if (translations[key]) return translations[key];
+
+        // Strict fallback rules
+        if (lang === 'en') {
+            return enTranslations[key] || key;
+        }
+
+        return `[MISSING_${lang.toUpperCase()}_TRANSLATION]`;
     };
 
     const changeLanguage = (code) => {
@@ -81,12 +89,17 @@ export function LanguageProvider({ children }) {
         localStorage.setItem("ctt_locale", code);
     };
 
-    // Prevent hydration mismatch by not rendering until mounted client-side
-    if (!isMounted) return null;
+    // Prevent hydration mismatch by not rendering until mounted client-side.
+    // Also pause render until the specific language's translations are loaded 
+    // to prevent Flash of English Content and ensure full flush cache.
+    if (!isMounted || loading || !translations) return null;
 
     return (
         <LanguageContext.Provider value={{ lang, changeLanguage, t, loading }}>
-            {children}
+            {/* The key={lang} enforces a full component tree remount matching the requirement */}
+            <div key={lang} className="lang-wrapper" style={{ display: 'contents' }}>
+                {children}
+            </div>
         </LanguageContext.Provider>
     );
 }
