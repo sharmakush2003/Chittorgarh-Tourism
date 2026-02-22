@@ -1,10 +1,26 @@
 .gallery-page {
     min-height: 100vh;
-    background-color: transparent;
+    position: relative;
     color: #fff;
     padding-top: 100px;
-    position: relative;
-    z-index: 2;
+}
+
+.fixed-bg {
+    position: fixed;
+    inset: 0;
+    background: url('/hero_bg.png') no-repeat center center / cover;
+    z-index: -2;
+}
+
+.bg-overlay {
+    position: fixed;
+    inset: 0;
+    background: linear-gradient(to bottom,
+            rgba(15, 10, 6, 0.7) 0%,
+            rgba(15, 10, 6, 0.5) 50%,
+            rgba(15, 10, 6, 0.8) 100%);
+    z-index: -1;
+    backdrop-filter: blur(3px);
 }
 
 /* ── HERO ── */

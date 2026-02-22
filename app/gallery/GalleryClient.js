@@ -9,6 +9,9 @@ export default function GalleryClient({ images }) {
 
     return (
         <div className="gallery-page">
+            <div className="fixed-bg"></div>
+            <div className="bg-overlay"></div>
+
             <div className="gallery-hero">
                 <h1 className="gallery-title">{t("gallery.title")}</h1>
                 <p className="gallery-sub">{t("gallery.subtitle")}</p>
