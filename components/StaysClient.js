@@ -85,7 +85,7 @@ export default function StaysClient() {
         }
         .header-section {
             margin-bottom: 4rem;
-            padding-top: 160px;
+            padding-top: 100px;
         }
         .eyebrow {
             display: block;

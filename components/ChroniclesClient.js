@@ -231,7 +231,7 @@ export default function ChroniclesClient() {
                     align-items: center;
                     justify-content: center;
                     text-align: center;
-                    padding: 160px 2rem 0;
+                    padding: 100px 2rem 0;
                     position: relative;
                 }
 
