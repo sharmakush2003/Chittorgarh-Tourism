@@ -1,26 +1,11 @@
 "use client";
 
 import { useLanguage } from "@/context/LanguageContext";
-import { useEffect, useState, useRef } from "react";
 import { Flower, Shield, Heart, Music, ArrowRight } from "lucide-react";
 import Image from "next/image";
 
 export default function ChroniclesClient() {
     const { t } = useLanguage();
-    const [scrollProgress, setScrollProgress] = useState(0);
-    const containerRef = useRef(null);
-
-    useEffect(() => {
-        const handleScroll = () => {
-            if (!containerRef.current) return;
-            const scrolled = window.scrollY;
-            const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
-            setScrollProgress(scrolled / maxScroll);
-        };
-
-        window.addEventListener("scroll", handleScroll);
-        return () => window.removeEventListener("scroll", handleScroll);
-    }, []);
 
     const legends = [
         {
@@ -58,29 +43,22 @@ export default function ChroniclesClient() {
     ];
 
     return (
-        <div className="chronicles-page" ref={containerRef}>
+        <div className="chronicles-page">
             {/* ═══ CINEMATIC BACKGROUNDS ═══════════════════ */}
             <div className="fixed-bg"></div>
             <div className="bg-overlay"></div>
 
             {/* ═══ HERO SECTION ═══════════════════════════ */}
             <header className="chron-hero">
-                <div className="hero-content reveal">
+                <div className="hero-content">
                     <span className="eyebrow">{t("chron.eyebrow")}</span>
                     <h1 className="hero-title">{t("chron.hero.title")}</h1>
                     <p className="hero-subtitle">{t("chron.hero.sub")}</p>
-                    <div className="scroll-indicator">
-                        <div className="mouse">
-                            <div className="wheel"></div>
-                        </div>
-                    </div>
                 </div>
             </header>
 
             {/* ═══ TIMELINE SECTION ═══════════════════════ */}
             <main className="timeline-container">
-                <div className="timeline-guide" style={{ height: `${scrollProgress * 100}%` }}></div>
-
                 {legends.map((legend, index) => (
                     <section key={legend.id} className={`timeline-segment ${legend.align}`}>
                         <div className="legend-marker">
@@ -88,7 +66,7 @@ export default function ChroniclesClient() {
                             <div className="marker-line" style={{ background: `linear-gradient(to bottom, ${legend.accent}, transparent)` }}></div>
                         </div>
 
-                        <div className="legend-card-wrapper reveal">
+                        <div className="legend-card-wrapper">
                             <div className="legend-card" style={{ boxShadow: `0 20px 40px ${legend.color}` }}>
                                 <div className="card-glass-accent" style={{ background: legend.accent }}></div>
                                 <div className="card-top">
@@ -131,7 +109,7 @@ export default function ChroniclesClient() {
             </main>
 
             {/* ═══ FOOTER NOTE ═══════════════════════════ */}
-            <footer className="chron-footer reveal">
+            <footer className="chron-footer">
                 <div className="footer-content">
                     <p className="ai-disclosure">
                         {t("chron.footer.aiNote")}
@@ -226,12 +204,12 @@ export default function ChroniclesClient() {
                 }
 
                 .chron-hero {
-                    height: 100vh;
+                    height: 60vh;
                     display: flex;
                     align-items: center;
                     justify-content: center;
                     text-align: center;
-                    padding: 100px 2rem 0;
+                    padding: 60px 2rem 0;
                     position: relative;
                 }
 
@@ -265,24 +243,13 @@ export default function ChroniclesClient() {
                     max-width: 1200px;
                     margin: 0 auto;
                     position: relative;
-                    padding: 10rem 2rem;
-                }
-
-                .timeline-guide {
-                    position: absolute;
-                    left: 50%;
-                    top: 0;
-                    width: 1px;
-                    background: linear-gradient(to bottom, var(--gold), transparent);
-                    transform: translateX(-50%);
-                    z-index: 1;
-                    opacity: 0.3;
+                    padding: 5rem 2rem;
                 }
 
                 .timeline-segment {
                     display: flex;
                     width: 100%;
-                    margin-bottom: 15rem;
+                    margin-bottom: 10rem;
                     position: relative;
                 }
 
@@ -412,19 +379,7 @@ export default function ChroniclesClient() {
                     gap: 15px;
                 }
 
-                .reveal {
-                    opacity: 0;
-                    transform: translateY(30px);
-                    transition: all 1s cubic-bezier(0.22, 1, 0.36, 1);
-                }
-
-                .reveal.visible {
-                    opacity: 1;
-                    transform: translateY(0);
-                }
-
                 @media (max-width: 968px) {
-                    .timeline-guide { left: 20px; }
                     .legend-marker { left: 20px; }
                     .legend-card-wrapper { width: calc(100% - 60px); margin-left: 60px; }
                     .timeline-segment.left, .timeline-segment.right { justify-content: flex-start; }
@@ -432,52 +387,7 @@ export default function ChroniclesClient() {
                     .hero-title { font-size: 3.5rem; }
                     .legend-title { font-size: 2rem; }
                 }
-
-                .scroll-indicator {
-                    position: absolute;
-                    bottom: 40px;
-                    left: 50%;
-                    transform: translateX(-50%);
-                }
-
-                .mouse {
-                    width: 26px;
-                    height: 44px;
-                    border: 2px solid rgba(255, 255, 255, 0.3);
-                    border-radius: 20px;
-                    position: relative;
-                }
-
-                .wheel {
-                    width: 4px;
-                    height: 8px;
-                    background: #fff;
-                    position: absolute;
-                    top: 8px;
-                    left: 50%;
-                    transform: translateX(-50%);
-                    border-radius: 2px;
-                    animation: scroll 2s infinite;
-                }
-
-                @keyframes scroll {
-                    0% { transform: translate(-50%, 0); opacity: 1; }
-                    100% { transform: translate(-50%, 15px); opacity: 0; }
-                }
             `}</style>
-
-            <script dangerouslySetInnerHTML={{
-                __html: `
-                const observer = new IntersectionObserver((entries) => {
-                    entries.forEach(entry => {
-                        if (entry.isIntersecting) {
-                            entry.target.classList.add('visible');
-                        }
-                    });
-                }, { threshold: 0.1 });
-
-                document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-            ` }} />
         </div>
     );
 }
