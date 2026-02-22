@@ -46,11 +46,11 @@ export const metadata = {
     siteName: "Chittorgarh Tourism",
     images: [
       {
-        url: "/Pride.webp", // Will fall back to whatever is deployed or locally available as Pride.webp/Pride.jpg
+        url: "/pride_of_chittor.jpg",
         width: 1200,
         height: 630,
         alt: "Chittorgarh Fort Tourism",
-        type: "image/webp",
+        type: "image/jpeg",
       }
     ],
     locale: "en_US",
@@ -60,7 +60,7 @@ export const metadata = {
     card: "summary_large_image",
     title: "Chittorgarh Tourism — The Saga of Bravery & Sacrifice",
     description: "Discover Rajasthan's mightiest citadel.",
-    images: ["/Pride.webp"],
+    images: ["/pride_of_chittor.jpg"],
   },
 };
 
@@ -77,7 +77,7 @@ export default function RootLayout({ children }) {
     name: 'Chittorgarh Fort',
     description: "Rajasthan's mightiest citadel and a UNESCO World Heritage Site.",
     url: 'https://chittorgarh-tourism-five.vercel.app',
-    image: 'https://chittorgarh-tourism-five.vercel.app/Pride.webp',
+    image: 'https://chittorgarh-tourism-five.vercel.app/pride_of_chittor.jpg',
     address: {
       '@type': 'PostalAddress',
       addressLocality: 'Chittorgarh',
