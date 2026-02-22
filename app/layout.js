@@ -22,14 +22,45 @@ const jost = Jost({
 });
 
 export const metadata = {
-  title: "Chittorgarh Tourism — The Saga of Bravery & Sacrifice",
-  description: "Discover Chittorgarh Fort — Rajasthan's mightiest citadel. Plan your journey and explore heritage sites.",
+  metadataBase: new URL('https://chittorgarh-tourism.vercel.app'),
+  title: {
+    default: "Chittorgarh Tourism — The Saga of Bravery & Sacrifice",
+    template: "%s | Chittorgarh Tourism"
+  },
+  description: "Discover Chittorgarh Fort — Rajasthan's mightiest citadel. Plan your journey, explore heritage sites, and immerse in the rich history of Mewar.",
+  keywords: ["Chittorgarh Fort", "Rajasthan Tourism", "Mewar History", "Rani Padmini", "Maharana Pratap", "Indian Heritage Sites"],
+  authors: [{ name: "Chittorgarh Tourism Authority" }],
+  creator: "Chittorgarh Tourism",
+  canonical: "https://chittorgarh-tourism.vercel.app",
   manifest: "/manifest.json",
   themeColor: "#D4AF37",
   appleWebApp: {
     capable: true,
     statusBarStyle: "black-translucent",
-    title: "Chittorgarh Tourism",
+    title: "Chittorgarh",
+  },
+  openGraph: {
+    title: "Chittorgarh Tourism — The Saga of Bravery & Sacrifice",
+    description: "Discover Rajasthan's mightiest citadel.",
+    url: "https://chittorgarh-tourism.vercel.app",
+    siteName: "Chittorgarh Tourism",
+    images: [
+      {
+        url: "/Pride.webp", // Will fall back to whatever is deployed or locally available as Pride.webp/Pride.jpg
+        width: 1200,
+        height: 630,
+        alt: "Chittorgarh Fort Tourism",
+        type: "image/webp",
+      }
+    ],
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Chittorgarh Tourism — The Saga of Bravery & Sacrifice",
+    description: "Discover Rajasthan's mightiest citadel.",
+    images: ["/Pride.webp"],
   },
 };
 
@@ -40,9 +71,33 @@ export const viewport = {
 };
 
 export default function RootLayout({ children }) {
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'TouristAttraction',
+    name: 'Chittorgarh Fort',
+    description: "Rajasthan's mightiest citadel and a UNESCO World Heritage Site.",
+    url: 'https://chittorgarh-tourism.vercel.app',
+    image: 'https://chittorgarh-tourism.vercel.app/Pride.webp',
+    address: {
+      '@type': 'PostalAddress',
+      addressLocality: 'Chittorgarh',
+      addressRegion: 'Rajasthan',
+      addressCountry: 'IN'
+    },
+    geo: {
+      '@type': 'GeoCoordinates',
+      latitude: '24.8887',
+      longitude: '74.6269'
+    }
+  };
+
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${cormorant.variable} ${jost.variable}`}>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
         <Background3D />
         <LanguageProvider>
           <VisitorGate />
