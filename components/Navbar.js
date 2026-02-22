@@ -133,6 +133,15 @@ export default function Navbar() {
                     </Link>
                 ))}
 
+                {/* Mobile-only Gallery Link */}
+                <Link
+                    href="/gallery"
+                    className={isActive("/gallery")}
+                    onClick={() => setIsMenuOpen(false)}
+                >
+                    {t("nav.gallery") || "Gallery"}
+                </Link>
+
                 {/* Mobile Language Selection */}
                 <div className="mobile-lang-section">
                     <span className="mobile-lang-label">{t("nav.selectLanguage")}</span>
