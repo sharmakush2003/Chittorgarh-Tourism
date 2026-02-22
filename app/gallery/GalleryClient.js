@@ -51,8 +51,10 @@ export default function GalleryClient({ images }) {
                     <div className="gallery-masonry">
                         {images.map((item, idx) => (
                             <div key={idx} className="gallery-item" style={{ transitionDelay: `${(idx % 6) * 0.1}s` }}>
-                                <img src={item.src} alt={`Heritage Visual ${idx + 1}`} loading="lazy" />
-                                <div className="gallery-caption-glass">
+                                <div className="gallery-item-image">
+                                    <img src={item.src} alt={`Heritage Visual ${idx + 1}`} loading="lazy" />
+                                </div>
+                                <div className="gallery-item-content">
                                     <p>{item.caption}</p>
                                 </div>
                             </div>
