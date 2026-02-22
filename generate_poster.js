@@ -91,4 +91,4 @@ async function createPoster(url, outputPath) {
 }
 
 // Replace with the actual deployed URL when ready
-createPoster('https://chittorgarh-tourism.vercel.app', 'public/poster.png');
+createPoster('https://chittorgarh-tourism-five.vercel.app/', 'public/poster.png');
