@@ -1,7 +1,7 @@
 "use client";
 
 import { useLanguage } from "@/context/LanguageContext";
-import { Flower, Calendar, MapPin, ArrowRight, Sun, Wind, Cloud } from 'lucide-react';
+import { Flower, Calendar, MapPin, ArrowRight, Sun, Wind, Cloud, Ticket } from 'lucide-react';
 import FortMap from "@/components/FortMap";
 import { useState, useEffect } from 'react';
 import { Share2, Navigation, X, Send } from 'lucide-react';
@@ -33,6 +33,7 @@ export default function ExploreClient() {
                             delay={0}
                             link="https://en.wikipedia.org/wiki/Chittor_Fort"
                             image="/hero_bg.png"
+                            bookingLink="https://asi.payumoney.com/quick/chf"
                         />
                         <GlassCard
                             title={t("attr.bassi.name")}
@@ -161,6 +162,7 @@ export default function ExploreClient() {
                             delay={14}
                             link="https://www.tourism.rajasthan.gov.in/chittorgarh.html"
                             image="/light_sound_show.jpg"
+                            bookingLink="https://asi.payumoney.com/quick/chf"
                         />
                     </div>
 
@@ -302,7 +304,7 @@ export default function ExploreClient() {
     );
 }
 
-function GlassCard({ title, desc, time, dist, delay, link, image, imgPos = 'center' }) {
+function GlassCard({ title, desc, time, dist, delay, link, image, imgPos = 'center', bookingLink }) {
     const { t } = useLanguage();
     const [showEmailModal, setShowEmailModal] = useState(false);
     const [email, setEmail] = useState('');
@@ -421,9 +423,37 @@ function GlassCard({ title, desc, time, dist, delay, link, image, imgPos = 'cent
                         </button>
                     </div>
 
-                    <a href={link} target="_blank" rel="noopener noreferrer" className="read-more">
-                        {t("btn.readMore")} <ArrowRight className="arrow" size={16} />
-                    </a>
+                    <div className="card-actions" style={{ display: 'flex', gap: '0.5rem', alignItems: 'center', marginTop: 'auto', width: '100%' }}>
+                        <a href={link} target="_blank" rel="noopener noreferrer" className="read-more">
+                            {t("btn.readMore")} <ArrowRight className="arrow" size={16} />
+                        </a>
+                        {bookingLink && (
+                            <a
+                                href={bookingLink}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="book-tickets-btn"
+                                style={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    gap: '0.5rem',
+                                    padding: '0.5rem 1rem',
+                                    background: 'rgba(255, 215, 0, 0.1)',
+                                    border: '1px solid rgba(255, 215, 0, 0.3)',
+                                    borderRadius: '8px',
+                                    color: '#FFD700',
+                                    fontSize: '0.875rem',
+                                    fontWeight: '500',
+                                    textDecoration: 'none',
+                                    transition: 'all 0.3s ease',
+                                    width: '100%'
+                                }}
+                            >
+                                <Ticket size={16} />
+                                {t("btn.bookTickets")}
+                            </a>
+                        )}
+                    </div>
                 </div>
             </div>
 
@@ -631,7 +661,7 @@ function GlassCard({ title, desc, time, dist, delay, link, image, imgPos = 'cent
                     gap: 0.5rem;
                     padding: 0.5rem;
                     transition: 0.3s;
-                    width: 100%;
+                    flex: 1;
                 }
 
                 .read-more:hover {

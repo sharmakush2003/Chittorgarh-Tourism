@@ -2,6 +2,7 @@
 
 import { useLanguage } from "@/context/LanguageContext";
 import { useState } from "react";
+import { Ticket } from "lucide-react";
 import { db } from "@/lib/firebase";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 
@@ -285,6 +286,31 @@ export default function PlanClient() {
                     <p className="hero-sub" style={{ maxWidth: '600px', margin: '0 auto' }}>
                         {t("plan.sub")}
                     </p>
+                    <div className="hero-cta" style={{ marginTop: '2rem' }}>
+                        <a
+                            href="https://asi.payumoney.com/quick/chf"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="book-tickets-btn"
+                            style={{
+                                display: 'inline-flex',
+                                alignItems: 'center',
+                                gap: '0.8rem',
+                                padding: '1rem 2rem',
+                                background: '#FFD700',
+                                color: '#000',
+                                borderRadius: '50px',
+                                fontWeight: '700',
+                                textDecoration: 'none',
+                                fontSize: '1.1rem',
+                                boxShadow: '0 4px 15px rgba(255, 215, 0, 0.3)',
+                                transition: 'all 0.3s ease'
+                            }}
+                        >
+                            <Ticket size={24} />
+                            {t("btn.bookTickets")}
+                        </a>
+                    </div>
                 </div>
             </header>
 
