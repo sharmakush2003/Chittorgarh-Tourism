@@ -11,35 +11,35 @@ export default function ChroniclesClient() {
     const legends = [
         {
             id: "padmini",
-            icon: <Flower className="legend-icon" />,
             color: "rgba(212, 175, 55, 0.2)",
             accent: "#D4AF37",
             align: "left",
-            link: "https://en.wikipedia.org/wiki/Rani_Padmini"
+            link: "https://en.wikipedia.org/wiki/Rani_Padmini",
+            image: "/padmini.png"
         },
         {
             id: "pratap",
-            icon: <Shield className="legend-icon" />,
             color: "rgba(160, 64, 48, 0.2)",
             accent: "#A04030",
             align: "right",
-            link: "https://en.wikipedia.org/wiki/Maharana_Pratap"
+            link: "https://en.wikipedia.org/wiki/Maharana_Pratap",
+            image: "/Linage pics/Maharana Pratap.png"
         },
         {
             id: "panna",
-            icon: <Heart className="legend-icon" />,
             color: "rgba(74, 222, 128, 0.2)",
             accent: "#4ade80",
             align: "left",
-            link: "https://en.wikipedia.org/wiki/Panna_Dai"
+            link: "https://en.wikipedia.org/wiki/Panna_Dai",
+            image: "/panna.png"
         },
         {
             id: "meera",
-            icon: <Music className="legend-icon" />,
             color: "rgba(147, 197, 253, 0.2)",
             accent: "#93c5fd",
             align: "right",
-            link: "https://en.wikipedia.org/wiki/Meera"
+            link: "https://en.wikipedia.org/wiki/Meera",
+            image: "/meera.png"
         }
     ];
 
@@ -74,14 +74,11 @@ export default function ChroniclesClient() {
                                 <div className="card-glass-accent" style={{ background: legend.accent }}></div>
                                 <div className="card-top">
                                     <span className="legend-year" style={{ color: legend.accent }}>{t(`legend.${legend.id}.year`)}</span>
-                                    <div className="legend-icon-box" style={{ borderColor: legend.accent }}>
-                                        {legend.icon}
-                                    </div>
                                 </div>
 
                                 <div className="legend-image-container">
                                     <Image
-                                        src={`/${legend.id}.png`}
+                                        src={legend.image}
                                         alt={t(`legend.${legend.id}.title`)}
                                         className="legend-card-image"
                                         width={600}
@@ -102,7 +99,7 @@ export default function ChroniclesClient() {
                                         className="explore-saga"
                                         style={{ color: legend.accent, textDecoration: 'none' }}
                                     >
-                                        {t("chron.btn.explore")} <ArrowRight size={16} />
+                                        Wikipedia <ArrowRight size={16} />
                                     </a>
                                 </div>
                             </div>
@@ -174,6 +171,8 @@ export default function ChroniclesClient() {
                     width: 100%;
                     height: 100%;
                     object-fit: cover;
+                    object-position: center;
+                    transform: scale(1.02);
                     transition: transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
                 }
 
