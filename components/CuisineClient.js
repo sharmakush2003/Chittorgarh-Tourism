@@ -203,6 +203,7 @@ function DishCard({ dish, delay, t }) {
                     placeName: t(`cui.${dish.id}.name`),
                     description: t(`cui.${dish.id}.desc`),
                     link: "https://chittorgarhtourism.com/cuisine",
+                    image: dish.image,
                     time: t(`cui.${dish.id}.type`),
                     dist: t(`cui.${dish.id}.spicy`)
                 }),

@@ -121,96 +121,110 @@ export async function POST(request) {
     const mailOptions = {
       from: `"Chittorgarh Tourism" <${emailUser}>`,
       to: email,
-      subject,
+      subject: `A Taste of Rajasthan: ${placeName} — Your Culinary Guide`,
       html: `
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>${placeName} — Chittorgarh Tourism</title>
+  <title>A Taste of Rajasthan: ${placeName}</title>
 </head>
-<body style="margin:0; padding:0; background-color:#0F0A06; font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;">
+<body style="margin:0; padding:0; background-color:#140F0B; font-family:'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
 
-  <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:#0F0A06; padding: 40px 16px;">
+  <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:#140F0B; padding: 40px 16px;">
     <tr>
       <td align="center">
-        <table width="600" cellpadding="0" cellspacing="0" border="0" style="max-width:600px; width:100%; border:1px solid rgba(212,175,55,0.3); border-radius:12px; overflow:hidden; box-shadow: 0 30px 60px rgba(0,0,0,0.8);">
-
-          <!-- TOP BAR -->
+        <!-- OUTER CONTAINER -->
+        <table width="600" cellpadding="0" cellspacing="0" border="0" style="max-width:600px; width:100%; background-color:#1C150F; border:1px solid rgba(212,175,55,0.2); border-radius:24px; overflow:hidden; box-shadow: 0 40px 100px rgba(0,0,0,0.9);">
+          
+          <!-- TOP GLOW BAR -->
           <tr>
-            <td style="background:linear-gradient(135deg, #D4AF37 0%, #B8860B 100%); padding: 10px 30px; text-align:center;">
-              <p style="margin:0; color:#0F0A06; font-size:10px; font-weight:700; letter-spacing:4px; text-transform:uppercase;">Chittorgarh Tourism · The Saga of Bravery &amp; Sacrifice</p>
+            <td height="2" style="background:linear-gradient(90deg, transparent, #D4AF37, transparent); opacity:0.8;"></td>
+          </tr>
+
+          <!-- HEADER / BRANDING -->
+          <tr>
+            <td style="padding: 30px 40px 20px; text-align:center;">
+              <p style="margin:0; color:#D4AF37; font-size:10px; font-weight:700; letter-spacing:5px; text-transform:uppercase;">Chittorgarh Tourism</p>
             </td>
           </tr>
 
-          <!-- HERO HEADER -->
+          ${image ? `
+          <!-- HERO IMAGE SECTION -->
           <tr>
-            <td style="background: linear-gradient(160deg, #1C150F 0%, #0F0A06 100%); padding: 50px 40px 40px; text-align:center; border-bottom: 1px solid rgba(212,175,55,0.2);">
-              <div style="font-size:52px; margin-bottom:16px; line-height:1;">${emoji}</div>
-              <h1 style="margin:0 0 12px; font-family:Georgia,'Times New Roman',serif; font-size:34px; font-weight:500; color:#D4AF37; letter-spacing:1px; line-height:1.2;">${placeName}</h1>
-              <p style="margin:0; font-size:14px; color:rgba(255,255,255,0.55); letter-spacing:1px; line-height:1.6; max-width:400px; margin:0 auto;">${tagline}</p>
-              <div style="width:80px; height:1px; background:linear-gradient(90deg, transparent, #D4AF37, transparent); margin: 24px auto 0;"></div>
+            <td style="padding: 0 40px;">
+              <div style="width:100%; height:320px; border-radius:16px; overflow:hidden; position:relative; box-shadow: 0 20px 40px rgba(0,0,0,0.4); border:1px solid rgba(255,255,255,0.1);">
+                <img src="${siteUrl}${image}" alt="${placeName}" style="width:100%; height:100%; object-fit:cover; display:block;" />
+                <!-- Overlay Gradient -->
+                <div style="position:absolute; bottom:0; left:0; right:0; height:50%; background:linear-gradient(to top, rgba(28,21,15,0.95), transparent);"></div>
+              </div>
+            </td>
+          </tr>
+          ` : ''}
+
+          <!-- MAIN CONTENT -->
+          <tr>
+            <td style="padding: 40px 40px 30px;">
+              <h1 style="margin:0 0 16px; font-family: 'Playfair Display', Georgia, serif; font-size:42px; font-weight:400; color:#FFFFFF; line-height:1.1; text-align:center;">${placeName}</h1>
+              
+              <!-- CATEGORY TAG -->
+              <div style="text-align:center; margin-bottom:24px;">
+                <span style="display:inline-block; padding: 6px 16px; background:rgba(212,175,55,0.12); border:1px solid rgba(212,175,55,0.3); border-radius:50px; color:#D4AF37; font-size:11px; font-weight:700; letter-spacing:2px; text-transform:uppercase;">${time || 'Traditional Cuisine'}</span>
+              </div>
+
+              <div style="width:120px; height:1px; background:linear-gradient(90deg, transparent, #D4AF37, transparent); margin: 0 auto 30px;"></div>
+              
+              <p style="margin:0; font-size:16px; color:rgba(255,255,255,0.75); line-height:1.8; text-align:center; font-weight:300;">${description}</p>
             </td>
           </tr>
 
-          <!-- DESCRIPTION -->
+          <!-- QUICK DETAILS PANEL -->
           <tr>
-            <td style="background:#1C150F; padding: 36px 40px;">
-              <p style="margin:0 0 28px; font-size:15px; color:rgba(255,255,255,0.8); line-height:1.8; text-align:center;">${description}</p>
-
-              <!-- INFO PILLS -->
-              <table width="100%" cellpadding="0" cellspacing="0" border="0">
+            <td style="padding: 0 40px 40px;">
+              <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.06); border-radius:16px; padding: 25px;">
                 <tr>
-                  <td width="48%" style="padding: 4px;">
-                    <div style="background:rgba(212,175,55,0.08); border:1px solid rgba(212,175,55,0.25); border-radius:8px; padding: 18px 20px; text-align:center;">
-                      <div style="font-size:22px; margin-bottom:8px;">🗓</div>
-                      <p style="margin:0 0 4px; font-size:9px; color:rgba(255,255,255,0.4); letter-spacing:2px; text-transform:uppercase; font-weight:600;">Best Time to Visit</p>
-                      <p style="margin:0; font-size:14px; color:#D4AF37; font-weight:700;">${time || 'Oct – Mar'}</p>
-                    </div>
+                  <td width="50%" align="center" style="border-right:1px solid rgba(255,255,255,0.1);">
+                    <div style="font-size:24px; margin-bottom:8px;">🔥</div>
+                    <p style="margin:0 0 4px; font-size:9px; color:rgba(255,255,255,0.4); letter-spacing:2px; text-transform:uppercase; font-weight:700;">Spice Level</p>
+                    <p style="margin:0; font-size:15px; color:#FFF; font-weight:500;">${dist || 'Authentic'}</p>
                   </td>
-                  <td width="4%"></td>
-                  <td width="48%" style="padding: 4px;">
-                    <div style="background:rgba(212,175,55,0.08); border:1px solid rgba(212,175,55,0.25); border-radius:8px; padding: 18px 20px; text-align:center;">
-                      <div style="font-size:22px; margin-bottom:8px;">📍</div>
-                      <p style="margin:0 0 4px; font-size:9px; color:rgba(255,255,255,0.4); letter-spacing:2px; text-transform:uppercase; font-weight:600;">Distance from Rly Stn</p>
-                      <p style="margin:0; font-size:14px; color:#D4AF37; font-weight:700;">${dist || 'N/A'}</p>
-                    </div>
+                  <td width="50%" align="center">
+                    <div style="font-size:24px; margin-bottom:8px;">🍽</div>
+                    <p style="margin:0 0 4px; font-size:9px; color:rgba(255,255,255,0.4); letter-spacing:2px; text-transform:uppercase; font-weight:700;">Serving Style</p>
+                    <p style="margin:0; font-size:15px; color:#FFF; font-weight:500;">Royal Platter</p>
                   </td>
                 </tr>
               </table>
+            </td>
+          </tr>
 
-              <!-- CTA BUTTON -->
-              <div style="text-align:center; margin-top:36px;">
-                <a href="${link}" style="display:inline-block; background:linear-gradient(135deg, #D4AF37 0%, #B8860B 100%); color:#0F0A06; padding: 16px 38px; text-decoration:none; border-radius:6px; font-weight:700; font-size:13px; letter-spacing:2px; text-transform:uppercase;">
-                  Explore ${placeName} &rarr;
-                </a>
+          <!-- ORNAMENTAL DIVIDER -->
+          <tr>
+            <td align="center" style="padding: 0 40px 40px;">
+              <div style="display:flex; align-items:center; opacity:0.2;">
+                <div style="flex:1; height:1px; background:linear-gradient(90deg, transparent, #D4AF37);"></div>
+                <div style="margin: 0 15px; color:#D4AF37; font-size:10px;">◆</div>
+                <div style="flex:1; height:1px; background:linear-gradient(90deg, #D4AF37, transparent);"></div>
               </div>
-
-              <!-- DIVIDER -->
-              <div style="width:100%; height:1px; background:linear-gradient(90deg, transparent, rgba(212,175,55,0.2), transparent); margin: 36px 0 0;"></div>
             </td>
           </tr>
 
           <!-- FOOTER -->
           <tr>
-            <td style="background:#0F0A06; padding: 30px 40px; text-align:center; border-top: 1px solid rgba(212,175,55,0.12);">
-              <p style="margin:0 0 4px; font-family:Georgia,'Times New Roman',serif; font-size:22px; color:#D4AF37; letter-spacing:2px;">Chittorgarh <span style="color:rgba(255,255,255,0.5); font-size:18px;">Tourism</span></p>
-              <p style="margin: 8px 0 20px; font-size:11px; color:rgba(255,255,255,0.3); letter-spacing:3px; text-transform:uppercase;">The Pride of Rajasthan</p>
+            <td style="background:#0F0A06; padding: 40px; text-align:center;">
+              <p style="margin:0 0 6px; font-family: 'Playfair Display', Georgia, serif; font-size:24px; font-weight:500; color:#D4AF37; letter-spacing:2px;">Chittorgarh <span style="color:rgba(255,255,255,0.5); font-weight:300;">Tourism</span></p>
+              <p style="margin:0 0 25px; font-size:11px; color:rgba(255,255,255,0.3); letter-spacing:4px; text-transform:uppercase;">The Saga of Bravery &amp; Sacrifice</p>
 
-              <a href="${siteUrl}" style="display:inline-block; border:1px solid rgba(212,175,55,0.4); color:#D4AF37; padding: 10px 24px; text-decoration:none; border-radius:4px; font-size:11px; letter-spacing:2px; text-transform:uppercase; margin-bottom:24px;">
-                Plan Your Royal Journey
-              </a>
-
-              <div style="border-top:1px solid rgba(255,255,255,0.05); padding-top:16px;">
-                <p style="margin:0; font-size:10px; color:rgba(255,255,255,0.2); letter-spacing:0.5px;">
-                  &copy; ${year} Chittorgarh Tourism. All rights reserved. &nbsp;·&nbsp; Rajasthan, India
+              <div style="border-top:1px solid rgba(255,255,255,0.06); padding-top:25px;">
+                <p style="margin:0; font-size:11px; color:rgba(255,255,255,0.4); letter-spacing:0.5px;">
+                  &copy; ${year} Chittorgarh Tourism. All rights reserved.
                 </p>
-                <p style="margin:4px 0 0; font-size:10px; color:rgba(255,255,255,0.2); font-style:italic; letter-spacing:0.5px;">
-                  Designed with ❤️ by Kush Sharma
+                <p style="margin:8px 0 0; font-size:12px; color:#D4AF37; font-weight:600; letter-spacing:0.5px;">
+                  Made with ❤️ by Kush Sharma
                 </p>
-                <p style="margin:6px 0 0; font-size:10px; color:rgba(255,255,255,0.15);">
-                  You received this because someone shared this heritage site with you.
+                <p style="margin:16px 0 0; font-size:11px; color:rgba(255,255,255,0.2); line-height:1.5; font-style:italic;">
+                  This culinary guide was shared with you to celebrate the flavours of Rajasthan.
                 </p>
               </div>
             </td>
@@ -223,7 +237,7 @@ export async function POST(request) {
 
 </body>
 </html>
-            `,
+      `,
     };
 
     await transporter.sendMail(mailOptions);
