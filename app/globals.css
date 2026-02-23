@@ -286,7 +286,7 @@ h1 {
   align-items: center;
   justify-content: center;
   position: relative;
-  background: url('/hero_bg.png') center / cover no-repeat;
+  background: url('/hero_bg.jpg') center / cover no-repeat;
   text-align: center;
   color: #fff;
 }
