@@ -145,7 +145,7 @@ export default function Footer() {
                         by{" "}
                         <span className="footer-author">Kush Sharma</span>
                         {" "}
-                        <span className="footer-location">· Chittorgarh, Rajasthan</span>
+                        <span className="footer-location">Chittorgarh, Rajasthan</span>
                     </p>
                 </div>
             </div>
