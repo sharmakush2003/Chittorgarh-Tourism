@@ -51,6 +51,7 @@ export default function Navbar() {
         { href: "/explore", label: t("nav.explore") },
         { href: "/chronicles", label: t("nav.chronicles") },
         { href: "/stays", label: t("nav.stays") },
+        { href: "/cuisine", label: t("nav.cuisine") || "Local Cuisines" },
         { href: "/plan", label: t("nav.planTrip") },
         { href: "/how-to-reach", label: t("nav.howToReach") },
     ];

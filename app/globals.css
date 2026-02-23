@@ -327,6 +327,8 @@ h1 {
   font-weight: 300;
   font-size: 0.65em;
   color: var(--gold);
+  margin-top: -0.25em;
+  /* Pulls the second line much closer to the first */
 }
 
 .hero-sub {

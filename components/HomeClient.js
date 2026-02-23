@@ -24,7 +24,6 @@ export default function HomeClient() {
                     </div>
                     <h1 className="reveal">
                         <span>{t("hero.line1")}</span>
-                        <br />
                         <em>{t("hero.line2")}</em>
                     </h1>
                     <p className="hero-sub reveal">

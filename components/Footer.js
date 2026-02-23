@@ -42,6 +42,11 @@ export default function Footer() {
                                 </Link>
                             </li>
                             <li>
+                                <Link href="/cuisine">
+                                    {t("nav.cuisine") || "Local Cuisines"}
+                                </Link>
+                            </li>
+                            <li>
                                 <Link href="/plan">
                                     {t("nav.planTrip")}
                                 </Link>
