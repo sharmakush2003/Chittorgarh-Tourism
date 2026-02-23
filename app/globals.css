@@ -660,8 +660,8 @@ h1 {
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  gap: 2rem;
-  padding: 6rem 2rem 3rem;
+  gap: 1.5rem;
+  padding: 7rem 2rem 4rem;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
   transform: translateX(100%);
@@ -673,11 +673,13 @@ h1 {
 }
 
 .mobile-nav a {
-  font-size: 1.5rem;
+  font-size: 1.0rem;
   font-family: var(--ff-display);
-  letter-spacing: 2px;
+  letter-spacing: 4px;
   text-transform: uppercase;
   color: #fff;
+  transition: all 0.3s ease;
+  opacity: 0.9;
 }
 
 .mobile-nav a.active {
