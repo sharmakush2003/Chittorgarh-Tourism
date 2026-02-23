@@ -137,14 +137,14 @@ export default function Footer() {
                 {/* Bottom bar */}
                 <div className="footer-bottom">
                     <p className="footer-copy">{t("footer.copy")}</p>
+                    <p className="footer-copy">All Rights Reserved</p>
                     <p className="footer-made-with">
                         Made with{" "}
-                        <span className="footer-heart" aria-label="love">
-                            ❤️
-                        </span>{" "}
-                        by{" "}
+                        <span className="footer-heart" aria-label="love">❤️</span>
+                        {" "}by{" "}
                         <span className="footer-author">Kush Sharma</span>
-                        {" "}
+                    </p>
+                    <p className="footer-copy">
                         <span className="footer-location">Chittorgarh, Rajasthan</span>
                     </p>
                 </div>
