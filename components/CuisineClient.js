@@ -10,27 +10,23 @@ export default function CuisineClient() {
     const dishes = [
         {
             id: "c1",
-            symbol: "🍛",
-        },
-        {
-            id: "c2",
-            symbol: "🌶️",
+            image: "/Cuisines/Dal Bati.jpg",
         },
         {
             id: "c3",
-            symbol: "🥘",
+            image: "/Cuisines/Gatte Ki Sabzi.jpg",
         },
         {
             id: "c4",
-            symbol: "🌿",
+            image: "/Cuisines/Ker sangri.jpg",
         },
         {
             id: "c5",
-            symbol: "🥟",
+            image: "/Cuisines/Pyaaz kachori.jpg",
         },
         {
             id: "c6",
-            symbol: "🍰",
+            image: "/Cuisines/Gevar.jpg",
         }
     ];
 
@@ -233,7 +229,11 @@ function DishCard({ dish, delay, t }) {
         <>
             <div className={`glass-card reveal reveal-delay-${delay} ${isVisible ? 'visible' : ''}`}>
                 <div className="card-icon-wrapper">
-                    {dish.symbol}
+                    {dish.image ? (
+                        <img src={dish.image} alt={t(`cui.${dish.id}.name`)} className="card-img" />
+                    ) : (
+                        dish.symbol
+                    )}
                 </div>
 
                 <div className="card-content">
@@ -300,7 +300,8 @@ function DishCard({ dish, delay, t }) {
                 .glass-card { background: rgba(28, 20, 15, 0.65); border: 1px solid rgba(212, 175, 55, 0.2); border-radius: 20px; display: flex; flex-direction: column; transition: all 0.4s ease; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); position: relative; overflow: hidden; opacity: 0; transform: translateY(20px); }
                 .glass-card.visible { opacity: 1; transform: translateY(0); }
                 .glass-card:hover { background: rgba(28, 20, 15, 0.8); border-color: rgba(212, 175, 55, 0.5); transform: translateY(-10px); box-shadow: 0 20px 50px rgba(0,0,0,0.4); }
-                .card-icon-wrapper { width: 100%; height: 200px; display: flex; align-items: center; justify-content: center; font-size: 5rem; background: linear-gradient(135deg, rgba(28,20,15,0.4) 0%, rgba(212,175,55,0.1) 100%); border-bottom: 1px solid rgba(255,255,255,0.05); }
+                .card-icon-wrapper { width: 100%; height: 200px; display: flex; align-items: center; justify-content: center; font-size: 5rem; background: linear-gradient(135deg, rgba(28,20,15,0.4) 0%, rgba(212,175,55,0.1) 100%); border-bottom: 1px solid rgba(255,255,255,0.05); overflow: hidden; }
+                .card-img { width: 100%; height: 100%; object-fit: cover; }
                 .card-content { padding: 2rem; flex-grow: 1; display: flex; flex-direction: column; }
                 .card-title { font-family: var(--ff-display); font-size: 1.6rem; color: var(--gold); margin-bottom: 1rem; text-align: center; line-height: 1.2; }
                 .card-desc { font-size: 0.95rem; font-family: var(--ff-body); color: rgba(255, 255, 255, 0.8); line-height: 1.6; text-align: center; margin-bottom: 1.5rem; flex-grow: 1; }
