@@ -24,16 +24,14 @@ function getInitialLang() {
 // Use 'en' as the initial state so SSR matches the first client render (Hydration fix)
 export function LanguageProvider({ children }) {
     const [lang, setLang] = useState('en');
-    const [translations, setTranslations] = useState(enTranslations);
-    const [loading, setLoading] = useState(false);
+    const [translations, setTranslations] = useState(null);
+    const [loading, setLoading] = useState(true);
     const [isMounted, setIsMounted] = useState(false);
 
     // Run once on mount to get the actual saved language
     useEffect(() => {
         const savedLang = getInitialLang();
-        if (savedLang !== 'en') {
-            setLang(savedLang);
-        }
+        setLang(savedLang);
         setIsMounted(true);
     }, []);
 
@@ -41,28 +39,27 @@ export function LanguageProvider({ children }) {
         if (!isMounted) return;
 
         const loadTranslations = async () => {
-            // If it's English, we already have it in state from initialization
+            setLoading(true);
             if (lang === 'en') {
                 setTranslations(enTranslations);
                 setLoading(false);
                 return;
             }
 
-            setLoading(true);
             try {
-                // Removed cache-busting timestamp to allow browser caching
-                const res = await fetch(`/translations/${lang}.json`);
+                // Restore cache-busting for strict freshness if that was part of original intent
+                const res = await fetch(`/translations/${lang}.json?v=${new Date().getTime()}`);
 
                 if (!res.ok) {
-                    console.warn(`Translation file not found for ${lang}. Falling back to English.`);
-                    setTranslations(enTranslations);
+                    console.warn(`Translation file not found for ${lang}. Falling back to empty.`);
+                    setTranslations({});
                 } else {
                     const data = await res.json();
                     setTranslations(data);
                 }
             } catch (err) {
                 console.error("Language load failed:", err);
-                setTranslations(enTranslations);
+                setTranslations({});
             } finally {
                 setLoading(false);
             }
@@ -76,7 +73,7 @@ export function LanguageProvider({ children }) {
     }, [lang, isMounted]);
 
     const t = (key) => {
-        if (!translations) return enTranslations[key] || key;
+        if (!translations) return "";
         if (translations[key]) return translations[key];
 
         // Fallback to English if key missing in current language
@@ -88,8 +85,11 @@ export function LanguageProvider({ children }) {
         localStorage.setItem("ctt_locale", code);
     };
 
-    // We no longer return null here to avoid blank screen on init.
-    // Instead, we always provide the context. SSR will use 'en'.
+    // Prevent hydration mismatch by not rendering until mounted client-side.
+    // Also pause render until the specific language's translations are loaded 
+    // to prevent Flash of English Content.
+    if (!isMounted || loading || !translations) return null;
+
     return (
         <LanguageContext.Provider value={{ lang, changeLanguage, t, loading }}>
             {/* The key={lang} enforces a full component tree remount matching the requirement */}
