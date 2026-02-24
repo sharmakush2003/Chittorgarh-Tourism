@@ -27,6 +27,7 @@ export default function PlanClient() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        triggerHaptic('light');
         setStatus("loading");
 
         // 1. Send Email (PRIMARY GOAL) - Wrapped in Timeout

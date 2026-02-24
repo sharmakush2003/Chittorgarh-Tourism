@@ -329,6 +329,7 @@ function GlassCard({ title, desc, time, dist, delay, link, image, imgPos = 'cent
 
     const handleSendEmail = async (e) => {
         e.preventDefault();
+        triggerHaptic('light');
         setSending(true);
         setStatus(null);
 
