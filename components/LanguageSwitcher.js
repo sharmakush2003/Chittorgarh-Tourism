@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useLanguage } from "@/context/LanguageContext";
+import { triggerHaptic } from "@/lib/haptics";
 
 export default function LanguageSwitcher() {
     const [isOpen, setIsOpen] = useState(false);
@@ -26,7 +27,7 @@ export default function LanguageSwitcher() {
     return (
         <div className="lang-bar" id="lang-bar" style={{ position: 'fixed', bottom: 0, width: '100%', zIndex: 100, background: '#1A1108', padding: '0.5rem 2rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderTop: '1px solid rgba(255,255,255,0.05)' }}>
             <div id="lang-switcher" className={`lang-switcher ${isOpen ? "open" : ""}`} style={{ position: 'relative' }}>
-                <button className="ls-btn" aria-label="Switch Language" onClick={() => setIsOpen(!isOpen)} style={{ background: 'transparent', border: 'none', color: '#fff', fontSize: '0.8rem', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                <button className="ls-btn" aria-label="Switch Language" onClick={() => { setIsOpen(!isOpen); triggerHaptic('light'); }} style={{ background: 'transparent', border: 'none', color: '#fff', fontSize: '0.8rem', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                     🌐 <span id="lang-indicator">{getLabel(lang)}</span> ▾
                 </button>
                 {isOpen && (

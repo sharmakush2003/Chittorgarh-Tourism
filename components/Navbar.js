@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useLanguage } from "@/context/LanguageContext";
+import { triggerHaptic } from "@/lib/haptics";
 
 export default function Navbar() {
     const [scrolled, setScrolled] = useState(false);
@@ -78,7 +79,7 @@ export default function Navbar() {
                     <li className="nav-lang-selector" ref={langRef}>
                         <button
                             className="nav-lang-btn"
-                            onClick={() => setIsLangOpen(!isLangOpen)}
+                            onClick={() => { setIsLangOpen(!isLangOpen); triggerHaptic('light'); }}
                             aria-label="Switch Language"
                         >
                             <span className="lang-icon">🌐</span>
@@ -112,7 +113,7 @@ export default function Navbar() {
                 {/* Mobile Menu Button */}
                 <button
                     className={`mobile-menu-btn ${isMenuOpen ? "open" : ""}`}
-                    onClick={() => setIsMenuOpen(!isMenuOpen)}
+                    onClick={() => { setIsMenuOpen(!isMenuOpen); triggerHaptic('light'); }}
                     aria-label="Toggle Menu"
                 >
                     <span></span>

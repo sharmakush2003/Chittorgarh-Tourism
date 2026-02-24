@@ -2,6 +2,7 @@
 
 import { createContext, useContext, useState, useEffect } from "react";
 import enTranslations from "@/public/translations/en.json";
+import { triggerHaptic } from "@/lib/haptics";
 
 const LanguageContext = createContext();
 
@@ -83,6 +84,7 @@ export function LanguageProvider({ children }) {
     const changeLanguage = (code) => {
         setLang(code);
         localStorage.setItem("ctt_locale", code);
+        triggerHaptic('medium');
     };
 
     // Prevent hydration mismatch by not rendering until mounted client-side.

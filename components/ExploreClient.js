@@ -5,6 +5,7 @@ import { Flower, Calendar, MapPin, ArrowRight, Sun, Wind, Cloud, Ticket } from '
 import FortMap from "@/components/FortMap";
 import { useState, useEffect } from 'react';
 import { Share2, Navigation, X, Send } from 'lucide-react';
+import { triggerHaptic } from "@/lib/haptics";
 
 export default function ExploreClient() {
     const { t } = useLanguage();
@@ -321,6 +322,7 @@ function GlassCard({ title, desc, time, dist, delay, link, image, imgPos = 'cent
     }, []);
 
     const handleDirections = () => {
+        triggerHaptic('light');
         const destination = encodeURIComponent(`${title}, Chittorgarh`);
         window.open(`https://www.google.com/maps/dir/?api=1&destination=${destination}`, '_blank');
     };
@@ -347,6 +349,7 @@ function GlassCard({ title, desc, time, dist, delay, link, image, imgPos = 'cent
 
             if (res.ok) {
                 setStatus('success');
+                triggerHaptic('success');
                 setTimeout(() => {
                     setShowEmailModal(false);
                     setStatus(null);
@@ -414,7 +417,7 @@ function GlassCard({ title, desc, time, dist, delay, link, image, imgPos = 'cent
                         </button>
                         <div className="divider-vertical"></div>
                         <button
-                            onClick={() => setShowEmailModal(true)}
+                            onClick={() => { setShowEmailModal(true); triggerHaptic('light'); }}
                             className="action-btn-text"
                             title={t("btn.shareInfo")}
                         >

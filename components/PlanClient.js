@@ -3,6 +3,7 @@
 import { useLanguage } from "@/context/LanguageContext";
 import { useState } from "react";
 import { Ticket } from "lucide-react";
+import { triggerHaptic } from "@/lib/haptics";
 import { db } from "@/lib/firebase";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 
@@ -63,6 +64,7 @@ export default function PlanClient() {
             if (!response.ok) throw new Error("Server error");
 
             setStatus("success");
+            triggerHaptic('success');
             setFormData({ name: "", email: "", date: "", interest: "1 Day Tour" });
             setTimeout(() => setStatus("idle"), 5000);
         } catch (error) {
@@ -293,6 +295,7 @@ export default function PlanClient() {
                             target="_blank"
                             rel="noopener noreferrer"
                             className="book-tickets-btn"
+                            onClick={() => triggerHaptic('light')}
                             style={{
                                 display: 'inline-flex',
                                 alignItems: 'center',
@@ -323,7 +326,7 @@ export default function PlanClient() {
                             <button
                                 key={day}
                                 className={`tab-btn ${activeTab === day ? 'active' : ''}`}
-                                onClick={() => setActiveTab(day)}
+                                onClick={() => { setActiveTab(day); triggerHaptic('medium'); }}
                             >
                                 {day} {t("plan.tabLabel")}
                             </button>
@@ -403,7 +406,7 @@ export default function PlanClient() {
                             {t("plan.form.sending")} <strong>{activeTab} {t("plan.tabLabel")}</strong>
                         </div>
 
-                        <button className="btn-gold" style={{ width: "100%" }} disabled={status === 'loading'}>
+                        <button className="btn-gold" style={{ width: "100%" }} disabled={status === 'loading'} onClick={() => triggerHaptic('light')}>
                             {status === 'loading' ? t("plan.form.submitLoading") : t("plan.form.submitIdle")}
                         </button>
                         {status === 'success' && <p style={{ color: 'green', marginTop: '1rem', textAlign: 'center' }}>{t("plan.form.success")}</p>}

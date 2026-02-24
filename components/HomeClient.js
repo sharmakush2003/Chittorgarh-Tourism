@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useLanguage } from "@/context/LanguageContext";
 import WeatherWidget from "@/components/WeatherWidget";
 import VisitorStats from "@/components/VisitorStats";
+import { triggerHaptic } from "@/lib/haptics";
 
 export default function HomeClient() {
     const { t } = useLanguage();
@@ -30,7 +31,7 @@ export default function HomeClient() {
                         {t("hero.sub")}
                     </p>
                     <div className="hero-actions reveal">
-                        <Link href="/plan" className="btn-gold">
+                        <Link href="/plan" className="btn-gold" onClick={() => triggerHaptic('light')}>
                             {t("hero.cta1")}
                         </Link>
                     </div>
@@ -125,7 +126,7 @@ export default function HomeClient() {
                     <p className="reveal reveal-delay-2">
                         {t("cta.desc")}
                     </p>
-                    <Link href="/plan" className="btn-gold reveal reveal-delay-3">
+                    <Link href="/plan" className="btn-gold reveal reveal-delay-3" onClick={() => triggerHaptic('light')}>
                         {t("cta.btn")}
                     </Link>
                 </div>
