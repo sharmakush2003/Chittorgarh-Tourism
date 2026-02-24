@@ -21,10 +21,12 @@ export default function Background3D() {
         const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 100);
         camera.position.z = 3;
 
+        const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+
         const renderer = new THREE.WebGLRenderer({
             canvas: canvas,
             alpha: true,
-            antialias: true,
+            antialias: !isMobile,
             powerPreference: "high-performance"
         });
 
@@ -38,7 +40,9 @@ export default function Background3D() {
         updateSize();
 
         // Geometry
-        const particlesCount = 800;
+        // Geometry - Scale down for performance
+        const isMobileDevice = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+        const particlesCount = isMobileDevice ? 400 : 800;
         const positions = new Float32Array(particlesCount * 3);
         const colors = new Float32Array(particlesCount * 3);
         const scales = new Float32Array(particlesCount);
