@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useLanguage } from "@/context/LanguageContext";
 import WeatherWidget from "@/components/WeatherWidget";
 import VisitorStats from "@/components/VisitorStats";
+import FAQ from "@/components/FAQ";
 import { triggerHaptic } from "@/lib/haptics";
 
 export default function HomeClient() {
@@ -131,6 +132,10 @@ export default function HomeClient() {
                     </Link>
                 </div>
             </section>
+
+            {/* ═══ FAQ SECTION ══════════════════════════════ */}
+            <FAQ />
+
         </>
     );
 }
