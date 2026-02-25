@@ -1,12 +1,12 @@
 import HomeClient from "@/components/HomeClient";
 
 export const metadata = {
-  title: "Chittorgarh Tourism — The Saga of Bravery & Sacrifice",
-  description: "Discover Chittorgarh Fort — Rajasthan's mightiest citadel. Plan your journey, explore heritage sites, and immerse in the rich history of Mewar.",
-  keywords: ["Chittorgarh Fort", "Rajasthan Tourism", "Mewar History", "Rani Padmini", "Maharana Pratap", "Indian Heritage Sites"],
+  title: "Complete Guide to Visiting Chittorgarh Fort 2026",
+  description: "Discover the ultimate travel guide for Chittorgarh Fort. Find out the best places to see, local tips, and how to plan your journey to Rajasthan's history.",
+  keywords: ["Complete Guide to Visiting Chittorgarh Fort", "Best places to see in Chittorgarh", "Rajasthan Tourism", "Mewar History", "Rani Padmini", "Maharana Pratap", "Indian Heritage Sites"],
   openGraph: {
-    title: "Chittorgarh Tourism — The Saga of Bravery & Sacrifice",
-    description: "Discover Rajasthan's mightiest citadel.",
+    title: "Complete Guide to Visiting Chittorgarh Fort 2026",
+    description: "Discover the ultimate travel guide for Chittorgarh Fort. Find out the best places to see, local tips, and how to plan your journey to Rajasthan.",
     url: "https://chittorgarh-tourism-five.vercel.app",
     siteName: "Chittorgarh Tourism",
   },

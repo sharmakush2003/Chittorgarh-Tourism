@@ -1,11 +1,11 @@
 import StaysClient from "@/components/StaysClient";
 
 export const metadata = {
-    title: "Hotels & Stays in Chittorgarh — Best Accommodation",
-    description: "Find the best hotels and stays near Chittorgarh Fort. Browse premium heritage accommodation options from Kesarbagh Palace to Hotel Pride of Chittor.",
-    keywords: ["Chittorgarh hotels", "Chittorgarh stays", "heritage hotels Rajasthan", "Kesarbagh Palace", "accommodation near Chittorgarh Fort"],
+    title: "Best Hotels & Premium Stays near Chittorgarh Fort",
+    description: "Looking for where to stay? Find the best hotels, heritage properties, and premium stays near Chittorgarh Fort. Browse options from Kesarbagh Palace to Hotel Pride of Chittor.",
+    keywords: ["best hotels near Chittorgarh Fort", "where to stay in Chittorgarh", "premium heritage stays Rajasthan", "Kesarbagh Palace", "accommodation near Chittorgarh Fort"],
     openGraph: {
-        title: "Hotels & Stays in Chittorgarh — Best Accommodation",
+        title: "Best Hotels & Premium Stays near Chittorgarh Fort",
         description: "Premium hotels and heritage stays near Chittorgarh Fort, Rajasthan.",
         url: "https://chittorgarh-tourism-five.vercel.app/stays",
         siteName: "Chittorgarh Tourism",

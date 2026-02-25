@@ -24,11 +24,11 @@ const jost = Jost({
 export const metadata = {
   metadataBase: new URL('https://chittorgarh-tourism-five.vercel.app'),
   title: {
-    default: "Chittorgarh Tourism — The Saga of Bravery & Sacrifice",
-    template: "%s | Chittorgarh Tourism"
+    default: "Chittorgarh Tourism — Complete Guide to Rajasthan's Greatest Fort",
+    template: "%s | Chittorgarh Tourism & Guide"
   },
   description: "Discover Chittorgarh Fort — Rajasthan's mightiest citadel. Plan your journey, explore heritage sites, and immerse in the rich history of Mewar.",
-  keywords: ["Chittorgarh Fort", "Rajasthan Tourism", "Mewar History", "Rani Padmini", "Maharana Pratap", "Indian Heritage Sites"],
+  keywords: ["best places to visit in Chittorgarh", "Chittorgarh Fort travel guide", "how to visit Chittorgarh Rajasthan", "Rajasthan Tourism", "Mewar History", "Rani Padmini", "Maharana Pratap", "Indian Heritage Sites"],
   authors: [{ name: "Chittorgarh Tourism Authority" }],
   creator: "Chittorgarh Tourism",
   canonical: "https://chittorgarh-tourism-five.vercel.app",
@@ -40,8 +40,8 @@ export const metadata = {
     title: "Chittorgarh",
   },
   openGraph: {
-    title: "Chittorgarh Tourism — The Saga of Bravery & Sacrifice",
-    description: "Discover Rajasthan's mightiest citadel.",
+    title: "Chittorgarh Tourism — Complete Guide to Rajasthan's Greatest Fort",
+    description: "Plan your ultimate trip. Discover Rajasthan's mightiest citadel and best local attractions.",
     url: "https://chittorgarh-tourism-five.vercel.app",
     siteName: "Chittorgarh Tourism",
     images: [
@@ -58,8 +58,8 @@ export const metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Chittorgarh Tourism — The Saga of Bravery & Sacrifice",
-    description: "Discover Rajasthan's mightiest citadel.",
+    title: "Chittorgarh Tourism — Complete Guide to Rajasthan's Greatest Fort",
+    description: "Plan your ultimate trip. Discover Rajasthan's mightiest citadel and best local attractions.",
     images: ["/Poster-For-Chittorgarh-Tourism.png"],
   },
 };

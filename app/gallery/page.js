@@ -1,8 +1,15 @@
 import GalleryClient from './GalleryClient';
 
 export const metadata = {
-    title: "Gallery | Chittorgarh Tourism",
-    description: "Explore the stunning visual heritage of Chittorgarh Fort.",
+    title: "Chittorgarh Fort Photos & Heritage Gallery",
+    description: "View stunning HD photos and the visual heritage of Chittorgarh Fort. See pictures of the Vijay Stambha, ancient temples, and epic landscapes.",
+    keywords: ["Chittorgarh Fort photos", "images of Chittorgarh Fort inside", "Vijay Stambha pictures", "Chittorgarh Fort gallery", "Rajasthan fort photography"],
+    openGraph: {
+        title: "Chittorgarh Fort Photos & Heritage Gallery",
+        description: "Explore the stunning visual heritage and HD pictures of Chittorgarh Fort.",
+        url: "https://chittorgarh-tourism-five.vercel.app/gallery",
+        siteName: "Chittorgarh Tourism",
+    },
 };
 
 // Curated Heritage Captions

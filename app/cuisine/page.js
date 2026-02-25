@@ -1,11 +1,11 @@
 import CuisineClient from "@/components/CuisineClient";
 
 export const metadata = {
-    title: "Local Cuisines | Chittorgarh Tourism",
-    description: "Discover the authentic flavors and royal culinary heritage of Chittorgarh. Explore traditional Rajasthani dishes like Dal Bati Churma, Laal Maas, and Ghevar.",
+    title: "Best Authentic Local Food to Eat in Chittorgarh",
+    description: "Discover the best authentic Rajasthani food in Chittorgarh. Explore traditional dishes like Dal Bati Churma and find local restaurants near the Fort.",
     openGraph: {
-        title: "Local Cuisines | Chittorgarh Tourism",
-        description: "Discover the authentic flavors and royal culinary heritage of Chittorgarh.",
+        title: "Best Authentic Local Food to Eat in Chittorgarh",
+        description: "Discover the best authentic Rajasthani food and culinary heritage of Chittorgarh.",
         url: "https://chittorgarhtourism.com/cuisine",
         images: [
             {
