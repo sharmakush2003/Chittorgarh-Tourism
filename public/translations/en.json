@@ -478,5 +478,13 @@
     "blog.eyebrow": "Travel Insights & Guides",
     "blog.title": "Chittorgarh Blog",
     "blog.readBtn": "Read Article",
-    "blog.allArticles": "All Articles"
+    "blog.allArticles": "All Articles",
+    "bot.name": "Royal Guide",
+    "bot.greeting": "Welcome to Chittorgarh! I am your Royal Guide. How can I help you explore the fort today?",
+    "bot.placeholder": "Ask about history, food, or planning...",
+    "bot.action.plan": "Plan My Trip",
+    "bot.action.history": "Tell Me History",
+    "bot.action.reach": "How to Reach",
+    "bot.status.online": "Ready to guide you",
+    "bot.error": "I missed that. Could you say it again?"
 }

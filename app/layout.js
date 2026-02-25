@@ -5,6 +5,7 @@ import ScrollReveal from "@/components/ScrollReveal";
 import LanguagePrompt from "@/components/LanguagePrompt";
 import Background3D from "@/components/Background3D";
 import VisitorGate from "@/components/VisitorGate";
+import HeritageGuide from "@/components/HeritageGuide";
 import { LanguageProvider } from "@/context/LanguageContext";
 import "./globals.css";
 
@@ -104,6 +105,7 @@ export default function RootLayout({ children }) {
           <Navbar />
           <LanguagePrompt />
           {children}
+          <HeritageGuide />
           <Footer />
           <ScrollReveal />
         </LanguageProvider>

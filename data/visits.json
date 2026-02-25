@@ -1,6 +1,7 @@
 {
-  "total": 7,
+  "total": 34,
   "referrers": {
-    "Direct": 7
+    "Direct": 30,
+    "localhost": 4
   }
 }
