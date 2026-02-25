@@ -205,7 +205,8 @@ function DishCard({ dish, delay, t }) {
                     link: "https://chittorgarhtourism.com/cuisine",
                     image: dish.image,
                     time: t(`cui.${dish.id}.type`),
-                    dist: t(`cui.${dish.id}.spicy`)
+                    dist: t(`cui.${dish.id}.spicy`),
+                    category: 'cuisine'
                 }),
             });
 
@@ -323,7 +324,7 @@ function DishCard({ dish, delay, t }) {
                 .email-form { display: flex; flex-direction: column; gap: 1rem; }
                 .email-input { padding: 0.8rem; border-radius: 4px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.2); color: #fff; }
                 .email-input:focus { outline: none; border-color: var(--gold); }
-                .send-btn { background: var(--gold); color: #000; padding: 0.8rem; border-radius: 4px; font-weight: bold; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 0.5rem; transition: 0.2s; }
+                .send-btn { background: var(--gold); color: #000; border: none; padding: 0.8rem; border-radius: 4px; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 0.5rem; transition: 0.2s; width: 100%; }
                 .send-btn:hover:not(:disabled) { background: #fff; }
                 .send-btn:disabled { opacity: 0.7; cursor: not-allowed; }
                 .status-msg.success { color: #4ade80; margin-top: 1rem; font-size: 0.9rem; }

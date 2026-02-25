@@ -344,7 +344,8 @@ function GlassCard({ title, desc, time, dist, delay, link, image, imgPos = 'cent
                     link,
                     image,
                     time,
-                    dist
+                    dist,
+                    category: 'attraction'
                 }),
             });
 
@@ -768,6 +769,7 @@ function GlassCard({ title, desc, time, dist, delay, link, image, imgPos = 'cent
                     justify-content: center;
                     gap: 0.5rem;
                     transition: 0.2s;
+                    width: 100%;
                 }
                 
                 .send-btn:hover:not(:disabled) {

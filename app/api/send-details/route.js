@@ -96,7 +96,7 @@ function getPlaceInfo(placeName) {
 export async function POST(request) {
   try {
     const body = await request.json();
-    const { email, placeName, description, link, image, time, dist } = body;
+    const { email, placeName, description, link, image, time, dist, category } = body;
 
     if (!email || !placeName) {
       return NextResponse.json({ message: 'Missing required fields' }, { status: 400 });
@@ -114,21 +114,56 @@ export async function POST(request) {
       auth: { user: emailUser, pass: emailPass },
     });
 
-    const { subject, tagline, emoji } = getPlaceInfo(placeName);
+    const { subject: attrSubject, tagline, emoji } = getPlaceInfo(placeName);
     const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://chittorgarh-tourism-five.vercel.app';
     const year = new Date().getFullYear();
+
+    // DYNAMIC METADATA BASED ON CATEGORY
+    let emailSubject = attrSubject;
+    let categoryLabel = 'Heritage Experience';
+    let label1Name = 'Distance';
+    let label2Name = 'Visit Time';
+    let label1Icon = '📍';
+    let label2Icon = '⏰';
+    let footerTag = 'This heritage guide was shared with you to celebrate the glory of Chittorgarh.';
+
+    if (category === 'cuisine') {
+      emailSubject = `A Taste of Rajasthan: ${placeName} — Your Culinary Guide`;
+      categoryLabel = 'Traditional Cuisine';
+      label1Name = 'Spice Level';
+      label2Name = 'Category';
+      label1Icon = '🔥';
+      label2Icon = '🍽️';
+      footerTag = 'This culinary guide was shared with you to celebrate the flavours of Rajasthan.';
+    } else if (category === 'stay') {
+      emailSubject = `Your Royal Retreat: ${placeName} — Stay Details`;
+      categoryLabel = 'Heritage Stay';
+      label1Name = 'Distance';
+      label2Name = 'Room Types';
+      label1Icon = '📍';
+      label2Icon = '🏨';
+      footerTag = 'This stay information was shared with you to help plan your royal visit.';
+    } else {
+      // Default / Attraction
+      emailSubject = attrSubject;
+      categoryLabel = 'Major Attraction';
+      label1Name = 'Distance';
+      label2Name = 'Best Time';
+      label1Icon = '📍';
+      label2Icon = '⏳';
+    }
 
     const mailOptions = {
       from: `"Chittorgarh Tourism" <${emailUser}>`,
       to: email,
-      subject: `A Taste of Rajasthan: ${placeName} — Your Culinary Guide`,
+      subject: emailSubject,
       html: `
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>A Taste of Rajasthan: ${placeName}</title>
+  <title>${emailSubject}</title>
 </head>
 <body style="margin:0; padding:0; background-color:#140F0B; font-family:'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
 
@@ -170,7 +205,7 @@ export async function POST(request) {
               
               <!-- CATEGORY TAG -->
               <div style="text-align:center; margin-bottom:24px;">
-                <span style="display:inline-block; padding: 6px 16px; background:rgba(212,175,55,0.12); border:1px solid rgba(212,175,55,0.3); border-radius:50px; color:#D4AF37; font-size:11px; font-weight:700; letter-spacing:2px; text-transform:uppercase;">${time || 'Traditional Cuisine'}</span>
+                <span style="display:inline-block; padding: 6px 16px; background:rgba(212,175,55,0.12); border:1px solid rgba(212,175,55,0.3); border-radius:50px; color:#D4AF37; font-size:11px; font-weight:700; letter-spacing:2px; text-transform:uppercase;">${categoryLabel}</span>
               </div>
 
               <div style="width:120px; height:1px; background:linear-gradient(90deg, transparent, #D4AF37, transparent); margin: 0 auto 30px;"></div>
@@ -185,28 +220,24 @@ export async function POST(request) {
               <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.06); border-radius:16px; padding: 25px;">
                 <tr>
                   <td width="50%" align="center" style="border-right:1px solid rgba(255,255,255,0.1);">
-                    <div style="font-size:24px; margin-bottom:8px;">🔥</div>
-                    <p style="margin:0 0 4px; font-size:9px; color:rgba(255,255,255,0.4); letter-spacing:2px; text-transform:uppercase; font-weight:700;">Spice Level</p>
-                    <p style="margin:0; font-size:15px; color:#FFF; font-weight:500;">${dist || 'Authentic'}</p>
+                    <div style="font-size:24px; margin-bottom:8px;">${label1Icon}</div>
+                    <p style="margin:0 0 4px; font-size:9px; color:rgba(255,255,255,0.4); letter-spacing:2px; text-transform:uppercase; font-weight:700;">${label1Name}</p>
+                    <p style="margin:0; font-size:15px; color:#FFF; font-weight:500;">${dist || 'Heritage Site'}</p>
                   </td>
                   <td width="50%" align="center">
-                    <div style="font-size:24px; margin-bottom:8px;">🍽</div>
-                    <p style="margin:0 0 4px; font-size:9px; color:rgba(255,255,255,0.4); letter-spacing:2px; text-transform:uppercase; font-weight:700;">Serving Style</p>
-                    <p style="margin:0; font-size:15px; color:#FFF; font-weight:500;">Royal Platter</p>
+                    <div style="font-size:24px; margin-bottom:8px;">${label2Icon}</div>
+                    <p style="margin:0 0 4px; font-size:9px; color:rgba(255,255,255,0.4); letter-spacing:2px; text-transform:uppercase; font-weight:700;">${label2Name}</p>
+                    <p style="margin:0; font-size:15px; color:#FFF; font-weight:500;">${time || 'Royal Experience'}</p>
                   </td>
                 </tr>
               </table>
             </td>
           </tr>
 
-          <!-- ORNAMENTAL DIVIDER -->
+          <!-- CTA BUTTON -->
           <tr>
             <td align="center" style="padding: 0 40px 40px;">
-              <div style="display:flex; align-items:center; opacity:0.2;">
-                <div style="flex:1; height:1px; background:linear-gradient(90deg, transparent, #D4AF37);"></div>
-                <div style="margin: 0 15px; color:#D4AF37; font-size:10px;">◆</div>
-                <div style="flex:1; height:1px; background:linear-gradient(90deg, #D4AF37, transparent);"></div>
-              </div>
+              <a href="${link}" style="display:inline-block; padding: 16px 40px; background:#D4AF37; color:#140F0B; text-decoration:none; border-radius:8px; font-weight:700; font-size:14px; letter-spacing:1px; text-transform:uppercase; transition: 0.3s; box-shadow: 0 10px 20px rgba(212,175,55,0.2);">Plan Your Visit</a>
             </td>
           </tr>
 
@@ -221,10 +252,10 @@ export async function POST(request) {
                   &copy; ${year} Chittorgarh Tourism. All rights reserved.
                 </p>
                 <p style="margin:8px 0 0; font-size:12px; color:#D4AF37; font-weight:600; letter-spacing:0.5px;">
-                  Made with ❤️ by Kush Sharma
+                  Developed by Kush Sharma
                 </p>
                 <p style="margin:16px 0 0; font-size:11px; color:rgba(255,255,255,0.2); line-height:1.5; font-style:italic;">
-                  This culinary guide was shared with you to celebrate the flavours of Rajasthan.
+                  ${footerTag}
                 </p>
               </div>
             </td>

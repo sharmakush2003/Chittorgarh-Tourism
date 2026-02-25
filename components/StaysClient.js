@@ -215,7 +215,8 @@ function HotelGlassCard({ hotel, delay, t }) {
                     link: hotel.mmtUrl,
                     image: hotel.image,
                     time: t(`hotel.${hotel.id}.rooms`),
-                    dist: hotel.distStation
+                    dist: hotel.distStation,
+                    category: 'stay'
                 }),
             });
 
@@ -358,12 +359,16 @@ function HotelGlassCard({ hotel, delay, t }) {
                 .read-more { color: var(--gold); font-size: 0.75rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; display: flex; align-items: center; gap: 0.5rem; }
                 .modal-overlay { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.8); display: flex; align-items: center; justify-content: center; z-index: 1000; backdrop-filter: blur(5px); }
                 .modal-content { background: #1a1510; border: 1px solid var(--gold); padding: 2.5rem; border-radius: 12px; width: 90%; max-width: 400px; position: relative; text-align: center; }
-                .close-btn { position: absolute; top: 15px; right: 15px; color: #fff; }
+                .close-btn { position: absolute; top: 15px; right: 15px; color: #fff; background: none; border: none; cursor: pointer; opacity: 0.7; transition: 0.2s; }
+                .close-btn:hover { opacity: 1; transform: rotate(90deg); }
                 .modal-title { color: var(--gold); font-family: var(--ff-display); font-size: 1.5rem; margin-bottom: 0.5rem; }
                 .modal-subtitle { color: #ccc; font-size: 0.85rem; margin-bottom: 1.5rem; }
                 .email-form { display: flex; flex-direction: column; gap: 1rem; }
                 .email-input { padding: 0.8rem; border-radius: 4px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.2); color: #fff; }
-                .send-btn { background: var(--gold); padding: 0.8rem; border-radius: 4px; font-weight: bold; display: flex; align-items: center; justify-content: center; gap: 0.5rem; }
+                .email-input:focus { outline: none; border-color: var(--gold); }
+                .send-btn { background: var(--gold); color: #000; border: none; padding: 0.8rem; border-radius: 4px; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 0.5rem; transition: 0.2s; width: 100%; }
+                .send-btn:hover:not(:disabled) { background: #fff; }
+                .send-btn:disabled { opacity: 0.7; cursor: not-allowed; }
                 .status-msg.success { color: #4ade80; margin-top: 1rem; }
                 .status-msg.error { color: #f87171; margin-top: 1rem; }
             `}</style>
