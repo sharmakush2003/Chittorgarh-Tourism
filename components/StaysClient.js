@@ -129,6 +129,15 @@ export default function StaysClient() {
             {/* ═══ HOTELS CONTENT ════════════════════════ */}
             <section className="section-pad" style={{ paddingTop: 0 }}>
                 <div className="container">
+
+                    {/* ═══ RTDC INTERCEPT BLOCK ════════════════ */}
+                    <div className="rtdc-intercept">
+                        <div className="rtdc-content">
+                            <h3 className="rtdc-title">{t("stays.rtdc.title")}</h3>
+                            <p className="rtdc-desc">{t("stays.rtdc.desc")}</p>
+                        </div>
+                    </div>
+
                     <div className="hotel-grid">
                         {hotels.map((hotel, index) => (
                             <HotelGlassCard
@@ -139,8 +148,36 @@ export default function StaysClient() {
                             />
                         ))}
                     </div>
+
                 </div>
             </section>
+
+            <style jsx>{`
+                .rtdc-intercept {
+                    margin-bottom: 3rem;
+                    background: linear-gradient(145deg, rgba(28, 20, 15, 0.9), rgba(15, 10, 6, 0.95));
+                    border: 1px solid rgba(212, 175, 55, 0.3);
+                    border-radius: 16px;
+                    padding: 2.5rem;
+                    text-align: center;
+                    backdrop-filter: blur(10px);
+                    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+                }
+                .rtdc-title {
+                    font-family: var(--ff-display);
+                    color: var(--gold);
+                    font-size: 1.8rem;
+                    margin-bottom: 1rem;
+                }
+                .rtdc-desc {
+                    color: rgba(255, 255, 255, 0.8);
+                    font-size: 1rem;
+                    line-height: 1.6;
+                    max-width: 800px;
+                    margin: 0 auto;
+                }
+            `}</style>
+
         </div>
     );
 }
