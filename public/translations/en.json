@@ -9,8 +9,8 @@
     "plan.title1": "Craft Your",
     "plan.title2": "Royal Journey",
     "hero.badge": "Est. 7th Century · Rajasthan, India",
-    "hero.line1": "The Saga of",
-    "hero.line2": "Bravery & Sacrifice",
+    "hero.line1": "Experience Chittorgarh:",
+    "hero.line2": "India's Greatest Fort",
     "hero.sub": "Walk through 700 acres of living history. A fort that witnessed the rise and fall of empires, built in stone, and kept alive through legend.",
     "hero.cta1": "Plan Your Journey →",
     "stats.l1": "Annual Visitors",
@@ -486,5 +486,8 @@
     "bot.action.history": "Tell Me History",
     "bot.action.reach": "How to Reach",
     "bot.status.online": "Ready to guide you",
-    "bot.error": "I missed that. Could you say it again?"
+    "bot.error": "I missed that. Could you say it again?",
+    "bc.home": "Home",
+    "bc.explore": "Explore Chittorgarh",
+    "bc.plan": "Plan Your Visit"
 }

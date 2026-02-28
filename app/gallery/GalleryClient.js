@@ -79,7 +79,7 @@ export default function GalleryClient({ images }) {
                                 onClick={() => setSelectedIndex(idx)}
                             >
                                 <div className="gallery-item-image">
-                                    <img src={item.src} alt={`Heritage Visual ${idx + 1}`} loading="lazy" />
+                                    <img src={item.src} alt={item.caption} loading="lazy" />
                                     <div className="expand-hint">
                                         <Maximize2 size={24} />
                                     </div>
@@ -113,7 +113,7 @@ export default function GalleryClient({ images }) {
                     <div className="lightbox-content" onClick={(e) => e.stopPropagation()}>
                         <img
                             src={images[selectedIndex].src}
-                            alt={`Expanded Heritage Visual ${selectedIndex + 1}`}
+                            alt={images[selectedIndex].caption}
                             className="lightbox-img"
                         />
                         <div className="lightbox-caption">

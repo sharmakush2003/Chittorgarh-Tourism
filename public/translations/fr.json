@@ -9,8 +9,8 @@
     "plan.title1": "Céez Votre",
     "plan.title2": "Voyage Royal",
     "hero.badge": "Fondé au 7e siècle · Rajasthan, Inde",
-    "hero.line1": "La Saga de",
-    "hero.line2": "Bravoure & Sacrifice",
+    "hero.line1": "Découvrez Chittorgarh :",
+    "hero.line2": "Le plus grand fort d'Inde",
     "hero.sub": "Parcourez 700 acres d'histoire vivante. Un fort témoin de la montée et chute d'empires, bâti en pierre, immortalisé par la légende.",
     "hero.cta1": "Planifier votre voyage →",
     "stats.l1": "Visiteurs annuels",
@@ -451,5 +451,8 @@
     "art.c2.cta": "Voir la Collection →",
     "art.c3.title": "Bijoux Thewa",
     "art.c3.desc": "Filigrane doré exquis sur verre — un artisanat royal né à Pratapgarh, exclusif à cette région.",
-    "art.c3.cta": "Voir la Collection →"
+    "art.c3.cta": "Voir la Collection →",
+    "bc.home": "Accueil",
+    "bc.explore": "Explorer Chittorgarh",
+    "bc.plan": "Planifiez votre visite"
 }

@@ -25,12 +25,27 @@ const jost = Jost({
 export const metadata = {
   metadataBase: new URL('https://chittorgarh-tourism-five.vercel.app'),
   title: {
-    default: "Chittorgarh Tourism — Complete Guide to Rajasthan's Greatest Fort",
-    template: "%s | Chittorgarh Tourism & Guide"
+    default: "Chittorgarh Tourism — Official Guide to Rajasthan's Greatest Fort",
+    template: "%s | Chittorgarh Tourism"
   },
-  description: "Discover Chittorgarh Fort — Rajasthan's mightiest citadel. Plan your journey, explore heritage sites, and immerse in the rich history of Mewar.",
-  keywords: ["best places to visit in Chittorgarh", "Chittorgarh Fort travel guide", "how to visit Chittorgarh Rajasthan", "Rajasthan Tourism", "Mewar History", "Rani Padmini", "Maharana Pratap", "Indian Heritage Sites"],
-  authors: [{ name: "Chittorgarh Tourism Authority" }],
+  description: "Official guide to Chittorgarh Fort, Rajasthan. Explore the UNESCO World Heritage Site, Rani Padmini's Palace, Vijay Stambh, and plan your perfect heritage trip.",
+  alternates: {
+    canonical: 'https://chittorgarh-tourism-five.vercel.app',
+  },
+  keywords: [
+    "Chittorgarh",
+    "Chittorgarh Fort",
+    "Chittorgarh Tourism",
+    "best places to visit in Chittorgarh",
+    "Chittorgarh Fort travel guide",
+    "Rajasthan Tourism",
+    "Mewar History",
+    "Rani Padmini",
+    "Vijay Stambh",
+    "Kirti Stambh",
+    "Chittaurgarh"
+  ],
+  authors: [{ name: "Chittorgarh Tourism" }],
   creator: "Chittorgarh Tourism",
   canonical: "https://chittorgarh-tourism-five.vercel.app",
   manifest: "/manifest.json",
@@ -42,7 +57,7 @@ export const metadata = {
   },
   openGraph: {
     title: "Chittorgarh Tourism — Complete Guide to Rajasthan's Greatest Fort",
-    description: "Plan your ultimate trip. Discover Rajasthan's mightiest citadel and best local attractions.",
+    description: "Discover the saga of bravery and sacrifice. Plan your ultimate trip to Rajasthan's mightiest citadel.",
     url: "https://chittorgarh-tourism-five.vercel.app",
     siteName: "Chittorgarh Tourism",
     images: [
@@ -72,7 +87,7 @@ export const viewport = {
 };
 
 export default function RootLayout({ children }) {
-  const jsonLd = {
+  const touristAttractionSchema = {
     '@context': 'https://schema.org',
     '@type': 'TouristAttraction',
     name: 'Chittorgarh Fort',
@@ -92,12 +107,41 @@ export default function RootLayout({ children }) {
     }
   };
 
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://chittorgarh-tourism-five.vercel.app"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Explore",
+        "item": "https://chittorgarh-tourism-five.vercel.app/explore"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Plan Your Visit",
+        "item": "https://chittorgarh-tourism-five.vercel.app/plan"
+      }
+    ]
+  };
+
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${cormorant.variable} ${jost.variable}`}>
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(touristAttractionSchema) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
         />
         <Background3D />
         <LanguageProvider>

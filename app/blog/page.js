@@ -5,6 +5,9 @@ import BlogClient from "@/components/BlogClient";
 export const metadata = {
     title: "Chittorgarh Travel Blog — Guides, Tips & History",
     description: "Read expert travel guides, historical stories, and insider tips about Chittorgarh. Plan your visit to Rajasthan's greatest fort with our curated articles.",
+    alternates: {
+        canonical: 'https://chittorgarh-tourism-five.vercel.app/blog',
+    },
     keywords: ["Chittorgarh travel blog", "Chittorgarh guide", "Rajasthan travel articles", "Chittorgarh Fort tips"],
 };
 

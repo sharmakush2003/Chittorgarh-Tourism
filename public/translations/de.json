@@ -9,8 +9,8 @@
     "plan.title1": "Gestalten Sie Ihre",
     "plan.title2": "Königliche Reise",
     "hero.badge": "Gegr. 7. Jahrhundert · Rajasthan, Indien",
-    "hero.line1": "Die Saga von",
-    "hero.line2": "Tapferkeit & Opfer",
+    "hero.line1": "Erlebe Chittorgarh:",
+    "hero.line2": "Indiens größte Festung",
     "hero.sub": "Wandern Sie durch 700 Acres lebendiger Geschichte. Eine Festung, die den Aufstieg und Fall von Imperien bezeugte, in Stein erbaut und durch Legende am Leben erhalten.",
     "hero.cta1": "Ihre Reise planen →",
     "stats.l1": "Jährliche Besucher",
@@ -439,5 +439,8 @@
     "stays.rtdc.desc": "Das RTDC Hotel Panna ist sehr beliebt, aber in der Hochsaison oft ausgebucht. Die unten aufgeführten privaten Heritage-Hotels bieten ähnlichen Komfort, Nähe zum Fort und ein authentisches Erlebnis.",
     "blog.eyebrow": "Reiseeinblicke & Reiseführer",
     "blog.readBtn": "Artikel lesen",
-    "blog.allArticles": "Alle Artikel"
+    "blog.allArticles": "Alle Artikel",
+    "bc.home": "Startseite",
+    "bc.explore": "Chittorgarh erkunden",
+    "bc.plan": "Ihren Besuch planen"
 }

@@ -37,6 +37,9 @@ export async function generateMetadata({ params }) {
     return {
         title: article.title,
         description: article.description,
+        alternates: {
+            canonical: `https://chittorgarh-tourism-five.vercel.app/blog/${slug}`,
+        },
         keywords: article.keywords,
         openGraph: {
             title: article.title,
