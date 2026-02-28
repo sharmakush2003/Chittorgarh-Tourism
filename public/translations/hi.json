@@ -486,5 +486,8 @@
     "bot.error": "मैं समझ नहीं पाया। क्या आप दोहरा सकते हैं?",
     "bc.home": "होम",
     "bc.explore": "चित्तौड़गढ़ का अन्वेषण",
-    "bc.plan": "अपनी यात्रा की योजना बनाएं"
+    "bc.plan": "अपनी यात्रा की योजना बनाएं",
+    "stats.n1": "1.5M+",
+    "stats.n3": "500+",
+    "plan.form.emailPlaceholder": "example@mail.com"
 }

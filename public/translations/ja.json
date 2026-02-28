@@ -492,5 +492,16 @@
     "art.c3.cta": "コレクションを見る →",
     "bc.home": "ホーム",
     "bc.explore": "チットルガルを探索する",
-    "bc.plan": "訪問を計画する"
+    "bc.plan": "訪問を計画する",
+    "stats.n3": "500+",
+    "lbl.mmt": "MakeMyTrip:",
+    "plan.form.emailPlaceholder": "example@mail.com",
+    "bot.name": "Royal Guide",
+    "bot.greeting": "Welcome to Chittorgarh! I am your Royal Guide. How can I help you explore the fort today?",
+    "bot.placeholder": "Ask about history, food, or planning...",
+    "bot.action.plan": "Plan My Trip",
+    "bot.action.history": "Tell Me History",
+    "bot.action.reach": "How to Reach",
+    "bot.status.online": "Ready to guide you",
+    "bot.error": "I missed that. Could you say it again?"
 }

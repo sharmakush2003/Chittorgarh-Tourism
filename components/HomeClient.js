@@ -4,7 +4,8 @@ import Link from "next/link";
 import { useLanguage } from "@/context/LanguageContext";
 import WeatherWidget from "@/components/WeatherWidget";
 import VisitorStats from "@/components/VisitorStats";
-import FAQ from "@/components/FAQ";
+import RoyalLineage from "./RoyalLineage";
+import FAQ from "./FAQ";
 import { triggerHaptic } from "@/lib/haptics";
 
 export default function HomeClient() {

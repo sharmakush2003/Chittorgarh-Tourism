@@ -31,6 +31,16 @@ export const metadata = {
   description: "Official guide to Chittorgarh Fort, Rajasthan. Explore the UNESCO World Heritage Site, Rani Padmini's Palace, Vijay Stambh, and plan your perfect heritage trip.",
   alternates: {
     canonical: 'https://chittorgarh-tourism-five.vercel.app',
+    languages: {
+      'en': 'https://chittorgarh-tourism-five.vercel.app',
+      'hi': 'https://chittorgarh-tourism-five.vercel.app?lang=hi',
+      'fr': 'https://chittorgarh-tourism-five.vercel.app?lang=fr',
+      'de': 'https://chittorgarh-tourism-five.vercel.app?lang=de',
+      'ja': 'https://chittorgarh-tourism-five.vercel.app?lang=ja',
+      'ru': 'https://chittorgarh-tourism-five.vercel.app?lang=ru',
+      'es': 'https://chittorgarh-tourism-five.vercel.app?lang=es',
+      'it': 'https://chittorgarh-tourism-five.vercel.app?lang=it',
+    },
   },
   keywords: [
     "Chittorgarh",
@@ -104,7 +114,37 @@ export default function RootLayout({ children }) {
       '@type': 'GeoCoordinates',
       latitude: '24.8887',
       longitude: '74.6269'
-    }
+    },
+    openingHoursSpecification: [
+      {
+        '@type': 'OpeningHoursSpecification',
+        dayOfWeek: [
+          'Monday',
+          'Tuesday',
+          'Wednesday',
+          'Thursday',
+          'Friday',
+          'Saturday',
+          'Sunday'
+        ],
+        opens: '09:00',
+        closes: '18:00'
+      }
+    ],
+    priceRange: '₹40 - ₹600'
+  };
+
+  const organizationSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    name: 'Chittorgarh Tourism',
+    url: 'https://chittorgarh-tourism-five.vercel.app',
+    logo: 'https://chittorgarh-tourism-five.vercel.app/logo.png',
+    sameAs: [
+      'https://www.facebook.com/chittorgarhtourism',
+      'https://www.instagram.com/chittorgarhtourism',
+      'https://twitter.com/chittorgarhtour'
+    ]
   };
 
   const breadcrumbSchema = {
@@ -142,6 +182,10 @@ export default function RootLayout({ children }) {
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
         />
         <Background3D />
         <LanguageProvider>
