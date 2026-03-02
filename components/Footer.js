@@ -144,9 +144,14 @@ export default function Footer() {
                         {" "}by{" "}
                         <span className="footer-author">Kush Sharma</span>
                     </p>
-                    <p className="footer-copy">
-                        <span className="footer-location">Chittorgarh, Rajasthan</span>
-                    </p>
+                    <div className="footer-copy-info">
+                        <p className="footer-location">Chittorgarh, Rajasthan</p>
+                        <div className="footer-legal-links">
+                            <Link href="/privacy" className="footer-legal-link">Privacy Policy</Link>
+                            <span className="footer-legal-separator">•</span>
+                            <Link href="/terms" className="footer-legal-link">Terms & Conditions</Link>
+                        </div>
+                    </div>
                 </div>
             </div>
         </footer>
