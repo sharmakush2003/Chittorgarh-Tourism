@@ -1,3 +1,6 @@
+import Link from "next/link";
+import { ArrowLeft } from "lucide-react";
+
 export const metadata = {
     title: "Terms & Conditions | Chittorgarh Tourism",
     description: "Terms and Conditions for Chittorgarh Tourism – Rajasthan's Greatest Fort Official Guide.",
@@ -14,6 +17,24 @@ export default function TermsAndConditions() {
                 margin: "0 auto",
                 padding: "0 1.5rem",
             }}>
+                <div style={{ marginBottom: "2rem" }}>
+                    <Link href="/" style={{
+                        display: "inline-flex",
+                        alignItems: "center",
+                        gap: "0.5rem",
+                        color: "var(--gold)",
+                        textDecoration: "none",
+                        fontSize: "0.9rem",
+                        fontWeight: "600",
+                        letterSpacing: "1px",
+                        textTransform: "uppercase",
+                        transition: "0.3s",
+                    }} className="back-link">
+                        <ArrowLeft size={16} />
+                        Back to Home
+                    </Link>
+                </div>
+
                 <div style={{
                     background: "rgba(15, 10, 6, 0.65)",
                     backdropFilter: "blur(16px)",
