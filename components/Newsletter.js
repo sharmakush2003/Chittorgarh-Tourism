@@ -389,25 +389,52 @@ export default function Newsletter() {
                 .arch-accent.right { right: 30px; }
 
                 @media (max-width: 768px) {
+                    .newsletter-section {
+                        padding: 60px 0 100px;
+                    }
                     .prestige-card {
-                        padding: 60px 30px;
+                        padding: 60px 20px;
+                        border-left: none;
+                        border-right: none;
+                        border-radius: 0;
+                    }
+                    .main-title {
+                        font-size: 2.5rem;
+                        margin-bottom: 1rem;
+                    }
+                    .sub-description {
+                        font-size: 1rem;
+                        margin-bottom: 3rem;
                     }
                     .input-canvas {
                         flex-direction: column;
                         background: transparent;
                         border: none;
                         padding: 0;
-                        gap: 15px;
+                        gap: 12px;
+                    }
+                    .icon-seal {
+                        left: 10px;
+                        z-index: 15;
                     }
                     .heritage-input {
                         width: 100%;
-                        background: rgba(255, 255, 255, 0.03);
+                        background: rgba(255, 255, 255, 0.05);
                         border: 1px solid rgba(212, 175, 55, 0.2);
-                        padding-left: 50px;
+                        padding-left: 60px;
+                        border-radius: 4px;
                     }
                     .prestige-btn {
                         width: 100%;
                         justify-content: center;
+                        border-radius: 4px;
+                        height: 55px;
+                    }
+                    .arch-accent {
+                        display: none;
+                    }
+                    .gold-trim {
+                        width: 80px;
                     }
                 }
             `}</style>

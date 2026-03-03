@@ -301,11 +301,25 @@ function UnsubscribeContent() {
                 }
 
                 @media (max-width: 640px) {
+                    .container {
+                        padding: 20px 0;
+                    }
                     .prestige-box {
-                        padding: 60px 25px;
+                        padding: 60px 20px;
+                        border-left: none;
+                        border-right: none;
+                        border-radius: 0;
+                        box-shadow: none;
                     }
                     .royal-title {
-                        font-size: 2.2rem;
+                        font-size: 2rem;
+                    }
+                    .proclamation {
+                        font-size: 1rem;
+                        margin-bottom: 3rem;
+                    }
+                    .gold-seal {
+                        width: 80px;
                     }
                 }
             `}</style>
