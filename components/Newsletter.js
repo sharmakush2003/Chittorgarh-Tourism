@@ -76,18 +76,20 @@ export default function Newsletter() {
 
                         <form onSubmit={handleSubscribe} className="subscription-flow">
                             <div className="input-canvas">
-                                <div className="icon-seal">
-                                    <Mail className="field-glyph" size={18} strokeWidth={1.5} />
+                                <div className="field-wrapper">
+                                    <div className="icon-seal">
+                                        <Mail className="field-glyph" size={18} strokeWidth={1.5} />
+                                    </div>
+                                    <input
+                                        type="email"
+                                        placeholder="Request an invitation..."
+                                        value={email}
+                                        onChange={(e) => setEmail(e.target.value)}
+                                        required
+                                        disabled={status === 'loading' || status === 'success'}
+                                        className="heritage-input"
+                                    />
                                 </div>
-                                <input
-                                    type="email"
-                                    placeholder="Request an invitation..."
-                                    value={email}
-                                    onChange={(e) => setEmail(e.target.value)}
-                                    required
-                                    disabled={status === 'loading' || status === 'success'}
-                                    className="heritage-input"
-                                />
                                 <button
                                     type="submit"
                                     className={`prestige-btn ${status}`}
@@ -282,6 +284,13 @@ export default function Newsletter() {
                     box-shadow: 0 0 40px rgba(212, 175, 55, 0.1);
                 }
 
+                .field-wrapper {
+                    position: relative;
+                    flex: 1;
+                    display: flex;
+                    align-items: center;
+                }
+
                 .icon-seal {
                     position: absolute;
                     left: 10px;
@@ -295,6 +304,7 @@ export default function Newsletter() {
                     display: flex;
                     align-items: center;
                     justify-content: center;
+                    z-index: 10;
                 }
 
                 .field-glyph {
