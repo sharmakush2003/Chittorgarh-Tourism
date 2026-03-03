@@ -116,7 +116,7 @@ export default function PrivacyPolicy() {
                             content: (
                                 <>
                                     <p>If you have any questions or require more information about our Privacy Policy, please do not hesitate to contact us at:</p>
-                                    <p style={{ marginTop: "0.75rem", color: "var(--gold)", fontWeight: 600 }}>Email: info@chittorgarhfortourism.in</p>
+                                    <p style={{ marginTop: "0.75rem", color: "var(--gold)", fontWeight: 600 }}>Email: chittorgarh.rj09.tourism@gmail.com</p>
                                 </>
                             ),
                         },

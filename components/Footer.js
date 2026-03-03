@@ -119,8 +119,8 @@ export default function Footer() {
                             </li>
                             <li className="footer-info-item">
                                 <span className="footer-info-icon">✉️</span>
-                                <a href="mailto:info@chittorgarhfortourism.in" className="footer-email-link">
-                                    info@chittorgarhfortourism.in
+                                <a href="mailto:chittorgarh.rj09.tourism@gmail.com" className="footer-email-link">
+                                    chittorgarh.rj09.tourism@gmail.com
                                 </a>
                             </li>
                         </ul>
