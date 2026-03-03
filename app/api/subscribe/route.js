@@ -124,7 +124,8 @@ export async function POST(request) {
               
               <div class="footer-text">
                 &copy; ${year} Chittorgarh Tourism. All rights reserved.<br/>
-                Rajasthan, India. You are part of our heritage mission.
+                Rajasthan, India. You are part of our heritage mission.<br/><br/>
+                <a href="${siteUrl}/unsubscribe?email=${email}" style="color: rgba(255,255,255,0.4); text-decoration: underline;">Unsubscribe</a> from the chronicles.
               </div>
             </td>
           </tr>
