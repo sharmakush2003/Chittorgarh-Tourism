@@ -7,6 +7,7 @@ import LanguagePrompt from "@/components/LanguagePrompt";
 import Background3D from "@/components/Background3D";
 import VisitorGate from "@/components/VisitorGate";
 import HeritageGuide from "@/components/HeritageGuide";
+import Newsletter from "@/components/Newsletter";
 import { LanguageProvider } from "@/context/LanguageContext";
 import "./globals.css";
 
@@ -200,6 +201,7 @@ export default function RootLayout({ children }) {
           <LanguagePrompt />
           {children}
           <HeritageGuide />
+          <Newsletter />
           <Footer />
           <ScrollReveal />
         </LanguageProvider>
