@@ -31,9 +31,9 @@ const emergencyData = [
         border: "rgba(239,68,68,0.2)",
         glow: "rgba(239,68,68,0.06)",
         contacts: [
-            { name: "National Ambulance", number: "108", note: "Emergency" },
-            { name: "District Hospital", number: "07472-242626", note: "Chittorgarh" },
-            { name: "Medical Emergency", number: "102", note: "24/7" },
+            { name: "Ambulance (ERS)", number: "108", note: "Emergency" },
+            { name: "Ambulance (Transport)", number: "102", note: "Medical" },
+            { name: "MP Birla Hospital", number: "09530388881", note: "24/7" },
         ]
     },
     {
