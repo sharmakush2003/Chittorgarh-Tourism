@@ -43,9 +43,9 @@ const emergencyData = [
         border: "rgba(212,175,55,0.2)",
         glow: "rgba(212,175,55,0.06)",
         contacts: [
-            { name: "Rajasthan Tourism", number: "1364", note: "Free Helpline" },
-            { name: "India Tourism Jaipur", number: "0141-5110598", note: "9AM–6PM" },
-            { name: "Local Guide Assistance", number: "07472-241089", note: "Chittorgarh" },
+            { name: "Rajasthan Helpline", number: "181", note: "Govt." },
+            { name: "Chittorgarh TRC", number: "01472-241089", note: "Reception" },
+            { name: "Official Guides List", link: "https://www.tourism.rajasthan.gov.in/content/dam/rajasthan-tourism/english/pdf/Guides-list-and-travel-agency/TRC-Chittorgarh-Guide-List.pdf", note: "PDF" },
         ]
     },
     {
@@ -459,13 +459,15 @@ export default function EmergencyPage() {
                         </div>
                         <div className="ep-contacts">
                             {s.contacts.map((c) => (
-                                <div className="ep-row" key={c.number}>
+                                <div className="ep-row" key={c.name}>
                                     <div className="ep-row-top">
                                         <span className="ep-contact-name">{c.name}</span>
                                         <span className="ep-note">{c.note}</span>
                                     </div>
                                     <a
-                                        href={`tel:${c.number}`}
+                                        href={c.link || `tel:${c.number}`}
+                                        target={c.link ? "_blank" : undefined}
+                                        rel={c.link ? "noreferrer" : undefined}
                                         className="ep-call"
                                         style={{
                                             background: `${s.accent}15`,
@@ -473,7 +475,7 @@ export default function EmergencyPage() {
                                             borderColor: `${s.accent}35`,
                                         }}
                                     >
-                                        📞 Call {c.number}
+                                        {c.link ? "🌐 Open PDF Link" : `📞 Call ${c.number}`}
                                     </a>
                                 </div>
                             ))}
