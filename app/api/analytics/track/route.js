@@ -12,25 +12,27 @@ export async function POST(req) {
         const ip = req.headers.get("x-forwarded-for") || "unknown";
         
         // 2. Log full visit data
-        await addDoc(collection(db, "analytics_raw"), {
-            page,
-            language,
-            referrer,
-            userAgent,
-            ip,
-            timestamp: serverTimestamp()
-        });
+        if (db) {
+            await addDoc(collection(db, "analytics_raw"), {
+                page,
+                language,
+                referrer,
+                userAgent,
+                ip,
+                timestamp: serverTimestamp()
+            });
 
-        // 3. Increment daily & total stats for easy dashboarding
-        const today = new Date().toISOString().split('T')[0]; // YYYY-MM-DD
-        const statsRef = doc(db, "analytics_stats", today);
-        
-        await setDoc(statsRef, {
-            date: today,
-            visits: increment(1),
-            [`pages.${page.replace(/\//g, '_')}`]: increment(1),
-            [`languages.${language}`]: increment(1)
-        }, { merge: true });
+            // 3. Increment daily & total stats for easy dashboarding
+            const today = new Date().toISOString().split('T')[0]; // YYYY-MM-DD
+            const statsRef = doc(db, "analytics_stats", today);
+            
+            await setDoc(statsRef, {
+                date: today,
+                visits: increment(1),
+                [`pages.${page.replace(/\//g, '_')}`]: increment(1),
+                [`languages.${language}`]: increment(1)
+            }, { merge: true });
+        }
 
         return NextResponse.json({ success: true });
     } catch (error) {

@@ -16,8 +16,13 @@ export function AuthProvider({ children }) {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
+        if (!auth) {
+            setLoading(false);
+            return;
+        }
+
         const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
-            if (currentUser) {
+            if (currentUser && db) {
                 setUser(currentUser);
                 // Sync to Firestore for Management Display
                 try {
@@ -40,10 +45,12 @@ export function AuthProvider({ children }) {
     }, []);
 
     const login = (email, password) => {
+        if (!auth) return Promise.reject("Firebase Auth not initialized");
         return signInWithEmailAndPassword(auth, email, password);
     };
 
     const logout = () => {
+        if (!auth) return Promise.resolve();
         return signOut(auth);
     };
 

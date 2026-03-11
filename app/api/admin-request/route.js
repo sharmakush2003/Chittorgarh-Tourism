@@ -19,17 +19,19 @@ export async function POST(request) {
         }
 
         // 1. Save to Firestore for Admin Management
-        try {
-            await addDoc(collection(db, "admin_requests"), {
-                name,
-                email,
-                purpose,
-                status: "pending",
-                createdAt: serverTimestamp()
-            });
-        } catch (dbError) {
-            console.error("Database Error:", dbError);
-            // Continue so email is still sent even if DB fails
+        if (db) {
+            try {
+                await addDoc(collection(db, "admin_requests"), {
+                    name,
+                    email,
+                    purpose,
+                    status: "pending",
+                    createdAt: serverTimestamp()
+                });
+            } catch (dbError) {
+                console.error("Database Error:", dbError);
+                // Continue so email is still sent even if DB fails
+            }
         }
 
         // 2. Transporter setup
