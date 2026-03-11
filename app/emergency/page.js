@@ -1,23 +1,15 @@
 "use client";
 import { useState } from "react";
 
-// Known places around Chittorgarh district
-const PLACES = [
-    { type: "hospital", icon: "🏥", name: "Govt. District Hospital", lat: 24.8858, lng: 74.6269 },
-    { type: "hospital", icon: "🏥", name: "Meera Hospital", lat: 24.8793, lng: 74.6261 },
-    { type: "police", icon: "🚔", name: "Chittorgarh Police Station", lat: 24.8848, lng: 74.6281 },
-    { type: "police", icon: "🚔", name: "Kotwali Police Station", lat: 24.8823, lng: 74.6254 },
-    { type: "toilet", icon: "🚻", name: "Tourist Toilet – Fort Entry", lat: 24.8892, lng: 74.6452 },
-    { type: "toilet", icon: "🚻", name: "Public Toilet – Bus Stand", lat: 24.8821, lng: 74.6219 },
+const CATEGORIES = [
+    { type: "hospital", label: "🏥 Nearest Hospital", query: "hospital" },
+    { type: "police",   label: "🚔 Nearest Police Station", query: "police+station" },
+    { type: "toilet",   label: "🚻 Nearest Public Toilet", query: "public+toilet" },
+    { type: "pharmacy", label: "💊 Nearest Pharmacy", query: "pharmacy" },
 ];
 
-const haversine = (lat1, lng1, lat2, lng2) => {
-    const R = 6371, dLat = (lat2-lat1)*Math.PI/180, dLng = (lng2-lng1)*Math.PI/180;
-    const a = Math.sin(dLat/2)**2 + Math.cos(lat1*Math.PI/180)*Math.cos(lat2*Math.PI/180)*Math.sin(dLng/2)**2;
-    return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-};
-
-const mapsLink = (lat, lng) => `https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}`;
+const mapsSearch = (query, lat, lng) =>
+    `https://www.google.com/maps/search/${query}/@${lat},${lng},15z`;
 
 const emergencyData = [
     {
@@ -72,25 +64,14 @@ const emergencyData = [
 ];
 
 export default function EmergencyPage() {
-    const [locState, setLocState] = useState("idle"); // idle | loading | done | error
-    const [nearby, setNearby] = useState([]);
+    const [locState, setLocState] = useState("idle");
+    const [coords, setCoords] = useState(null);
 
     const findNearby = () => {
         if (!navigator.geolocation) { setLocState("error"); return; }
         setLocState("loading");
         navigator.geolocation.getCurrentPosition(
-            ({ coords }) => {
-                const { latitude: lat, longitude: lng } = coords;
-                const groups = ["hospital", "police", "toilet"];
-                const results = groups.map(type => {
-                    const filtered = PLACES.filter(p => p.type === type)
-                        .map(p => ({ ...p, dist: haversine(lat, lng, p.lat, p.lng) }))
-                        .sort((a, b) => a.dist - b.dist);
-                    return { type, places: filtered.slice(0, 2) };
-                });
-                setNearby(results);
-                setLocState("done");
-            },
+            ({ coords }) => { setCoords({ lat: coords.latitude, lng: coords.longitude }); setLocState("done"); },
             () => setLocState("error")
         );
     };
@@ -392,36 +373,30 @@ export default function EmergencyPage() {
             {/* Nearby Places */}
             <div className="ep-nearby">
                 <div className="ep-nearby-head">
-                    <h3>📍 Nearest Places</h3>
-                    <button
-                        className="ep-loc-btn"
-                        onClick={findNearby}
-                        disabled={locState === "loading"}
-                    >
-                        {locState === "loading" ? "Locating..." : locState === "done" ? "🔄 Refresh" : "📡 Find Nearby Places"}
+                    <h3>📍 Find Nearby Places</h3>
+                    <button className="ep-loc-btn" onClick={findNearby} disabled={locState === "loading"}>
+                        {locState === "loading" ? "Locating..." : locState === "done" ? "🔄 Refresh" : "📡 Use My Location"}
                     </button>
                 </div>
 
-                {locState === "idle" && (
-                    <p className="ep-loc-msg">Click the button to find the nearest hospital, police station, and toilet to your current location.</p>
-                )}
-                {locState === "error" && (
-                    <p className="ep-loc-msg" style={{ color: "#f87171" }}>⚠️ Could not get your location. Please allow location access and try again.</p>
-                )}
+                {locState === "idle" && <p className="ep-loc-msg">Allow location access to see nearest hospitals, police stations, toilets and pharmacies via Google Maps.</p>}
+                {locState === "error" && <p className="ep-loc-msg" style={{ color: "#f87171" }}>⚠️ Location access denied. Please enable it in browser settings and try again.</p>}
 
-                {locState === "done" && (
+                {locState === "done" && coords && (
                     <div className="ep-nearby-grid">
-                        {nearby.map(({ type, places }) => (
-                            <div key={type} className="ep-nearby-group">
-                                <h4>{type === "hospital" ? "🏥 Hospital" : type === "police" ? "🚔 Police" : "🚻 Toilet"}</h4>
-                                {places.map(p => (
-                                    <div key={p.name} className="ep-nearby-item">
-                                        <span className="ep-nearby-name">{p.name}</span>
-                                        <span className="ep-nearby-dist">{p.dist < 1 ? `${(p.dist * 1000).toFixed(0)}m away` : `${p.dist.toFixed(1)}km away`}</span>
-                                        <a href={mapsLink(p.lat, p.lng)} target="_blank" rel="noreferrer" className="ep-dir-btn">Get Directions →</a>
-                                    </div>
-                                ))}
-                            </div>
+                        {CATEGORIES.map(c => (
+                            <a
+                                key={c.type}
+                                href={mapsSearch(c.query, coords.lat, coords.lng)}
+                                target="_blank"
+                                rel="noreferrer"
+                                className="ep-nearby-item ep-dir-btn"
+                                style={{ textDecoration: 'none' }}
+                            >
+                                <span style={{ fontSize: '1.5rem' }}>{c.label.split(' ')[0]}</span>
+                                <span className="ep-nearby-name" style={{ color: '#fff', marginTop: '4px' }}>{c.label.slice(3)}</span>
+                                <span className="ep-nearby-dist">Open in Google Maps →</span>
+                            </a>
                         ))}
                     </div>
                 )}
