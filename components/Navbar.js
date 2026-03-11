@@ -153,7 +153,7 @@ export default function Navbar() {
                     onClick={() => setIsMenuOpen(false)}
                     style={{ color: '#ef4444', fontWeight: '600', borderLeft: '2px solid #ef4444', paddingLeft: '15px' }}
                 >
-                    🚨 Emergency Info
+                    Emergency Info
                 </Link>
 
                 <Link
@@ -162,7 +162,7 @@ export default function Navbar() {
                     onClick={() => setIsMenuOpen(false)}
                     style={{ color: 'var(--gold)', fontWeight: '600', borderLeft: '2px solid var(--gold)', paddingLeft: '15px' }}
                 >
-                    🔱 Admin Management
+                    Admin Management
                 </Link>
 
                 {/* Mobile Language Selection */}
