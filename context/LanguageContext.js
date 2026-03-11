@@ -89,7 +89,7 @@ export function LanguageProvider({ children }) {
 
     // Prevent hydration mismatch by still allowing isMounted check if desired,
     // but don't block the entire app if translations are still loading.
-    if (!isMounted) return null;
+    // REMOVED 'if (!isMounted) return null;' to allow SSR to match client hydration.
 
     return (
         <LanguageContext.Provider value={{ lang, changeLanguage, t, loading }}>
