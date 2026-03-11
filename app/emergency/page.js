@@ -1,458 +1,347 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
 
 const emergencyData = [
     {
         category: "Police",
         icon: "🚔",
         accent: "#60a5fa",
-        bg: "rgba(59, 130, 246, 0.06)",
-        border: "rgba(59, 130, 246, 0.2)",
+        border: "rgba(59,130,246,0.2)",
+        glow: "rgba(59,130,246,0.06)",
         contacts: [
-            { name: "Chittorgarh Police Control Room", number: "07472-240700", note: "Available 24/7" },
-            { name: "National Police Helpline", number: "100", note: "Emergency Only" },
-            { name: "Tourist Police Helpline", number: "1800-180-6127", note: "Toll Free" },
+            { name: "Police Control Room", number: "07472-240700", note: "24/7" },
+            { name: "National Police", number: "100", note: "Emergency" },
+            { name: "Tourist Police", number: "1800-180-6127", note: "Toll Free" },
         ]
     },
     {
         category: "Medical",
         icon: "🏥",
         accent: "#f87171",
-        bg: "rgba(239, 68, 68, 0.06)",
-        border: "rgba(239, 68, 68, 0.2)",
+        border: "rgba(239,68,68,0.2)",
+        glow: "rgba(239,68,68,0.06)",
         contacts: [
-            { name: "Ambulance (National)", number: "108", note: "Emergency Only" },
-            { name: "Govt. District Hospital", number: "07472-242626", note: "Chittorgarh City" },
-            { name: "Medical Emergency Line", number: "102", note: "24/7 Active" },
+            { name: "National Ambulance", number: "108", note: "Emergency" },
+            { name: "District Hospital", number: "07472-242626", note: "Chittorgarh" },
+            { name: "Medical Emergency", number: "102", note: "24/7" },
         ]
     },
     {
         category: "Tourist Helpline",
         icon: "📞",
         accent: "#D4AF37",
-        bg: "rgba(212, 175, 55, 0.06)",
-        border: "rgba(212, 175, 55, 0.2)",
+        border: "rgba(212,175,55,0.2)",
+        glow: "rgba(212,175,55,0.06)",
         contacts: [
-            { name: "Rajasthan Tourist Helpline", number: "1364", note: "Official — Free" },
-            { name: "India Tourism Jaipur", number: "0141-5110598", note: "Mon–Sat 9AM–6PM" },
-            { name: "Local Tourist Assistance", number: "07472-241089", note: "Chittorgarh District" },
+            { name: "Rajasthan Tourism", number: "1364", note: "Free Helpline" },
+            { name: "India Tourism Jaipur", number: "0141-5110598", note: "9AM–6PM" },
+            { name: "Local Guide Assistance", number: "07472-241089", note: "Chittorgarh" },
         ]
     },
     {
         category: "Emergency Services",
         icon: "🆘",
         accent: "#fb923c",
-        bg: "rgba(249, 115, 22, 0.06)",
-        border: "rgba(249, 115, 22, 0.2)",
+        border: "rgba(249,115,22,0.2)",
+        glow: "rgba(249,115,22,0.06)",
         contacts: [
             { name: "Fire Brigade", number: "101", note: "Fire Emergency" },
-            { name: "Women Safety Helpline", number: "1091", note: "Women in Distress" },
-            { name: "Child Helpline", number: "1098", note: "Child in Distress" },
-            { name: "National Disaster Helpline", number: "1078", note: "Natural Disasters" },
+            { name: "Women Safety", number: "1091", note: "Women in Distress" },
+            { name: "Child Helpline", number: "1098", note: "Child Distress" },
+            { name: "Disaster Helpline", number: "1078", note: "Nat. Disasters" },
         ]
     }
 ];
 
 export default function EmergencyPage() {
-    const [calling, setCalling] = useState(null);
-
-    const handleCall = (number) => {
-        setCalling(number);
-        setTimeout(() => setCalling(null), 2000);
-    };
-
     return (
-        <div className="emergency-page">
+        <div className="ep">
             <style jsx>{`
-                .emergency-page {
+                * { box-sizing: border-box; }
+
+                .ep {
                     min-height: 100vh;
-                    background: linear-gradient(135deg, #080503 0%, #0d0907 50%, #080503 100%);
+                    background: #080604;
                     color: #fff;
                     font-family: var(--font-jost);
+                    padding-bottom: 60px;
                 }
 
-                /* ── Back Button ── */
-                .back-btn {
-                    position: fixed;
-                    top: 24px;
-                    left: 24px;
-                    z-index: 100;
-                    display: flex;
-                    align-items: center;
-                    gap: 8px;
-                    padding: 10px 18px;
-                    background: rgba(255,255,255,0.05);
-                    backdrop-filter: blur(16px);
-                    border: 1px solid rgba(255,255,255,0.1);
-                    border-radius: 30px;
-                    color: #aaa;
-                    text-decoration: none;
-                    font-size: 0.82rem;
-                    letter-spacing: 0.5px;
-                    transition: all 0.3s ease;
-                }
-                .back-btn:hover {
-                    background: rgba(255,255,255,0.1);
-                    color: #fff;
-                    border-color: rgba(255,255,255,0.2);
-                }
-
-                /* ── Hero ── */
-                .hero {
-                    max-width: 900px;
-                    margin: 0 auto;
-                    padding: 130px 40px 70px;
-                    text-align: center;
-                }
-
-                .sos-badge {
+                /* ─ Back Button ─ */
+                .ep-back {
                     display: inline-flex;
                     align-items: center;
-                    gap: 10px;
-                    padding: 9px 22px;
-                    background: rgba(239, 68, 68, 0.12);
-                    border: 1px solid rgba(239, 68, 68, 0.35);
+                    gap: 8px;
+                    padding: 10px 20px;
+                    margin: 20px 20px 0;
+                    background: rgba(255,255,255,0.05);
+                    border: 1px solid rgba(255,255,255,0.1);
+                    border-radius: 50px;
+                    color: #888;
+                    text-decoration: none;
+                    font-size: 0.82rem;
+                    transition: all 0.25s;
+                }
+                .ep-back:hover { color: #fff; background: rgba(255,255,255,0.1); }
+
+                /* ─ Hero ─ */
+                .ep-hero {
+                    padding: 40px 20px 48px;
+                    text-align: center;
+                    max-width: 680px;
+                    margin: 0 auto;
+                }
+
+                .ep-badge {
+                    display: inline-flex;
+                    align-items: center;
+                    gap: 8px;
+                    padding: 7px 18px;
+                    background: rgba(239,68,68,0.1);
+                    border: 1px solid rgba(239,68,68,0.3);
                     border-radius: 50px;
                     color: #fca5a5;
-                    font-size: 0.72rem;
+                    font-size: 0.7rem;
                     text-transform: uppercase;
                     letter-spacing: 3px;
-                    margin-bottom: 32px;
+                    margin-bottom: 28px;
                     animation: pulse-ring 2.5s ease-in-out infinite;
                 }
 
-                @keyframes pulse-ring {
-                    0%, 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.25); }
-                    50% { box-shadow: 0 0 0 12px rgba(239, 68, 68, 0); }
-                }
-
-                .sos-dot {
-                    width: 7px;
-                    height: 7px;
+                .ep-dot {
+                    width: 6px; height: 6px;
                     border-radius: 50%;
                     background: #f87171;
                     animation: blink 1s step-end infinite;
                 }
 
-                @keyframes blink {
-                    0%, 100% { opacity: 1; }
-                    50% { opacity: 0; }
+                @keyframes blink { 50% { opacity: 0; } }
+                @keyframes pulse-ring {
+                    50% { box-shadow: 0 0 0 10px rgba(239,68,68,0); }
                 }
 
-                .hero h1 {
+                .ep-hero h1 {
                     font-family: var(--font-cormorant);
-                    font-size: clamp(3rem, 6vw, 5.5rem);
-                    line-height: 1.05;
-                    margin: 0 0 20px;
+                    font-size: clamp(2.4rem, 7vw, 4.5rem);
+                    line-height: 1.08;
+                    margin: 0 0 16px;
                     font-weight: 700;
-                    letter-spacing: -1px;
                 }
 
-                .hero h1 em {
+                .ep-hero h1 em {
                     font-style: normal;
-                    background: linear-gradient(135deg, #f87171, #fca5a5);
-                    -webkit-background-clip: text;
-                    -webkit-text-fill-color: transparent;
+                    color: #f87171;
                 }
 
-                .hero p {
+                .ep-hero p {
                     color: #666;
-                    font-size: 1.1rem;
+                    font-size: 0.97rem;
                     line-height: 1.8;
-                    max-width: 560px;
-                    margin: 0 auto 40px;
+                    margin: 0 auto 32px;
+                    max-width: 480px;
                 }
 
-                .quick-dials {
+                /* ─ Quick Dials ─ */
+                .ep-quick {
                     display: flex;
                     justify-content: center;
-                    gap: 14px;
                     flex-wrap: wrap;
+                    gap: 10px;
                 }
 
-                .quick-dial {
-                    display: flex;
+                .ep-dial {
+                    display: inline-flex;
                     align-items: center;
-                    gap: 9px;
-                    padding: 13px 22px;
-                    border-radius: 12px;
+                    gap: 8px;
+                    padding: 11px 20px;
+                    border-radius: 10px;
                     text-decoration: none;
                     font-weight: 700;
-                    font-size: 1rem;
-                    transition: all 0.25s ease;
-                    border: 1px solid transparent;
-                }
-
-                .quick-dial.police {
-                    background: rgba(59, 130, 246, 0.12);
-                    color: #93c5fd;
-                    border-color: rgba(59, 130, 246, 0.25);
-                }
-
-                .quick-dial.ambulance {
-                    background: rgba(239, 68, 68, 0.12);
-                    color: #fca5a5;
-                    border-color: rgba(239, 68, 68, 0.25);
-                }
-
-                .quick-dial.tourist {
-                    background: rgba(212, 175, 55, 0.10);
-                    color: #D4AF37;
-                    border-color: rgba(212, 175, 55, 0.22);
-                }
-
-                .quick-dial:hover {
-                    transform: translateY(-3px);
-                    filter: brightness(1.2);
-                    box-shadow: 0 12px 30px rgba(0,0,0,0.3);
-                }
-
-                /* ── Grid ── */
-                .contacts-grid {
-                    max-width: 1200px;
-                    margin: 0 auto;
-                    padding: 0 40px 80px;
-                    display: grid;
-                    grid-template-columns: repeat(2, 1fr);
-                    gap: 24px;
-                }
-
-                .card {
-                    border-radius: 20px;
-                    padding: 32px;
+                    font-size: 0.92rem;
                     border: 1px solid;
-                    transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-                    position: relative;
-                    overflow: hidden;
+                    transition: all 0.2s;
+                    white-space: nowrap;
                 }
+                .ep-dial:hover { transform: translateY(-2px); filter: brightness(1.2); }
+                .ep-dial.p { background: rgba(59,130,246,0.1); color: #93c5fd; border-color: rgba(59,130,246,0.25); }
+                .ep-dial.a { background: rgba(239,68,68,0.1); color: #fca5a5; border-color: rgba(239,68,68,0.25); }
+                .ep-dial.t { background: rgba(212,175,55,0.08); color: #D4AF37; border-color: rgba(212,175,55,0.22); }
 
-                .card::before {
-                    content: '';
-                    position: absolute;
-                    top: 0;
-                    right: 0;
-                    width: 120px;
-                    height: 120px;
-                    border-radius: 50%;
-                    opacity: 0.04;
-                    background: currentColor;
-                    transform: translate(30%, -30%);
-                    transition: transform 0.4s ease;
-                }
-
-                .card:hover {
-                    transform: translateY(-5px);
-                    box-shadow: 0 24px 60px rgba(0,0,0,0.3);
-                }
-
-                .card:hover::before {
-                    transform: translate(20%, -20%) scale(1.3);
-                }
-
-                .card-header {
-                    display: flex;
-                    align-items: center;
+                /* ─ Cards ─ */
+                .ep-grid {
+                    max-width: 960px;
+                    margin: 0 auto;
+                    padding: 0 16px;
+                    display: grid;
+                    grid-template-columns: 1fr 1fr;
                     gap: 16px;
-                    margin-bottom: 26px;
                 }
 
-                .card-icon {
-                    font-size: 2rem;
-                    width: 56px;
-                    height: 56px;
+                .ep-card {
+                    background: var(--card-glow);
+                    border: 1px solid var(--card-border);
+                    border-radius: 16px;
+                    padding: 24px;
+                    transition: transform 0.3s, box-shadow 0.3s;
+                }
+                .ep-card:hover {
+                    transform: translateY(-4px);
+                    box-shadow: 0 20px 50px rgba(0,0,0,0.35);
+                }
+
+                .ep-card-head {
                     display: flex;
                     align-items: center;
-                    justify-content: center;
-                    border-radius: 14px;
+                    gap: 12px;
+                    margin-bottom: 18px;
+                    padding-bottom: 16px;
+                    border-bottom: 1px solid rgba(255,255,255,0.05);
+                }
+
+                .ep-card-icon {
+                    font-size: 1.5rem;
+                    width: 44px; height: 44px;
+                    display: flex; align-items: center; justify-content: center;
+                    border-radius: 10px;
                     background: rgba(255,255,255,0.05);
                     flex-shrink: 0;
                 }
 
-                .card-title {
+                .ep-card-head h2 {
                     font-family: var(--font-cormorant);
-                    font-size: 1.9rem;
-                    font-weight: 600;
+                    font-size: 1.5rem;
                     margin: 0;
+                    font-weight: 600;
                 }
 
-                .contact-list {
+                /* ─ Contact Rows ─ */
+                .ep-contacts { display: flex; flex-direction: column; gap: 10px; }
+
+                .ep-row {
                     display: flex;
                     flex-direction: column;
-                    gap: 12px;
-                }
-
-                .contact-row {
-                    display: flex;
-                    align-items: center;
-                    justify-content: space-between;
-                    gap: 12px;
-                    padding: 13px 16px;
-                    background: rgba(0,0,0,0.25);
-                    border-radius: 12px;
+                    gap: 8px;
+                    padding: 12px 14px;
+                    background: rgba(0,0,0,0.28);
+                    border-radius: 10px;
                     border: 1px solid rgba(255,255,255,0.04);
                     transition: background 0.2s;
                 }
+                .ep-row:hover { background: rgba(255,255,255,0.04); }
 
-                .contact-row:hover {
-                    background: rgba(255,255,255,0.04);
+                .ep-row-top {
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    gap: 8px;
                 }
 
-                .contact-info {
-                    flex: 1;
-                    min-width: 0;
-                }
-
-                .contact-name {
-                    font-size: 0.87rem;
+                .ep-contact-name {
+                    font-size: 0.84rem;
                     color: #ccc;
-                    display: block;
-                    margin-bottom: 3px;
-                    white-space: nowrap;
-                    overflow: hidden;
-                    text-overflow: ellipsis;
+                    flex: 1;
                 }
 
-                .contact-note {
-                    font-size: 0.68rem;
+                .ep-note {
+                    font-size: 0.65rem;
                     color: #555;
                     text-transform: uppercase;
                     letter-spacing: 1.5px;
                 }
 
-                .call-btn {
+                .ep-call {
                     display: flex;
                     align-items: center;
-                    gap: 7px;
-                    padding: 9px 16px;
-                    border-radius: 9px;
+                    justify-content: center;
+                    gap: 6px;
+                    width: 100%;
+                    padding: 10px;
+                    border-radius: 8px;
                     text-decoration: none;
                     font-weight: 700;
-                    font-size: 0.88rem;
-                    letter-spacing: 0.3px;
-                    white-space: nowrap;
-                    transition: all 0.2s ease;
-                    flex-shrink: 0;
+                    font-size: 0.9rem;
+                    text-align: center;
                     border: 1px solid;
+                    transition: all 0.2s;
+                }
+                .ep-call:hover { filter: brightness(1.15); transform: scale(1.02); }
+
+                /* ─ Disclaimer ─ */
+                .ep-disc {
+                    max-width: 960px;
+                    margin: 20px auto 0;
+                    padding: 0 16px;
                 }
 
-                .call-btn:hover {
-                    transform: scale(1.06);
-                    filter: brightness(1.2);
-                }
-
-                .call-btn.active {
-                    animation: call-pulse 0.4s ease;
-                }
-
-                @keyframes call-pulse {
-                    0%, 100% { transform: scale(1); }
-                    50% { transform: scale(0.95); }
-                }
-
-                /* ── Disclaimer ── */
-                .disclaimer {
-                    max-width: 1200px;
-                    margin: 0 auto 60px;
-                    padding: 0 40px;
-                }
-
-                .disclaimer-inner {
-                    background: rgba(212, 175, 55, 0.05);
-                    border: 1px solid rgba(212, 175, 55, 0.15);
-                    border-radius: 14px;
-                    padding: 22px 28px;
+                .ep-disc-inner {
+                    background: rgba(212,175,55,0.05);
+                    border: 1px solid rgba(212,175,55,0.15);
+                    border-radius: 12px;
+                    padding: 18px 22px;
                     display: flex;
+                    gap: 12px;
                     align-items: flex-start;
-                    gap: 14px;
                 }
-
-                .disclaimer-inner .icon { font-size: 1.1rem; flex-shrink: 0; margin-top: 1px; }
-
-                .disclaimer-inner p {
-                    color: #666;
-                    font-size: 0.87rem;
-                    line-height: 1.7;
-                    margin: 0;
+                .ep-disc-inner p {
+                    color: #666; font-size: 0.84rem; line-height: 1.7; margin: 0;
                 }
+                .ep-disc-inner strong { color: #D4AF37; }
 
-                .disclaimer-inner strong { color: #D4AF37; }
-
-                /* ── Responsive ── */
-                @media (max-width: 900px) {
-                    .contacts-grid {
-                        grid-template-columns: 1fr;
-                        padding: 0 20px 60px;
-                    }
-                    .hero {
-                        padding: 100px 20px 50px;
-                    }
-                    .hero h1 { font-size: 2.8rem; }
-                    .disclaimer { padding: 0 20px; }
-                    .back-btn { top: 16px; left: 16px; }
+                /* ─ Responsive ─ */
+                @media (max-width: 680px) {
+                    .ep-grid { grid-template-columns: 1fr; }
+                    .ep-hero { padding: 32px 20px 36px; }
+                    .ep-card { padding: 20px; }
                 }
             `}</style>
 
-            {/* Floating Back Button */}
-            <Link href="/" className="back-btn">
-                ← Home
-            </Link>
+            {/* Back */}
+            <Link href="/" className="ep-back">← Home</Link>
 
-            {/* Hero Section */}
-            <section className="hero">
-                <div className="sos-badge">
-                    <span className="sos-dot" />
-                    Emergency Assistance · Chittorgarh
+            {/* Hero */}
+            <section className="ep-hero">
+                <div className="ep-badge">
+                    <span className="ep-dot" /> Emergency Assistance · Chittorgarh
                 </div>
                 <h1>Stay <em>Safe</em><br />in the Citadel</h1>
-                <p>
-                    One-tap access to all emergency services during your visit to Chittorgarh.
-                    Save this page before exploring — your safety is our highest priority.
-                </p>
-                <div className="quick-dials">
-                    <a href="tel:100" className="quick-dial police">🚔 Police — 100</a>
-                    <a href="tel:108" className="quick-dial ambulance">🚑 Ambulance — 108</a>
-                    <a href="tel:1364" className="quick-dial tourist">📞 Tourist — 1364</a>
+                <p>One-tap access to every emergency number. Save this page before exploring the fort.</p>
+                <div className="ep-quick">
+                    <a href="tel:100" className="ep-dial p">🚔 Police — 100</a>
+                    <a href="tel:108" className="ep-dial a">🚑 Ambulance — 108</a>
+                    <a href="tel:1364" className="ep-dial t">📞 Tourist — 1364</a>
                 </div>
             </section>
 
-            {/* Cards Grid */}
-            <div className="contacts-grid">
-                {emergencyData.map((section) => (
+            {/* Cards */}
+            <div className="ep-grid">
+                {emergencyData.map((s) => (
                     <div
-                        key={section.category}
-                        className="card"
-                        style={{
-                            background: section.bg,
-                            borderColor: section.border,
-                            color: section.accent,
-                        }}
+                        key={s.category}
+                        className="ep-card"
+                        style={{ "--card-glow": s.glow, "--card-border": s.border }}
                     >
-                        <div className="card-header">
-                            <div className="card-icon">{section.icon}</div>
-                            <h2 className="card-title" style={{ color: section.accent }}>
-                                {section.category}
-                            </h2>
+                        <div className="ep-card-head">
+                            <div className="ep-card-icon">{s.icon}</div>
+                            <h2 style={{ color: s.accent }}>{s.category}</h2>
                         </div>
-                        <div className="contact-list">
-                            {section.contacts.map((c) => (
-                                <div className="contact-row" key={c.number}>
-                                    <div className="contact-info">
-                                        <span className="contact-name">{c.name}</span>
-                                        <span className="contact-note">{c.note}</span>
+                        <div className="ep-contacts">
+                            {s.contacts.map((c) => (
+                                <div className="ep-row" key={c.number}>
+                                    <div className="ep-row-top">
+                                        <span className="ep-contact-name">{c.name}</span>
+                                        <span className="ep-note">{c.note}</span>
                                     </div>
                                     <a
                                         href={`tel:${c.number}`}
-                                        className={`call-btn ${calling === c.number ? "active" : ""}`}
-                                        onClick={() => handleCall(c.number)}
+                                        className="ep-call"
                                         style={{
-                                            background: `${section.accent}18`,
-                                            color: section.accent,
-                                            borderColor: `${section.accent}40`,
+                                            background: `${s.accent}15`,
+                                            color: s.accent,
+                                            borderColor: `${s.accent}35`,
                                         }}
                                     >
-                                        📞 {c.number}
+                                        📞 Call {c.number}
                                     </a>
                                 </div>
                             ))}
@@ -462,13 +351,12 @@ export default function EmergencyPage() {
             </div>
 
             {/* Disclaimer */}
-            <div className="disclaimer">
-                <div className="disclaimer-inner">
-                    <span className="icon">ℹ️</span>
+            <div className="ep-disc">
+                <div className="ep-disc-inner">
+                    <span>ℹ️</span>
                     <p>
-                        Numbers are best-effort accurate for Chittorgarh district. In any life-threatening situation,
-                        always dial <strong>100 (Police)</strong> or <strong>108 (Ambulance)</strong> first.
-                        Contact numbers may change — always confirm from official sources before your visit.
+                        In any life-threatening situation, always dial <strong>100 (Police)</strong> or{" "}
+                        <strong>108 (Ambulance)</strong> first. Numbers are best-effort accurate for Chittorgarh — verify from official sources before your visit.
                     </p>
                 </div>
             </div>
