@@ -299,12 +299,12 @@ export default function EmergencyPage() {
                     padding: 0 16px;
                 }
                 .ep-nearby-head {
-                    display: flex; align-items: center; justify-content: space-between;
-                    margin-bottom: 16px; flex-wrap: wrap; gap: 10px;
+                    display: flex; flex-direction: column; align-items: center; justify-content: center;
+                    margin-bottom: 24px; gap: 14px; text-align: center;
                 }
                 .ep-nearby-head h3 {
                     font-family: var(--font-cormorant);
-                    font-size: 1.6rem; margin: 0; color: #fff;
+                    font-size: 1.8rem; margin: 0; color: #fff;
                 }
                 .ep-loc-btn {
                     display: flex; align-items: center; gap: 8px;
