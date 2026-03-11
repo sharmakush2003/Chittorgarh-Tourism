@@ -19,9 +19,9 @@ const emergencyData = [
         border: "rgba(59,130,246,0.2)",
         glow: "rgba(59,130,246,0.06)",
         contacts: [
-            { name: "Police Control Room", number: "07472-240700", note: "24/7" },
-            { name: "National Police", number: "100", note: "Emergency" },
-            { name: "Tourist Police", number: "1800-180-6127", note: "Toll Free" },
+            { name: "Police Control Room", number: "01472-240088", note: "24/7" },
+            { name: "Police Helpline", number: "100", note: "Emergency" },
+            { name: "Cyber Crime", number: "1930", note: "Helpline" },
         ]
     },
     {
