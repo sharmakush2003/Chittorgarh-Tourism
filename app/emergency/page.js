@@ -487,10 +487,10 @@ export default function EmergencyPage() {
             {/* Disclaimer */}
             <div className="ep-disc">
                 <div className="ep-disc-inner">
-                    <span>ℹ️</span>
+                    <span>❤️</span>
                     <p>
-                        In any life-threatening situation, always dial <strong>100 (Police)</strong> or{" "}
-                        <strong>108 (Ambulance)</strong> first. Numbers are best-effort accurate for Chittorgarh — verify from official sources before your visit.
+                        <strong>Your safety is our absolute priority.</strong><br/>
+                        Explore the majestic Chittorgarh Fort with complete peace of mind knowing that help is just a single tap away. We are always here to protect and assist you.
                     </p>
                 </div>
             </div>
