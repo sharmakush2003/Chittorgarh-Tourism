@@ -56,9 +56,9 @@ const emergencyData = [
         glow: "rgba(249,115,22,0.06)",
         contacts: [
             { name: "Fire Brigade", number: "101", note: "Fire Emergency" },
-            { name: "Women Safety", number: "1091", note: "Women in Distress" },
+            { name: "Women Helpline", number: "181", note: "24/7 Assist" },
             { name: "Child Helpline", number: "1098", note: "Child Distress" },
-            { name: "Disaster Helpline", number: "1078", note: "Nat. Disasters" },
+            { name: "Disaster Control Room", number: "0141-2227296", note: "State Level" },
         ]
     }
 ];
