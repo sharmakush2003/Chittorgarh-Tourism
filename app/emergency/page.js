@@ -1,6 +1,23 @@
 "use client";
+import { useState } from "react";
 
-import Link from "next/link";
+// Known places around Chittorgarh district
+const PLACES = [
+    { type: "hospital", icon: "🏥", name: "Govt. District Hospital", lat: 24.8858, lng: 74.6269 },
+    { type: "hospital", icon: "🏥", name: "Meera Hospital", lat: 24.8793, lng: 74.6261 },
+    { type: "police", icon: "🚔", name: "Chittorgarh Police Station", lat: 24.8848, lng: 74.6281 },
+    { type: "police", icon: "🚔", name: "Kotwali Police Station", lat: 24.8823, lng: 74.6254 },
+    { type: "toilet", icon: "🚻", name: "Tourist Toilet – Fort Entry", lat: 24.8892, lng: 74.6452 },
+    { type: "toilet", icon: "🚻", name: "Public Toilet – Bus Stand", lat: 24.8821, lng: 74.6219 },
+];
+
+const haversine = (lat1, lng1, lat2, lng2) => {
+    const R = 6371, dLat = (lat2-lat1)*Math.PI/180, dLng = (lng2-lng1)*Math.PI/180;
+    const a = Math.sin(dLat/2)**2 + Math.cos(lat1*Math.PI/180)*Math.cos(lat2*Math.PI/180)*Math.sin(dLng/2)**2;
+    return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+};
+
+const mapsLink = (lat, lng) => `https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}`;
 
 const emergencyData = [
     {
@@ -55,6 +72,29 @@ const emergencyData = [
 ];
 
 export default function EmergencyPage() {
+    const [locState, setLocState] = useState("idle"); // idle | loading | done | error
+    const [nearby, setNearby] = useState([]);
+
+    const findNearby = () => {
+        if (!navigator.geolocation) { setLocState("error"); return; }
+        setLocState("loading");
+        navigator.geolocation.getCurrentPosition(
+            ({ coords }) => {
+                const { latitude: lat, longitude: lng } = coords;
+                const groups = ["hospital", "police", "toilet"];
+                const results = groups.map(type => {
+                    const filtered = PLACES.filter(p => p.type === type)
+                        .map(p => ({ ...p, dist: haversine(lat, lng, p.lat, p.lng) }))
+                        .sort((a, b) => a.dist - b.dist);
+                    return { type, places: filtered.slice(0, 2) };
+                });
+                setNearby(results);
+                setLocState("done");
+            },
+            () => setLocState("error")
+        );
+    };
+
     return (
         <div className="ep">
             <style jsx>{`
@@ -271,6 +311,62 @@ export default function EmergencyPage() {
                 }
                 .ep-disc-inner strong { color: #D4AF37; }
 
+                /* ─ Nearby Section ─ */
+                .ep-nearby {
+                    max-width: 960px;
+                    margin: 0 auto 32px;
+                    padding: 0 16px;
+                }
+                .ep-nearby-head {
+                    display: flex; align-items: center; justify-content: space-between;
+                    margin-bottom: 16px; flex-wrap: wrap; gap: 10px;
+                }
+                .ep-nearby-head h3 {
+                    font-family: var(--font-cormorant);
+                    font-size: 1.6rem; margin: 0; color: #fff;
+                }
+                .ep-loc-btn {
+                    display: flex; align-items: center; gap: 8px;
+                    padding: 10px 20px; border-radius: 8px;
+                    background: rgba(74,222,128,0.1); border: 1px solid rgba(74,222,128,0.3);
+                    color: #4ade80; font-size: 0.85rem; font-weight: 600;
+                    cursor: pointer; transition: all 0.2s;
+                }
+                .ep-loc-btn:hover { background: rgba(74,222,128,0.18); }
+                .ep-loc-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+                .ep-nearby-grid {
+                    display: grid;
+                    grid-template-columns: repeat(3, 1fr);
+                    gap: 12px;
+                }
+                .ep-nearby-group h4 {
+                    font-size: 0.72rem; text-transform: uppercase; letter-spacing: 2px;
+                    color: #555; margin: 0 0 10px 2px;
+                }
+                .ep-nearby-item {
+                    background: rgba(255,255,255,0.03);
+                    border: 1px solid rgba(255,255,255,0.07);
+                    border-radius: 10px; padding: 12px 14px;
+                    display: flex; flex-direction: column; gap: 6px;
+                    transition: background 0.2s;
+                }
+                .ep-nearby-item:hover { background: rgba(255,255,255,0.06); }
+                .ep-nearby-name { font-size: 0.82rem; color: #ccc; }
+                .ep-nearby-dist { font-size: 0.75rem; color: #4ade80; font-weight: 700; }
+                .ep-dir-btn {
+                    display: block; padding: 8px; border-radius: 7px; text-align: center;
+                    text-decoration: none; font-size: 0.78rem; font-weight: 600;
+                    background: rgba(74,222,128,0.08); color: #4ade80;
+                    border: 1px solid rgba(74,222,128,0.2); transition: all 0.2s;
+                    margin-top: 2px;
+                }
+                .ep-dir-btn:hover { background: rgba(74,222,128,0.15); }
+                .ep-loc-msg { color: #555; font-size: 0.85rem; text-align: center; padding: 20px; }
+                @media (max-width: 680px) {
+                    .ep-nearby-grid { grid-template-columns: 1fr; }
+                    .ep-nearby-grid > div + div { margin-top: 4px; }
+                }
+
                 /* ─ Responsive ─ */
                 @media (max-width: 680px) {
                     .ep-grid { grid-template-columns: 1fr; }
@@ -292,6 +388,44 @@ export default function EmergencyPage() {
                     <a href="tel:1364" className="ep-dial t">📞 Tourist — 1364</a>
                 </div>
             </section>
+
+            {/* Nearby Places */}
+            <div className="ep-nearby">
+                <div className="ep-nearby-head">
+                    <h3>📍 Nearest Places</h3>
+                    <button
+                        className="ep-loc-btn"
+                        onClick={findNearby}
+                        disabled={locState === "loading"}
+                    >
+                        {locState === "loading" ? "Locating..." : locState === "done" ? "🔄 Refresh" : "📡 Find Nearby Places"}
+                    </button>
+                </div>
+
+                {locState === "idle" && (
+                    <p className="ep-loc-msg">Click the button to find the nearest hospital, police station, and toilet to your current location.</p>
+                )}
+                {locState === "error" && (
+                    <p className="ep-loc-msg" style={{ color: "#f87171" }}>⚠️ Could not get your location. Please allow location access and try again.</p>
+                )}
+
+                {locState === "done" && (
+                    <div className="ep-nearby-grid">
+                        {nearby.map(({ type, places }) => (
+                            <div key={type} className="ep-nearby-group">
+                                <h4>{type === "hospital" ? "🏥 Hospital" : type === "police" ? "🚔 Police" : "🚻 Toilet"}</h4>
+                                {places.map(p => (
+                                    <div key={p.name} className="ep-nearby-item">
+                                        <span className="ep-nearby-name">{p.name}</span>
+                                        <span className="ep-nearby-dist">{p.dist < 1 ? `${(p.dist * 1000).toFixed(0)}m away` : `${p.dist.toFixed(1)}km away`}</span>
+                                        <a href={mapsLink(p.lat, p.lng)} target="_blank" rel="noreferrer" className="ep-dir-btn">Get Directions →</a>
+                                    </div>
+                                ))}
+                            </div>
+                        ))}
+                    </div>
+                )}
+            </div>
 
             {/* Cards */}
             <div className="ep-grid">
