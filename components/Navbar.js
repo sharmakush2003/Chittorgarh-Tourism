@@ -58,7 +58,6 @@ export default function Navbar() {
         { href: "/plan", label: t("nav.planTrip") },
         { href: "/how-to-reach", label: t("nav.howToReach") },
         { href: "/blog", label: t("nav.blog") || "Blog" },
-        { href: "/admin/dashboard", label: "Admin Management", isSpecial: true },
     ];
 
     return (
