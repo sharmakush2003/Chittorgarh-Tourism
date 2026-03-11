@@ -68,26 +68,9 @@ export default function EmergencyPage() {
                     padding-bottom: 60px;
                 }
 
-                /* ─ Back Button ─ */
-                .ep-back {
-                    display: inline-flex;
-                    align-items: center;
-                    gap: 8px;
-                    padding: 10px 20px;
-                    margin: 20px 20px 0;
-                    background: rgba(255,255,255,0.05);
-                    border: 1px solid rgba(255,255,255,0.1);
-                    border-radius: 50px;
-                    color: #888;
-                    text-decoration: none;
-                    font-size: 0.82rem;
-                    transition: all 0.25s;
-                }
-                .ep-back:hover { color: #fff; background: rgba(255,255,255,0.1); }
-
                 /* ─ Hero ─ */
                 .ep-hero {
-                    padding: 40px 20px 48px;
+                    padding: 100px 20px 48px;
                     text-align: center;
                     max-width: 680px;
                     margin: 0 auto;
@@ -291,13 +274,10 @@ export default function EmergencyPage() {
                 /* ─ Responsive ─ */
                 @media (max-width: 680px) {
                     .ep-grid { grid-template-columns: 1fr; }
-                    .ep-hero { padding: 32px 20px 36px; }
+                    .ep-hero { padding: 80px 20px 36px; }
                     .ep-card { padding: 20px; }
                 }
             `}</style>
-
-            {/* Back */}
-            <Link href="/" className="ep-back">← Home</Link>
 
             {/* Hero */}
             <section className="ep-hero">
