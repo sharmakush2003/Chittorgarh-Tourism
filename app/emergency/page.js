@@ -317,35 +317,72 @@ export default function EmergencyPage() {
                 .ep-loc-btn:disabled { opacity: 0.5; cursor: not-allowed; }
                 .ep-nearby-grid {
                     display: grid;
-                    grid-template-columns: repeat(3, 1fr);
-                    gap: 12px;
-                }
-                .ep-nearby-group h4 {
-                    font-size: 0.72rem; text-transform: uppercase; letter-spacing: 2px;
-                    color: #555; margin: 0 0 10px 2px;
+                    grid-template-columns: repeat(2, 1fr);
+                    gap: 16px;
                 }
                 .ep-nearby-item {
-                    background: rgba(255,255,255,0.03);
-                    border: 1px solid rgba(255,255,255,0.07);
-                    border-radius: 10px; padding: 12px 14px;
-                    display: flex; flex-direction: column; gap: 6px;
-                    transition: background 0.2s;
+                    background: rgba(255,255,255,0.02);
+                    border: 1px solid rgba(255,255,255,0.06);
+                    border-radius: 14px;
+                    padding: 16px;
+                    display: flex;
+                    align-items: center;
+                    gap: 16px;
+                    text-decoration: none;
+                    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                    position: relative;
+                    overflow: hidden;
                 }
-                .ep-nearby-item:hover { background: rgba(255,255,255,0.06); }
-                .ep-nearby-name { font-size: 0.82rem; color: #ccc; }
-                .ep-nearby-dist { font-size: 0.75rem; color: #4ade80; font-weight: 700; }
-                .ep-dir-btn {
-                    display: block; padding: 8px; border-radius: 7px; text-align: center;
-                    text-decoration: none; font-size: 0.78rem; font-weight: 600;
-                    background: rgba(74,222,128,0.08); color: #4ade80;
-                    border: 1px solid rgba(74,222,128,0.2); transition: all 0.2s;
-                    margin-top: 2px;
+                .ep-nearby-item:hover {
+                    background: rgba(255,255,255,0.05);
+                    border-color: rgba(255,255,255,0.15);
+                    transform: translateY(-4px);
+                    box-shadow: 0 12px 30px rgba(0,0,0,0.3);
                 }
-                .ep-dir-btn:hover { background: rgba(74,222,128,0.15); }
-                .ep-loc-msg { color: #555; font-size: 0.85rem; text-align: center; padding: 20px; }
+                .ep-nearby-icon {
+                    font-size: 1.6rem;
+                    width: 52px;
+                    height: 52px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    background: rgba(255,255,255,0.05);
+                    border-radius: 12px;
+                    flex-shrink: 0;
+                }
+                .ep-nearby-content {
+                    flex: 1;
+                    display: flex;
+                    flex-direction: column;
+                    gap: 4px;
+                }
+                .ep-nearby-name {
+                    font-size: 0.95rem;
+                    color: #fff;
+                    font-weight: 600;
+                }
+                .ep-nearby-dist {
+                    font-size: 0.72rem;
+                    color: #4ade80;
+                    font-weight: 800;
+                    text-transform: uppercase;
+                    letter-spacing: 1px;
+                }
+                .ep-nearby-arrow {
+                    color: rgba(255,255,255,0.2);
+                    font-size: 1.3rem;
+                    transition: all 0.3s ease;
+                }
+                .ep-nearby-item:hover .ep-nearby-arrow {
+                    color: #4ade80;
+                    transform: translateX(4px);
+                }
+                .ep-loc-msg { color: #555; font-size: 0.9rem; text-align: center; padding: 24px; line-height: 1.6; }
                 @media (max-width: 680px) {
                     .ep-nearby-grid { grid-template-columns: 1fr; }
-                    .ep-nearby-grid > div + div { margin-top: 4px; }
+                    .ep-nearby-item { padding: 14px; gap: 14px; }
+                    .ep-nearby-icon { width: 44px; height: 44px; font-size: 1.3rem; }
+                    .ep-nearby-name { font-size: 0.9rem; }
                 }
 
                 /* ─ Responsive ─ */
@@ -384,20 +421,26 @@ export default function EmergencyPage() {
 
                 {locState === "done" && coords && (
                     <div className="ep-nearby-grid">
-                        {CATEGORIES.map(c => (
-                            <a
-                                key={c.type}
-                                href={mapsSearch(c.query, coords.lat, coords.lng)}
-                                target="_blank"
-                                rel="noreferrer"
-                                className="ep-nearby-item ep-dir-btn"
-                                style={{ textDecoration: 'none' }}
-                            >
-                                <span style={{ fontSize: '1.5rem' }}>{c.label.split(' ')[0]}</span>
-                                <span className="ep-nearby-name" style={{ color: '#fff', marginTop: '4px' }}>{c.label.slice(3)}</span>
-                                <span className="ep-nearby-dist">Open in Google Maps →</span>
-                            </a>
-                        ))}
+                        {CATEGORIES.map(c => {
+                            const icon = c.label.split(' ')[0];
+                            const text = c.label.substring(icon.length).trim();
+                            return (
+                                <a
+                                    key={c.type}
+                                    href={mapsSearch(c.query, coords.lat, coords.lng)}
+                                    target="_blank"
+                                    rel="noreferrer"
+                                    className="ep-nearby-item"
+                                >
+                                    <div className="ep-nearby-icon">{icon}</div>
+                                    <div className="ep-nearby-content">
+                                        <span className="ep-nearby-name">{text}</span>
+                                        <span className="ep-nearby-dist">Open in Google Maps</span>
+                                    </div>
+                                    <div className="ep-nearby-arrow">→</div>
+                                </a>
+                            );
+                        })}
                     </div>
                 )}
             </div>
