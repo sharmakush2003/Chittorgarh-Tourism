@@ -12,6 +12,8 @@ export default function Navbar() {
     const [isLangOpen, setIsLangOpen] = useState(false);
     const pathname = usePathname();
     const { lang, changeLanguage, t } = useLanguage();
+
+    if (pathname?.startsWith("/admin")) return null;
     const langRef = useRef(null);
 
     useEffect(() => {

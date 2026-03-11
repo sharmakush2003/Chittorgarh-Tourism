@@ -1,12 +1,16 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
+import { usePathname } from "next/navigation";
 import { useLanguage } from "@/context/LanguageContext";
 import { triggerHaptic } from "@/lib/haptics";
 import "./HeritageGuide.css";
 
 export default function HeritageGuide() {
+    const pathname = usePathname();
     const { t, lang } = useLanguage();
+
+    if (pathname?.startsWith("/admin")) return null;
     const [isOpen, setIsOpen] = useState(false);
     const [messages, setMessages] = useState([]);
     const [inputValue, setInputValue] = useState("");

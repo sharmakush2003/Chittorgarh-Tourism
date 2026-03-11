@@ -9,6 +9,8 @@ import VisitorGate from "@/components/VisitorGate";
 import HeritageGuide from "@/components/HeritageGuide";
 import Newsletter from "@/components/Newsletter";
 import { LanguageProvider } from "@/context/LanguageContext";
+import { AuthProvider } from "@/context/AuthContext";
+import AnalyticsTracker from "@/components/AnalyticsTracker";
 import "./globals.css";
 
 const cormorant = Cormorant_Garamond({
@@ -195,16 +197,19 @@ export default function RootLayout({ children }) {
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
         />
         <Background3D />
-        <LanguageProvider>
-          <VisitorGate />
-          <Navbar />
-          <LanguagePrompt />
-          {children}
-          <HeritageGuide />
-          <Newsletter />
-          <Footer />
-          <ScrollReveal />
-        </LanguageProvider>
+        <AuthProvider>
+          <AnalyticsTracker />
+          <LanguageProvider>
+            <VisitorGate />
+            <Navbar />
+            <LanguagePrompt />
+            {children}
+            <HeritageGuide />
+            <Newsletter />
+            <Footer />
+            <ScrollReveal />
+          </LanguageProvider>
+        </AuthProvider>
       </body>
     </html>
   );

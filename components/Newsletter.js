@@ -1,12 +1,16 @@
 "use client";
 
 import { useState, useEffect } from 'react';
+import { usePathname } from 'next/navigation';
 import { Mail, CheckCircle, ArrowRight, Loader2, Sparkles, ShieldCheck } from 'lucide-react';
 import { triggerHaptic } from "@/lib/haptics";
 import { useLanguage } from "@/context/LanguageContext";
 
 export default function Newsletter() {
+    const pathname = usePathname();
     const { t } = useLanguage();
+
+    if (pathname?.startsWith('/admin')) return null;
     const [email, setEmail] = useState('');
     const [status, setStatus] = useState('idle'); // idle | loading | success | error
     const [isVisible, setIsVisible] = useState(false);

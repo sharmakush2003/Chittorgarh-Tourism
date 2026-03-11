@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import { useLanguage } from "@/context/LanguageContext";
 
 const VISITED_KEY = "ctt_visited";
@@ -16,11 +16,18 @@ const FROM_CITY_KEY = "ctt_fromCity";
  *   API failure  →  show FALLBACK manual choice modal
  */
 export default function VisitorGate() {
-    const router = useRouter();
     const { t } = useLanguage();
+    const router = useRouter();
+    const pathname = usePathname();
     const [status, setStatus] = useState("idle"); // idle | checking | local | tourist | fallback | done
 
     useEffect(() => {
+        // If we're on an admin page, we don't need the visitor gate logic
+        if (pathname.startsWith('/admin')) {
+            setStatus("done");
+            return;
+        }
+
         const visited = localStorage.getItem(VISITED_KEY);
         if (visited) {
             setStatus("done");
@@ -48,7 +55,7 @@ export default function VisitorGate() {
                 clearTimeout(timeout);
                 setStatus("fallback");
             });
-    }, [router]);
+    }, [router, pathname]);
 
     const markVisited = (value = "true") => {
         localStorage.setItem(VISITED_KEY, value);
@@ -92,11 +99,10 @@ export default function VisitorGate() {
         return () => clearInterval(interval);
     }, []);
 
-    // Render nothing when done or still in idle state
-    if (status === "done" || status === "idle") return null;
+    // Hide on admin routes or when done
+    if (pathname.startsWith('/admin') || status === "done" || status === "idle") return null;
 
     // Delay showing any VisitorGate UI until Language selection is complete
-    // This ensures we ask "Need travel help?" AFTER the language prompt as requested.
     if (!hasLocale) return null;
 
     // Thin loading veil while checking geo (fast, ~100ms — doesn't block page render)

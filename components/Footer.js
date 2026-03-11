@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useLanguage } from "@/context/LanguageContext";
 
 const socialLinks = [
@@ -53,6 +54,9 @@ const navLinks = [
 
 export default function Footer() {
     const { t } = useLanguage();
+    const pathname = usePathname();
+
+    if (pathname?.startsWith("/admin")) return null;
 
     return (
         <footer className="site-footer">
@@ -142,7 +146,7 @@ export default function Footer() {
                         Made with{" "}
                         <span className="footer-heart" aria-label="love">❤️</span>
                         {" "}by{" "}
-                        <span className="footer-author">Kush Sharma</span>
+                        <span className="footer-author">Kush Sharma & Lav Sharma</span>
                     </p>
                     <div className="footer-copy-info">
                         <p className="footer-location">Chittorgarh, Rajasthan</p>

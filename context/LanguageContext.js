@@ -87,10 +87,9 @@ export function LanguageProvider({ children }) {
         triggerHaptic('medium');
     };
 
-    // Prevent hydration mismatch by not rendering until mounted client-side.
-    // Also pause render until the specific language's translations are loaded 
-    // to prevent Flash of English Content.
-    if (!isMounted || loading || !translations) return null;
+    // Prevent hydration mismatch by still allowing isMounted check if desired,
+    // but don't block the entire app if translations are still loading.
+    if (!isMounted) return null;
 
     return (
         <LanguageContext.Provider value={{ lang, changeLanguage, t, loading }}>
