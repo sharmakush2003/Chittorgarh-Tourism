@@ -149,6 +149,15 @@ export default function Navbar() {
                 </Link>
 
                 <Link
+                    href="/emergency"
+                    className={`${isActive("/emergency")} mobile-emergency-link`}
+                    onClick={() => setIsMenuOpen(false)}
+                    style={{ color: '#ef4444', fontWeight: '600', borderLeft: '2px solid #ef4444', paddingLeft: '15px' }}
+                >
+                    🚨 Emergency Info
+                </Link>
+
+                <Link
                     href="/admin/dashboard"
                     className={`${isActive("/admin/dashboard")} mobile-admin-link`}
                     onClick={() => setIsMenuOpen(false)}
