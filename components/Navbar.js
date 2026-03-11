@@ -58,6 +58,7 @@ export default function Navbar() {
         { href: "/plan", label: t("nav.planTrip") },
         { href: "/how-to-reach", label: t("nav.howToReach") },
         { href: "/blog", label: t("nav.blog") || "Blog" },
+        { href: "/admin/dashboard", label: "Admin Management", isSpecial: true },
     ];
 
     return (
@@ -138,13 +139,22 @@ export default function Navbar() {
                     </Link>
                 ))}
 
-                {/* Mobile-only Gallery Link */}
+                {/* Mobile-only Links */}
                 <Link
                     href="/gallery"
                     className={isActive("/gallery")}
                     onClick={() => setIsMenuOpen(false)}
                 >
                     {t("nav.gallery") || "Gallery"}
+                </Link>
+
+                <Link
+                    href="/admin/dashboard"
+                    className={`${isActive("/admin/dashboard")} mobile-admin-link`}
+                    onClick={() => setIsMenuOpen(false)}
+                    style={{ color: 'var(--gold)', fontWeight: '600', borderLeft: '2px solid var(--gold)', paddingLeft: '15px' }}
+                >
+                    🔱 Admin Management
                 </Link>
 
                 {/* Mobile Language Selection */}
