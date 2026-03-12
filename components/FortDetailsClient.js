@@ -251,7 +251,7 @@ export default function FortDetailsClient() {
                 </section>
             </main>
 
-            <style jsx>{`
+            <style jsx global>{`
                 .fort-page {
                     background: #0a0804 !important;
                     color: #fff;
@@ -272,30 +272,46 @@ export default function FortDetailsClient() {
                     z-index: 1;
                 }
 
-                /* --- Global Heading Polish --- */
-                h1, h2, h3, h4, .timeline-year {
+                /* --- Global Typography Polish --- */
+                .fort-page h1, .fort-page h2, .fort-page h3, .fort-page h4, .fort-page .timeline-year {
                     font-family: var(--ff-display) !important;
+                    line-height: 1.3 !important;
+                    margin: 0;
+                    padding: 0;
                 }
 
-                /* Royal Hindi Rule */
-                :global([lang="hi"]) .hero-title,
-                :global([lang="hi"]) .section-title,
-                :global([lang="hi"]) .timeline-year,
-                :global([lang="hi"]) .mon-name {
+                .fort-page p {
+                    color: rgba(255, 255, 255, 0.98) !important;
+                    line-height: 1.8;
+                    font-size: 1.05rem;
+                    margin: 0 0 1.5rem 0;
+                }
+
+                /* Hindi High Contrast & Spacing */
+                [lang="hi"] .fort-page .hero-title,
+                [lang="hi"] .fort-page .section-title,
+                [lang="hi"] .fort-page .timeline-year,
+                [lang="hi"] .fort-page .mon-name {
                     font-family: var(--font-martel), serif !important;
                     font-weight: 900 !important;
+                    line-height: 1.4 !important;
+                }
+
+                [lang="hi"] .fort-page p {
+                    font-weight: 500 !important;
+                    line-height: 1.9;
                 }
 
                 /* --- Hero --- */
                 .fort-hero {
-                    min-height: 80svh;
+                    min-height: 100vh; 
+                    height: auto;
                     position: relative;
                     display: flex;
                     align-items: center;
                     justify-content: center;
                     text-align: center;
-                    overflow: hidden;
-                    padding: 4rem 1.5rem;
+                    padding: 8rem 1.5rem 4rem;
                     z-index: 2;
                 }
 
@@ -310,132 +326,146 @@ export default function FortDetailsClient() {
                     position: absolute;
                     inset: 0;
                     background: linear-gradient(to bottom, 
-                        rgba(10, 8, 4, 0.3) 0%, 
-                        rgba(10, 8, 4, 0.8) 100%
-                    );
+                        rgba(10, 8, 4, 0.6) 0%, 
+                        rgba(10, 8, 4, 0.98) 100%
+                    ) !important;
                     z-index: -1;
                 }
 
                 .hero-content {
-                    max-width: 800px;
-                    height: auto;
+                    max-width: 900px;
+                    width: 100%;
+                    z-index: 10;
                 }
 
                 .back-link {
                     display: inline-flex;
                     align-items: center;
                     gap: 0.5rem;
-                    color: var(--gold);
-                    font-size: 0.75rem;
-                    margin-bottom: 2rem;
-                    letter-spacing: 2px;
+                    color: #fff;
+                    font-size: 0.8rem;
+                    margin-bottom: 3rem;
                     text-transform: uppercase;
-                    font-weight: 600;
-                    opacity: 0.8;
+                    font-weight: 800;
+                    background: rgba(212, 175, 55, 0.2);
+                    padding: 0.75rem 1.5rem;
+                    border: 1px solid rgba(212, 175, 55, 0.4);
+                    border-radius: 4px;
                 }
 
                 .hero-eyebrow {
                     display: block;
-                    letter-spacing: 6px;
+                    letter-spacing: 4px;
                     text-transform: uppercase;
-                    font-size: 0.8rem;
+                    font-size: 0.9rem;
                     color: var(--gold);
                     margin-bottom: 1.5rem;
-                    font-weight: 700;
+                    font-weight: 800;
                 }
 
                 .hero-title {
-                    font-size: clamp(2.8rem, 10vw, 7rem);
-                    line-height: 1;
-                    margin-bottom: 1.5rem;
+                    font-size: clamp(2.5rem, 8vw, 5rem);
                     color: #fff;
-                    text-shadow: 0 10px 30px rgba(0,0,0,0.5);
+                    margin-bottom: 2rem;
+                    text-shadow: 0 4px 20px rgba(0,0,0,0.8);
                 }
 
                 .hero-desc {
-                    font-size: clamp(1rem, 2.5vw, 1.25rem);
-                    color: rgba(255,255,255,0.8);
-                    max-width: 600px;
+                    font-size: clamp(1rem, 2.5vw, 1.2rem);
+                    max-width: 700px;
                     margin: 0 auto 3rem;
-                    line-height: 1.6;
-                    font-weight: 300;
                 }
 
                 .hero-stats {
                     display: flex;
                     justify-content: center;
-                    gap: clamp(1rem, 5vw, 3rem);
-                    padding-top: 2rem;
-                    border-top: 1px solid rgba(212, 175, 55, 0.2);
+                    align-items: center;
+                    flex-wrap: wrap;
+                    gap: 2rem;
+                    padding-top: 3rem;
+                    border-top: 1px solid rgba(212, 175, 55, 0.3);
+                }
+
+                .stat-item {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
                 }
 
                 .stat-val {
-                    display: block;
-                    font-size: clamp(1.5rem, 4vw, 2.8rem);
+                    font-size: clamp(1.8rem, 5vw, 3rem);
                     color: var(--gold);
                     font-family: var(--ff-display);
-                    line-height: 1;
-                    margin-bottom: 0.25rem;
+                    margin-bottom: 0.5rem;
+                    font-weight: 900;
                 }
 
                 .stat-label {
-                    font-size: 0.7rem;
+                    font-size: 0.75rem;
                     text-transform: uppercase;
                     letter-spacing: 2px;
-                    opacity: 0.6;
+                    opacity: 0.9;
+                }
+
+                .stat-divider {
+                    width: 1px;
+                    height: 40px;
+                    background: rgba(212, 175, 55, 0.3);
                 }
 
                 /* --- Nav --- */
                 .fort-nav {
                     position: sticky;
                     top: 0;
-                    background: rgba(10, 8, 4, 0.95);
-                    backdrop-filter: blur(20px);
-                    -webkit-backdrop-filter: blur(20px);
+                    background: #0a0804 !important;
                     z-index: 100;
-                    border-bottom: 1px solid rgba(212, 175, 55, 0.1);
+                    border-bottom: 1px solid rgba(212, 175, 55, 0.2);
                 }
 
                 .nav-container {
-                    max-width: 1200px;
-                    margin: 0 auto;
                     display: flex;
                     justify-content: center;
-                    padding: 0;
+                    overflow-x: auto;
                 }
 
                 .nav-item {
                     background: none;
                     border: none;
-                    color: rgba(255,255,255,0.5);
-                    padding: 1.25rem 1.5rem;
-                    font-size: 0.75rem;
+                    color: rgba(255,255,255,0.7);
+                    padding: 1rem 1.5rem;
+                    font-size: 0.8rem;
                     font-weight: 700;
                     text-transform: uppercase;
-                    letter-spacing: 2px;
+                    letter-spacing: 1.5px;
                     cursor: pointer;
                     display: flex;
                     align-items: center;
-                    gap: 0.75rem;
-                    transition: 0.3s;
+                    gap: 0.5rem;
+                    white-space: nowrap;
                 }
 
                 .nav-item.active { 
                     color: var(--gold);
-                    background: rgba(212, 175, 55, 0.05);
+                    background: rgba(212, 175, 55, 0.1);
+                    border-bottom: 2px solid var(--gold);
                 }
 
                 /* --- Sections --- */
                 .fort-main {
-                    position: relative;
-                    z-index: 2;
+                    display: block;
+                    width: 100%;
                 }
 
                 .fort-section {
-                    padding: clamp(4rem, 15vh, 8rem) 1.5rem;
+                    display: block; /* crucial for non-overlapping flow */
+                    position: relative;
+                    height: auto !important;
+                    min-height: auto !important;
+                    padding: 5rem 1.5rem;
                     max-width: 1200px;
                     margin: 0 auto;
-                    height: auto;
+                    background: #0a0804 !important;
+                    overflow: hidden; /* contain floats/margins */
                 }
 
                 .section-header {
@@ -444,85 +474,122 @@ export default function FortDetailsClient() {
                 }
 
                 .section-title {
-                    font-size: clamp(2.2rem, 6vw, 4.5rem);
-                    margin-bottom: 1rem;
-                    color: var(--gold);
+                    font-size: clamp(2.2rem, 6vw, 4rem);
+                    margin-bottom: 1.5rem;
+                    color: var(--gold) !important;
                 }
 
                 .title-divider {
                     width: 60px;
-                    height: 2px;
+                    height: 3px;
                     background: var(--gold);
                     margin: 0 auto;
                 }
 
+                /* --- Overview --- */
+                .overview-grid {
+                    display: grid;
+                    grid-template-columns: 1fr;
+                    gap: 3rem;
+                }
+                
+                @media (min-width: 900px) {
+                    .overview-grid { grid-template-columns: 1.5fr 1fr; }
+                }
+
+                .info-chips {
+                    display: flex;
+                    flex-wrap: wrap;
+                    gap: 1rem;
+                    margin-top: 2rem;
+                }
+
+                .chip {
+                    display: inline-flex;
+                    align-items: center;
+                    gap: 0.5rem;
+                    background: rgba(255,255,255,0.05);
+                    padding: 0.5rem 1rem;
+                    border-radius: 20px;
+                    font-size: 0.85rem;
+                    border: 1px solid rgba(255,255,255,0.1);
+                }
+
                 /* --- History --- */
                 .history-timeline {
-                    max-width: 850px;
-                    margin: 0 auto;
                     display: flex;
                     flex-direction: column;
-                    gap: 1.5rem;
+                    gap: 2.5rem;
                 }
 
                 .timeline-item {
-                    display: grid;
-                    grid-template-columns: 140px 1fr;
-                    gap: 2rem;
+                    display: flex;
+                    flex-direction: column;
+                    gap: 1.5rem;
                     padding: 2rem;
-                    background: rgba(255, 255, 255, 0.02);
-                    border: 1px solid rgba(212, 175, 55, 0.1);
-                    transition: 0.4s;
+                    background: rgba(255, 255, 255, 0.03);
+                    border: 1px solid rgba(212, 175, 55, 0.2);
+                    border-radius: 8px;
+                }
+
+                @media (min-width: 768px) {
+                    .timeline-item {
+                        flex-direction: row;
+                        align-items: flex-start;
+                        gap: 3rem;
+                        padding: 3rem;
+                    }
+                    .timeline-year {
+                        min-width: 150px;
+                        border-right: 2px solid rgba(212, 175, 55, 0.5);
+                        border-bottom: none;
+                        padding-right: 2rem;
+                        padding-bottom: 0;
+                    }
                 }
 
                 .timeline-year {
-                    font-size: 1.5rem;
-                    color: var(--gold);
-                    line-height: 1;
-                    border-right: 1px solid rgba(212, 175, 55, 0.3);
-                    padding-right: 1.5rem;
-                    display: flex;
-                    align-items: center;
+                    font-size: 2rem;
+                    color: var(--gold) !important;
+                    border-bottom: 2px solid rgba(212, 175, 55, 0.5);
+                    padding-bottom: 1rem;
                 }
 
                 .timeline-title {
-                    font-size: 1.4rem;
-                    color: #fff;
-                    margin-bottom: 0.5rem;
-                }
-
-                .timeline-content p {
-                    color: rgba(255,255,255,0.7);
-                    line-height: 1.7;
+                    font-size: 1.6rem;
+                    margin-bottom: 1rem;
                 }
 
                 /* --- Monuments --- */
                 .monuments-list {
                     display: grid;
-                    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-                    gap: 2rem;
+                    grid-template-columns: 1fr;
+                    gap: 2.5rem;
+                }
+
+                @media (min-width: 768px) {
+                    .monuments-list { grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 3rem; }
                 }
 
                 .monument-card {
-                    background: #15110d;
-                    border: 1px solid rgba(212, 175, 55, 0.15);
+                    background: #110d0a !important;
+                    border: 1px solid rgba(212, 175, 55, 0.3);
+                    border-radius: 12px;
+                    overflow: hidden;
                     display: flex;
                     flex-direction: column;
-                    overflow: hidden;
-                    height: auto !important;
                 }
 
                 .mon-icon-container {
-                    width: 100%;
-                    aspect-ratio: 16/9;
-                    background: rgba(10, 8, 4, 0.5);
+                    background: rgba(0,0,0,0.4);
+                    padding: 3rem 0;
                     display: flex;
-                    align-items: center;
                     justify-content: center;
+                    border-bottom: 1px solid rgba(212, 175, 55, 0.2);
                     position: relative;
                 }
 
-                .mon-icon { font-size: 4rem; opacity: 0.9; }
+                .mon-icon { font-size: 3.5rem; }
 
                 .mon-tag {
                     position: absolute;
@@ -530,10 +597,10 @@ export default function FortDetailsClient() {
                     left: 1rem;
                     background: var(--gold);
                     color: #000;
-                    padding: 0.25rem 0.75rem;
+                    padding: 0.3rem 0.8rem;
                     font-size: 0.7rem;
                     font-weight: 800;
-                    text-transform: uppercase;
+                    border-radius: 4px;
                 }
 
                 .mon-content {
@@ -542,43 +609,45 @@ export default function FortDetailsClient() {
                 }
 
                 .mon-name {
-                    font-size: 1.6rem;
-                    color: #fff;
-                    margin-bottom: 0.75rem;
+                    font-size: 1.8rem;
+                    margin-bottom: 1rem;
                 }
 
                 .audio-btn {
-                    background: rgba(212, 175, 55, 0.1);
+                    background: rgba(212, 175, 55, 0.15);
                     border: 1px solid var(--gold);
-                    color: var(--gold);
-                    padding: 0.5rem 1rem;
-                    font-size: 0.7rem;
+                    color: var(--gold) !important;
+                    padding: 0.6rem 1.2rem;
+                    font-size: 0.8rem;
                     font-weight: 700;
-                    text-transform: uppercase;
-                    display: flex;
+                    display: inline-flex;
                     align-items: center;
                     gap: 0.5rem;
                     margin-bottom: 1.5rem;
-                    letter-spacing: 1px;
-                }
-
-                .mon-desc {
-                    color: rgba(255,255,255,0.6);
-                    line-height: 1.6;
-                    font-size: 0.95rem;
+                    border-radius: 4px;
+                    cursor: pointer;
                 }
 
                 /* --- Gallery --- */
                 .fort-gallery-grid {
                     display: grid;
-                    grid-template-columns: repeat(2, 1fr);
-                    gap: 1rem;
+                    grid-template-columns: 1fr;
+                    gap: 1.5rem;
+                }
+
+                @media (min-width: 600px) {
+                    .fort-gallery-grid { grid-template-columns: repeat(2, 1fr); }
+                }
+                
+                @media (min-width: 900px) {
+                    .fort-gallery-grid { grid-template-columns: repeat(3, 1fr); }
                 }
 
                 .gallery-item {
-                    aspect-ratio: 1;
+                    aspect-ratio: 4/3;
+                    border-radius: 8px;
                     overflow: hidden;
-                    border: 1px solid rgba(212, 175, 55, 0.1);
+                    border: 1px solid rgba(212, 175, 55, 0.3);
                 }
 
                 .gallery-item img {
@@ -587,22 +656,25 @@ export default function FortDetailsClient() {
                     object-fit: cover;
                 }
 
-                /* --- Mobile --- */
+                /* --- Mobile Polish --- */
                 @media (max-width: 768px) {
-                    .nav-container { overflow-x: auto; justify-content: flex-start; }
-                    .nav-item { padding: 1rem; font-size: 0.65rem; }
-                    .nav-icon-wrapper { display: none; }
-                    
-                    .hero-section { min-height: 90svh; }
-                    .hero-title { font-size: 3rem; }
-                    .hero-stats { flex-direction: column; gap: 1.5rem; align-items: center; }
+                    .fort-hero { padding-top: 6rem; padding-bottom: 4rem; min-height: 100vh; }
+                    .hero-title { font-size: 2.8rem; line-height: 1.15 !important; margin-bottom: 1.5rem; }
+                    .hero-desc { font-size: 1rem; margin-bottom: 2rem; }
+                    .hero-stats { flex-direction: column; gap: 1.5rem; border-top: none; padding-top: 1rem; }
                     .stat-divider { display: none; }
-
-                    .timeline-item { grid-template-columns: 1fr; gap: 1rem; padding: 1.5rem; }
-                    .timeline-year { border-right: none; border-bottom: 1px solid var(--gold); padding: 0 0 0.5rem 0; width: fit-content; }
                     
-                    .monuments-list { grid-template-columns: 1fr; }
-                    .fort-gallery-grid { grid-template-columns: repeat(2, 1fr); }
+                    .fort-section { padding: 4rem 1.25rem; }
+                    .section-header { margin-bottom: 3rem; }
+                    .section-title { font-size: 2.4rem; }
+                    
+                    .timeline-item { padding: 1.5rem; }
+                    .timeline-year { font-size: 1.8rem; }
+                    .timeline-title { font-size: 1.5rem; }
+                    
+                    .mon-content { padding: 1.5rem; }
+                    .mon-name { font-size: 1.6rem; }
+                    p { font-size: 1rem; line-height: 1.6; }
                 }
             `}</style>
         </motion.div>
