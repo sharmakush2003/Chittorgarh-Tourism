@@ -14,14 +14,14 @@ import AnalyticsTracker from "@/components/AnalyticsTracker";
 import "./globals.css";
 
 const playfair = Playfair_Display({
-  subsets: ["latin"],
+  subsets: ["latin", "devanagari"],
   variable: "--font-playfair",
   weight: ["400", "500", "600", "700"],
   style: ["normal", "italic"],
 });
 
 const inter = Inter({
-  subsets: ["latin"],
+  subsets: ["latin", "devanagari"],
   variable: "--font-inter",
   weight: ["300", "400", "500", "600", "700"],
 });
