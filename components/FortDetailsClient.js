@@ -17,6 +17,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { triggerHaptic } from "@/lib/haptics";
+import GoldenHourTracker from "./GoldenHourTracker";
 
 export default function FortDetailsClient() {
     const { t, lang } = useLanguage();
@@ -137,19 +138,19 @@ export default function FortDetailsClient() {
                         <h2 className="section-title text-gold">{t("fort.section.overview")}</h2>
                         <div className="title-divider"></div>
                     </div>
-                    <div className="overview-grid">
-                        <div className="overview-text">
-                            <p className="lead-para">{t("fort.overview.p1")}</p>
-                            <p>{t("fort.overview.p2")}</p>
-                            <div className="info-chips">
-                                <span className="chip"><Clock size={14} /> {t("attr.fort.time")}</span>
-                                <span className="chip"><MapPin size={14} /> {t("fort.overview.location")}</span>
-                            </div>
-                        </div>
-                        <div className="overview-image">
-                            <img src="/hero_bg.png" alt="Chittorgarh Fort Overview" />
+                <div className="overview-grid">
+                    <div className="overview-text">
+                        <p className="lead-para">{t("fort.overview.p1")}</p>
+                        <p>{t("fort.overview.p2")}</p>
+                        <div className="info-chips">
+                            <span className="chip"><Clock size={14} /> {t("attr.fort.time")}</span>
+                            <span className="chip"><MapPin size={14} /> {t("fort.overview.location")}</span>
                         </div>
                     </div>
+                    <div className="overview-sidebar">
+                        <GoldenHourTracker />
+                    </div>
+                </div>
                 </section>
 
                 {/* ═══ HISTORY ═══════════════════════════════ */}
@@ -409,7 +410,12 @@ export default function FortDetailsClient() {
                     display: grid;
                     grid-template-columns: 1.2fr 0.8fr;
                     gap: 4rem;
-                    align-items: center;
+                    align-items: flex-start;
+                }
+
+                .overview-sidebar {
+                    position: sticky;
+                    top: 120px;
                 }
 
                 .lead-para {
