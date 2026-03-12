@@ -13,7 +13,7 @@ export default function Navbar() {
     const pathname = usePathname();
     const { lang, changeLanguage, t } = useLanguage();
 
-    if (pathname?.startsWith("/admin")) return null;
+    if (pathname?.startsWith("/admin") || pathname === "/chittorgarh-fort") return null;
     const langRef = useRef(null);
 
     useEffect(() => {

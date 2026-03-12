@@ -29,7 +29,7 @@ export default function FortDetailsClient() {
         { id: "kirti", icon: "💎" },
         { id: "padmini", icon: "👑" },
         { id: "gaumukh", icon: "💧" },
-        { id: "kumbha", icon: "🏰" },
+        { id: "kumbha_palace", icon: "🏰" },
         { id: "meera", icon: "🙏" }
     ];
 
@@ -40,15 +40,36 @@ export default function FortDetailsClient() {
         { id: "gallery", label: t("fort.nav.gallery"), icon: <Camera size={18} /> }
     ];
 
-    const handleAudioPlay = (id) => {
-        triggerHaptic('light');
-        if (playingAudio === id) {
+    const handleAudioPlay = (monId) => {
+        triggerHaptic('medium');
+        
+        // Stop current speech if any
+        window.speechSynthesis.cancel();
+
+        if (playingAudio === monId) {
             setPlayingAudio(null);
-            // In a real app, you'd pause the actual audio object
-        } else {
-            setPlayingAudio(id);
-            // In a real app, you'd play the actual audio object
+            return;
         }
+
+        const textToSpeak = `${t(`attr.${monId}.name`)}. ${t(`attr.${monId}.desc`)}`;
+        const utterance = new SpeechSynthesisUtterance(textToSpeak);
+        
+        // Set language based on active context
+        const langMap = {
+            'en': 'en-US',
+            'hi': 'hi-IN',
+            'fr': 'fr-FR',
+            'nl': 'nl-NL',
+            'ja': 'ja-JP'
+        };
+        utterance.lang = langMap[lang] || 'en-US';
+        utterance.rate = 0.9; // Slightly slower for clarity
+        
+        utterance.onend = () => setPlayingAudio(null);
+        utterance.onerror = () => setPlayingAudio(null);
+
+        setPlayingAudio(monId);
+        window.speechSynthesis.speak(utterance);
     };
 
     return (
