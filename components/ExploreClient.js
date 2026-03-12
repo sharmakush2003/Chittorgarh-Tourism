@@ -4,11 +4,29 @@ import { useLanguage } from "@/context/LanguageContext";
 import { Flower, Calendar, MapPin, ArrowRight, Sun, Wind, Cloud, Ticket } from 'lucide-react';
 import FortMap from "@/components/FortMap";
 import { useState, useEffect } from 'react';
-import { Share2, Navigation, X, Send } from 'lucide-react';
+import { Share2, Navigation, X, Send, Compass, LocateFixed } from 'lucide-react';
 import { triggerHaptic } from "@/lib/haptics";
 
 export default function ExploreClient() {
     const { t } = useLanguage();
+
+    const MONUMENTS_DATA = [
+        { id: "fort", lat: 24.8870, lon: 74.6450, image: "/hero_bg.png" },
+        { id: "vijay", lat: 24.8879, lon: 74.6455, image: "/vijay_stambh.jpg" },
+        { id: "padmini", lat: 24.8784, lon: 74.6465, image: "/padmini_palace.jpg" },
+        { id: "kumbha_palace", lat: 24.8893, lon: 74.6433, image: "/rana_kumbha_palace.jpg" },
+        { id: "gaumukh", lat: 24.8864, lon: 74.6453, image: "/gaumukh_reservoir.jpg" },
+        { id: "meera", lat: 24.8887, lon: 74.6441, image: "/meerabai_temple.jpg" },
+        { id: "fateh", lat: 24.8911, lon: 74.6436, image: "/fateh_prakash_palace.jpg" },
+        { id: "kirti", lat: 24.8943, lon: 74.6468, image: "/kirti_stambha.jpg" },
+        { id: "kalika", lat: 24.8851, lon: 74.6472, image: "/kalika_mata_temple.jpg" },
+        { id: "jain", lat: 24.8945, lon: 74.6460, image: "/jain_temples.jpg" },
+        { id: "ratan", lat: 24.8993, lon: 74.6445, image: "/ratan_singh_palace.jpg" },
+        { id: "kumbha_shyam", lat: 24.8888, lon: 74.6443, image: "/kumbha_shyam_temple.jpg" },
+        { id: "bassi", lat: 24.9922, lon: 74.7570, image: "/bassi_sanctuary.png" },
+        { id: "temple", lat: 24.7865, lon: 74.4534, image: "/sanwariaji_temple.jpg" },
+        { id: "menal", lat: 25.1065, lon: 75.1843, image: "/menal_waterfall.jpg" }
+    ];
 
     return (
         <div className="explore-page">
@@ -25,6 +43,8 @@ export default function ExploreClient() {
                 </header>
 
                 <div className="container">
+                    <LocationDiscovery monuments={MONUMENTS_DATA} />
+
                     <div className="attractions-grid">
                         <GlassCard
                             title={t("attr.fort.name")}
@@ -299,6 +319,353 @@ export default function ExploreClient() {
                 @keyframes fadeIn {
                     from { opacity: 0; }
                     to { opacity: 1; }
+                }
+            `}</style>
+        </div>
+    );
+}
+
+function LocationDiscovery({ monuments }) {
+    const { t } = useLanguage();
+    const [detecting, setDetecting] = useState(false);
+    const [nearest, setNearest] = useState(null);
+    const [error, setError] = useState(null);
+
+    const calculateDistance = (lat1, lon1, lat2, lon2) => {
+        const R = 6371; // Earth's radius in km
+        const dLat = (lat2 - lat1) * Math.PI / 180;
+        const dLon = (lon2 - lon1) * Math.PI / 180;
+        const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+            Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+            Math.sin(dLon / 2) * Math.sin(dLon / 2);
+        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        return R * c;
+    };
+
+    const handleFindNearest = () => {
+        triggerHaptic('medium');
+        setDetecting(true);
+        setError(null);
+        setNearest(null);
+
+        if (!navigator.geolocation) {
+            setError(t("exp.permissionDenied"));
+            setDetecting(false);
+            return;
+        }
+
+        navigator.geolocation.getCurrentPosition(
+            (position) => {
+                const { latitude, longitude } = position.coords;
+                let minSubDist = Infinity;
+                let closest = null;
+
+                monuments.forEach(mon => {
+                    const d = calculateDistance(latitude, longitude, mon.lat, mon.lon);
+                    if (d < minSubDist) {
+                        minSubDist = d;
+                        closest = { ...mon, distance: d };
+                    }
+                });
+
+                setNearest(closest);
+                setDetecting(false);
+                triggerHaptic('success');
+            },
+            (err) => {
+                console.error(err);
+                setError(t("exp.permissionDenied"));
+                setDetecting(false);
+                triggerHaptic('error');
+            },
+            { enableHighAccuracy: true, timeout: 5000, maximumAge: 0 }
+        );
+    };
+
+    return (
+        <div className="location-discovery-wrapper">
+            {!nearest && !detecting && (
+                <button className="locate-trigger-btn" onClick={handleFindNearest}>
+                    <div className="btn-aura"></div>
+                    <Compass className="compass-icon" size={20} />
+                    <span>{t("exp.findNearest")}</span>
+                </button>
+            )}
+
+            {detecting && (
+                <div className="detecting-state">
+                    <div className="pulse-loader">
+                        <LocateFixed className="locate-pulse" size={32} />
+                    </div>
+                    <p>{t("exp.detecting")}</p>
+                </div>
+            )}
+
+            {nearest && (
+                <div className="nearest-result-card">
+                    <div className="result-header">
+                        <div className="glow-tag">{t("exp.nearestFound")}</div>
+                        <button className="reset-btn" onClick={() => setNearest(null)}>
+                            <X size={16} />
+                        </button>
+                    </div>
+                    <div className="result-body">
+                        <div className="result-image">
+                            <img src={nearest.image} alt={t(`attr.${nearest.id}.name`)} />
+                        </div>
+                        <div className="result-info">
+                            <h3>{t(`attr.${nearest.id}.name`)}</h3>
+                            <p className="distance-badge">
+                                <Navigation size={14} />
+                                {nearest.distance.toFixed(1)} km {t("exp.away")}
+                            </p>
+                            <p className="suggested-text">{t("exp.suggested")}</p>
+                            <div className="result-actions">
+                                <button
+                                    onClick={() => {
+                                        const dest = encodeURIComponent(`${t(`attr.${nearest.id}.name`)}, Chittorgarh`);
+                                        window.open(`https://www.google.com/maps/dir/?api=1&destination=${dest}`, '_blank');
+                                    }}
+                                    className="action-btn-primary"
+                                >
+                                    {t("btn.directions")}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {error && <p className="location-error">{error}</p>}
+
+            <style jsx>{`
+                .location-discovery-wrapper {
+                    margin-bottom: 4rem;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    width: 100%;
+                }
+
+                .locate-trigger-btn {
+                    position: relative;
+                    background: rgba(212, 175, 55, 0.1);
+                    border: 1px solid rgba(212, 175, 55, 0.3);
+                    color: var(--gold);
+                    padding: 1.25rem 3rem;
+                    border-radius: 100px;
+                    font-family: var(--ff-body);
+                    font-weight: 700;
+                    letter-spacing: 2px;
+                    text-transform: uppercase;
+                    display: flex;
+                    align-items: center;
+                    gap: 1rem;
+                    cursor: pointer;
+                    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+                    overflow: hidden;
+                }
+
+                .btn-aura {
+                    position: absolute;
+                    inset: 0;
+                    background: radial-gradient(circle at center, var(--gold) 0%, transparent 70%);
+                    opacity: 0;
+                    transition: 0.4s;
+                }
+
+                .locate-trigger-btn:hover {
+                    background: rgba(212, 175, 55, 0.2);
+                    border-color: var(--gold);
+                    transform: translateY(-5px) scale(1.05);
+                    box-shadow: 0 15px 30px rgba(212, 175, 55, 0.2);
+                }
+
+                .locate-trigger-btn:active {
+                    transform: scale(0.95);
+                }
+
+                .locate-trigger-btn:hover .btn-aura {
+                    opacity: 0.1;
+                }
+
+                .compass-icon {
+                    animation: spin 4s linear infinite;
+                }
+
+                @keyframes spin {
+                    from { transform: rotate(0deg); }
+                    to { transform: rotate(360deg); }
+                }
+
+                .detecting-state {
+                    text-align: center;
+                    color: var(--gold);
+                    animation: fadeIn 0.5s ease;
+                }
+
+                .pulse-loader {
+                    width: 80px;
+                    height: 80px;
+                    background: rgba(212, 175, 55, 0.1);
+                    border-radius: 50%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    margin: 0 auto 1.5rem;
+                    position: relative;
+                }
+
+                .pulse-loader::after {
+                    content: '';
+                    position: absolute;
+                    inset: -5px;
+                    border: 2px solid var(--gold);
+                    border-radius: 50%;
+                    animation: ripple 1.5s infinite;
+                }
+
+                .locate-pulse {
+                    animation: breathe 1.5s infinite;
+                }
+
+                @keyframes ripple {
+                    0% { transform: scale(1); opacity: 1; }
+                    100% { transform: scale(1.5); opacity: 0; }
+                }
+
+                @keyframes breathe {
+                    0%, 100% { transform: scale(1); }
+                    50% { transform: scale(1.2); opacity: 0.7; }
+                }
+
+                .nearest-result-card {
+                    background: rgba(28, 20, 15, 0.9);
+                    border: 1px solid var(--gold);
+                    border-radius: 20px;
+                    padding: 1.5rem;
+                    width: 100%;
+                    max-width: 500px;
+                    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+                    animation: slideUp 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+                }
+
+                .result-header {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    margin-bottom: 1.5rem;
+                }
+
+                .glow-tag {
+                    background: var(--gold);
+                    color: #000;
+                    padding: 4px 12px;
+                    border-radius: 100px;
+                    font-size: 0.7rem;
+                    font-weight: 800;
+                    text-transform: uppercase;
+                    letter-spacing: 1px;
+                    box-shadow: 0 0 15px var(--gold);
+                }
+
+                .reset-btn {
+                    background: none;
+                    border: none;
+                    color: rgba(255,255,255,0.5);
+                    cursor: pointer;
+                    transition: 0.3s;
+                }
+
+                .reset-btn:hover {
+                    color: #fff;
+                    transform: rotate(90deg);
+                }
+
+                .result-body {
+                    display: grid;
+                    grid-template-columns: 100px 1fr;
+                    gap: 1.5rem;
+                }
+
+                .result-image {
+                    width: 100px;
+                    height: 100px;
+                    border-radius: 12px;
+                    overflow: hidden;
+                    border: 1px solid rgba(212, 175, 55, 0.3);
+                }
+
+                .result-image img {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                }
+
+                .result-info h3 {
+                    font-family: var(--ff-display);
+                    font-size: 1.5rem;
+                    color: #fff;
+                    margin-bottom: 0.5rem;
+                }
+
+                .distance-badge {
+                    display: inline-flex;
+                    align-items: center;
+                    gap: 0.5rem;
+                    color: var(--gold);
+                    font-size: 0.9rem;
+                    font-weight: 600;
+                    margin-bottom: 0.5rem;
+                }
+
+                .suggested-text {
+                    font-size: 0.8rem;
+                    color: rgba(255,255,255,0.6);
+                    margin-bottom: 1rem;
+                }
+
+                .action-btn-primary {
+                    background: var(--gold);
+                    color: #000;
+                    border: none;
+                    padding: 0.6rem 1.5rem;
+                    border-radius: 8px;
+                    font-weight: 700;
+                    font-size: 0.85rem;
+                    cursor: pointer;
+                    transition: 0.3s;
+                    text-transform: uppercase;
+                    letter-spacing: 1px;
+                }
+
+                .action-btn-primary:hover {
+                    background: #fff;
+                    transform: translateX(5px);
+                }
+
+                .location-error {
+                    color: #f87171;
+                    font-size: 0.9rem;
+                    margin-top: 1rem;
+                }
+
+                @media (max-width: 640px) {
+                    .result-body {
+                        grid-template-columns: 1fr;
+                        text-align: center;
+                    }
+                    .result-image {
+                        margin: 0 auto;
+                    }
+                    .result-info h3 {
+                        font-size: 1.25rem;
+                    }
+                }
+
+                @keyframes slideUp {
+                    from { transform: translateY(30px); opacity: 0; }
+                    to { transform: translateY(0); opacity: 1; }
                 }
             `}</style>
         </div>
