@@ -1,74 +1,76 @@
 "use client";
 import { useState, useRef } from "react";
-
-const CATEGORIES = [
-    { type: "hospital", label: "🏥 Nearest Hospital", query: "hospital" },
-    { type: "police",   label: "🚔 Nearest Police Station", query: "police+station" },
-    { type: "toilet",   label: "🚻 Nearest Public Toilet", query: "public+toilet" },
-    { type: "pharmacy", label: "💊 Nearest Pharmacy", query: "pharmacy" },
-];
-
-const mapsSearch = (query, lat, lng) =>
-    `https://www.google.com/maps/search/${query}/@${lat},${lng},15z`;
-
-const emergencyData = [
-    {
-        category: "Police",
-        icon: "🚔",
-        accent: "#60a5fa",
-        border: "rgba(59,130,246,0.2)",
-        glow: "rgba(59,130,246,0.06)",
-        contacts: [
-            { name: "Police Control Room", number: "01472-240088", note: "24/7" },
-            { name: "Police Helpline", number: "100", note: "Emergency" },
-            { name: "Cyber Crime", number: "1930", note: "Helpline" },
-        ]
-    },
-    {
-        category: "Medical",
-        icon: "🏥",
-        accent: "#f87171",
-        border: "rgba(239,68,68,0.2)",
-        glow: "rgba(239,68,68,0.06)",
-        contacts: [
-            { name: "Ambulance (ERS)", number: "108", note: "Emergency" },
-            { name: "Ambulance (Transport)", number: "102", note: "Medical" },
-            { name: "MP Birla Hospital", number: "09530388881", note: "24/7" },
-        ]
-    },
-    {
-        category: "Tourist Helpline",
-        icon: "📞",
-        accent: "#D4AF37",
-        border: "rgba(212,175,55,0.2)",
-        glow: "rgba(212,175,55,0.06)",
-        contacts: [
-            { name: "Rajasthan Helpline", number: "181", note: "Govt." },
-            { name: "Chittorgarh TRC", number: "01472-241089", note: "Reception" },
-            { name: "Official Guides List", link: "https://www.tourism.rajasthan.gov.in/content/dam/rajasthan-tourism/english/pdf/Guides-list-and-travel-agency/TRC-Chittorgarh-Guide-List.pdf", note: "PDF" },
-        ]
-    },
-    {
-        category: "Emergency Services",
-        icon: "🆘",
-        accent: "#fb923c",
-        border: "rgba(249,115,22,0.2)",
-        glow: "rgba(249,115,22,0.06)",
-        contacts: [
-            { name: "Fire Brigade", number: "101", note: "Fire Emergency" },
-            { name: "Women Helpline", number: "181", note: "24/7 Assist" },
-            { name: "Child Helpline", number: "1098", note: "Child Distress" },
-            { name: "Disaster Control Room", number: "0141-2227296", note: "State Level" },
-        ]
-    }
-];
+import { useLanguage } from "@/context/LanguageContext";
 
 export default function EmergencyPage() {
+    const { t } = useLanguage();
     const [locState, setLocState] = useState("idle");
     const [sosState, setSosState] = useState("idle");
     const [isGeneratingPDF, setIsGeneratingPDF] = useState(false);
     const [coords, setCoords] = useState(null);
     const pdfTemplateRef = useRef(null);
+
+    const mapsSearch = (query, lat, lng) =>
+        `https://www.google.com/maps/search/${query}/@${lat},${lng},15z`;
+
+    const CATEGORIES = [
+        { type: "hospital", label: `🏥 ${t('emg.cat.hospital')}`, query: "hospital" },
+        { type: "police",   label: `🚔 ${t('emg.cat.police')}`, query: "police+station" },
+        { type: "toilet",   label: `🚻 ${t('emg.cat.toilet')}`, query: "public+toilet" },
+        { type: "pharmacy", label: `💊 ${t('emg.cat.pharmacy')}`, query: "pharmacy" },
+    ];
+
+    const emergencyData = [
+        {
+            category: t('emg.group.police'),
+            icon: "🚔",
+            accent: "#60a5fa",
+            border: "rgba(59,130,246,0.2)",
+            glow: "rgba(59,130,246,0.06)",
+            contacts: [
+                { name: t('emg.contact.pcr'), number: "01472-240088", note: t('emg.note.247') },
+                { name: t('emg.contact.policeHelpline'), number: "100", note: t('emg.note.emergency') },
+                { name: t('emg.contact.cyber'), number: "1930", note: t('emg.note.helpline') },
+            ]
+        },
+        {
+            category: t('emg.group.medical'),
+            icon: "🏥",
+            accent: "#f87171",
+            border: "rgba(239,68,68,0.2)",
+            glow: "rgba(239,68,68,0.06)",
+            contacts: [
+                { name: t('emg.contact.ambulanceErs'), number: "108", note: t('emg.note.emergency') },
+                { name: t('emg.contact.ambulanceTransport'), number: "102", note: t('emg.note.medical') },
+                { name: t('emg.contact.birla'), number: "09530388881", note: t('emg.note.247') },
+            ]
+        },
+        {
+            category: t('emg.group.helpline'),
+            icon: "📞",
+            accent: "#D4AF37",
+            border: "rgba(212,175,55,0.2)",
+            glow: "rgba(212,175,55,0.06)",
+            contacts: [
+                { name: t('emg.contact.rajHelpline'), number: "181", note: t('emg.note.govt') },
+                { name: t('emg.contact.trc'), number: "01472-241089", note: t('emg.note.reception') },
+                { name: t('emg.contact.guides'), link: "https://www.tourism.rajasthan.gov.in/content/dam/rajasthan-tourism/english/pdf/Guides-list-and-travel-agency/TRC-Chittorgarh-Guide-List.pdf", note: t('emg.note.pdf') },
+            ]
+        },
+        {
+            category: t('emg.group.services'),
+            icon: "🆘",
+            accent: "#fb923c",
+            border: "rgba(249,115,22,0.2)",
+            glow: "rgba(249,115,22,0.06)",
+            contacts: [
+                { name: t('emg.contact.fire'), number: "101", note: t('emg.note.fire') },
+                { name: t('emg.contact.women'), number: "181", note: t('emg.note.assist') },
+                { name: t('emg.contact.child'), number: "1098", note: t('emg.note.child') },
+                { name: t('emg.contact.disaster'), number: "0141-2227296", note: t('emg.note.state') },
+            ]
+        }
+    ];
 
     const downloadPDF = async () => {
         setIsGeneratingPDF(true);
@@ -128,12 +130,12 @@ export default function EmergencyPage() {
                 const mapsUrl = `https://www.google.com/maps?q=${lat},${lng}`;
                 const timestamp = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
                 
-                const message = `🚨 *URGENT EMERGENCY ASSISTANCE REQUIRED* 🚨\n\n` +
-                              `I am at *Chittorgarh Fort* and require immediate help. Please share this with local authorities:\n\n` +
-                              `📍 *My Exact Location:* ${mapsUrl}\n` +
-                              `🗺️ *Coordinates:* ${lat.toFixed(6)}, ${lng.toFixed(6)}\n` +
-                              `⏰ *Time Sent:* ${timestamp}\n\n` +
-                              `Sent via the *Chittorgarh Tourism Safety Companion*. Please respond as soon as possible.`;
+                const message = t('emg.sos.msg', {
+                    mapsUrl,
+                    lat: lat.toFixed(6),
+                    lng: lng.toFixed(6),
+                    timestamp
+                });
                 
                 if (method === 'whatsapp') {
                     window.open(`https://wa.me/?text=${encodeURIComponent(message)}`, '_blank');
@@ -552,10 +554,10 @@ export default function EmergencyPage() {
             {/* Hero */}
             <section className="ep-hero">
                 <div className="ep-badge">
-                    <span className="ep-dot" /> Emergency Assistance · Chittorgarh
+                    <span className="ep-dot" /> {t('emg.badge')}
                 </div>
-                <h1>Stay <em>Safe</em><br />in the Citadel</h1>
-                <p>One-tap access to every emergency number. Save this page before exploring the fort.</p>
+                <h1>{t('emg.hero.title1')} <em>{t('emg.hero.title2')}</em><br />{t('emg.hero.title3')}</h1>
+                <p>{t('emg.hero.sub')}</p>
                 
                 <div style={{ marginBottom: '24px' }}>
                     <button 
@@ -575,14 +577,14 @@ export default function EmergencyPage() {
                             gap: '10px'
                         }}
                     >
-                        {isGeneratingPDF ? "📄 Generating..." : "📥 Download Offline Data for Emergency"}
+                        {isGeneratingPDF ? `📄 ${t('emg.pdf.generating')}` : `📥 ${t('emg.pdf.btn')}`}
                     </button>
                 </div>
 
                 <div className="ep-quick">
-                    <a href="tel:100" className="ep-dial p">🚔 Police — 100</a>
-                    <a href="tel:108" className="ep-dial a">🚑 Ambulance — 108</a>
-                    <a href="tel:181" className="ep-dial t">📞 Tourist — 181</a>
+                    <a href="tel:100" className="ep-dial p">🚔 {t('emg.quick.police')}</a>
+                    <a href="tel:108" className="ep-dial a">🚑 {t('emg.quick.ambulance')}</a>
+                    <a href="tel:181" className="ep-dial t">📞 {t('emg.quick.tourist')}</a>
                 </div>
             </section>
 
@@ -590,8 +592,8 @@ export default function EmergencyPage() {
             <div className="ep-sos">
                 <div className="ep-sos-card">
                     <div className="ep-sos-head">
-                        <h3>🆘 SOS Location Sharing</h3>
-                        <p>Instantly send your exact GPS location to friends or family</p>
+                        <h3>🆘 {t('emg.sos.title')}</h3>
+                        <p>{t('emg.sos.sub')}</p>
                     </div>
                     <div className="ep-sos-btns">
                         <button 
@@ -599,19 +601,19 @@ export default function EmergencyPage() {
                             onClick={() => sendSOS('whatsapp')}
                             disabled={sosState === "locating"}
                         >
-                            {sosState === "locating" ? "📍 Fetching GPS..." : "📲 Share via WhatsApp"}
+                            {sosState === "locating" ? `📍 ${t('emg.sos.locating')}` : `📲 ${t('emg.sos.whatsapp')}`}
                         </button>
                         <button 
                             className="sos-btn sms" 
                             onClick={() => sendSOS('sms')}
                             disabled={sosState === "locating"}
                         >
-                            🆘 Send via Text (SMS)
+                            🆘 {t('emg.sos.sms')}
                         </button>
                     </div>
                     {sosState === "sent" && (
                         <p style={{ color: "#4ade80", marginTop: "16px", fontSize: "0.85rem", fontWeight: "600" }}>
-                            ✅ GPS Location Prepared!
+                            ✅ {t('emg.sos.sent')}
                         </p>
                     )}
                 </div>
@@ -620,14 +622,14 @@ export default function EmergencyPage() {
             {/* Nearby Places */}
             <div className="ep-nearby">
                 <div className="ep-nearby-head">
-                    <h3>📍 Find Nearby Places</h3>
+                    <h3>📍 {t('emg.nearby.title')}</h3>
                     <button className="ep-loc-btn" onClick={findNearby} disabled={locState === "loading"}>
-                        {locState === "loading" ? "Locating..." : locState === "done" ? "🔄 Refresh" : "📡 Use My Location"}
+                        {locState === "loading" ? t('emg.nearby.locating') : locState === "done" ? `🔄 ${t('emg.nearby.refresh')}` : `📡 ${t('emg.nearby.btn')}`}
                     </button>
                 </div>
 
-                {locState === "idle" && <p className="ep-loc-msg">Allow location access to see nearest hospitals, police stations, toilets and pharmacies via Google Maps.</p>}
-                {locState === "error" && <p className="ep-loc-msg" style={{ color: "#f87171" }}>⚠️ Location access denied. Please enable it in browser settings and try again.</p>}
+                {locState === "idle" && <p className="ep-loc-msg">{t('emg.nearby.idle')}</p>}
+                {locState === "error" && <p className="ep-loc-msg" style={{ color: "#f87171" }}>⚠️ {t('emg.nearby.error')}</p>}
 
                 {locState === "done" && coords && (
                     <div className="ep-nearby-grid">
@@ -645,7 +647,7 @@ export default function EmergencyPage() {
                                     <div className="ep-nearby-icon">{icon}</div>
                                     <div className="ep-nearby-content">
                                         <span className="ep-nearby-name">{text}</span>
-                                        <span className="ep-nearby-dist">Open in Google Maps</span>
+                                        <span className="ep-nearby-dist">{t('emg.nearby.open')}</span>
                                     </div>
                                     <div className="ep-nearby-arrow">→</div>
                                 </a>
@@ -685,7 +687,7 @@ export default function EmergencyPage() {
                                             borderColor: `${s.accent}35`,
                                         }}
                                     >
-                                        {c.link ? "🌐 Open PDF Link" : `📞 Call ${c.number}`}
+                                        {c.link ? `🌐 ${t('emg.btn.pdf')}` : `📞 ${t('emg.btn.call', { number: c.number })}`}
                                     </a>
                                 </div>
                             ))}
@@ -699,8 +701,8 @@ export default function EmergencyPage() {
                 <div className="ep-disc-inner">
                     <span>❤️</span>
                     <p>
-                        <strong>Your safety is our absolute priority.</strong><br/>
-                        Explore the majestic Chittorgarh Fort with complete peace of mind knowing that help is just a single tap away. We are always here to protect and assist you.
+                        <strong>{t('emg.disc.title')}</strong><br/>
+                        {t('emg.disc.body')}
                     </p>
                 </div>
             </div>
@@ -708,8 +710,8 @@ export default function EmergencyPage() {
             {/* Hidden PDF Template */}
             <div id="emergency-pdf-template" ref={pdfTemplateRef}>
                 <div className="pdf-header">
-                    <h1>Official Emergency Guide</h1>
-                    <p>Chittorgarh Fort Tourism Security Companion</p>
+                    <h1>{t('emg.pdf.header')}</h1>
+                    <p>{t('emg.pdf.sub')}</p>
                 </div>
 
                 <div className="pdf-grid" style={{ gridTemplateColumns: '1fr 1fr' }}>
@@ -732,9 +734,9 @@ export default function EmergencyPage() {
                 </div>
 
                 <div className="pdf-footer">
-                    <p>This guide was generated by the Chittorgarh Tourism Official Platform.</p>
-                    <p>In case of life-threatening emergencies, dial 100 or 108 immediately.</p>
-                    <p>Verified on {new Date().toLocaleDateString()}</p>
+                    <p>{t('emg.pdf.footer1')}</p>
+                    <p>{t('emg.pdf.footer2')}</p>
+                    <p>{t('emg.pdf.verified')} {new Date().toLocaleDateString()}</p>
                 </div>
             </div>
         </div>

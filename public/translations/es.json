@@ -489,5 +489,8 @@
     "bot.action.history": "Tell Me History",
     "bot.action.reach": "How to Reach",
     "bot.status.online": "Ready to guide you",
-    "bot.error": "I missed that. Could you say it again?"
+    "bot.error": "I missed that. Could you say it again?",
+    "bc.home": "Home",
+    "bc.explore": "Explore Chittorgarh",
+    "bc.plan": "Plan Your Visit"
 }
