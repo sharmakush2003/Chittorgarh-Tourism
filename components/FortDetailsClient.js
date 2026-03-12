@@ -253,12 +253,23 @@ export default function FortDetailsClient() {
 
             <style jsx>{`
                 .fort-page {
-                    background: #0f0a06;
+                    background: #0a0804 !important;
                     color: #fff;
                     min-height: 100vh;
                     font-family: var(--ff-body);
                     overflow-x: hidden;
-                    display: block; /* Ensure no flex-stretch from parent */
+                    display: block;
+                    position: relative;
+                }
+
+                .mesh-bg-fixed {
+                    position: fixed;
+                    inset: 0;
+                    background: 
+                        radial-gradient(circle at 0% 0%, rgba(212, 175, 55, 0.08) 0%, transparent 50%),
+                        radial-gradient(circle at 100% 100%, rgba(184, 134, 11, 0.05) 0%, transparent 50%);
+                    pointer-events: none;
+                    z-index: 1;
                 }
 
                 /* --- Global Heading Polish --- */
@@ -266,41 +277,47 @@ export default function FortDetailsClient() {
                     font-family: var(--ff-display) !important;
                 }
 
+                /* Royal Hindi Rule */
+                :global([lang="hi"]) .hero-title,
+                :global([lang="hi"]) .section-title,
+                :global([lang="hi"]) .timeline-year,
+                :global([lang="hi"]) .mon-name {
+                    font-family: var(--font-martel), serif !important;
+                    font-weight: 900 !important;
+                }
+
                 /* --- Hero --- */
                 .fort-hero {
-                    min-height: 70vh;
-                    height: 100svh;
+                    min-height: 80svh;
                     position: relative;
                     display: flex;
                     align-items: center;
                     justify-content: center;
                     text-align: center;
                     overflow: hidden;
-                    padding-top: 60px;
+                    padding: 4rem 1.5rem;
+                    z-index: 2;
                 }
 
                 .hero-bg {
                     position: absolute;
                     inset: 0;
                     background: url('/hero_bg.png') no-repeat center center / cover;
-                    transform: scale(1.05);
+                    z-index: -2;
                 }
 
                 .hero-overlay {
                     position: absolute;
                     inset: 0;
                     background: linear-gradient(to bottom, 
-                        rgba(15, 10, 6, 0.4) 0%, 
-                        rgba(15, 10, 6, 0.6) 60%,
-                        rgba(15, 10, 6, 1) 100%
+                        rgba(10, 8, 4, 0.3) 0%, 
+                        rgba(10, 8, 4, 0.8) 100%
                     );
+                    z-index: -1;
                 }
 
                 .hero-content {
-                    position: relative;
-                    z-index: 2;
-                    max-width: 1000px;
-                    padding: 0 1.5rem;
+                    max-width: 800px;
                     height: auto;
                 }
 
@@ -314,276 +331,241 @@ export default function FortDetailsClient() {
                     letter-spacing: 2px;
                     text-transform: uppercase;
                     font-weight: 600;
+                    opacity: 0.8;
                 }
 
                 .hero-eyebrow {
                     display: block;
-                    letter-spacing: 4px;
+                    letter-spacing: 6px;
                     text-transform: uppercase;
-                    font-size: 0.7rem;
+                    font-size: 0.8rem;
                     color: var(--gold);
-                    margin-bottom: 1rem;
-                    font-weight: 600;
+                    margin-bottom: 1.5rem;
+                    font-weight: 700;
                 }
 
                 .hero-title {
-                    font-size: clamp(2.5rem, 8vw, 6rem);
-                    line-height: 1.1;
+                    font-size: clamp(2.8rem, 10vw, 7rem);
+                    line-height: 1;
                     margin-bottom: 1.5rem;
-                    font-weight: 500;
                     color: #fff;
+                    text-shadow: 0 10px 30px rgba(0,0,0,0.5);
                 }
 
                 .hero-desc {
-                    font-size: 1rem;
-                    color: rgba(255,255,255,0.7);
+                    font-size: clamp(1rem, 2.5vw, 1.25rem);
+                    color: rgba(255,255,255,0.8);
                     max-width: 600px;
                     margin: 0 auto 3rem;
                     line-height: 1.6;
+                    font-weight: 300;
                 }
 
                 .hero-stats {
                     display: flex;
                     justify-content: center;
-                    gap: 2rem;
-                    flex-wrap: wrap;
-                }
-
-                .stat-item {
-                    display: flex;
-                    flex-direction: column;
+                    gap: clamp(1rem, 5vw, 3rem);
+                    padding-top: 2rem;
+                    border-top: 1px solid rgba(212, 175, 55, 0.2);
                 }
 
                 .stat-val {
-                    font-size: clamp(1.5rem, 4vw, 2.5rem);
+                    display: block;
+                    font-size: clamp(1.5rem, 4vw, 2.8rem);
                     color: var(--gold);
+                    font-family: var(--ff-display);
+                    line-height: 1;
+                    margin-bottom: 0.25rem;
+                }
+
+                .stat-label {
+                    font-size: 0.7rem;
+                    text-transform: uppercase;
+                    letter-spacing: 2px;
+                    opacity: 0.6;
                 }
 
                 /* --- Nav --- */
                 .fort-nav {
                     position: sticky;
                     top: 0;
-                    background: rgba(15, 10, 6, 0.9);
+                    background: rgba(10, 8, 4, 0.95);
                     backdrop-filter: blur(20px);
                     -webkit-backdrop-filter: blur(20px);
                     z-index: 100;
-                    border-bottom: 1px solid rgba(255,255,255,0.1);
+                    border-bottom: 1px solid rgba(212, 175, 55, 0.1);
                 }
 
                 .nav-container {
                     max-width: 1200px;
                     margin: 0 auto;
                     display: flex;
-                    overflow-x: auto;
-                    padding: 0 1rem;
+                    justify-content: center;
+                    padding: 0;
                 }
 
                 .nav-item {
                     background: none;
                     border: none;
-                    color: rgba(255,255,255,0.4);
-                    padding: 1rem 1.5rem;
-                    font-size: 0.7rem;
-                    font-weight: 600;
+                    color: rgba(255,255,255,0.5);
+                    padding: 1.25rem 1.5rem;
+                    font-size: 0.75rem;
+                    font-weight: 700;
                     text-transform: uppercase;
-                    letter-spacing: 1px;
+                    letter-spacing: 2px;
                     cursor: pointer;
                     display: flex;
                     align-items: center;
-                    gap: 0.5rem;
-                    white-space: nowrap;
-                    flex-shrink: 0;
+                    gap: 0.75rem;
+                    transition: 0.3s;
                 }
 
-                .nav-item.active { color: var(--gold); }
+                .nav-item.active { 
+                    color: var(--gold);
+                    background: rgba(212, 175, 55, 0.05);
+                }
 
-                /* --- Main Content --- */
+                /* --- Sections --- */
                 .fort-main {
-                    max-width: 1200px;
-                    margin: 0 auto;
-                    padding: 4rem 1.5rem;
-                    display: block;
-                    height: auto;
+                    position: relative;
+                    z-index: 2;
                 }
 
                 .fort-section {
-                    margin-bottom: 6rem;
-                    padding: 0;
+                    padding: clamp(4rem, 15vh, 8rem) 1.5rem;
+                    max-width: 1200px;
+                    margin: 0 auto;
                     height: auto;
-                    display: block;
                 }
 
                 .section-header {
-                    margin-bottom: 3rem;
+                    margin-bottom: 4rem;
                     text-align: center;
                 }
 
                 .section-title {
-                    font-size: clamp(2rem, 5vw, 3.5rem);
+                    font-size: clamp(2.2rem, 6vw, 4.5rem);
                     margin-bottom: 1rem;
-                    background: linear-gradient(to bottom, #fff, var(--gold));
-                    -webkit-background-clip: text;
-                    -webkit-text-fill-color: transparent;
+                    color: var(--gold);
                 }
 
                 .title-divider {
-                    width: 40px;
+                    width: 60px;
                     height: 2px;
                     background: var(--gold);
                     margin: 0 auto;
                 }
 
-                /* --- Overview --- */
-                .overview-grid {
-                    display: grid;
-                    grid-template-columns: 1.2fr 0.8fr;
-                    gap: 3rem;
-                }
-
-                .lead-para {
-                    font-size: 1.2rem;
-                    color: var(--gold-light);
-                    margin-bottom: 1.5rem;
-                    line-height: 1.5;
-                    font-style: italic;
-                }
-
-                .overview-text p {
-                    color: rgba(255,255,255,0.7);
-                    line-height: 1.8;
-                    margin-bottom: 1.5rem;
-                    font-size: 0.95rem;
-                }
-
-                .overview-sidebar {
-                    height: auto;
-                    min-height: auto;
-                }
-
-                /* --- History (Fixed Spacing) --- */
+                /* --- History --- */
                 .history-timeline {
-                    position: relative;
-                    max-width: 800px;
+                    max-width: 850px;
                     margin: 0 auto;
-                    padding-left: 2rem;
-                    height: auto;
-                    display: block;
-                }
-
-                .history-timeline::before {
-                    content: '';
-                    position: absolute;
-                    left: 0;
-                    top: 0;
-                    bottom: 0;
-                    width: 1px;
-                    background: rgba(212, 175, 55, 0.2);
+                    display: flex;
+                    flex-direction: column;
+                    gap: 1.5rem;
                 }
 
                 .timeline-item {
-                    position: relative;
-                    margin-bottom: 3rem;
-                    height: auto;
-                    display: block;
-                }
-
-                .timeline-item:last-child { margin-bottom: 0; }
-
-                .timeline-dot {
-                    position: absolute;
-                    left: -2rem;
-                    top: 0.6rem;
-                    width: 8px;
-                    height: 8px;
-                    background: var(--gold);
-                    border-radius: 50%;
-                    transform: translateX(-50%);
+                    display: grid;
+                    grid-template-columns: 140px 1fr;
+                    gap: 2rem;
+                    padding: 2rem;
+                    background: rgba(255, 255, 255, 0.02);
+                    border: 1px solid rgba(212, 175, 55, 0.1);
+                    transition: 0.4s;
                 }
 
                 .timeline-year {
                     font-size: 1.5rem;
                     color: var(--gold);
-                    margin-bottom: 0.25rem;
                     line-height: 1;
+                    border-right: 1px solid rgba(212, 175, 55, 0.3);
+                    padding-right: 1.5rem;
+                    display: flex;
+                    align-items: center;
                 }
 
                 .timeline-title {
-                    font-size: 1.1rem;
-                    margin-bottom: 0.75rem;
-                    color: rgba(255,255,255,0.9);
+                    font-size: 1.4rem;
+                    color: #fff;
+                    margin-bottom: 0.5rem;
                 }
 
                 .timeline-content p {
-                    color: rgba(255,255,255,0.6);
-                    line-height: 1.6;
-                    font-size: 0.9rem;
+                    color: rgba(255,255,255,0.7);
+                    line-height: 1.7;
                 }
 
-                /* --- Monuments (Strict Height) --- */
+                /* --- Monuments --- */
                 .monuments-list {
                     display: grid;
-                    gap: 1.5rem;
-                    height: auto;
+                    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+                    gap: 2rem;
                 }
 
                 .monument-card {
-                    padding: 1.5rem;
+                    background: #15110d;
+                    border: 1px solid rgba(212, 175, 55, 0.15);
                     display: flex;
                     flex-direction: column;
-                    gap: 1.5rem;
-                    border-radius: 20px;
+                    overflow: hidden;
                     height: auto !important;
-                    min-height: auto !important;
                 }
 
                 .mon-icon-container {
-                    width: 70px;
-                    height: 70px;
-                    background: rgba(212, 175, 55, 0.1);
+                    width: 100%;
+                    aspect-ratio: 16/9;
+                    background: rgba(10, 8, 4, 0.5);
                     display: flex;
                     align-items: center;
                     justify-content: center;
-                    border-radius: 16px;
-                    flex-shrink: 0;
+                    position: relative;
                 }
 
-                .mon-icon { font-size: 2.2rem; }
+                .mon-icon { font-size: 4rem; opacity: 0.9; }
 
-                .mon-content { height: auto; }
+                .mon-tag {
+                    position: absolute;
+                    top: 1rem;
+                    left: 1rem;
+                    background: var(--gold);
+                    color: #000;
+                    padding: 0.25rem 0.75rem;
+                    font-size: 0.7rem;
+                    font-weight: 800;
+                    text-transform: uppercase;
+                }
 
-                .mon-top {
-                    display: flex;
-                    flex-direction: column;
-                    gap: 1rem;
-                    margin-bottom: 1rem;
+                .mon-content {
+                    padding: 2rem;
+                    flex: 1;
                 }
 
                 .mon-name {
-                    font-size: 1.5rem;
-                    color: var(--gold);
-                    line-height: 1.2;
+                    font-size: 1.6rem;
+                    color: #fff;
+                    margin-bottom: 0.75rem;
                 }
 
                 .audio-btn {
                     background: rgba(212, 175, 55, 0.1);
                     border: 1px solid var(--gold);
                     color: var(--gold);
-                    padding: 0.6rem 1.2rem;
-                    border-radius: 100px;
+                    padding: 0.5rem 1rem;
+                    font-size: 0.7rem;
+                    font-weight: 700;
+                    text-transform: uppercase;
                     display: flex;
                     align-items: center;
-                    justify-content: center;
                     gap: 0.5rem;
-                    font-size: 0.75rem;
-                    font-weight: 600;
-                    width: fit-content;
+                    margin-bottom: 1.5rem;
+                    letter-spacing: 1px;
                 }
 
                 .mon-desc {
-                    color: rgba(255,255,255,0.7);
+                    color: rgba(255,255,255,0.6);
                     line-height: 1.6;
-                    margin-bottom: 1rem;
-                    font-size: 0.9rem;
+                    font-size: 0.95rem;
                 }
 
                 /* --- Gallery --- */
@@ -595,30 +577,32 @@ export default function FortDetailsClient() {
 
                 .gallery-item {
                     aspect-ratio: 1;
-                    border-radius: 12px;
                     overflow: hidden;
+                    border: 1px solid rgba(212, 175, 55, 0.1);
                 }
 
-                @media (min-width: 768px) {
-                    .monument-card { flex-direction: row; padding: 2.5rem; align-items: flex-start; }
-                    .mon-icon-container { width: 100px; height: 100px; }
-                    .mon-icon { font-size: 3rem; }
-                    .mon-top { flex-direction: row; justify-content: space-between; align-items: center; }
-                    .audio-btn { width: auto; }
-                    .fort-gallery-grid { grid-template-columns: repeat(3, 1fr); }
-                    .section-header { margin-bottom: 5rem; }
-                    .fort-section { margin-bottom: 10rem; }
-                    .hero-title { font-size: clamp(3.5rem, 8vw, 8rem); }
-                    .overview-grid { grid-template-columns: 1.2fr 0.8fr; }
+                .gallery-item img {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
                 }
 
-                @media (max-width: 767px) {
-                    .overview-grid { grid-template-columns: 1fr; }
-                    .overview-sidebar { margin-top: 2rem; }
+                /* --- Mobile --- */
+                @media (max-width: 768px) {
+                    .nav-container { overflow-x: auto; justify-content: flex-start; }
+                    .nav-item { padding: 1rem; font-size: 0.65rem; }
+                    .nav-icon-wrapper { display: none; }
+                    
+                    .hero-section { min-height: 90svh; }
+                    .hero-title { font-size: 3rem; }
+                    .hero-stats { flex-direction: column; gap: 1.5rem; align-items: center; }
                     .stat-divider { display: none; }
-                    .stat-item { padding: 0.5rem; border-bottom: 1px solid rgba(255,255,255,0.05); width: 100%; text-align: center; }
-                    .stat-item:last-child { border-bottom: none; }
-                    .nav-item span:last-child { display: none; }
+
+                    .timeline-item { grid-template-columns: 1fr; gap: 1rem; padding: 1.5rem; }
+                    .timeline-year { border-right: none; border-bottom: 1px solid var(--gold); padding: 0 0 0.5rem 0; width: fit-content; }
+                    
+                    .monuments-list { grid-template-columns: 1fr; }
+                    .fort-gallery-grid { grid-template-columns: repeat(2, 1fr); }
                 }
             `}</style>
         </motion.div>

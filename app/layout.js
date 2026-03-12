@@ -1,4 +1,4 @@
-import { Playfair_Display, Inter } from "next/font/google";
+import { Playfair_Display, Inter, Martel } from "next/font/google";
 import Script from "next/script";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -24,6 +24,12 @@ const inter = Inter({
   subsets: ["latin"],
   variable: "--font-inter",
   weight: ["300", "400", "500", "600", "700"],
+});
+
+const martel = Martel({
+  subsets: ["latin", "devanagari"],
+  variable: "--font-martel",
+  weight: ["400", "700", "900"],
 });
 
 export const metadata = {
@@ -186,7 +192,7 @@ export default function RootLayout({ children }) {
           crossOrigin="anonymous"
         />
       </head>
-      <body className={`${playfair.variable} ${inter.variable}`}>
+      <body className={`${playfair.variable} ${inter.variable} ${martel.variable}`}>
         <Script
           id="attraction-schema"
           type="application/ld+json"
