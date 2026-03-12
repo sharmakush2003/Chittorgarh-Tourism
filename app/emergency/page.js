@@ -65,6 +65,7 @@ const emergencyData = [
 
 export default function EmergencyPage() {
     const [locState, setLocState] = useState("idle");
+    const [sosState, setSosState] = useState("idle");
     const [coords, setCoords] = useState(null);
 
     const findNearby = () => {
@@ -73,6 +74,27 @@ export default function EmergencyPage() {
         navigator.geolocation.getCurrentPosition(
             ({ coords }) => { setCoords({ lat: coords.latitude, lng: coords.longitude }); setLocState("done"); },
             () => setLocState("error")
+        );
+    };
+
+    const sendSOS = (method) => {
+        if (!navigator.geolocation) { alert("Geolocation not supported"); return; }
+        setSosState("locating");
+        navigator.geolocation.getCurrentPosition(
+            ({ coords }) => {
+                const { latitude: lat, longitude: lng } = coords;
+                const mapsUrl = `https://www.google.com/maps?q=${lat},${lng}`;
+                const message = `🚨 EMERGENCY! I need help at Chittorgarh Fort. My exact location is: ${mapsUrl} (Lat: ${lat.toFixed(4)}, Lng: ${lng.toFixed(4)})`;
+                
+                if (method === 'whatsapp') {
+                    window.open(`https://wa.me/?text=${encodeURIComponent(message)}`, '_blank');
+                } else {
+                    window.location.href = `sms:?body=${encodeURIComponent(message)}`;
+                }
+                setSosState("sent");
+                setTimeout(() => setSosState("idle"), 3000);
+            },
+            () => { alert("Location access denied. Please enable GPS."); setSosState("idle"); }
         );
     };
 
@@ -378,6 +400,68 @@ export default function EmergencyPage() {
                     transform: translateX(4px);
                 }
                 .ep-loc-msg { color: #555; font-size: 0.9rem; text-align: center; padding: 24px; line-height: 1.6; }
+
+                /* ─ SOS Section ─ */
+                .ep-sos {
+                    max-width: 960px;
+                    margin: 0 auto 40px;
+                    padding: 0 16px;
+                }
+                .ep-sos-card {
+                    background: linear-gradient(135deg, rgba(239,68,68,0.15) 0%, rgba(239,68,68,0.05) 100%);
+                    border: 2px solid rgba(239,68,68,0.3);
+                    border-radius: 24px;
+                    padding: 32px;
+                    text-align: center;
+                    position: relative;
+                    overflow: hidden;
+                }
+                .ep-sos-card::before {
+                    content: ""; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+                    background: radial-gradient(circle at center, rgba(239,68,68,0.2) 0%, transparent 70%);
+                    opacity: 0.5; pointer-events: none;
+                }
+                .ep-sos-head h3 {
+                    font-family: var(--font-cormorant);
+                    font-size: 1.8rem; margin: 0 0 8px; color: #fca5a5;
+                }
+                .ep-sos-head p {
+                    color: #999; font-size: 0.9rem; margin-bottom: 24px;
+                }
+                .ep-sos-btns {
+                    display: flex; flex-direction: column; gap: 12px;
+                    max-width: 320px; margin: 0 auto;
+                }
+                .sos-btn {
+                    display: flex; align-items: center; justify-content: center; gap: 10px;
+                    padding: 16px; border-radius: 12px; font-weight: 700;
+                    font-size: 1rem; cursor: pointer; transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+                    border: none;
+                }
+                .sos-btn.wa {
+                    background: #25D366; color: #fff;
+                    box-shadow: 0 8px 20px rgba(37, 211, 102, 0.4);
+                }
+                .sos-btn.sms {
+                    background: rgba(255,255,255,0.1); color: #fff;
+                    border: 1px solid rgba(255,255,255,0.2);
+                }
+                .sos-btn:hover:not(:disabled) { transform: translateY(-4px) scale(1.02); filter: brightness(1.1); }
+                .sos-btn:active { transform: translateY(0) scale(0.98); }
+                .sos-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+
+                .pulse-sos {
+                    animation: pulse-sos-glow 2s infinite;
+                }
+                @keyframes pulse-sos-glow {
+                    0% { box-shadow: 0 0 0 0 rgba(239,68,68,0.7); }
+                    70% { box-shadow: 0 0 0 15px rgba(239,68,68,0); }
+                    100% { box-shadow: 0 0 0 0 rgba(239,68,68,0); }
+                }
+
+                @media (max-width: 680px) {
+                    .ep-sos-card { padding: 24px 16px; }
+                }
                 @media (max-width: 680px) {
                     .ep-nearby-grid { grid-template-columns: 1fr; }
                     .ep-nearby-item { padding: 14px; gap: 14px; }
@@ -403,9 +487,40 @@ export default function EmergencyPage() {
                 <div className="ep-quick">
                     <a href="tel:100" className="ep-dial p">🚔 Police — 100</a>
                     <a href="tel:108" className="ep-dial a">🚑 Ambulance — 108</a>
-                    <a href="tel:1364" className="ep-dial t">📞 Tourist — 1364</a>
+                    <a href="tel:181" className="ep-dial t">📞 Tourist — 181</a>
                 </div>
             </section>
+
+            {/* SOS Location Sharing */}
+            <div className="ep-sos">
+                <div className="ep-sos-card">
+                    <div className="ep-sos-head">
+                        <h3>🆘 SOS Location Sharing</h3>
+                        <p>Instantly send your exact GPS location to friends or family</p>
+                    </div>
+                    <div className="ep-sos-btns">
+                        <button 
+                            className={`sos-btn wa ${sosState === "locating" ? "" : "pulse-sos"}`} 
+                            onClick={() => sendSOS('whatsapp')}
+                            disabled={sosState === "locating"}
+                        >
+                            {sosState === "locating" ? "📍 Fetching GPS..." : "📲 Share via WhatsApp"}
+                        </button>
+                        <button 
+                            className="sos-btn sms" 
+                            onClick={() => sendSOS('sms')}
+                            disabled={sosState === "locating"}
+                        >
+                            🆘 Send via Text (SMS)
+                        </button>
+                    </div>
+                    {sosState === "sent" && (
+                        <p style={{ color: "#4ade80", marginTop: "16px", fontSize: "0.85rem", fontWeight: "600" }}>
+                            ✅ GPS Location Prepared!
+                        </p>
+                    )}
+                </div>
+            </div>
 
             {/* Nearby Places */}
             <div className="ep-nearby">
