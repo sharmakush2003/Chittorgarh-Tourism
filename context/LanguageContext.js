@@ -73,12 +73,16 @@ export function LanguageProvider({ children }) {
         }
     }, [lang, isMounted]);
 
-    const t = (key) => {
+    const t = (key, params = {}) => {
         if (!translations) return "";
-        if (translations[key]) return translations[key];
-
-        // Fallback to English if key missing in current language
-        return enTranslations[key] || key;
+        let text = translations[key] || enTranslations[key] || key;
+        
+        // Simple parameter replacement for {key} placeholders
+        Object.keys(params).forEach(p => {
+            text = text.replace(new RegExp(`{${p}}`, 'g'), params[p]);
+        });
+        
+        return text;
     };
 
     const changeLanguage = (code) => {
