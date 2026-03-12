@@ -575,7 +575,7 @@ export default function EmergencyPage() {
                             gap: '10px'
                         }}
                     >
-                        {isGeneratingPDF ? "📄 Generating..." : "📥 Download Offline Guide (PDF)"}
+                        {isGeneratingPDF ? "📄 Generating..." : "📥 Download Offline Data for Emergency"}
                     </button>
                 </div>
 
