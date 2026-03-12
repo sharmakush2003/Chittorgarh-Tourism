@@ -84,7 +84,14 @@ export default function EmergencyPage() {
             ({ coords }) => {
                 const { latitude: lat, longitude: lng } = coords;
                 const mapsUrl = `https://www.google.com/maps?q=${lat},${lng}`;
-                const message = `🚨 EMERGENCY! I need help at Chittorgarh Fort. My exact location is: ${mapsUrl} (Lat: ${lat.toFixed(4)}, Lng: ${lng.toFixed(4)})`;
+                const timestamp = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                
+                const message = `🚨 *URGENT EMERGENCY ASSISTANCE REQUIRED* 🚨\n\n` +
+                              `I am at *Chittorgarh Fort* and require immediate help. Please share this with local authorities:\n\n` +
+                              `📍 *My Exact Location:* ${mapsUrl}\n` +
+                              `🗺️ *Coordinates:* ${lat.toFixed(6)}, ${lng.toFixed(6)}\n` +
+                              `⏰ *Time Sent:* ${timestamp}\n\n` +
+                              `Sent via the *Chittorgarh Tourism Safety Companion*. Please respond as soon as possible.`;
                 
                 if (method === 'whatsapp') {
                     window.open(`https://wa.me/?text=${encodeURIComponent(message)}`, '_blank');
