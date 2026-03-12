@@ -381,8 +381,48 @@ function LocationDiscovery({ monuments }) {
         }
 
         navigator.geolocation.getCurrentPosition(
-            (position) => {
+            async (position) => {
                 const { latitude, longitude } = position.coords;
+                
+                try {
+                    // Prepare coordinates for OSRM Table API: source;dest1;dest2...
+                    // Format: lon,lat
+                    const coordsString = `${longitude},${latitude};` + monuments.map(m => `${m.lon},${m.lat}`).join(';');
+                    
+                    // Fetch distance matrix from OSRM
+                    const response = await fetch(`https://router.project-osrm.org/table/v1/driving/${coordsString}?sources=0&annotations=distance`);
+                    
+                    if (response.ok) {
+                        const data = await response.json();
+                        if (data.distances && data.distances[0]) {
+                            const distances = data.distances[0].slice(1); // Remove source-to-source
+                            
+                            let minRoadDist = Infinity;
+                            let closestIdx = -1;
+                            
+                            distances.forEach((d, idx) => {
+                                if (d !== null && d < minRoadDist) {
+                                    minRoadDist = d;
+                                    closestIdx = idx;
+                                }
+                            });
+                            
+                            if (closestIdx !== -1) {
+                                setNearest({
+                                    ...monuments[closestIdx],
+                                    distance: minRoadDist / 1000 // Convert meters to km
+                                });
+                                setDetecting(false);
+                                triggerHaptic('success');
+                                return;
+                            }
+                        }
+                    }
+                } catch (apiError) {
+                    console.error("OSRM Table API error, falling back to Haversine:", apiError);
+                }
+
+                // Fallback Logic: Haversine distance
                 let minSubDist = Infinity;
                 let closest = null;
 
@@ -404,7 +444,7 @@ function LocationDiscovery({ monuments }) {
                 setDetecting(false);
                 triggerHaptic('error');
             },
-            { enableHighAccuracy: true, timeout: 5000, maximumAge: 0 }
+            { enableHighAccuracy: true, timeout: 8000, maximumAge: 0 }
         );
     };
 

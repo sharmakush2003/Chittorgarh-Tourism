@@ -70,7 +70,7 @@
     "exp.detecting": "Finding nearest heritage site...",
     "exp.permissionDenied": "Location access denied. Please enable GPS.",
     "exp.nearestFound": "Nearest Gem Found!",
-    "exp.away": "away (Direct Distance)",
+    "exp.away": "away",
     "exp.suggested": "We suggest visiting",
     "exp.locateBtn": "Locate Nearest",
     "exp.footerText": "Explore more of Rajasthan's heritage",
