@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useRef } from "react";
 
 const CATEGORIES = [
     { type: "hospital", label: "🏥 Nearest Hospital", query: "hospital" },
@@ -66,7 +66,49 @@ const emergencyData = [
 export default function EmergencyPage() {
     const [locState, setLocState] = useState("idle");
     const [sosState, setSosState] = useState("idle");
+    const [isGeneratingPDF, setIsGeneratingPDF] = useState(false);
     const [coords, setCoords] = useState(null);
+    const pdfTemplateRef = useRef(null);
+
+    const downloadPDF = async () => {
+        setIsGeneratingPDF(true);
+        try {
+            const { default: html2canvas } = await import("html2canvas");
+            const { jsPDF } = await import("jspdf");
+
+            // Temporary show template for capture
+            const element = pdfTemplateRef.current;
+            element.style.display = "block";
+
+            const canvas = await html2canvas(element, {
+                scale: 2,
+                useCORS: true,
+                backgroundColor: "#ffffff",
+                logging: false,
+            });
+
+            element.style.display = "none";
+            
+            const imgData = canvas.toDataURL("image/png");
+            const pdf = new jsPDF({
+                orientation: "portrait",
+                unit: "mm",
+                format: "a4",
+            });
+
+            const imgProps = pdf.getImageProperties(imgData);
+            const pdfWidth = pdf.internal.pageSize.getWidth();
+            const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+
+            pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
+            pdf.save("Chittorgarh-Emergency-Guide.pdf");
+        } catch (err) {
+            console.error("PDF generation failed:", err);
+            alert("Failed to generate PDF. Please try again.");
+        } finally {
+            setIsGeneratingPDF(false);
+        }
+    };
 
     const findNearby = () => {
         if (!navigator.geolocation) { setLocState("error"); return; }
@@ -476,6 +518,29 @@ export default function EmergencyPage() {
                     .ep-nearby-name { font-size: 0.9rem; }
                 }
 
+                /* ─ PDF Handout Styles (Specific for PDF generation) ─ */
+                #emergency-pdf-template {
+                    width: 794px; /* A4 width at 96 DPI */
+                    padding: 40px;
+                    background: white;
+                    color: #1a1a1a;
+                    font-family: Arial, sans-serif;
+                    display: none; /* Only visible during capture */
+                    position: fixed;
+                    left: -9999px;
+                    top: 0;
+                }
+                .pdf-header { border-bottom: 2px solid #D4AF37; padding-bottom: 20px; margin-bottom: 30px; text-align: center; }
+                .pdf-header h1 { margin: 0; color: #D4AF37; font-size: 28px; text-transform: uppercase; letter-spacing: 2px; }
+                .pdf-header p { margin: 10px 0 0; color: #666; font-size: 14px; }
+                .pdf-section { margin-bottom: 25px; }
+                .pdf-section-title { font-size: 18px; font-weight: bold; background: #f9f9f9; padding: 8px 12px; border-left: 4px solid #D4AF37; margin-bottom: 12px; }
+                .pdf-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+                .pdf-contact { padding: 10px; border: 1px solid #eee; border-radius: 6px; }
+                .pdf-contact-name { font-weight: bold; font-size: 14px; display: block; margin-bottom: 4px; }
+                .pdf-contact-num { color: #D4AF37; font-weight: bold; font-size: 16px; }
+                .pdf-footer { border-top: 1px solid #eee; margin-top: 30px; padding-top: 15px; font-size: 11px; text-align: center; color: #888; }
+
                 /* ─ Responsive ─ */
                 @media (max-width: 680px) {
                     .ep-grid { grid-template-columns: 1fr; }
@@ -491,6 +556,29 @@ export default function EmergencyPage() {
                 </div>
                 <h1>Stay <em>Safe</em><br />in the Citadel</h1>
                 <p>One-tap access to every emergency number. Save this page before exploring the fort.</p>
+                
+                <div style={{ marginBottom: '24px' }}>
+                    <button 
+                        onClick={downloadPDF} 
+                        disabled={isGeneratingPDF}
+                        style={{
+                            background: 'rgba(212,175,55,0.1)',
+                            border: '1px solid rgba(212,175,55,0.4)',
+                            color: '#D4AF37',
+                            padding: '12px 24px',
+                            borderRadius: '12px',
+                            cursor: 'pointer',
+                            fontSize: '0.9rem',
+                            fontWeight: '600',
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            gap: '10px'
+                        }}
+                    >
+                        {isGeneratingPDF ? "📄 Generating..." : "📥 Download Offline Guide (PDF)"}
+                    </button>
+                </div>
+
                 <div className="ep-quick">
                     <a href="tel:100" className="ep-dial p">🚔 Police — 100</a>
                     <a href="tel:108" className="ep-dial a">🚑 Ambulance — 108</a>
@@ -614,6 +702,39 @@ export default function EmergencyPage() {
                         <strong>Your safety is our absolute priority.</strong><br/>
                         Explore the majestic Chittorgarh Fort with complete peace of mind knowing that help is just a single tap away. We are always here to protect and assist you.
                     </p>
+                </div>
+            </div>
+
+            {/* Hidden PDF Template */}
+            <div id="emergency-pdf-template" ref={pdfTemplateRef}>
+                <div className="pdf-header">
+                    <h1>Official Emergency Guide</h1>
+                    <p>Chittorgarh Fort Tourism Security Companion</p>
+                </div>
+
+                <div className="pdf-grid" style={{ gridTemplateColumns: '1fr 1fr' }}>
+                    {emergencyData.map(cat => (
+                        <div key={cat.category} className="pdf-section">
+                            <div className="pdf-section-title">{cat.icon} {cat.category}</div>
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                                {cat.contacts.map(c => (
+                                    <div key={c.name} className="pdf-contact">
+                                        <span className="pdf-contact-name">{c.name}</span>
+                                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                            <span className="pdf-contact-num">{c.number || "URL Link"}</span>
+                                            <span style={{ fontSize: '10px', color: '#888' }}>{c.note}</span>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    ))}
+                </div>
+
+                <div className="pdf-footer">
+                    <p>This guide was generated by the Chittorgarh Tourism Official Platform.</p>
+                    <p>In case of life-threatening emergencies, dial 100 or 108 immediately.</p>
+                    <p>Verified on {new Date().toLocaleDateString()}</p>
                 </div>
             </div>
         </div>
