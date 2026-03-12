@@ -10,7 +10,7 @@ const COUNTRIES = [
     { code: "US", name: "United States", lang: "en" },
     { code: "GB", name: "United Kingdom", lang: "en" },
     { code: "FR", name: "France", lang: "fr" },
-    { code: "DE", name: "Germany (Deutschland)", lang: "de" },
+    { code: "NL", name: "Netherlands", lang: "nl" },
     { code: "JP", name: "Japan (日本)", lang: "ja" },
     { code: "OT", name: "Other / International", lang: "en" },
 ];
@@ -19,7 +19,7 @@ const LANGUAGES = [
     { code: "en", name: "English" },
     { code: "hi", name: "Hindi (हिंदी)" },
     { code: "fr", name: "French (Français)" },
-    { code: "de", name: "German (Deutsch)" },
+    { code: "nl", name: "Dutch (Nederlands)" },
     { code: "ja", name: "Japanese (日本語)" },
 ];
 

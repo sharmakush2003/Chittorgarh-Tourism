@@ -101,8 +101,8 @@ export default function Navbar() {
                                     <div onClick={() => { changeLanguage("fr"); setIsLangOpen(false); }} className={lang === 'fr' ? 'active' : ''}>
                                         <span className="flag">🇫🇷</span> Français
                                     </div>
-                                    <div onClick={() => { changeLanguage("de"); setIsLangOpen(false); }} className={lang === 'de' ? 'active' : ''}>
-                                        <span className="flag">🇩🇪</span> Deutsch
+                                    <div onClick={() => { changeLanguage("nl"); setIsLangOpen(false); }} className={lang === 'nl' ? 'active' : ''}>
+                                        <span className="flag">🇳🇱</span> Nederlands
                                     </div>
                                     <div onClick={() => { changeLanguage("ja"); setIsLangOpen(false); }} className={lang === 'ja' ? 'active' : ''}>
                                         <span className="flag">🇯🇵</span> 日本語
@@ -172,7 +172,7 @@ export default function Navbar() {
                         <button onClick={() => { changeLanguage("en"); setIsMenuOpen(false); }}>EN</button>
                         <button onClick={() => { changeLanguage("hi"); setIsMenuOpen(false); }}>HI</button>
                         <button onClick={() => { changeLanguage("fr"); setIsMenuOpen(false); }}>FR</button>
-                        <button onClick={() => { changeLanguage("de"); setIsMenuOpen(false); }}>DE</button>
+                        <button onClick={() => { changeLanguage("nl"); setIsMenuOpen(false); }}>NL</button>
                         <button onClick={() => { changeLanguage("ja"); setIsMenuOpen(false); }}>JA</button>
                     </div>
                 </div>

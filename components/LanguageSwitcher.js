@@ -18,7 +18,7 @@ export default function LanguageSwitcher() {
             case 'en': return 'EN';
             case 'hi': return 'HI';
             case 'fr': return 'FR';
-            case 'de': return 'DE';
+            case 'nl': return 'NL';
             case 'ja': return 'JA';
             default: return 'EN';
         }
@@ -35,7 +35,7 @@ export default function LanguageSwitcher() {
                         <div onClick={() => handleLangChange("en")} style={{ padding: '0.5rem 1rem', cursor: 'pointer', color: 'rgba(255,255,255,0.8)', fontSize: '0.8rem' }}>🇺🇸 English</div>
                         <div onClick={() => handleLangChange("hi")} style={{ padding: '0.5rem 1rem', cursor: 'pointer', color: 'rgba(255,255,255,0.8)', fontSize: '0.8rem' }}>🇮🇳 हिंदी</div>
                         <div onClick={() => handleLangChange("fr")} style={{ padding: '0.5rem 1rem', cursor: 'pointer', color: 'rgba(255,255,255,0.8)', fontSize: '0.8rem' }}>🇫🇷 Français</div>
-                        <div onClick={() => handleLangChange("de")} style={{ padding: '0.5rem 1rem', cursor: 'pointer', color: 'rgba(255,255,255,0.8)', fontSize: '0.8rem' }}>🇩🇪 Deutsch</div>
+                        <div onClick={() => handleLangChange("nl")} style={{ padding: '0.5rem 1rem', cursor: 'pointer', color: 'rgba(255,255,255,0.8)', fontSize: '0.8rem' }}>🇳🇱 Nederlands</div>
                         <div onClick={() => handleLangChange("ja")} style={{ padding: '0.5rem 1rem', cursor: 'pointer', color: 'rgba(255,255,255,0.8)', fontSize: '0.8rem' }}>🇯🇵 日本語</div>
                     </div>
                 )}
