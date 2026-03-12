@@ -51,6 +51,8 @@ export default function ExploreClient() {
                             desc={t("attr.fort.desc")}
                             time={t("attr.fort.time")}
                             dist={t("attr.fort.dist")}
+                            lat={24.8870}
+                            lon={74.6450}
                             delay={0}
                             link="https://en.wikipedia.org/wiki/Chittor_Fort"
                             image="/hero_bg.png"
@@ -61,6 +63,8 @@ export default function ExploreClient() {
                             desc={t("attr.bassi.desc")}
                             time={t("attr.bassi.time")}
                             dist={t("attr.bassi.dist")}
+                            lat={24.9922}
+                            lon={74.7570}
                             delay={1}
                             link="https://en.wikipedia.org/wiki/Bassi_Wildlife_Sanctuary"
                             image="/bassi_sanctuary.png"
@@ -70,6 +74,8 @@ export default function ExploreClient() {
                             desc={t("attr.temple.desc")}
                             time={t("attr.temple.time")}
                             dist={t("attr.temple.dist")}
+                            lat={24.7865}
+                            lon={74.4534}
                             delay={2}
                             link="https://en.wikipedia.org/wiki/Sawariya_Seth_Temple"
                             image="/sanwariaji_temple.jpg"
@@ -79,6 +85,8 @@ export default function ExploreClient() {
                             desc={t("attr.vijay.desc")}
                             time={t("attr.vijay.time")}
                             dist={t("attr.vijay.dist")}
+                            lat={24.8879}
+                            lon={74.6455}
                             delay={3}
                             link="https://en.wikipedia.org/wiki/Vijaya_Stambha"
                             image="/vijay_stambh.jpg"
@@ -89,6 +97,8 @@ export default function ExploreClient() {
                             desc={t("attr.kirti.desc")}
                             time={t("attr.kirti.time")}
                             dist={t("attr.kirti.dist")}
+                            lat={24.8943}
+                            lon={74.6468}
                             delay={4}
                             link="https://en.wikipedia.org/wiki/Kirti_Stambha"
                             image="/kirti_stambha.jpg"
@@ -99,6 +109,8 @@ export default function ExploreClient() {
                             desc={t("attr.kalika.desc")}
                             time={t("attr.kalika.time")}
                             dist={t("attr.kalika.dist")}
+                            lat={24.8851}
+                            lon={74.6472}
                             delay={5}
                             link="https://en.wikipedia.org/wiki/Kalika_Mata_Temple,_Chittorgarh_Fort"
                             image="/kalika_mata_temple.jpg"
@@ -108,6 +120,8 @@ export default function ExploreClient() {
                             desc={t("attr.jain.desc")}
                             time={t("attr.jain.time")}
                             dist={t("attr.jain.dist")}
+                            lat={24.8945}
+                            lon={74.6460}
                             delay={6}
                             link="https://en.wikipedia.org/wiki/Chittor_Fort#Jain_temples"
                             image="/jain_temples.jpg"
@@ -117,6 +131,8 @@ export default function ExploreClient() {
                             desc={t("attr.gaumukh.desc")}
                             time={t("attr.gaumukh.time")}
                             dist={t("attr.gaumukh.dist")}
+                            lat={24.8864}
+                            lon={74.6453}
                             delay={7}
                             link="https://www.chittorgarh.com/attraction/gaumukh-reservoir/14/"
                             image="/gaumukh_reservoir.jpg"
@@ -126,6 +142,8 @@ export default function ExploreClient() {
                             desc={t("attr.fateh.desc")}
                             time={t("attr.fateh.time")}
                             dist={t("attr.fateh.dist")}
+                            lat={24.8911}
+                            lon={74.6436}
                             delay={8}
                             link="https://en.wikipedia.org/wiki/Chittor_Fort#Fateh_Prakash_Palace"
                             image="/fateh_prakash_palace.jpg"
@@ -135,6 +153,8 @@ export default function ExploreClient() {
                             desc={t("attr.kumbha_palace.desc")}
                             time={t("attr.kumbha_palace.time")}
                             dist={t("attr.kumbha_palace.dist")}
+                            lat={24.8893}
+                            lon={74.6433}
                             delay={9}
                             link="https://en.wikipedia.org/wiki/Chittor_Fort#Rana_Kumbha_Palace"
                             image="/rana_kumbha_palace.jpg"
@@ -144,6 +164,8 @@ export default function ExploreClient() {
                             desc={t("attr.meera.desc")}
                             time={t("attr.meera.time")}
                             dist={t("attr.meera.dist")}
+                            lat={24.8887}
+                            lon={74.6441}
                             delay={10}
                             link="https://en.wikipedia.org/wiki/Chittor_Fort#Meera_Temple"
                             image="/meerabai_temple.jpg"
@@ -153,6 +175,8 @@ export default function ExploreClient() {
                             desc={t("attr.ratan.desc")}
                             time={t("attr.ratan.time")}
                             dist={t("attr.ratan.dist")}
+                            lat={24.8993}
+                            lon={74.6445}
                             delay={11}
                             link="https://www.chittorgarh.com/attraction/ratan-singh-palace/13/"
                             image="/ratan_singh_palace.jpg"
@@ -162,6 +186,8 @@ export default function ExploreClient() {
                             desc={t("attr.kumbha_shyam.desc")}
                             time={t("attr.kumbha_shyam.time")}
                             dist={t("attr.kumbha_shyam.dist")}
+                            lat={24.8888}
+                            lon={74.6443}
                             delay={12}
                             link="https://www.chittorgarh.com/attraction/kumbha-shyam-temple/9/"
                             image="/kumbha_shyam_temple.jpg"
@@ -423,8 +449,7 @@ function LocationDiscovery({ monuments }) {
                             <div className="result-actions">
                                 <button
                                     onClick={() => {
-                                        const dest = encodeURIComponent(`${t(`attr.${nearest.id}.name`)}, Chittorgarh`);
-                                        window.open(`https://www.google.com/maps/dir/?api=1&destination=${dest}`, '_blank');
+                                        window.open(`https://www.google.com/maps/dir/?api=1&destination=${nearest.lat},${nearest.lon}`, '_blank');
                                     }}
                                     className="action-btn-primary"
                                 >
@@ -672,7 +697,7 @@ function LocationDiscovery({ monuments }) {
     );
 }
 
-function GlassCard({ title, desc, time, dist, delay, link, image, imgPos = 'center', bookingLink }) {
+function GlassCard({ title, desc, time, dist, lat, lon, delay, link, image, imgPos = 'center', bookingLink }) {
     const { t } = useLanguage();
     const [showEmailModal, setShowEmailModal] = useState(false);
     const [email, setEmail] = useState('');
@@ -690,8 +715,12 @@ function GlassCard({ title, desc, time, dist, delay, link, image, imgPos = 'cent
 
     const handleDirections = () => {
         triggerHaptic('light');
-        const destination = encodeURIComponent(`${title}, Chittorgarh`);
-        window.open(`https://www.google.com/maps/dir/?api=1&destination=${destination}`, '_blank');
+        if (lat && lon) {
+            window.open(`https://www.google.com/maps/dir/?api=1&destination=${lat},${lon}`, '_blank');
+        } else {
+            const destination = encodeURIComponent(`${title}, Chittorgarh`);
+            window.open(`https://www.google.com/maps/dir/?api=1&destination=${destination}`, '_blank');
+        }
     };
 
     const handleSendEmail = async (e) => {
