@@ -11,7 +11,7 @@ const MONUMENTS = [
         descKey: 'attr.fort.desc',
         coords: '24.8870,74.6450',
         zoom: 17,
-        link: 'https://en.wikipedia.org/wiki/Chittor_Fort'
+        link: '/chittorgarh-fort'
     },
     {
         id: 'vijay',

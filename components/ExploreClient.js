@@ -32,7 +32,7 @@ export default function ExploreClient() {
                             time={t("attr.fort.time")}
                             dist={t("attr.fort.dist")}
                             delay={0}
-                            link="https://en.wikipedia.org/wiki/Chittor_Fort"
+                            link="/chittorgarh-fort"
                             image="/hero_bg.png"
                             bookingLink="https://asi.payumoney.com/quick/chf"
                         />
