@@ -587,5 +587,12 @@
     "fort.monument.padmini.tag": "राजसी महल",
     "fort.monument.gaumukh.tag": "पवित्र जलाशय",
     "fort.monument.kumbha_palace.tag": "ऐतिहासिक महल",
-    "fort.monument.meera.tag": "भक्ति मंदिर"
+    "fort.monument.meera.tag": "भक्ति मंदिर",
+    "fort.tracker.title": "स्वर्ण काल ट्रैकर",
+    "fort.tracker.activeNow": "अभी सक्रिय",
+    "fort.tracker.upcoming": "आगामी सत्र",
+    "fort.tracker.nextOpportunity": "अगला अवसर",
+    "fort.tracker.morning": "सुबह का समय",
+    "fort.tracker.evening": "शाम का समय",
+    "fort.tracker.tip": "वास्तुकला की फोटोग्राफी के लिए सबसे सुंदर और कोमल रोशनी (Golden Hour)।"
 }

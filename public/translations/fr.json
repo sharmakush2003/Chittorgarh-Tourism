@@ -602,5 +602,12 @@
     "fort.monument.padmini.tag": "Palais Royal",
     "fort.monument.gaumukh.tag": "Réservoir Sacré",
     "fort.monument.kumbha_palace.tag": "Palais Historique",
-    "fort.monument.meera.tag": "Temple de la Bhakti"
+    "fort.monument.meera.tag": "Temple de la Bhakti",
+    "fort.tracker.title": "Heure Dorée",
+    "fort.tracker.activeNow": "Actif Maintenant",
+    "fort.tracker.upcoming": "Session à Venir",
+    "fort.tracker.nextOpportunity": "Prochaine Opportunité",
+    "fort.tracker.morning": "Matinée",
+    "fort.tracker.evening": "Soirée",
+    "fort.tracker.tip": "Lumière douce et chaude, parfaite pour la photographie."
 }

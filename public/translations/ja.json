@@ -602,5 +602,12 @@
     "fort.monument.padmini.tag": "王宮",
     "fort.monument.gaumukh.tag": "聖なる貯水池",
     "fort.monument.kumbha_palace.tag": "歴史的な宮殿",
-    "fort.monument.meera.tag": "バクティ寺院"
+    "fort.monument.meera.tag": "バクティ寺院",
+    "fort.tracker.title": "ゴールデンアワー",
+    "fort.tracker.activeNow": "現在アクティブ",
+    "fort.tracker.upcoming": "次回のセッション",
+    "fort.tracker.nextOpportunity": "次の機会",
+    "fort.tracker.morning": "午前の時間帯",
+    "fort.tracker.evening": "午後の時間帯",
+    "fort.tracker.tip": "建築写真に最適な、柔らかく暖かい光の時間帯です。"
 }

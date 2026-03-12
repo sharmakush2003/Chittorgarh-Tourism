@@ -590,5 +590,12 @@
     "fort.monument.padmini.tag": "Royal Palace",
     "fort.monument.gaumukh.tag": "Sacred Reservoir",
     "fort.monument.kumbha_palace.tag": "Historic Palace",
-    "fort.monument.meera.tag": "Bhakti Temple"
+    "fort.monument.meera.tag": "Bhakti Temple",
+    "fort.tracker.title": "Golden Hour Tracker",
+    "fort.tracker.activeNow": "Active Now",
+    "fort.tracker.upcoming": "Upcoming Session",
+    "fort.tracker.nextOpportunity": "Next Opportunity",
+    "fort.tracker.morning": "Morning Window",
+    "fort.tracker.evening": "Evening Window",
+    "fort.tracker.tip": "Soft, warm lighting perfect for architectural photography."
 }

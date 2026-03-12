@@ -588,5 +588,12 @@
     "fort.monument.padmini.tag": "Koninklijk Paleis",
     "fort.monument.gaumukh.tag": "Heilig Reservoir",
     "fort.monument.kumbha_palace.tag": "Historisch Paleis",
-    "fort.monument.meera.tag": "Bhakti Tempel"
+    "fort.monument.meera.tag": "Bhakti Tempel",
+    "fort.tracker.title": "Gouden Uur Tracker",
+    "fort.tracker.activeNow": "Nu Actief",
+    "fort.tracker.upcoming": "Aankomende Sessie",
+    "fort.tracker.nextOpportunity": "Volgende Kans",
+    "fort.tracker.morning": "Ochtendvenster",
+    "fort.tracker.evening": "Avondvenster",
+    "fort.tracker.tip": "Zacht, warm licht, perfect voor architectuurfotografie."
 }
