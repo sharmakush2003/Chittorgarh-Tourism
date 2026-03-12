@@ -1,29 +1,27 @@
 "use client";
 
 import { useLanguage } from "@/context/LanguageContext";
-import { useState, useEffect, useRef } from "react";
+import { useState, useRef } from "react";
 import { 
     Play, 
     Pause, 
-    Volume2, 
     Clock, 
     Shield, 
     History, 
     Camera, 
-    ChevronRight, 
     ArrowLeft,
     MapPin,
-    ScrollText
+    ScrollText,
 } from "lucide-react";
 import Link from "next/link";
 import { triggerHaptic } from "@/lib/haptics";
 import GoldenHourTracker from "./GoldenHourTracker";
+import { motion } from "framer-motion";
 
 export default function FortDetailsClient() {
     const { t, lang } = useLanguage();
     const [activeSection, setActiveSection] = useState("overview");
     const [playingAudio, setPlayingAudio] = useState(null);
-    const audioRef = useRef(null);
 
     const MONUMENTS = [
         { id: "vijay", icon: "🏛️" },
@@ -43,8 +41,6 @@ export default function FortDetailsClient() {
 
     const handleAudioPlay = (monId) => {
         triggerHaptic('medium');
-        
-        // Stop current speech if any
         window.speechSynthesis.cancel();
 
         if (playingAudio === monId) {
@@ -55,16 +51,11 @@ export default function FortDetailsClient() {
         const textToSpeak = `${t(`attr.${monId}.name`)}. ${t(`attr.${monId}.desc`)}`;
         const utterance = new SpeechSynthesisUtterance(textToSpeak);
         
-        // Set language based on active context
         const langMap = {
-            'en': 'en-US',
-            'hi': 'hi-IN',
-            'fr': 'fr-FR',
-            'nl': 'nl-NL',
-            'ja': 'ja-JP'
+            'en': 'en-US', 'hi': 'hi-IN', 'fr': 'fr-FR', 'nl': 'nl-NL', 'ja': 'ja-JP'
         };
         utterance.lang = langMap[lang] || 'en-US';
-        utterance.rate = 0.9; // Slightly slower for clarity
+        utterance.rate = 0.9;
         
         utterance.onend = () => setPlayingAudio(null);
         utterance.onerror = () => setPlayingAudio(null);
@@ -74,15 +65,25 @@ export default function FortDetailsClient() {
     };
 
     return (
-        <div className="fort-page">
+        <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 1 }}
+            className="fort-page"
+        >
             {/* ═══ HERO SECTION ═══════════════════════════ */}
             <section className="fort-hero">
                 <div className="hero-bg"></div>
                 <div className="hero-overlay"></div>
                 
-                <div className="hero-content">
+                <motion.div 
+                    initial={{ y: 30, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    transition={{ delay: 0.2, duration: 0.8 }}
+                    className="hero-content"
+                >
                     <Link href="/explore" className="back-link">
-                        <ArrowLeft size={20} /> {t("btn.back")}
+                        <ArrowLeft size={16} /> {t("btn.back")}
                     </Link>
                     <span className="hero-eyebrow">{t("fort.hero.eyebrow")}</span>
                     <h1 className="hero-title">{t("fort.hero.title")}</h1>
@@ -104,7 +105,7 @@ export default function FortDetailsClient() {
                             <span className="stat-label">{t("fort.stats.heritage")}</span>
                         </div>
                     </div>
-                </div>
+                </motion.div>
                 
                 <div className="scroll-indicator">
                     <div className="mouse"></div>
@@ -124,7 +125,7 @@ export default function FortDetailsClient() {
                                 document.getElementById(s.id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
                             }}
                         >
-                            {s.icon}
+                            <span className="nav-icon-wrapper">{s.icon}</span>
                             <span>{s.label}</span>
                         </button>
                     ))}
@@ -133,28 +134,40 @@ export default function FortDetailsClient() {
 
             <main className="fort-main">
                 {/* ═══ OVERVIEW ══════════════════════════════ */}
-                <section id="overview" className="fort-section">
+                <motion.section 
+                    initial={{ opacity: 0, y: 40 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    id="overview" 
+                    className="fort-section mesh-bg"
+                >
                     <div className="section-header">
                         <h2 className="section-title text-gold">{t("fort.section.overview")}</h2>
                         <div className="title-divider"></div>
                     </div>
-                <div className="overview-grid">
-                    <div className="overview-text">
-                        <p className="lead-para">{t("fort.overview.p1")}</p>
-                        <p>{t("fort.overview.p2")}</p>
-                        <div className="info-chips">
-                            <span className="chip"><Clock size={14} /> {t("attr.fort.time")}</span>
-                            <span className="chip"><MapPin size={14} /> {t("fort.overview.location")}</span>
+                    <div className="overview-grid">
+                        <div className="overview-text">
+                            <p className="lead-para">{t("fort.overview.p1")}</p>
+                            <p>{t("fort.overview.p2")}</p>
+                            <div className="info-chips">
+                                <span className="chip"><Clock size={14} /> {t("attr.fort.time")}</span>
+                                <span className="chip"><MapPin size={14} /> {t("fort.overview.location")}</span>
+                            </div>
+                        </div>
+                        <div className="overview-sidebar">
+                            <GoldenHourTracker />
                         </div>
                     </div>
-                    <div className="overview-sidebar">
-                        <GoldenHourTracker />
-                    </div>
-                </div>
-                </section>
+                </motion.section>
 
                 {/* ═══ HISTORY ═══════════════════════════════ */}
-                <section id="history" className="fort-section">
+                <motion.section 
+                    initial={{ opacity: 0, y: 40 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    id="history" 
+                    className="fort-section"
+                >
                     <div className="section-header">
                         <h2 className="section-title text-gold">{t("fort.section.history")}</h2>
                         <div className="title-divider"></div>
@@ -171,7 +184,7 @@ export default function FortDetailsClient() {
                             </div>
                         ))}
                     </div>
-                </section>
+                </motion.section>
 
                 {/* ═══ MONUMENTS ═════════════════════════════ */}
                 <section id="monuments" className="fort-section">
@@ -180,9 +193,23 @@ export default function FortDetailsClient() {
                         <div className="title-divider"></div>
                     </div>
                     <div className="monuments-list">
-                        {MONUMENTS.map(m => (
-                            <div key={m.id} className="monument-card">
-                                <div className="mon-icon">{m.icon}</div>
+                        {MONUMENTS.map((m, idx) => (
+                            <motion.div 
+                                key={m.id} 
+                                initial={{ opacity: 0, y: 20 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                transition={{ delay: idx * 0.1 }}
+                                className="monument-card premium-glass"
+                            >
+                                <div className="mon-icon-container">
+                                    <motion.div 
+                                        animate={{ y: [0, -8, 0] }}
+                                        transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+                                        className="mon-icon"
+                                    >
+                                        {m.icon}
+                                    </motion.div>
+                                </div>
                                 <div className="mon-content">
                                     <div className="mon-top">
                                         <h3 className="mon-name">{t(`attr.${m.id}.name`)}</h3>
@@ -199,7 +226,7 @@ export default function FortDetailsClient() {
                                         <span className="mon-tag">{t(`fort.monument.${m.id}.tag`)}</span>
                                     </div>
                                 </div>
-                            </div>
+                            </motion.div>
                         ))}
                     </div>
                 </section>
@@ -212,9 +239,13 @@ export default function FortDetailsClient() {
                     </div>
                     <div className="fort-gallery-grid">
                         {[1, 2, 3, 4, 5, 6].map(i => (
-                            <div key={i} className="gallery-item">
+                            <motion.div 
+                                key={i} 
+                                whileHover={{ scale: 1.05 }}
+                                className="gallery-item premium-glass"
+                            >
                                 <img src={`/hero_bg.png`} alt={`Fort View ${i}`} />
-                            </div>
+                            </motion.div>
                         ))}
                     </div>
                 </section>
@@ -225,32 +256,32 @@ export default function FortDetailsClient() {
                     background: #0f0a06;
                     color: #fff;
                     min-height: 100vh;
-                    font-family: var(--font-jost);
+                    font-family: var(--ff-body);
                 }
 
-                /* --- Hero --- */
                 .fort-hero {
-                    height: 90vh;
+                    height: 100vh;
                     position: relative;
                     display: flex;
                     align-items: center;
                     justify-content: center;
                     text-align: center;
                     overflow: hidden;
+                    padding-top: 100px;
                 }
 
                 .hero-bg {
                     position: absolute;
                     inset: 0;
                     background: url('/hero_bg.png') no-repeat center center / cover;
-                    transform: scale(1.1);
+                    transform: scale(1.05);
                 }
 
                 .hero-overlay {
                     position: absolute;
                     inset: 0;
                     background: linear-gradient(to bottom, 
-                        rgba(15, 10, 6, 0.4) 0%, 
+                        rgba(15, 10, 6, 0.3) 0%, 
                         rgba(15, 10, 6, 0.6) 60%,
                         rgba(15, 10, 6, 1) 100%
                     );
@@ -259,9 +290,8 @@ export default function FortDetailsClient() {
                 .hero-content {
                     position: relative;
                     z-index: 2;
-                    max-width: 900px;
+                    max-width: 1000px;
                     padding: 0 2rem;
-                    animation: fadeIn 1.2s ease-out;
                 }
 
                 .back-link {
@@ -270,36 +300,42 @@ export default function FortDetailsClient() {
                     gap: 0.5rem;
                     color: var(--gold);
                     text-decoration: none;
-                    font-size: 0.9rem;
+                    font-size: 0.8rem;
                     margin-bottom: 2rem;
-                    opacity: 0.8;
+                    opacity: 0.7;
                     transition: 0.3s;
+                    letter-spacing: 2px;
+                    text-transform: uppercase;
+                    font-weight: 600;
                 }
 
                 .back-link:hover { opacity: 1; transform: translateX(-5px); }
 
                 .hero-eyebrow {
                     display: block;
-                    letter-spacing: 6px;
+                    letter-spacing: 8px;
                     text-transform: uppercase;
-                    font-size: 0.8rem;
+                    font-size: 0.75rem;
                     color: var(--gold);
-                    margin-bottom: 1rem;
+                    margin-bottom: 1.5rem;
+                    font-weight: 600;
                 }
 
                 .hero-title {
-                    font-family: var(--font-cormorant);
-                    font-size: clamp(3.5rem, 10vw, 7rem);
-                    line-height: 1;
-                    margin-bottom: 1.5rem;
+                    font-family: var(--ff-display);
+                    font-size: clamp(3.5rem, 10vw, 8rem);
+                    line-height: 0.95;
+                    margin-bottom: 2rem;
+                    font-weight: 500;
                 }
 
                 .hero-desc {
                     font-size: 1.1rem;
                     color: rgba(255,255,255,0.7);
-                    max-width: 650px;
-                    margin: 0 auto 3rem;
+                    max-width: 700px;
+                    margin: 0 auto 4rem;
                     line-height: 1.6;
+                    font-weight: 300;
                 }
 
                 .hero-stats {
@@ -309,20 +345,15 @@ export default function FortDetailsClient() {
                     gap: 3rem;
                 }
 
-                .stat-item {
-                    display: flex;
-                    flex-direction: column;
-                }
-
                 .stat-val {
-                    font-family: var(--font-cormorant);
-                    font-size: 2.5rem;
+                    font-family: var(--ff-display);
+                    font-size: clamp(2rem, 4vw, 3rem);
                     color: var(--gold);
-                    font-weight: 700;
+                    font-weight: 500;
                 }
 
                 .stat-label {
-                    font-size: 0.7rem;
+                    font-size: 0.65rem;
                     text-transform: uppercase;
                     letter-spacing: 2px;
                     color: rgba(255,255,255,0.4);
@@ -334,12 +365,11 @@ export default function FortDetailsClient() {
                     background: rgba(255,255,255,0.1);
                 }
 
-                /* --- Nav --- */
                 .fort-nav {
                     position: sticky;
                     top: 0;
-                    background: rgba(15, 10, 6, 0.9);
-                    backdrop-filter: blur(10px);
+                    background: rgba(15, 10, 6, 0.8);
+                    backdrop-filter: blur(20px);
                     z-index: 100;
                     border-bottom: 1px solid rgba(255,255,255,0.05);
                 }
@@ -349,53 +379,52 @@ export default function FortDetailsClient() {
                     margin: 0 auto;
                     display: flex;
                     justify-content: center;
-                    padding: 0 1rem;
                 }
 
                 .nav-item {
                     background: none;
                     border: none;
-                    color: rgba(255,255,255,0.5);
-                    padding: 1.25rem 2rem;
-                    font-size: 0.85rem;
+                    color: rgba(255,255,255,0.4);
+                    padding: 1.5rem 2rem;
+                    font-size: 0.75rem;
                     font-weight: 600;
                     text-transform: uppercase;
-                    letter-spacing: 1px;
+                    letter-spacing: 1.5px;
                     cursor: pointer;
                     display: flex;
                     align-items: center;
                     gap: 0.75rem;
                     transition: 0.3s;
-                    border-bottom: 2px solid transparent;
                 }
 
-                .nav-item:hover { color: #fff; }
                 .nav-item.active {
                     color: var(--gold);
-                    border-bottom-color: var(--gold);
+                    background: rgba(212, 175, 55, 0.05);
                 }
 
-                /* --- Content Area --- */
                 .fort-main {
-                    max-width: 1100px;
+                    max-width: 1200px;
                     margin: 0 auto;
-                    padding: 5rem 2rem;
+                    padding: 8rem 2rem;
                 }
 
                 .fort-section {
-                    margin-bottom: 8rem;
+                    margin-bottom: 10rem;
                     scroll-margin-top: 100px;
+                    padding: 4rem;
+                    border-radius: 32px;
                 }
 
                 .section-header {
-                    margin-bottom: 4rem;
+                    margin-bottom: 5rem;
                     text-align: center;
                 }
 
                 .section-title {
-                    font-family: var(--font-cormorant);
-                    font-size: 3rem;
+                    font-family: var(--ff-display);
+                    font-size: 3.5rem;
                     margin-bottom: 1rem;
+                    font-weight: 400;
                 }
 
                 .title-divider {
@@ -405,60 +434,56 @@ export default function FortDetailsClient() {
                     margin: 0 auto;
                 }
 
-                /* --- Overview --- */
                 .overview-grid {
                     display: grid;
                     grid-template-columns: 1.2fr 0.8fr;
-                    gap: 4rem;
+                    gap: 5rem;
                     align-items: flex-start;
                 }
 
-                .overview-sidebar {
-                    position: sticky;
-                    top: 120px;
-                }
-
                 .lead-para {
-                    font-size: 1.25rem;
-                    color: var(--gold);
-                    margin-bottom: 1.5rem;
-                    line-height: 1.6;
+                    font-size: 1.4rem;
+                    color: var(--gold-light);
+                    margin-bottom: 2rem;
+                    line-height: 1.5;
+                    font-family: var(--ff-display);
+                    font-style: italic;
                 }
 
                 .overview-text p {
                     color: rgba(255,255,255,0.7);
                     line-height: 1.8;
-                    margin-bottom: 2rem;
+                    margin-bottom: 2.5rem;
+                    font-weight: 300;
                 }
 
                 .info-chips {
                     display: flex;
-                    gap: 1rem;
+                    gap: 1.5rem;
                 }
 
                 .chip {
                     display: flex;
                     align-items: center;
-                    gap: 0.5rem;
-                    background: rgba(255,255,255,0.05);
-                    padding: 0.5rem 1rem;
+                    gap: 0.75rem;
+                    background: rgba(255,255,255,0.03);
+                    padding: 0.75rem 1.25rem;
                     border-radius: 100px;
                     font-size: 0.8rem;
                     color: rgba(255,255,255,0.8);
+                    border: 1px solid rgba(255,255,255,0.05);
                 }
 
-                .overview-image img {
-                    width: 100%;
-                    border-radius: 12px;
-                    box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+                .overview-sidebar {
+                    position: sticky;
+                    top: 140px;
                 }
 
-                /* --- Timeline --- */
                 .history-timeline {
                     position: relative;
-                    max-width: 800px;
+                    max-width: 900px;
                     margin: 0 auto;
-                    padding-left: 2rem;
+                    padding-left: 3rem;
                 }
 
                 .history-timeline::before {
@@ -473,15 +498,15 @@ export default function FortDetailsClient() {
 
                 .timeline-item {
                     position: relative;
-                    margin-bottom: 4rem;
+                    margin-bottom: 5rem;
                 }
 
                 .timeline-dot {
                     position: absolute;
-                    left: -2rem;
+                    left: -3rem;
                     top: 0.5rem;
-                    width: 13px;
-                    height: 13px;
+                    width: 11px;
+                    height: 11px;
                     background: var(--gold);
                     border-radius: 50%;
                     transform: translateX(-50%);
@@ -489,66 +514,61 @@ export default function FortDetailsClient() {
                 }
 
                 .timeline-year {
-                    font-family: var(--font-cormorant);
-                    font-size: 1.5rem;
+                    font-family: var(--ff-display);
+                    font-size: 2rem;
                     color: var(--gold);
                     margin-bottom: 0.5rem;
                 }
 
                 .timeline-title {
-                    font-size: 1.2rem;
-                    margin-bottom: 1rem;
+                    font-size: 1.3rem;
+                    margin-bottom: 1.5rem;
+                    font-family: var(--ff-display);
                 }
 
                 .timeline-content p {
                     color: rgba(255,255,255,0.6);
-                    line-height: 1.7;
+                    line-height: 1.8;
                 }
 
-                /* --- Monuments --- */
                 .monuments-list {
                     display: grid;
-                    gap: 2rem;
+                    gap: 2.5rem;
                 }
 
                 .monument-card {
-                    background: rgba(255,255,255,0.03);
-                    border: 1px solid rgba(255,255,255,0.05);
-                    border-radius: 16px;
-                    padding: 2.5rem;
+                    padding: 3rem;
                     display: grid;
                     grid-template-columns: auto 1fr;
-                    gap: 2.5rem;
-                    transition: 0.3s;
+                    gap: 3.5rem;
+                    transition: 0.4s;
+                    border-radius: 24px;
                 }
 
-                .monument-card:hover {
-                    background: rgba(255,255,255,0.05);
-                    border-color: rgba(212, 175, 55, 0.2);
-                    transform: translateY(-5px);
-                }
-
-                .mon-icon {
-                    font-size: 3rem;
+                .mon-icon-container {
+                    width: 120px;
+                    height: 120px;
                     background: rgba(212, 175, 55, 0.1);
-                    width: 100px;
-                    height: 100px;
                     display: flex;
                     align-items: center;
                     justify-content: center;
-                    border-radius: 12px;
+                    border-radius: 20px;
+                }
+
+                .mon-icon {
+                    font-size: 4rem;
                 }
 
                 .mon-top {
                     display: flex;
                     justify-content: space-between;
-                    align-items: center;
-                    margin-bottom: 1.5rem;
+                    align-items: flex-start;
+                    margin-bottom: 2rem;
                 }
 
                 .mon-name {
-                    font-family: var(--font-cormorant);
-                    font-size: 2rem;
+                    font-family: var(--ff-display);
+                    font-size: 2.2rem;
                     color: var(--gold);
                 }
 
@@ -556,7 +576,7 @@ export default function FortDetailsClient() {
                     background: rgba(212, 175, 55, 0.1);
                     border: 1px solid var(--gold);
                     color: var(--gold);
-                    padding: 0.6rem 1.2rem;
+                    padding: 0.75rem 1.5rem;
                     border-radius: 100px;
                     display: flex;
                     align-items: center;
@@ -564,7 +584,7 @@ export default function FortDetailsClient() {
                     cursor: pointer;
                     transition: 0.3s;
                     font-weight: 600;
-                    font-size: 0.85rem;
+                    font-size: 0.8rem;
                 }
 
                 .audio-btn:hover {
@@ -575,36 +595,35 @@ export default function FortDetailsClient() {
                 .audio-btn.playing {
                     background: #fff;
                     color: #000;
-                    border-color: #fff;
                     animation: pulse 2s infinite;
                 }
 
                 .mon-desc {
                     color: rgba(255,255,255,0.7);
                     line-height: 1.8;
-                    margin-bottom: 1.5rem;
+                    margin-bottom: 2rem;
+                    font-size: 1.05rem;
                 }
 
                 .mon-tag {
-                    font-size: 0.7rem;
+                    font-size: 0.75rem;
                     text-transform: uppercase;
                     letter-spacing: 1px;
                     color: rgba(255,255,255,0.4);
                     border: 1px solid rgba(255,255,255,0.1);
-                    padding: 0.3rem 0.8rem;
-                    border-radius: 4px;
+                    padding: 0.4rem 1rem;
+                    border-radius: 6px;
                 }
 
-                /* --- Gallery --- */
                 .fort-gallery-grid {
                     display: grid;
-                    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-                    gap: 1.5rem;
+                    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+                    gap: 2rem;
                 }
 
                 .gallery-item {
-                    aspect-ratio: 4/3;
-                    border-radius: 8px;
+                    aspect-ratio: 16/10;
+                    border-radius: 12px;
                     overflow: hidden;
                     cursor: zoom-in;
                 }
@@ -613,26 +632,25 @@ export default function FortDetailsClient() {
                     width: 100%;
                     height: 100%;
                     object-fit: cover;
-                    transition: 0.5s;
+                    transition: 0.6s;
                 }
 
                 .gallery-item:hover img {
                     transform: scale(1.1);
                 }
 
-                /* --- Misc --- */
                 .scroll-indicator {
                     position: absolute;
-                    bottom: 30px;
+                    bottom: 40px;
                     left: 50%;
                     transform: translateX(-50%);
                     z-index: 2;
                 }
 
                 .mouse {
-                    width: 25px;
-                    height: 45px;
-                    border: 2px solid rgba(255,255,255,0.3);
+                    width: 28px;
+                    height: 48px;
+                    border: 2px solid rgba(255,255,255,0.2);
                     border-radius: 20px;
                     position: relative;
                 }
@@ -643,7 +661,7 @@ export default function FortDetailsClient() {
                     top: 10px;
                     left: 50%;
                     width: 4px;
-                    height: 8px;
+                    height: 10px;
                     background: var(--gold);
                     border-radius: 2px;
                     transform: translateX(-50%);
@@ -652,31 +670,29 @@ export default function FortDetailsClient() {
 
                 @keyframes scrollWheel {
                     0% { transform: translate(-50%, 0); opacity: 1; }
-                    100% { transform: translate(-50%, 15px); opacity: 0; }
+                    100% { transform: translate(-50%, 18px); opacity: 0; }
                 }
 
                 @keyframes pulse {
                     0% { box-shadow: 0 0 0 0 rgba(255,255,255, 0.4); }
-                    70% { box-shadow: 0 0 0 10px rgba(255,255,255, 0); }
+                    70% { box-shadow: 0 0 0 12px rgba(255,255,255, 0); }
                     100% { box-shadow: 0 0 0 0 rgba(255,255,255, 0); }
                 }
 
-                @keyframes fadeIn {
-                    from { opacity: 0; transform: translateY(20px); }
-                    to { opacity: 1; transform: translateY(0); }
+                @media (max-width: 1024px) {
+                    .overview-grid { grid-template-columns: 1fr; gap: 4rem; }
+                    .overview-sidebar { position: static; }
                 }
 
                 @media (max-width: 768px) {
-                    .nav-item span { display: none; }
-                    .nav-item { padding: 1.25rem 1rem; }
-                    .overview-grid { grid-template-columns: 1fr; gap: 2rem; }
-                    .overview-image { order: -1; }
-                    .monument-card { grid-template-columns: 1fr; padding: 1.5rem; gap: 1.5rem; }
-                    .mon-icon { width: 60px; height: 60px; font-size: 1.5rem; }
-                    .hero-title { font-size: 3.5rem; }
-                    .hero-stats { gap: 1rem; flex-wrap: wrap; }
+                    .nav-item span:last-child { display: none; }
+                    .stat-divider { height: 1px; width: 60px; background: rgba(255,255,255,0.1); }
+                    .hero-stats { flex-direction: column; }
+                    .monument-card { grid-template-columns: 1fr; padding: 2rem; gap: 2rem; }
+                    .mon-icon-container { width: 100px; height: 100px; }
+                    .hero-title { font-size: 4rem; }
                 }
             `}</style>
-        </div>
+        </motion.div>
     );
 }

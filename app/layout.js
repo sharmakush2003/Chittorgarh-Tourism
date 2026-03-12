@@ -1,4 +1,4 @@
-import { Cormorant_Garamond, Jost } from "next/font/google";
+import { Playfair_Display, Inter } from "next/font/google";
 import Script from "next/script";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -13,16 +13,16 @@ import { AuthProvider } from "@/context/AuthContext";
 import AnalyticsTracker from "@/components/AnalyticsTracker";
 import "./globals.css";
 
-const cormorant = Cormorant_Garamond({
+const playfair = Playfair_Display({
   subsets: ["latin"],
-  variable: "--font-cormorant",
-  weight: ["300", "400", "500", "600", "700"],
+  variable: "--font-playfair",
+  weight: ["400", "500", "600", "700"],
   style: ["normal", "italic"],
 });
 
-const jost = Jost({
+const inter = Inter({
   subsets: ["latin"],
-  variable: "--font-jost",
+  variable: "--font-inter",
   weight: ["300", "400", "500", "600", "700"],
 });
 
@@ -186,7 +186,7 @@ export default function RootLayout({ children }) {
           crossOrigin="anonymous"
         />
       </head>
-      <body className={`${cormorant.variable} ${jost.variable}`}>
+      <body className={`${playfair.variable} ${inter.variable}`}>
         <Script
           id="attraction-schema"
           type="application/ld+json"
