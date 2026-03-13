@@ -149,7 +149,7 @@ export default function RootLayout({ children }) {
     '@type': 'Organization',
     name: 'Chittorgarh Tourism',
     url: 'https://chittorgarh-tourism-five.vercel.app',
-    logo: 'https://chittorgarh-tourism-five.vercel.app/logo.png',
+    logo: 'https://chittorgarh-tourism-five.vercel.app/logo.jpg',
     sameAs: [
       'https://www.facebook.com/chittorgarhtourism',
       'https://www.instagram.com/chittorgarhtourism',
