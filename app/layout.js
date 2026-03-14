@@ -7,6 +7,7 @@ import LanguagePrompt from "@/components/LanguagePrompt";
 import Background3D from "@/components/Background3D";
 import HeritageGuide from "@/components/HeritageGuide";
 import Newsletter from "@/components/Newsletter";
+import InstallBanner from "@/components/InstallBanner";
 import { LanguageProvider } from "@/context/LanguageContext";
 import { AuthProvider } from "@/context/AuthContext";
 import "./globals.css";
@@ -93,6 +94,11 @@ export const viewport = {
   initialScale: 1,
   maximumScale: 1,
   themeColor: "#D4AF37",
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "black-translucent",
+    title: "Chittorgarh",
+  },
 };
 
 export default function RootLayout({ children }) {
@@ -189,6 +195,7 @@ export default function RootLayout({ children }) {
             <Navbar />
             <LanguagePrompt />
             {children}
+            <InstallBanner />
             <HeritageGuide />
             <Newsletter />
             <Footer />

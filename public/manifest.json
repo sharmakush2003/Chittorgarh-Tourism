@@ -1,8 +1,8 @@
 {
-    "name": "Chittorgarh Tourism",
-    "short_name": "ChittorgarhTourism",
-    "description": "Discover Chittorgarh Fort — Rajasthan's mightiest citadel. Plan your journey and explore heritage sites.",
-    "start_url": "/",
+    "name": "Chittorgarh Tourism — Imperial Guide",
+    "short_name": "Chittorgarh",
+    "description": "The official digital chronicle and guide to Rajasthan's mightiest citadel. Explore history, plan stays, and experience the saga of Mewar.",
+    "start_url": "/?utm_source=pwa",
     "display": "standalone",
     "background_color": "#0f0a06",
     "theme_color": "#D4AF37",
@@ -14,21 +14,60 @@
             "type": "image/x-icon"
         },
         {
+            "src": "/icon.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "any maskable"
+        },
+        {
             "src": "/icon-192.png",
             "sizes": "192x192",
             "type": "image/png",
-            "purpose": "any maskable"
+            "purpose": "any"
         },
         {
             "src": "/icon-512.png",
             "sizes": "512x512",
             "type": "image/png",
-            "purpose": "any maskable"
+            "purpose": "any"
+        }
+    ],
+    "shortcuts": [
+        {
+            "name": "The Chronicles",
+            "url": "/chronicles",
+            "description": "Read historical records and news",
+            "icons": [{ "src": "/icon-192.png", "sizes": "192x192" }]
+        },
+        {
+            "name": "Plan Visit",
+            "url": "/plan",
+            "description": "Tickets, timings and guide",
+            "icons": [{ "src": "/icon-192.png", "sizes": "192x192" }]
+        },
+        {
+            "name": "Emergency",
+            "url": "/emergency",
+            "description": "Hospital, Help & Police",
+            "icons": [{ "src": "/icon-192.png", "sizes": "192x192" }]
+        }
+    ],
+    "screenshots": [
+        {
+          "src": "/Poster-For-Chittorgarh-Tourism.png",
+          "sizes": "1200x630",
+          "type": "image/png",
+          "form_factor": "wide",
+          "label": "Experience the Grandeur of Chittorgarh"
         }
     ],
     "categories": [
         "travel",
-        "lifestyle"
+        "lifestyle",
+        "education",
+        "history"
     ],
-    "lang": "en"
-}
+    "lang": "en",
+    "dir": "ltr",
+    "prefer_related_applications": false
+}
