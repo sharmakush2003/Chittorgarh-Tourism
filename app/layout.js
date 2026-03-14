@@ -5,12 +5,10 @@ import Footer from "@/components/Footer";
 import ScrollReveal from "@/components/ScrollReveal";
 import LanguagePrompt from "@/components/LanguagePrompt";
 import Background3D from "@/components/Background3D";
-import VisitorGate from "@/components/VisitorGate";
 import HeritageGuide from "@/components/HeritageGuide";
 import Newsletter from "@/components/Newsletter";
 import { LanguageProvider } from "@/context/LanguageContext";
 import { AuthProvider } from "@/context/AuthContext";
-import AnalyticsTracker from "@/components/AnalyticsTracker";
 import "./globals.css";
 
 const playfair = Playfair_Display({
@@ -204,9 +202,7 @@ export default function RootLayout({ children }) {
         />
         <Background3D />
         <AuthProvider>
-          <AnalyticsTracker />
           <LanguageProvider>
-            <VisitorGate />
             <Navbar />
             <LanguagePrompt />
             {children}

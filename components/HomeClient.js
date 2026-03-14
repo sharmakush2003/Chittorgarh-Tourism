@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { useLanguage } from "@/context/LanguageContext";
 import WeatherWidget from "@/components/WeatherWidget";
-import VisitorStats from "@/components/VisitorStats";
 import RoyalLineage from "./RoyalLineage";
 import FAQ from "./FAQ";
 import { triggerHaptic } from "@/lib/haptics";
@@ -18,7 +17,6 @@ export default function HomeClient() {
             <header id="home" className="hero">
                 <div className="hero-widgets">
                     <WeatherWidget />
-                    <VisitorStats />
                 </div>
                 <div className="hero-overlay"></div>
                 <div className="hero-content">
