@@ -185,12 +185,6 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        <meta name="google-adsense-account" content="ca-pub-2280719839889797" />
-        <Script 
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2280719839889797"
-          strategy="afterInteractive"
-          crossOrigin="anonymous"
-        />
       </head>
       <body className={`${playfair.variable} ${inter.variable} ${martel.variable}`}>
         <Script
