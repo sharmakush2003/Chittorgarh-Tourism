@@ -51,16 +51,16 @@ export default function InstallBanner() {
         };
     }, []);
 
+    // v1.0.4 - Force Update
     const handleInstall = async () => {
+        triggerHaptic('medium');
         if (!deferredPrompt) {
-            // If no native prompt, clicking "Got It" should close the banner
-            handleDismiss();
+            setIsVisible(false);
+            localStorage.setItem("install_banner_dismissed", Date.now());
             return;
         }
         
-        triggerHaptic('medium');
         setIsVisible(false);
-        
         deferredPrompt.prompt();
         const { outcome } = await deferredPrompt.userChoice;
         
