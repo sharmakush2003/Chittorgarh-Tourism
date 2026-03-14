@@ -143,11 +143,11 @@ export default function Background3D() {
         scene.add(particles);
 
         // Animation Loop
-        const clock = new THREE.Clock();
+        let startTime = performance.now();
         let animationId;
 
         const tick = () => {
-            const elapsedTime = clock.getElapsedTime();
+            const elapsedTime = (performance.now() - startTime) / 1000;
 
             // Update Uniforms
             material.uniforms.uTime.value = elapsedTime;

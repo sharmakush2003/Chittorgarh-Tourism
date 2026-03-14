@@ -51,23 +51,13 @@ export const metadata = {
     },
   },
   keywords: [
-    "Chittorgarh",
-    "Chittorgarh Fort",
-    "Chittorgarh Tourism",
-    "best places to visit in Chittorgarh",
-    "Chittorgarh Fort travel guide",
-    "Rajasthan Tourism",
-    "Mewar History",
-    "Rani Padmini",
-    "Vijay Stambh",
-    "Kirti Stambh",
-    "Chittaurgarh"
+    "Chittorgarh", "Chittorgarh Fort", "Chittorgarh Tourism", "best places to visit in Chittorgarh",
+    "Chittorgarh Fort travel guide", "Rajasthan Tourism", "Mewar History", "Rani Padmini",
+    "Vijay Stambh", "Kirti Stambh", "Chittaurgarh"
   ],
   authors: [{ name: "Chittorgarh Tourism" }],
   creator: "Chittorgarh Tourism",
-  canonical: "https://chittorgarh-tourism-five.vercel.app",
   manifest: "/manifest.json",
-  themeColor: "#D4AF37",
   appleWebApp: {
     capable: true,
     statusBarStyle: "black-translucent",
@@ -102,6 +92,7 @@ export const viewport = {
   width: "device-width",
   initialScale: 1,
   maximumScale: 1,
+  themeColor: "#D4AF37",
 };
 
 export default function RootLayout({ children }) {
@@ -127,13 +118,7 @@ export default function RootLayout({ children }) {
       {
         '@type': 'OpeningHoursSpecification',
         dayOfWeek: [
-          'Monday',
-          'Tuesday',
-          'Wednesday',
-          'Thursday',
-          'Friday',
-          'Saturday',
-          'Sunday'
+          'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'
         ],
         opens: '09:00',
         closes: '18:00'
@@ -182,8 +167,6 @@ export default function RootLayout({ children }) {
 
   return (
     <html lang="en" suppressHydrationWarning>
-      <head>
-      </head>
       <body className={`${playfair.variable} ${inter.variable} ${martel.variable}`}>
         <Script
           id="attraction-schema"
