@@ -53,8 +53,8 @@ export default function InstallBanner() {
 
     const handleInstall = async () => {
         if (!deferredPrompt) {
-            // If no native prompt, just keep the banner open for manual instructions
-            triggerHaptic('light');
+            // If no native prompt, clicking "Got It" should close the banner
+            handleDismiss();
             return;
         }
         
