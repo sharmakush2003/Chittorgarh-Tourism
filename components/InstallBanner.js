@@ -24,50 +24,66 @@ export default function InstallBanner() {
             e.preventDefault();
             setDeferredPrompt(e);
             
-            // Always try to show on Android/Chrome if event fires
-            showAfterDelay();
+            checkAndShow();
         };
 
-        const showAfterDelay = () => {
+        const checkAndShow = () => {
+            // Requirement 1: Only show after language selection
+            const hasSelectedLang = localStorage.getItem("ctt_locale");
+            if (!hasSelectedLang) return;
+
+            // Requirement 2: Check dismissal
+            const isDismissed = localStorage.getItem("install_banner_dismissed");
+            const lastDismissed = parseInt(isDismissed || "0");
+            const weekInMs = 7 * 24 * 60 * 60 * 1000;
+            
+            // For testing we ignore dismissal if the user selects language again, 
+            // but for production we'd respect the week.
+            // Let's show it after 3 seconds if lang is present.
             const timer = setTimeout(() => {
-                // FORCE SHOW for developer testing - ignore localStorage for now
-                setIsVisible(true);
-            }, 3000); // Shorter delay for testing
+                if (Date.now() - lastDismissed > weekInMs || !isDismissed) {
+                    setIsVisible(true);
+                }
+            }, 3000);
             return timer;
         };
 
-        // If it's a mobile device, show the banner even if the native event hasn't fired
-        // This allows us to show manual instructions
+        // If it's a mobile device, we try to show it even without the native prompt for manual guidance
         let mobileTimer;
         if ((isIOSDevice || isAndroidDevice) && !window.navigator.standalone) {
-            mobileTimer = showAfterDelay();
+            mobileTimer = checkAndShow();
         }
 
         window.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
 
+        // Listen for storage changes in case they select lang in the same session
+        const handleStorage = () => checkAndShow();
+        window.addEventListener("storage", handleStorage);
+
         return () => {
             window.removeEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
+            window.removeEventListener("storage", handleStorage);
             if (mobileTimer) clearTimeout(mobileTimer);
         };
     }, []);
 
-    // v1.0.4 - Force Update
-    const handleInstall = async () => {
+    const handleInstallAction = async () => {
         triggerHaptic('medium');
-        if (!deferredPrompt) {
+        
+        if (deferredPrompt) {
+            setIsVisible(false);
+            deferredPrompt.prompt();
+            const { outcome } = await deferredPrompt.userChoice;
+            if (outcome === 'accepted') {
+                localStorage.setItem("install_banner_dismissed", Date.now());
+            }
+            setDeferredPrompt(null);
+        } else {
+            // Manual mode (iOS or Android fallback)
+            // Just close the banner after they've read instructions
             setIsVisible(false);
             localStorage.setItem("install_banner_dismissed", Date.now());
-            return;
         }
-        
-        setIsVisible(false);
-        deferredPrompt.prompt();
-        const { outcome } = await deferredPrompt.userChoice;
-        
-        if (outcome === 'accepted') {
-            localStorage.setItem("install_banner_dismissed", Date.now());
-        }
-        setDeferredPrompt(null);
     };
 
     const handleDismiss = () => {
@@ -207,11 +223,6 @@ export default function InstallBanner() {
                     transition: 0.4s;
                 }
 
-                .install-btn:disabled {
-                    opacity: 0.5;
-                    cursor: not-allowed;
-                }
-
                 .later-btn {
                     flex: 1;
                     background: transparent;
@@ -246,14 +257,14 @@ export default function InstallBanner() {
 
             <div className="banner-body">
                 <h3>Imperial Guide</h3>
-                <p>Install for offline maps, faster history, and a full-screen experience.</p>
+                <p>Download for perfect offline access to heritage maps and historical chronicles.</p>
                 
                 <div className="instruction-box">
                     {isIOS ? (
                         <>
                             <div className="instruction-step">
                                 <div className="icon-circle"><Share size={12} /></div>
-                                <span>Tap the <strong>Share</strong> button at the bottom.</span>
+                                <span>Tap the <strong>Share</strong> button in Safari.</span>
                             </div>
                             <div className="instruction-step">
                                 <div className="icon-circle"><Download size={12} /></div>
@@ -262,12 +273,7 @@ export default function InstallBanner() {
                         </>
                     ) : (
                         <>
-                            {deferredPrompt ? (
-                                <div className="instruction-step">
-                                    <div className="icon-circle"><Zap size={12} /></div>
-                                    <span>Ready to install! Just tap the button below.</span>
-                                </div>
-                            ) : (
+                            {!deferredPrompt ? (
                                 <>
                                     <div className="instruction-step">
                                         <div className="icon-circle"><MoreVertical size={12} /></div>
@@ -275,21 +281,22 @@ export default function InstallBanner() {
                                     </div>
                                     <div className="instruction-step">
                                         <div className="icon-circle"><Download size={12} /></div>
-                                        <span>Tap <strong>'Install App'</strong> or 'Add to Home Screen'.</span>
+                                        <span>Select <strong>'Install App'</strong>.</span>
                                     </div>
                                 </>
+                            ) : (
+                                <div className="instruction-step">
+                                    <div className="icon-circle"><Zap size={12} /></div>
+                                    <span>Ready to install! Just tap the button below.</span>
+                                </div>
                             )}
                         </>
                     )}
                 </div>
 
                 <div className="actions">
-                    <button 
-                        className="install-btn" 
-                        onClick={handleInstall}
-                        disabled={!deferredPrompt && !isIOS && !isAndroid}
-                    >
-                        <Download size={20} /> {deferredPrompt ? "Install Now" : "Got It"}
+                    <button className="install-btn" onClick={handleInstallAction}>
+                        <Download size={20} /> {deferredPrompt ? "Install Now" : "Install App"}
                     </button>
                     <button className="later-btn" onClick={handleDismiss}>
                         Later
@@ -299,4 +306,3 @@ export default function InstallBanner() {
         </div>
     );
 }
-
