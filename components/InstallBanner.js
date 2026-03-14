@@ -28,42 +28,43 @@ export default function InstallBanner() {
         };
 
         const checkAndShow = () => {
-            // Requirement 1: Only show after language selection
             const hasSelectedLang = localStorage.getItem("ctt_locale");
-            if (!hasSelectedLang) return;
+            if (!hasSelectedLang) return false;
 
-            // Requirement 2: Check dismissal
             const isDismissed = localStorage.getItem("install_banner_dismissed");
             const lastDismissed = parseInt(isDismissed || "0");
             const weekInMs = 7 * 24 * 60 * 60 * 1000;
             
-            // For testing we ignore dismissal if the user selects language again, 
-            // but for production we'd respect the week.
-            // Let's show it after 3 seconds if lang is present.
-            const timer = setTimeout(() => {
-                if (Date.now() - lastDismissed > weekInMs || !isDismissed) {
+            if (Date.now() - lastDismissed > weekInMs || !isDismissed) {
+                const timer = setTimeout(() => {
                     setIsVisible(true);
-                }
-            }, 3000);
-            return timer;
+                }, 3000);
+                return true;
+            }
+            return true;
         };
 
-        // If it's a mobile device, we try to show it even without the native prompt for manual guidance
-        let mobileTimer;
-        if ((isIOSDevice || isAndroidDevice) && !window.navigator.standalone) {
-            mobileTimer = checkAndShow();
+        // If it's a mobile device or for testing, check for the banner
+        let pollingInterval;
+        if (!window.navigator.standalone) {
+            // Try immediately
+            const shown = checkAndShow();
+            
+            // If not shown yet (waiting for lang), poll every 1s
+            if (!shown) {
+                pollingInterval = setInterval(() => {
+                    const nowShown = checkAndShow();
+                    if (nowShown) clearInterval(pollingInterval);
+                }, 1000);
+            }
         }
 
         window.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
-
-        // Listen for storage changes in case they select lang in the same session
-        const handleStorage = () => checkAndShow();
-        window.addEventListener("storage", handleStorage);
+        window.addEventListener("storage", () => checkAndShow());
 
         return () => {
             window.removeEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
-            window.removeEventListener("storage", handleStorage);
-            if (mobileTimer) clearTimeout(mobileTimer);
+            if (pollingInterval) clearInterval(pollingInterval);
         };
     }, []);
 
