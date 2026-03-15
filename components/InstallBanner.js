@@ -9,6 +9,7 @@ export default function InstallBanner() {
     const [isVisible, setIsVisible] = useState(false);
     const [isIOS, setIsIOS] = useState(false);
     const [isAndroid, setIsAndroid] = useState(false);
+    const [shakeManual, setShakeManual] = useState(false);
 
     useEffect(() => {
         // Platform detection
@@ -21,7 +22,7 @@ export default function InstallBanner() {
         setIsAndroid(isAndroidDevice);
 
         // Check if already in standalone mode
-        const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
+        const isStandalone = typeof window !== 'undefined' && (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone);
 
         const handleBeforeInstallPrompt = (e) => {
             console.log("PWA: beforeinstallprompt fired");
@@ -32,7 +33,7 @@ export default function InstallBanner() {
         };
 
         // Check if we already have a global prompt
-        if (window.deferredPrompt) {
+        if (typeof window !== 'undefined' && window.deferredPrompt) {
             setDeferredPrompt(window.deferredPrompt);
         }
 
@@ -48,7 +49,7 @@ export default function InstallBanner() {
             const weekInMs = 7 * dayInMs;
             
             // Show more frequently if in-app or manual mode to ensure they see instructions
-            const cooldown = (!deferredPrompt && !window.deferredPrompt) ? dayInMs : weekInMs;
+            const cooldown = (!deferredPrompt && (typeof window !== 'undefined' && !window.deferredPrompt)) ? dayInMs : weekInMs;
 
             if (Date.now() - lastDismissed > cooldown || !isDismissed) {
                 const timer = setTimeout(() => {
@@ -83,7 +84,7 @@ export default function InstallBanner() {
     const handleInstallAction = async () => {
         triggerHaptic('medium');
         
-        const prompt = deferredPrompt || window.deferredPrompt;
+        const prompt = deferredPrompt || (typeof window !== 'undefined' ? window.deferredPrompt : null);
 
         if (prompt) {
             try {
@@ -95,15 +96,17 @@ export default function InstallBanner() {
                     setIsVisible(false);
                 }
                 setDeferredPrompt(null);
-                window.deferredPrompt = null;
+                if (typeof window !== 'undefined') window.deferredPrompt = null;
             } catch (err) {
                 console.error("PWA: Install prompt failed:", err);
                 setIsVisible(false);
             }
         } else {
-            // Manual mode (dismiss guide)
-            setIsVisible(false);
-            localStorage.setItem("install_banner_dismissed", Date.now());
+            // Manual mode - highlighting instead of closing
+            console.log("PWA: Manual mode triggered. Prompt unavailable.");
+            setShakeManual(true);
+            triggerHaptic('error');
+            setTimeout(() => setShakeManual(false), 500);
         }
     };
 
@@ -137,6 +140,18 @@ export default function InstallBanner() {
                 @keyframes slideUp {
                     from { transform: translate(-50%, 100%); opacity: 0; }
                     to { transform: translate(-50%, 0); opacity: 1; }
+                }
+
+                @keyframes shake {
+                    0%, 100% { transform: translateX(0); }
+                    25% { transform: translateX(-5px); }
+                    75% { transform: translateX(5px); }
+                }
+
+                .shake {
+                    animation: shake 0.4s ease-in-out;
+                    border-color: var(--gold) !important;
+                    background: rgba(212, 175, 55, 0.15) !important;
                 }
 
                 .banner-header {
@@ -280,8 +295,8 @@ export default function InstallBanner() {
                 <h3>Imperial Guide</h3>
                 <p>Download for perfect offline access to heritage maps and historical chronicles.</p>
                 
-                <div className="instruction-box">
-                    {/FBAN|FBAV|Instagram|Threads/i.test(navigator.userAgent) && (
+                <div className={`instruction-box ${shakeManual ? 'shake' : ''}`}>
+                    {/FBAN|FBAV|Instagram|Threads/i.test(typeof navigator !== 'undefined' ? navigator.userAgent : '') && (
                         <div className="instruction-step" style={{ color: '#ff9800', marginBottom: '1.5rem', border: '1px solid #ff9800', padding: '10px', borderRadius: '4px' }}>
                             <div className="icon-circle"><ShieldCheck size={12} /></div>
                             <span><strong>In-App Browser Detected:</strong> For the best experience, open this site in <strong>Chrome</strong> or <strong>Safari</strong> to install.</span>
@@ -300,7 +315,7 @@ export default function InstallBanner() {
                         </>
                     ) : (
                         <>
-                            {!(deferredPrompt || window.deferredPrompt) ? (
+                            {!(deferredPrompt || (typeof window !== 'undefined' && window.deferredPrompt)) ? (
                                 <>
                                     <div className="instruction-step">
                                         <div className="icon-circle"><MoreVertical size={12} /></div>
@@ -323,7 +338,7 @@ export default function InstallBanner() {
 
                 <div className="actions">
                     <button className="install-btn" onClick={handleInstallAction}>
-                        <Download size={20} /> {(deferredPrompt || window.deferredPrompt) ? "Install Now" : "I Understand"}
+                        <Download size={20} /> Install App
                     </button>
                     <button className="later-btn" onClick={handleDismiss}>
                         Later
