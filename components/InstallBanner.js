@@ -20,20 +20,15 @@ export default function InstallBanner() {
             return;
         }
 
-        // Check dismissed (support both old and new key names)
-        const dismissed = Math.max(
-            parseInt(localStorage.getItem("pwa_dismissed") || "0"),
-            parseInt(localStorage.getItem("install_banner_dismissed") || "0")
-        );
-        if (Date.now() - dismissed < 3 * 24 * 3600 * 1000) return; // 3-day cooldown
+        // Check if dismissed in this session (don't annoy every page refresh, but show on new visit)
+        if (sessionStorage.getItem("pwa_banner_hidden")) return;
 
         // On iOS, always show manual instructions after a delay
         if (ios) {
-            setTimeout(() => setShow(true), 4000);
+            setTimeout(() => setShow(true), 3000);
             return;
         }
 
-        // On Chrome/Android — show banner when prompt fires OR after 5s on mobile
         const isMobile = /Mobi|Android/i.test(ua);
 
         const handler = (e) => {
@@ -41,7 +36,7 @@ export default function InstallBanner() {
             promptRef.current = e;
             window.__pwaPrompt = e;
             setCanInstall(true);
-            setTimeout(() => setShow(true), 1500);
+            setTimeout(() => setShow(true), 1000); // Show very fast if we have the prompt
         };
 
         window.addEventListener("beforeinstallprompt", handler);
@@ -50,11 +45,11 @@ export default function InstallBanner() {
         if (window.__pwaPrompt) {
             promptRef.current = window.__pwaPrompt;
             setCanInstall(true);
-            setTimeout(() => setShow(true), 1500);
+            setTimeout(() => setShow(true), 1000);
         } else if (isMobile) {
             // On mobile where we never get the prompt (older Android, Samsung browser etc),
             // show manual instructions after a delay
-            setTimeout(() => setShow(true), 5000);
+            setTimeout(() => setShow(true), 4000);
         }
 
         return () => window.removeEventListener("beforeinstallprompt", handler);
@@ -67,7 +62,7 @@ export default function InstallBanner() {
                 prompt.prompt();
                 const { outcome } = await prompt.userChoice;
                 if (outcome === "accepted") {
-                    localStorage.setItem("pwa_dismissed", Date.now());
+                    sessionStorage.setItem("pwa_banner_hidden", "true");
                     setShow(false);
                 }
                 promptRef.current = null;
@@ -81,7 +76,7 @@ export default function InstallBanner() {
 
     const handleDismiss = () => {
         setShow(false);
-        localStorage.setItem("pwa_dismissed", Date.now());
+        sessionStorage.setItem("pwa_banner_hidden", "true");
     };
 
     if (!show) return null;
