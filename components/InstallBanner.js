@@ -85,27 +85,35 @@ export default function InstallBanner() {
         console.log("PWA: Install button clicked");
         triggerHaptic('medium');
         
-        const prompt = deferredPrompt || (typeof window !== 'undefined' ? window.deferredPrompt : null);
-        console.log("PWA: Checking for prompt...", !!prompt);
+        // Try to get the prompt from state or window
+        let prompt = deferredPrompt || (typeof window !== 'undefined' ? window.deferredPrompt : null);
+        
+        console.log("PWA: Prompt status:", !!prompt);
 
         if (prompt) {
             try {
-                console.log("PWA: Triggering browser install prompt...");
-                prompt.prompt();
+                console.log("PWA: Triggering native prompt...");
+                await prompt.prompt();
+                
                 const { outcome } = await prompt.userChoice;
                 console.log(`PWA: User choice outcome: ${outcome}`);
+                
                 if (outcome === 'accepted') {
+                    console.log("PWA: User accepted installation");
                     localStorage.setItem("install_banner_dismissed", Date.now());
                     setIsVisible(false);
                 }
+                
+                // Clear the prompt after use
                 setDeferredPrompt(null);
                 if (typeof window !== 'undefined') window.deferredPrompt = null;
             } catch (err) {
-                console.error("PWA: Install prompt failed error:", err);
-                setIsVisible(false);
+                console.error("PWA: Installation flow failed:", err);
+                // If it fails, don't hide the banner, maybe they can try again or follow manual instructions
+                setShakeManual(true);
             }
         } else {
-            console.log("PWA: Manual mode highlighting triggered");
+            console.log("PWA: No prompt available, showing manual instructions feedback");
             setShakeManual(true);
             triggerHaptic('error');
             setTimeout(() => setShakeManual(false), 500);
