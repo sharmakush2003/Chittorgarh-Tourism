@@ -1,20 +1,20 @@
 {
-    "id": "/",
+    "id": "chittorgarh-tourism-official-guide",
     "scope": "/",
     "name": "Chittorgarh Tourism — Imperial Guide",
     "short_name": "Chittorgarh",
     "description": "The official digital chronicle and guide to Rajasthan's mightiest citadel. Explore history, plan stays, and experience the saga of Mewar.",
     "start_url": "/",
     "display": "standalone",
-    "display_override": ["standalone", "window-controls-overlay", "minimal-ui"],
     "background_color": "#0f0a06",
     "theme_color": "#D4AF37",
     "orientation": "portrait-primary",
     "icons": [
         {
-            "src": "/favicon.ico",
-            "sizes": "any",
-            "type": "image/x-icon"
+            "src": "/icon-512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "any"
         },
         {
             "src": "/icon-192.png",
@@ -26,13 +26,7 @@
             "src": "/icon-512.png",
             "sizes": "512x512",
             "type": "image/png",
-            "purpose": "any maskable"
-        },
-        {
-            "src": "/icon.png",
-            "sizes": "512x512",
-            "type": "image/png",
-            "purpose": "any"
+            "purpose": "maskable"
         }
     ],
     "shortcuts": [
