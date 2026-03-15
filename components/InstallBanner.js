@@ -10,9 +10,11 @@ export default function InstallBanner() {
     const promptRef = useRef(null);
 
     useEffect(() => {
-        // Detect iOS Safari (no beforeinstallprompt support)
+        // Detect platforms and browsers
         const ua = navigator.userAgent;
         const ios = /iPad|iPhone|iPod/.test(ua) && !window.MSStream;
+        const inApp = /FBAN|FBAV|Instagram|Threads|LinkedIn|Twitter|WhatsApp/i.test(ua);
+        
         setIsIOS(ios);
 
         // Already installed? Don't show
@@ -20,36 +22,36 @@ export default function InstallBanner() {
             return;
         }
 
-        // Check if dismissed in this session (don't annoy every page refresh, but show on new visit)
+        // Check if dismissed in this session
         if (sessionStorage.getItem("pwa_banner_hidden")) return;
 
-        // On iOS, always show manual instructions after a delay
+        // Unified show logic
+        const showWithDelay = (delay = 3000) => {
+            setTimeout(() => setShow(true), delay);
+        };
+
         if (ios) {
-            setTimeout(() => setShow(true), 3000);
+            showWithDelay(3000);
             return;
         }
 
         const isMobile = /Mobi|Android/i.test(ua);
 
         const handler = (e) => {
-            // Do NOT call e.preventDefault() — Chrome needs this to show "Install App" in its menu.
             promptRef.current = e;
             window.__pwaPrompt = e;
             setCanInstall(true);
-            setTimeout(() => setShow(true), 1000); // Show very fast if we have the prompt
+            showWithDelay(1000);
         };
 
         window.addEventListener("beforeinstallprompt", handler);
 
-        // Check if prompt was already captured before this component mounted
         if (window.__pwaPrompt) {
             promptRef.current = window.__pwaPrompt;
             setCanInstall(true);
-            setTimeout(() => setShow(true), 1000);
-        } else if (isMobile) {
-            // On mobile where we never get the prompt (older Android, Samsung browser etc),
-            // show manual instructions after a delay
-            setTimeout(() => setShow(true), 4000);
+            showWithDelay(1000);
+        } else if (isMobile || inApp) {
+            showWithDelay(4000);
         }
 
         return () => window.removeEventListener("beforeinstallprompt", handler);
@@ -80,6 +82,8 @@ export default function InstallBanner() {
     };
 
     if (!show) return null;
+
+    const isInApp = /FBAN|FBAV|Instagram|Threads|LinkedIn|Twitter|WhatsApp/i.test(navigator.userAgent);
 
     return (
         <>
@@ -143,16 +147,17 @@ export default function InstallBanner() {
                 .pwa-steps strong { color: #D4AF37; }
                 .pwa-actions {
                     display: flex;
+                    flex-direction: column;
                     gap: 0.75rem;
                 }
-                .pwa-install-btn {
+                @media (min-width: 400px) {
+                    .pwa-actions { flex-direction: row; }
+                }
+                .pwa-btn {
                     flex: 1;
-                    background: #D4AF37;
-                    color: #000;
-                    border: none;
-                    padding: 0.9rem 1.5rem;
+                    padding: 0.9rem 1.25rem;
                     font-weight: 800;
-                    font-size: 0.9rem;
+                    font-size: 0.85rem;
                     letter-spacing: 1px;
                     text-transform: uppercase;
                     cursor: pointer;
@@ -160,55 +165,73 @@ export default function InstallBanner() {
                     align-items: center;
                     justify-content: center;
                     gap: 8px;
-                    border-radius: 2px;
+                    border-radius: 4px;
+                    transition: 0.3s;
+                }
+                .pwa-install-btn {
+                    background: #D4AF37;
+                    color: #000;
+                    border: none;
+                }
+                .pwa-apk-btn {
+                    background: #2D2418;
+                    color: #D4AF37;
+                    border: 1px solid #D4AF37;
                 }
                 .pwa-later-btn {
                     background: transparent;
                     border: 1px solid rgba(255,255,255,0.2);
                     color: #fff;
-                    padding: 0.9rem 1.25rem;
-                    font-size: 0.875rem;
-                    cursor: pointer;
-                    border-radius: 2px;
                 }
             `}</style>
 
             <div className="pwa-banner" role="dialog" aria-label="Install App">
                 <div className="pwa-banner-inner">
                     <div className="pwa-top">
-                        <span className="pwa-title">📱 Install Chittorgarh App</span>
+                        <span className="pwa-title">📱 Official Chittorgarh App</span>
                         <button className="pwa-close" onClick={handleDismiss} aria-label="Close">
                             <X size={20} />
                         </button>
                     </div>
 
-                    <p className="pwa-desc">Get offline access to heritage maps, timings, and chronicles — right on your home screen.</p>
+                    <p className="pwa-desc">Download for perfect offline access to heritage maps and chronicles.</p>
 
-                    {isIOS ? (
-                        <div className="pwa-steps">
-                            1. Tap the <strong>Share</strong> button <Share size={13} style={{display:'inline', verticalAlign:'middle'}} /> at the bottom of Safari<br />
-                            2. Scroll down and tap <strong>"Add to Home Screen"</strong><br />
-                            3. Tap <strong>"Add"</strong> to install
-                        </div>
-                    ) : !canInstall ? (
-                        <div className="pwa-steps">
-                            1. Tap the <strong>⋮ Menu</strong> (3 dots) in Chrome<br />
-                            2. Tap <strong>"Add to Home Screen"</strong> or <strong>"Install App"</strong><br />
-                            3. Tap <strong>"Install"</strong> to confirm
-                        </div>
-                    ) : null}
+                    <div className="pwa-steps">
+                        {isInApp ? (
+                            <div style={{color: '#FFD700'}}>
+                                <strong>⚠️ In-App Browser Detected:</strong><br />
+                                Tap the <strong>⋮ Menu</strong> or <strong>Share</strong> and select <strong>"Open in Chrome/Safari"</strong> to install.
+                            </div>
+                        ) : isIOS ? (
+                            <>
+                                1. Tap <strong>Share</strong> <Share size={14} style={{display:'inline'}} /><br />
+                                2. Tap <strong>"Add to Home Screen"</strong>
+                            </>
+                        ) : !canInstall ? (
+                            <>
+                                1. Tap <strong>⋮ Menu</strong> in Chrome<br />
+                                2. Tap <strong>"Install App"</strong> or <strong>"Add to Home Screen"</strong>
+                            </>
+                        ) : (
+                            "Ready to install! Use the button below for instant access."
+                        )}
+                    </div>
 
                     <div className="pwa-actions">
                         {canInstall && !isIOS ? (
-                            <button className="pwa-install-btn" onClick={handleInstall}>
-                                <Download size={18} /> Install App
+                            <button className="pwa-btn pwa-install-btn" onClick={handleInstall}>
+                                <Download size={18} /> Install Now
                             </button>
+                        ) : !isIOS && !isInApp ? (
+                            <a href="/chittorgarh-tourism.apk" download className="pwa-btn pwa-apk-btn">
+                                <Download size={18} /> Download APK
+                            </a>
                         ) : (
-                            <button className="pwa-install-btn" onClick={handleDismiss}>
+                            <button className="pwa-btn pwa-install-btn" onClick={handleDismiss}>
                                 Got it!
                             </button>
                         )}
-                        <button className="pwa-later-btn" onClick={handleDismiss}>Later</button>
+                        <button className="pwa-btn pwa-later-btn" onClick={handleDismiss}>Later</button>
                     </div>
                 </div>
             </div>
