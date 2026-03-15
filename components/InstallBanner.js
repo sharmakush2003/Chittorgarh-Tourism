@@ -210,7 +210,10 @@ export default function InstallBanner() {
                         ) : !canInstall ? (
                             <>
                                 1. Tap <strong>⋮ Menu</strong> in Chrome<br />
-                                2. Tap <strong>"Install App"</strong> or <strong>"Add to Home Screen"</strong>
+                                2. Tap <strong>"Install App"</strong> or <strong>"Add to Home Screen"</strong><br />
+                                <span style={{fontSize:'0.75rem', opacity:0.8, marginTop:'4px', display:'block'}}>
+                                    *If not found, please use the <strong>Download APK</strong> button below.
+                                </span>
                             </>
                         ) : (
                             "Ready to install! Use the button below for instant access."
