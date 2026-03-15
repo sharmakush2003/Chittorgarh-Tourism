@@ -82,12 +82,15 @@ export default function InstallBanner() {
     }, []);
 
     const handleInstallAction = async () => {
+        console.log("PWA: Install button clicked");
         triggerHaptic('medium');
         
         const prompt = deferredPrompt || (typeof window !== 'undefined' ? window.deferredPrompt : null);
+        console.log("PWA: Checking for prompt...", !!prompt);
 
         if (prompt) {
             try {
+                console.log("PWA: Triggering browser install prompt...");
                 prompt.prompt();
                 const { outcome } = await prompt.userChoice;
                 console.log(`PWA: User choice outcome: ${outcome}`);
@@ -98,12 +101,11 @@ export default function InstallBanner() {
                 setDeferredPrompt(null);
                 if (typeof window !== 'undefined') window.deferredPrompt = null;
             } catch (err) {
-                console.error("PWA: Install prompt failed:", err);
+                console.error("PWA: Install prompt failed error:", err);
                 setIsVisible(false);
             }
         } else {
-            // Manual mode - highlighting instead of closing
-            console.log("PWA: Manual mode triggered. Prompt unavailable.");
+            console.log("PWA: Manual mode highlighting triggered");
             setShakeManual(true);
             triggerHaptic('error');
             setTimeout(() => setShakeManual(false), 500);
