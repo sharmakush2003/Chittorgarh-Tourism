@@ -3,7 +3,7 @@ import withPWAInit from '@ducanh2912/next-pwa';
 const withPWA = withPWAInit({
   dest: 'public',
   disable: false, // Enabled for local PWA+ testing
-  register: true,
+  register: false,
   skipWaiting: true,
   workboxOptions: {
     runtimeCaching: [
