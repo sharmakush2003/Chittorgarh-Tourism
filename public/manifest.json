@@ -6,7 +6,7 @@
     "description": "The official digital chronicle and guide to Rajasthan's mightiest citadel. Explore history, plan stays, and experience the saga of Mewar.",
     "start_url": "/",
     "display": "standalone",
-    "display_override": ["standalone", "fullscreen", "minimal-ui"],
+    "display_override": ["standalone", "window-controls-overlay", "minimal-ui"],
     "background_color": "#0f0a06",
     "theme_color": "#D4AF37",
     "orientation": "portrait-primary",
@@ -17,12 +17,6 @@
             "type": "image/x-icon"
         },
         {
-            "src": "/icon.png",
-            "sizes": "512x512",
-            "type": "image/png",
-            "purpose": "any maskable"
-        },
-        {
             "src": "/icon-192.png",
             "sizes": "192x192",
             "type": "image/png",
@@ -30,6 +24,12 @@
         },
         {
             "src": "/icon-512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "any maskable"
+        },
+        {
+            "src": "/icon.png",
             "sizes": "512x512",
             "type": "image/png",
             "purpose": "any"
@@ -68,15 +68,10 @@
           "sizes": "390x844",
           "type": "image/png",
           "form_factor": "narrow",
-          "label": "Mobile View of Chittorgarh Tourism"
+          "label": "Heritage Chronicles Mobile"
         }
     ],
-    "categories": [
-        "travel",
-        "lifestyle",
-        "education",
-        "history"
-    ],
+    "categories": ["travel", "history", "education"],
     "lang": "en",
     "dir": "ltr",
     "prefer_related_applications": false
