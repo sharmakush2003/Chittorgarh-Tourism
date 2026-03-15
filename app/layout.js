@@ -186,6 +186,21 @@ export default function RootLayout({ children }) {
         />
       </head>
       <body className={`${playfair.variable} ${inter.variable} ${martel.variable}`}>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              if ('serviceWorker' in navigator) {
+                window.addEventListener('load', function() {
+                  navigator.serviceWorker.register('/sw.js').then(function(registration) {
+                    console.log('SW registered: ', registration);
+                  }, function(err) {
+                    console.log('SW registration failed: ', err);
+                  });
+                });
+              }
+            `,
+          }}
+        />
         <Script
           id="attraction-schema"
           type="application/ld+json"
