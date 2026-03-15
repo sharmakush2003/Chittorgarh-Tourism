@@ -20,52 +20,41 @@ export default function InstallBanner() {
             return;
         }
 
-        // Already dismissed recently?
-        const dismissed = parseInt(localStorage.getItem("pwa_dismissed") || "0");
-        if (Date.now() - dismissed < 7 * 24 * 3600 * 1000) return;
+        // Check dismissed (support both old and new key names)
+        const dismissed = Math.max(
+            parseInt(localStorage.getItem("pwa_dismissed") || "0"),
+            parseInt(localStorage.getItem("install_banner_dismissed") || "0")
+        );
+        if (Date.now() - dismissed < 3 * 24 * 3600 * 1000) return; // 3-day cooldown
 
-        // On iOS, show manual instructions after a delay
+        // On iOS, always show manual instructions after a delay
         if (ios) {
-            const hasLang = localStorage.getItem("ctt_locale");
-            if (hasLang) {
-                setTimeout(() => setShow(true), 4000);
-            } else {
-                // Poll until language is selected
-                const interval = setInterval(() => {
-                    if (localStorage.getItem("ctt_locale")) {
-                        clearInterval(interval);
-                        setTimeout(() => setShow(true), 3000);
-                    }
-                }, 1000);
-                return () => clearInterval(interval);
-            }
+            setTimeout(() => setShow(true), 4000);
             return;
         }
 
-        // On Chrome/Android — wait for the browser to fire the install prompt
+        // On Chrome/Android — show banner when prompt fires OR after 5s on mobile
+        const isMobile = /Mobi|Android/i.test(ua);
+
         const handler = (e) => {
-            // IMPORTANT: We do NOT call e.preventDefault() here.
-            // This lets Chrome show "Install App" in its own menu.
-            // We also keep a reference to trigger it from our button.
+            // Do NOT call e.preventDefault() — Chrome needs this to show "Install App" in its menu.
             promptRef.current = e;
             window.__pwaPrompt = e;
             setCanInstall(true);
-
-            const hasLang = localStorage.getItem("ctt_locale");
-            if (hasLang) {
-                setTimeout(() => setShow(true), 3000);
-            }
+            setTimeout(() => setShow(true), 1500);
         };
 
         window.addEventListener("beforeinstallprompt", handler);
 
-        // Also check if the prompt was already captured before this component mounted
+        // Check if prompt was already captured before this component mounted
         if (window.__pwaPrompt) {
             promptRef.current = window.__pwaPrompt;
             setCanInstall(true);
-            if (localStorage.getItem("ctt_locale")) {
-                setTimeout(() => setShow(true), 3000);
-            }
+            setTimeout(() => setShow(true), 1500);
+        } else if (isMobile) {
+            // On mobile where we never get the prompt (older Android, Samsung browser etc),
+            // show manual instructions after a delay
+            setTimeout(() => setShow(true), 5000);
         }
 
         return () => window.removeEventListener("beforeinstallprompt", handler);
