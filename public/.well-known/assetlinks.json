@@ -1,12 +1,8 @@
-[
-  {
-    "relation": ["delegate_permission/common.handle_all_urls"],
-    "target": {
-      "namespace": "android_app",
-      "package_name": "in.chittorgarh_tourism.app",
-      "sha256_cert_fingerprints": [
-        "00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00"
-      ]
-    }
-  }
-]
+[{
+      "relation": ["delegate_permission/common.handle_all_urls"],
+      "target": {
+        "namespace": "android_app",
+        "package_name": "in.chittorgarh_tourism.www.twa",
+        "sha256_cert_fingerprints": ["70:B7:2B:E7:4A:E4:29:91:56:B7:48:14:C1:F3:44:25:70:49:24:6F:CD:30:45:CA:86:93:F3:CC:B0:76:0D:67"]
+      }
+    }]
