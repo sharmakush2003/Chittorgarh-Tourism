@@ -59,6 +59,12 @@ export const metadata = {
   authors: [{ name: "Chittorgarh Tourism" }],
   creator: "Chittorgarh Tourism",
   manifest: "/manifest.json",
+  icons: {
+    apple: [
+      { url: "/icon-192.png", sizes: "192x192", type: "image/png" },
+      { url: "/icon-512.png", sizes: "512x512", type: "image/png" },
+    ],
+  },
   appleWebApp: {
     capable: true,
     statusBarStyle: "black-translucent",
@@ -178,10 +184,18 @@ export default function RootLayout({ children }) {
           dangerouslySetInnerHTML={{
             __html: `
               window.addEventListener('beforeinstallprompt', (e) => {
-                // Do NOT call e.preventDefault() — this ensures Chrome shows "Install App" in its native 3-dot menu.
-                // We store it so our custom Install button can also trigger it.
+                console.log('PWA: beforeinstallprompt intercepted');
                 window.__pwaPrompt = e;
               });
+              if ('serviceWorker' in navigator) {
+                window.addEventListener('load', () => {
+                  navigator.serviceWorker.register('/sw.js').then((reg) => {
+                    console.log('PWA: ServiceWorker registered with scope:', reg.scope);
+                  }).catch((err) => {
+                    console.error('PWA: ServiceWorker registration failed:', err);
+                  });
+                });
+              }
             `,
           }}
         />
