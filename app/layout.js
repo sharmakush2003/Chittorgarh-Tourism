@@ -178,8 +178,9 @@ export default function RootLayout({ children }) {
           dangerouslySetInnerHTML={{
             __html: `
               window.addEventListener('beforeinstallprompt', (e) => {
-                // Not preventing default to ensure 'Install App' appears in browser menu
-                window.deferredPrompt = e;
+                // Do NOT call e.preventDefault() — this ensures Chrome shows "Install App" in its native 3-dot menu.
+                // We store it so our custom Install button can also trigger it.
+                window.__pwaPrompt = e;
               });
             `,
           }}

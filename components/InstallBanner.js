@@ -1,360 +1,233 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { triggerHaptic } from "@/lib/haptics";
-import { Download, X, ShieldCheck, Zap, WifiOff, Share, MoreVertical } from "lucide-react";
+import { useState, useEffect, useRef } from "react";
+import { Download, X, Share, MoreVertical } from "lucide-react";
 
 export default function InstallBanner() {
-    const [deferredPrompt, setDeferredPrompt] = useState(null);
-    const [isVisible, setIsVisible] = useState(false);
+    const [show, setShow] = useState(false);
     const [isIOS, setIsIOS] = useState(false);
-    const [isAndroid, setIsAndroid] = useState(false);
-    const [shakeManual, setShakeManual] = useState(false);
+    const [canInstall, setCanInstall] = useState(false);
+    const promptRef = useRef(null);
 
     useEffect(() => {
-        // Platform detection
+        // Detect iOS Safari (no beforeinstallprompt support)
         const ua = navigator.userAgent;
-        const isIOSDevice = /iPad|iPhone|iPod/.test(ua) && !window.MSStream;
-        const isAndroidDevice = /Android/i.test(ua);
-        const isInApp = /FBAN|FBAV|Instagram|LinkedIn|Twitter|Threads|WhatsApp/i.test(ua);
-        
-        setIsIOS(isIOSDevice);
-        setIsAndroid(isAndroidDevice);
+        const ios = /iPad|iPhone|iPod/.test(ua) && !window.MSStream;
+        setIsIOS(ios);
 
-        // Check if already in standalone mode
-        const isStandalone = typeof window !== 'undefined' && (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone);
-
-        const handleBeforeInstallPrompt = (e) => {
-            console.log("PWA: beforeinstallprompt fired");
-            e.preventDefault();
-            setDeferredPrompt(e);
-            window.deferredPrompt = e;
-            checkAndShow();
-        };
-
-        // Check if we already have a global prompt
-        if (typeof window !== 'undefined' && window.deferredPrompt) {
-            setDeferredPrompt(window.deferredPrompt);
+        // Already installed? Don't show
+        if (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone) {
+            return;
         }
 
-        const checkAndShow = () => {
-            if (isStandalone) return false;
+        // Already dismissed recently?
+        const dismissed = parseInt(localStorage.getItem("pwa_dismissed") || "0");
+        if (Date.now() - dismissed < 7 * 24 * 3600 * 1000) return;
 
-            const hasSelectedLang = localStorage.getItem("ctt_locale");
-            if (!hasSelectedLang) return false;
-
-            const isDismissed = localStorage.getItem("install_banner_dismissed");
-            const lastDismissed = parseInt(isDismissed || "0");
-            const dayInMs = 24 * 60 * 60 * 1000;
-            const weekInMs = 7 * dayInMs;
-            
-            // Show more frequently if in-app or manual mode to ensure they see instructions
-            const cooldown = (!deferredPrompt && (typeof window !== 'undefined' && !window.deferredPrompt)) ? dayInMs : weekInMs;
-
-            if (Date.now() - lastDismissed > cooldown || !isDismissed) {
-                const timer = setTimeout(() => {
-                    setIsVisible(true);
-                }, 3000);
-                return true;
-            }
-            return true;
-        };
-
-        // If it's a mobile device or for testing, check for the banner
-        let pollingInterval;
-        if (!isStandalone) {
-            const shown = checkAndShow();
-            if (!shown) {
-                pollingInterval = setInterval(() => {
-                    const nowShown = checkAndShow();
-                    if (nowShown) clearInterval(pollingInterval);
+        // On iOS, show manual instructions after a delay
+        if (ios) {
+            const hasLang = localStorage.getItem("ctt_locale");
+            if (hasLang) {
+                setTimeout(() => setShow(true), 4000);
+            } else {
+                // Poll until language is selected
+                const interval = setInterval(() => {
+                    if (localStorage.getItem("ctt_locale")) {
+                        clearInterval(interval);
+                        setTimeout(() => setShow(true), 3000);
+                    }
                 }, 1000);
+                return () => clearInterval(interval);
+            }
+            return;
+        }
+
+        // On Chrome/Android — wait for the browser to fire the install prompt
+        const handler = (e) => {
+            // IMPORTANT: We do NOT call e.preventDefault() here.
+            // This lets Chrome show "Install App" in its own menu.
+            // We also keep a reference to trigger it from our button.
+            promptRef.current = e;
+            window.__pwaPrompt = e;
+            setCanInstall(true);
+
+            const hasLang = localStorage.getItem("ctt_locale");
+            if (hasLang) {
+                setTimeout(() => setShow(true), 3000);
+            }
+        };
+
+        window.addEventListener("beforeinstallprompt", handler);
+
+        // Also check if the prompt was already captured before this component mounted
+        if (window.__pwaPrompt) {
+            promptRef.current = window.__pwaPrompt;
+            setCanInstall(true);
+            if (localStorage.getItem("ctt_locale")) {
+                setTimeout(() => setShow(true), 3000);
             }
         }
 
-        window.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
-        window.addEventListener("storage", () => checkAndShow());
-
-        return () => {
-            window.removeEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
-            if (pollingInterval) clearInterval(pollingInterval);
-        };
+        return () => window.removeEventListener("beforeinstallprompt", handler);
     }, []);
 
-    const handleInstallAction = async () => {
-        console.log("PWA: Install button clicked");
-        triggerHaptic('medium');
-        
-        // Try to get the prompt from state or window
-        let prompt = deferredPrompt || (typeof window !== 'undefined' ? window.deferredPrompt : null);
-        
-        console.log("PWA: Prompt status:", !!prompt);
-
+    const handleInstall = async () => {
+        const prompt = promptRef.current || window.__pwaPrompt;
         if (prompt) {
             try {
-                console.log("PWA: Triggering native prompt...");
-                await prompt.prompt();
-                
+                prompt.prompt();
                 const { outcome } = await prompt.userChoice;
-                console.log(`PWA: User choice outcome: ${outcome}`);
-                
-                if (outcome === 'accepted') {
-                    console.log("PWA: User accepted installation");
-                    localStorage.setItem("install_banner_dismissed", Date.now());
-                    setIsVisible(false);
+                if (outcome === "accepted") {
+                    localStorage.setItem("pwa_dismissed", Date.now());
+                    setShow(false);
                 }
-                
-                // Clear the prompt after use
-                setDeferredPrompt(null);
-                if (typeof window !== 'undefined') window.deferredPrompt = null;
+                promptRef.current = null;
+                window.__pwaPrompt = null;
+                setCanInstall(false);
             } catch (err) {
-                console.error("PWA: Installation flow failed:", err);
-                // If it fails, don't hide the banner, maybe they can try again or follow manual instructions
-                setShakeManual(true);
+                console.error("Install failed:", err);
             }
-        } else {
-            console.log("PWA: No prompt available, showing manual instructions feedback");
-            setShakeManual(true);
-            triggerHaptic('error');
-            setTimeout(() => setShakeManual(false), 500);
         }
     };
 
     const handleDismiss = () => {
-        triggerHaptic('light');
-        setIsVisible(false);
-        localStorage.setItem("install_banner_dismissed", Date.now());
+        setShow(false);
+        localStorage.setItem("pwa_dismissed", Date.now());
     };
 
-    if (!isVisible) return null;
+    if (!show) return null;
 
     return (
-        <div className="install-citadel">
-            <style jsx>{`
-                .install-citadel {
+        <>
+            <style>{`
+                .pwa-banner {
                     position: fixed;
-                    bottom: 2rem;
-                    left: 50%;
-                    transform: translateX(-50%);
-                    width: calc(100% - 2rem);
-                    max-width: 500px;
-                    background: rgba(15, 10, 6, 0.98);
-                    backdrop-filter: blur(25px) saturate(180%);
-                    border: 2px solid var(--gold);
-                    padding: 1.5rem;
+                    bottom: 0;
+                    left: 0;
+                    right: 0;
+                    background: #0f0a06;
+                    border-top: 2px solid #D4AF37;
+                    padding: 1.25rem 1.5rem calc(1.25rem + env(safe-area-inset-bottom));
                     z-index: 99999;
-                    box-shadow: 0 30px 70px rgba(0,0,0,1);
-                    animation: slideUp 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+                    animation: pwaSlide 0.4s ease;
+                    box-shadow: 0 -10px 40px rgba(0,0,0,0.7);
                 }
-
-                @keyframes slideUp {
-                    from { transform: translate(-50%, 100%); opacity: 0; }
-                    to { transform: translate(-50%, 0); opacity: 1; }
+                @keyframes pwaSlide {
+                    from { transform: translateY(100%); }
+                    to { transform: translateY(0); }
                 }
-
-                @keyframes shake {
-                    0%, 100% { transform: translateX(0); }
-                    25% { transform: translateX(-5px); }
-                    75% { transform: translateX(5px); }
+                .pwa-banner-inner {
+                    max-width: 560px;
+                    margin: 0 auto;
                 }
-
-                .shake {
-                    animation: shake 0.4s ease-in-out;
-                    border-color: var(--gold) !important;
-                    background: rgba(212, 175, 55, 0.15) !important;
-                }
-
-                .banner-header {
+                .pwa-top {
                     display: flex;
+                    align-items: center;
                     justify-content: space-between;
-                    align-items: flex-start;
-                    margin-bottom: 1.25rem;
-                }
-
-                .badge {
-                    display: flex;
-                    align-items: center;
-                    gap: 8px;
-                    background: linear-gradient(90deg, rgba(212, 175, 55, 0.3), transparent);
-                    border-left: 3px solid var(--gold);
-                    color: var(--gold);
-                    padding: 8px 14px;
-                    font-size: 0.75rem;
-                    text-transform: uppercase;
-                    letter-spacing: 2.5px;
-                    font-weight: 800;
-                }
-
-                .close-btn {
-                    background: rgba(255,255,255,0.05);
-                    border: 1px solid rgba(255,255,255,0.1);
-                    border-radius: 50%;
-                    color: #fff;
-                    cursor: pointer;
-                    width: 36px;
-                    height: 36px;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    transition: 0.3s;
-                }
-
-                .banner-body h3 {
-                    font-family: var(--ff-display);
-                    font-size: 1.8rem;
-                    color: #fff;
                     margin-bottom: 0.75rem;
-                    letter-spacing: 1px;
                 }
-
-                .banner-body p {
+                .pwa-title {
                     font-size: 1rem;
-                    color: rgba(255,255,255,0.8);
-                    line-height: 1.6;
-                    margin-bottom: 1.5rem;
+                    font-weight: 700;
+                    color: #D4AF37;
+                    letter-spacing: 1px;
+                    text-transform: uppercase;
                 }
-
-                .instruction-box {
-                    background: rgba(212, 175, 55, 0.05);
-                    border: 1px solid rgba(212, 175, 55, 0.2);
-                    padding: 1.25rem;
-                    margin-bottom: 1.5rem;
+                .pwa-close {
+                    background: none;
+                    border: none;
+                    color: #aaa;
+                    cursor: pointer;
+                    padding: 4px;
+                }
+                .pwa-desc {
+                    font-size: 0.875rem;
+                    color: rgba(255,255,255,0.75);
+                    margin-bottom: 1rem;
+                    line-height: 1.5;
+                }
+                .pwa-steps {
+                    background: rgba(212,175,55,0.08);
+                    border: 1px solid rgba(212,175,55,0.25);
                     border-radius: 8px;
-                }
-
-                .instruction-step {
-                    display: flex;
-                    align-items: flex-start;
-                    gap: 15px;
-                    font-size: 0.9rem;
+                    padding: 1rem;
+                    margin-bottom: 1rem;
+                    font-size: 0.875rem;
                     color: #fff;
-                    margin-bottom: 0.75rem;
+                    line-height: 1.7;
                 }
-
-                .instruction-step:last-child { margin-bottom: 0; }
-
-                .icon-circle {
-                    width: 28px;
-                    height: 28px;
-                    border-radius: 50%;
-                    background: var(--gold);
+                .pwa-steps strong { color: #D4AF37; }
+                .pwa-actions {
                     display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    color: #000;
-                    flex-shrink: 0;
-                    font-weight: bold;
+                    gap: 0.75rem;
                 }
-
-                .actions {
-                    display: flex;
-                    gap: 1rem;
-                }
-
-                .install-btn {
-                    flex: 2;
-                    background: var(--gold);
+                .pwa-install-btn {
+                    flex: 1;
+                    background: #D4AF37;
                     color: #000;
                     border: none;
-                    padding: 1.2rem;
-                    font-weight: 900;
-                    text-transform: uppercase;
-                    letter-spacing: 2px;
+                    padding: 0.9rem 1.5rem;
+                    font-weight: 800;
                     font-size: 0.9rem;
+                    letter-spacing: 1px;
+                    text-transform: uppercase;
                     cursor: pointer;
                     display: flex;
                     align-items: center;
                     justify-content: center;
-                    gap: 12px;
-                    transition: 0.4s;
+                    gap: 8px;
+                    border-radius: 2px;
                 }
-
-                .later-btn {
-                    flex: 1;
+                .pwa-later-btn {
                     background: transparent;
                     border: 1px solid rgba(255,255,255,0.2);
                     color: #fff;
-                    padding: 1.2rem;
-                    font-weight: 600;
-                    font-size: 0.9rem;
+                    padding: 0.9rem 1.25rem;
+                    font-size: 0.875rem;
                     cursor: pointer;
-                }
-
-                @media (max-width: 480px) {
-                    .install-citadel {
-                        bottom: 0;
-                        width: 100%;
-                        border-bottom: none;
-                        border-left: none;
-                        border-right: none;
-                        padding-bottom: calc(1.5rem + env(safe-area-inset-bottom));
-                    }
+                    border-radius: 2px;
                 }
             `}</style>
 
-            <div className="banner-header">
-                <div className="badge">
-                    <ShieldCheck size={16} /> Official App
-                </div>
-                <button className="close-btn" onClick={handleDismiss} aria-label="Dismiss">
-                    <X size={20} />
-                </button>
-            </div>
+            <div className="pwa-banner" role="dialog" aria-label="Install App">
+                <div className="pwa-banner-inner">
+                    <div className="pwa-top">
+                        <span className="pwa-title">📱 Install Chittorgarh App</span>
+                        <button className="pwa-close" onClick={handleDismiss} aria-label="Close">
+                            <X size={20} />
+                        </button>
+                    </div>
 
-            <div className="banner-body">
-                <h3>Imperial Guide</h3>
-                <p>Download for perfect offline access to heritage maps and historical chronicles.</p>
-                
-                <div className={`instruction-box ${shakeManual ? 'shake' : ''}`}>
-                    {/FBAN|FBAV|Instagram|Threads/i.test(typeof navigator !== 'undefined' ? navigator.userAgent : '') && (
-                        <div className="instruction-step" style={{ color: '#ff9800', marginBottom: '1.5rem', border: '1px solid #ff9800', padding: '10px', borderRadius: '4px' }}>
-                            <div className="icon-circle"><ShieldCheck size={12} /></div>
-                            <span><strong>In-App Browser Detected:</strong> For the best experience, open this site in <strong>Chrome</strong> or <strong>Safari</strong> to install.</span>
-                        </div>
-                    )}
+                    <p className="pwa-desc">Get offline access to heritage maps, timings, and chronicles — right on your home screen.</p>
+
                     {isIOS ? (
-                        <>
-                            <div className="instruction-step">
-                                <div className="icon-circle"><Share size={12} /></div>
-                                <span>Tap the <strong>Share</strong> button in Safari.</span>
-                            </div>
-                            <div className="instruction-step">
-                                <div className="icon-circle"><Download size={12} /></div>
-                                <span>Select <strong>'Add to Home Screen'</strong>.</span>
-                            </div>
-                        </>
-                    ) : (
-                        <>
-                            {!(deferredPrompt || (typeof window !== 'undefined' && window.deferredPrompt)) ? (
-                                <>
-                                    <div className="instruction-step">
-                                        <div className="icon-circle"><MoreVertical size={12} /></div>
-                                        <span>Tap the <strong>Menu (3 dots)</strong> in Chrome.</span>
-                                    </div>
-                                    <div className="instruction-step">
-                                        <div className="icon-circle"><Download size={12} /></div>
-                                        <span>Select <strong>'Install App'</strong>.</span>
-                                    </div>
-                                </>
-                            ) : (
-                                <div className="instruction-step">
-                                    <div className="icon-circle"><Zap size={12} /></div>
-                                    <span>Ready to install! Just tap the button below for instant access.</span>
-                                </div>
-                            )}
-                        </>
-                    )}
-                </div>
+                        <div className="pwa-steps">
+                            1. Tap the <strong>Share</strong> button <Share size={13} style={{display:'inline', verticalAlign:'middle'}} /> at the bottom of Safari<br />
+                            2. Scroll down and tap <strong>"Add to Home Screen"</strong><br />
+                            3. Tap <strong>"Add"</strong> to install
+                        </div>
+                    ) : !canInstall ? (
+                        <div className="pwa-steps">
+                            1. Tap the <strong>⋮ Menu</strong> (3 dots) in Chrome<br />
+                            2. Tap <strong>"Add to Home Screen"</strong> or <strong>"Install App"</strong><br />
+                            3. Tap <strong>"Install"</strong> to confirm
+                        </div>
+                    ) : null}
 
-                <div className="actions">
-                    <button className="install-btn" onClick={handleInstallAction}>
-                        <Download size={20} /> Install App
-                    </button>
-                    <button className="later-btn" onClick={handleDismiss}>
-                        Later
-                    </button>
+                    <div className="pwa-actions">
+                        {canInstall && !isIOS ? (
+                            <button className="pwa-install-btn" onClick={handleInstall}>
+                                <Download size={18} /> Install App
+                            </button>
+                        ) : (
+                            <button className="pwa-install-btn" onClick={handleDismiss}>
+                                Got it!
+                            </button>
+                        )}
+                        <button className="pwa-later-btn" onClick={handleDismiss}>Later</button>
+                    </div>
                 </div>
             </div>
-        </div>
+        </>
     );
 }
