@@ -27,54 +27,36 @@ export default function InstallBanner() {
         );
         if (Date.now() - dismissed < 3 * 24 * 3600 * 1000) return; // 3-day cooldown
 
-        const isMobile = /Mobi|Android/i.test(ua);
-
-        const tryToShow = () => {
-            // ONLY show if language is selected
-            if (!localStorage.getItem("ctt_locale")) return false;
-
-            if (ios) {
-                setTimeout(() => setShow(true), 4000);
-            } else if (window.__pwaPrompt) {
-                promptRef.current = window.__pwaPrompt;
-                setCanInstall(true);
-                setTimeout(() => setShow(true), 1500);
-            } else if (isMobile) {
-                setTimeout(() => setShow(true), 5000);
-            }
-            return true;
-        };
-
-        // Initial check
-        if (!tryToShow()) {
-            // Polling for language selection if not already done
-            const interval = setInterval(() => {
-                if (tryToShow()) clearInterval(interval);
-            }, 1000);
-            
-            const handler = (e) => {
-                window.__pwaPrompt = e;
-                if (localStorage.getItem("ctt_locale")) {
-                    promptRef.current = e;
-                    setCanInstall(true);
-                    setTimeout(() => setShow(true), 1500);
-                }
-            };
-
-            window.addEventListener("beforeinstallprompt", handler);
-            return () => {
-                clearInterval(interval);
-                window.removeEventListener("beforeinstallprompt", handler);
-            };
+        // On iOS, always show manual instructions after a delay
+        if (ios) {
+            setTimeout(() => setShow(true), 4000);
+            return;
         }
 
+        // On Chrome/Android — show banner when prompt fires OR after 5s on mobile
+        const isMobile = /Mobi|Android/i.test(ua);
+
         const handler = (e) => {
-            window.__pwaPrompt = e;
+            // Do NOT call e.preventDefault() — Chrome needs this to show "Install App" in its menu.
             promptRef.current = e;
+            window.__pwaPrompt = e;
             setCanInstall(true);
+            setTimeout(() => setShow(true), 1500);
         };
 
         window.addEventListener("beforeinstallprompt", handler);
+
+        // Check if prompt was already captured before this component mounted
+        if (window.__pwaPrompt) {
+            promptRef.current = window.__pwaPrompt;
+            setCanInstall(true);
+            setTimeout(() => setShow(true), 1500);
+        } else if (isMobile) {
+            // On mobile where we never get the prompt (older Android, Samsung browser etc),
+            // show manual instructions after a delay
+            setTimeout(() => setShow(true), 5000);
+        }
+
         return () => window.removeEventListener("beforeinstallprompt", handler);
     }, []);
 
