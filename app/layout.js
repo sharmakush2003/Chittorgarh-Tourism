@@ -173,6 +173,18 @@ export default function RootLayout({ children }) {
 
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.addEventListener('beforeinstallprompt', (e) => {
+                e.preventDefault();
+                window.deferredPrompt = e;
+              });
+            `,
+          }}
+        />
+      </head>
       <body className={`${playfair.variable} ${inter.variable} ${martel.variable}`}>
         <Script
           id="attraction-schema"

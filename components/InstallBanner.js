@@ -15,27 +15,42 @@ export default function InstallBanner() {
         const ua = navigator.userAgent;
         const isIOSDevice = /iPad|iPhone|iPod/.test(ua) && !window.MSStream;
         const isAndroidDevice = /Android/i.test(ua);
+        const isInApp = /FBAN|FBAV|Instagram|LinkedIn|Twitter|Threads|WhatsApp/i.test(ua);
         
         setIsIOS(isIOSDevice);
         setIsAndroid(isAndroidDevice);
+
+        // Check if already in standalone mode
+        const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
 
         const handleBeforeInstallPrompt = (e) => {
             console.log("PWA: beforeinstallprompt fired");
             e.preventDefault();
             setDeferredPrompt(e);
-            
+            window.deferredPrompt = e;
             checkAndShow();
         };
 
+        // Check if we already have a global prompt
+        if (window.deferredPrompt) {
+            setDeferredPrompt(window.deferredPrompt);
+        }
+
         const checkAndShow = () => {
+            if (isStandalone) return false;
+
             const hasSelectedLang = localStorage.getItem("ctt_locale");
             if (!hasSelectedLang) return false;
 
             const isDismissed = localStorage.getItem("install_banner_dismissed");
             const lastDismissed = parseInt(isDismissed || "0");
-            const weekInMs = 7 * 24 * 60 * 60 * 1000;
+            const dayInMs = 24 * 60 * 60 * 1000;
+            const weekInMs = 7 * dayInMs;
             
-            if (Date.now() - lastDismissed > weekInMs || !isDismissed) {
+            // Show more frequently if in-app or manual mode to ensure they see instructions
+            const cooldown = (!deferredPrompt && !window.deferredPrompt) ? dayInMs : weekInMs;
+
+            if (Date.now() - lastDismissed > cooldown || !isDismissed) {
                 const timer = setTimeout(() => {
                     setIsVisible(true);
                 }, 3000);
@@ -46,11 +61,8 @@ export default function InstallBanner() {
 
         // If it's a mobile device or for testing, check for the banner
         let pollingInterval;
-        if (!window.navigator.standalone) {
-            // Try immediately
+        if (!isStandalone) {
             const shown = checkAndShow();
-            
-            // If not shown yet (waiting for lang), poll every 1s
             if (!shown) {
                 pollingInterval = setInterval(() => {
                     const nowShown = checkAndShow();
@@ -71,17 +83,25 @@ export default function InstallBanner() {
     const handleInstallAction = async () => {
         triggerHaptic('medium');
         
-        if (deferredPrompt) {
-            setIsVisible(false);
-            deferredPrompt.prompt();
-            const { outcome } = await deferredPrompt.userChoice;
-            if (outcome === 'accepted') {
-                localStorage.setItem("install_banner_dismissed", Date.now());
+        const prompt = deferredPrompt || window.deferredPrompt;
+
+        if (prompt) {
+            try {
+                prompt.prompt();
+                const { outcome } = await prompt.userChoice;
+                console.log(`PWA: User choice outcome: ${outcome}`);
+                if (outcome === 'accepted') {
+                    localStorage.setItem("install_banner_dismissed", Date.now());
+                    setIsVisible(false);
+                }
+                setDeferredPrompt(null);
+                window.deferredPrompt = null;
+            } catch (err) {
+                console.error("PWA: Install prompt failed:", err);
+                setIsVisible(false);
             }
-            setDeferredPrompt(null);
         } else {
-            // Manual mode (iOS or Android fallback)
-            // Just close the banner after they've read instructions
+            // Manual mode (dismiss guide)
             setIsVisible(false);
             localStorage.setItem("install_banner_dismissed", Date.now());
         }
@@ -261,6 +281,12 @@ export default function InstallBanner() {
                 <p>Download for perfect offline access to heritage maps and historical chronicles.</p>
                 
                 <div className="instruction-box">
+                    {/FBAN|FBAV|Instagram|Threads/i.test(navigator.userAgent) && (
+                        <div className="instruction-step" style={{ color: '#ff9800', marginBottom: '1.5rem', border: '1px solid #ff9800', padding: '10px', borderRadius: '4px' }}>
+                            <div className="icon-circle"><ShieldCheck size={12} /></div>
+                            <span><strong>In-App Browser Detected:</strong> For the best experience, open this site in <strong>Chrome</strong> or <strong>Safari</strong> to install.</span>
+                        </div>
+                    )}
                     {isIOS ? (
                         <>
                             <div className="instruction-step">
@@ -274,7 +300,7 @@ export default function InstallBanner() {
                         </>
                     ) : (
                         <>
-                            {!deferredPrompt ? (
+                            {!(deferredPrompt || window.deferredPrompt) ? (
                                 <>
                                     <div className="instruction-step">
                                         <div className="icon-circle"><MoreVertical size={12} /></div>
@@ -288,7 +314,7 @@ export default function InstallBanner() {
                             ) : (
                                 <div className="instruction-step">
                                     <div className="icon-circle"><Zap size={12} /></div>
-                                    <span>Ready to install! Just tap the button below.</span>
+                                    <span>Ready to install! Just tap the button below for instant access.</span>
                                 </div>
                             )}
                         </>
@@ -297,7 +323,7 @@ export default function InstallBanner() {
 
                 <div className="actions">
                     <button className="install-btn" onClick={handleInstallAction}>
-                        <Download size={20} /> {deferredPrompt ? "Install Now" : "Install App"}
+                        <Download size={20} /> {(deferredPrompt || window.deferredPrompt) ? "Install Now" : "I Understand"}
                     </button>
                     <button className="later-btn" onClick={handleDismiss}>
                         Later
