@@ -32,23 +32,23 @@ const martel = Martel({
 });
 
 export const metadata = {
-  metadataBase: new URL('https://chittorgarh-tourism-five.vercel.app'),
+  metadataBase: new URL('https://chittorgarh-tourism.in'),
   title: {
     default: "Chittorgarh Tourism — Official Guide to Rajasthan's Greatest Fort",
     template: "%s | Chittorgarh Tourism"
   },
   description: "Official guide to Chittorgarh Fort, Rajasthan. Explore the UNESCO World Heritage Site, Rani Padmini's Palace, Vijay Stambh, and plan your perfect heritage trip.",
   alternates: {
-    canonical: 'https://chittorgarh-tourism-five.vercel.app',
+    canonical: 'https://chittorgarh-tourism.in',
     languages: {
-      'en': 'https://chittorgarh-tourism-five.vercel.app',
-      'hi': 'https://chittorgarh-tourism-five.vercel.app?lang=hi',
-      'fr': 'https://chittorgarh-tourism-five.vercel.app?lang=fr',
-      'de': 'https://chittorgarh-tourism-five.vercel.app?lang=de',
-      'ja': 'https://chittorgarh-tourism-five.vercel.app?lang=ja',
-      'ru': 'https://chittorgarh-tourism-five.vercel.app?lang=ru',
-      'es': 'https://chittorgarh-tourism-five.vercel.app?lang=es',
-      'it': 'https://chittorgarh-tourism-five.vercel.app?lang=it',
+      'en': 'https://chittorgarh-tourism.in',
+      'hi': 'https://chittorgarh-tourism.in?lang=hi',
+      'fr': 'https://chittorgarh-tourism.in?lang=fr',
+      'de': 'https://chittorgarh-tourism.in?lang=de',
+      'ja': 'https://chittorgarh-tourism.in?lang=ja',
+      'ru': 'https://chittorgarh-tourism.in?lang=ru',
+      'es': 'https://chittorgarh-tourism.in?lang=es',
+      'it': 'https://chittorgarh-tourism.in?lang=it',
     },
   },
   keywords: [
@@ -67,7 +67,7 @@ export const metadata = {
   openGraph: {
     title: "Chittorgarh Tourism — Complete Guide to Rajasthan's Greatest Fort",
     description: "Discover the saga of bravery and sacrifice. Plan your ultimate trip to Rajasthan's mightiest citadel.",
-    url: "https://chittorgarh-tourism-five.vercel.app",
+    url: "https://chittorgarh-tourism.in",
     siteName: "Chittorgarh Tourism",
     images: [
       {
@@ -107,8 +107,8 @@ export default function RootLayout({ children }) {
     '@type': 'TouristAttraction',
     name: 'Chittorgarh Fort',
     description: "Rajasthan's mightiest citadel and a UNESCO World Heritage Site.",
-    url: 'https://chittorgarh-tourism-five.vercel.app',
-    image: 'https://chittorgarh-tourism-five.vercel.app/Poster-For-Chittorgarh-Tourism.png',
+    url: 'https://chittorgarh-tourism.in',
+    image: 'https://chittorgarh-tourism.in/Poster-For-Chittorgarh-Tourism.png',
     address: {
       '@type': 'PostalAddress',
       addressLocality: 'Chittorgarh',
@@ -137,8 +137,8 @@ export default function RootLayout({ children }) {
     '@context': 'https://schema.org',
     '@type': 'Organization',
     name: 'Chittorgarh Tourism',
-    url: 'https://chittorgarh-tourism-five.vercel.app',
-    logo: 'https://chittorgarh-tourism-five.vercel.app/logo.jpg',
+    url: 'https://chittorgarh-tourism.in',
+    logo: 'https://chittorgarh-tourism.in/logo.jpg',
     sameAs: [
       'https://www.facebook.com/chittorgarhtourism',
       'https://www.instagram.com/chittorgarhtourism',
@@ -154,19 +154,19 @@ export default function RootLayout({ children }) {
         "@type": "ListItem",
         "position": 1,
         "name": "Home",
-        "item": "https://chittorgarh-tourism-five.vercel.app"
+        "item": "https://chittorgarh-tourism.in"
       },
       {
         "@type": "ListItem",
         "position": 2,
         "name": "Explore",
-        "item": "https://chittorgarh-tourism-five.vercel.app/explore"
+        "item": "https://chittorgarh-tourism.in/explore"
       },
       {
         "@type": "ListItem",
         "position": 3,
         "name": "Plan Your Visit",
-        "item": "https://chittorgarh-tourism-five.vercel.app/plan"
+        "item": "https://chittorgarh-tourism.in/plan"
       }
     ]
   };
