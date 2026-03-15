@@ -7,6 +7,7 @@ export default function InstallBanner() {
     const [show, setShow] = useState(false);
     const [isIOS, setIsIOS] = useState(false);
     const [canInstall, setCanInstall] = useState(false);
+    const [showSuccess, setShowSuccess] = useState(false);
     const promptRef = useRef(null);
 
     useEffect(() => {
@@ -44,7 +45,14 @@ export default function InstallBanner() {
             showWithDelay(1000);
         };
 
+        const installedHandler = () => {
+            setShow(false);
+            setShowSuccess(true);
+            sessionStorage.setItem("pwa_banner_hidden", "true");
+        };
+
         window.addEventListener("beforeinstallprompt", handler);
+        window.addEventListener("appinstalled", installedHandler);
 
         if (window.__pwaPrompt) {
             promptRef.current = window.__pwaPrompt;
@@ -54,7 +62,10 @@ export default function InstallBanner() {
             showWithDelay(4000);
         }
 
-        return () => window.removeEventListener("beforeinstallprompt", handler);
+        return () => {
+            window.removeEventListener("beforeinstallprompt", handler);
+            window.removeEventListener("appinstalled", installedHandler);
+        };
     }, []);
 
     const handleInstall = async () => {
@@ -64,8 +75,7 @@ export default function InstallBanner() {
                 prompt.prompt();
                 const { outcome } = await prompt.userChoice;
                 if (outcome === "accepted") {
-                    sessionStorage.setItem("pwa_banner_hidden", "true");
-                    setShow(false);
+                    // Success will be handled by 'appinstalled' event
                 }
                 promptRef.current = null;
                 window.__pwaPrompt = null;
@@ -80,6 +90,64 @@ export default function InstallBanner() {
         setShow(false);
         sessionStorage.setItem("pwa_banner_hidden", "true");
     };
+
+    if (showSuccess) {
+        return (
+            <>
+                <style>{`
+                    .pwa-success-banner {
+                        position: fixed;
+                        top: 50%;
+                        left: 50%;
+                        transform: translate(-50%, -50%);
+                        background: #0f0a06;
+                        border: 2px solid #D4AF37;
+                        padding: 2.5rem 2rem;
+                        z-index: 100000;
+                        text-align: center;
+                        border-radius: 12px;
+                        width: 90%;
+                        max-width: 400px;
+                        animation: pwaPop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+                        box-shadow: 0 20px 60px rgba(0,0,0,0.9);
+                    }
+                    @keyframes pwaPop {
+                        from { transform: translate(-50%, -50%) scale(0.8); opacity: 0; }
+                        to { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+                    }
+                    .pwa-success-title {
+                        color: #D4AF37;
+                        font-size: 1.5rem;
+                        font-weight: 800;
+                        margin-bottom: 1rem;
+                    }
+                    .pwa-success-text {
+                        color: rgba(255,255,255,0.9);
+                        line-height: 1.6;
+                        margin-bottom: 1.5rem;
+                        font-style: italic;
+                    }
+                    .pwa-success-btn {
+                        background: #D4AF37;
+                        border: none;
+                        padding: 0.75rem 2rem;
+                        border-radius: 4px;
+                        font-weight: 700;
+                        cursor: pointer;
+                        text-transform: uppercase;
+                    }
+                `}</style>
+                <div className="pwa-success-banner">
+                    <div className="pwa-success-title">🙏 Padharo Mhare Desh!</div>
+                    <p className="pwa-success-text">
+                        "Chittorgarh ka gaurav ab aapke hath mein."<br /><br />
+                        Thank you for bringing the legend of Rajasthan's mightiest citadel to your home screen! 🏰✨
+                    </p>
+                    <button className="pwa-success-btn" onClick={() => setShowSuccess(false)}>Dhanyawad</button>
+                </div>
+            </>
+        );
+    }
 
     if (!show) return null;
 
@@ -226,11 +294,25 @@ export default function InstallBanner() {
                                 <Download size={18} /> Install Now
                             </button>
                         ) : !isIOS && !isInApp ? (
-                            <a href="/chittorgarh-tourism.apk" download className="pwa-btn pwa-apk-btn">
+                            <a 
+                                href="/chittorgarh-tourism.apk" 
+                                download 
+                                className="pwa-btn pwa-apk-btn"
+                                onClick={() => {
+                                    setTimeout(() => {
+                                        setShow(false);
+                                        setShowSuccess(true);
+                                    }, 2000);
+                                }}
+                            >
                                 <Download size={18} /> Download APK
                             </a>
                         ) : (
-                            <button className="pwa-btn pwa-install-btn" onClick={handleDismiss}>
+                            <button className="pwa-btn pwa-install-btn" onClick={() => {
+                                setShow(false);
+                                setShowSuccess(true);
+                                sessionStorage.setItem("pwa_banner_hidden", "true");
+                            }}>
                                 Got it!
                             </button>
                         )}
