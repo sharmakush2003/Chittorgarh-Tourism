@@ -1,7 +1,7 @@
 "use client";
 
 import { useLanguage } from "@/context/LanguageContext";
-import { useState, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { 
     Play, 
     Pause, 
@@ -12,6 +12,8 @@ import {
     ArrowLeft,
     MapPin,
     ScrollText,
+    ChevronDown,
+    ChevronUp,
 } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -24,14 +26,29 @@ export default function FortDetailsClient() {
     const router = useRouter();
     const [activeSection, setActiveSection] = useState("overview");
     const [playingAudio, setPlayingAudio] = useState(null);
+    const [expandedMonuments, setExpandedMonuments] = useState({});
+    const voicesRef = useRef([]);
+
+    // Pre-load voices for better reliability
+    useEffect(() => {
+        const updateVoices = () => {
+            voicesRef.current = window.speechSynthesis.getVoices();
+        };
+        updateVoices();
+        window.speechSynthesis.onvoiceschanged = updateVoices;
+        return () => {
+            window.speechSynthesis.onvoiceschanged = null;
+        };
+    }, []);
+
 
     const MONUMENTS = [
-        { id: "vijay", icon: "🏛️" },
-        { id: "kirti", icon: "💎" },
-        { id: "padmini", icon: "👑" },
-        { id: "gaumukh", icon: "💧" },
-        { id: "kumbha_palace", icon: "🏰" },
-        { id: "meera", icon: "🙏" }
+        { id: "vijay", icon: "🏛️", image: "/Each page Pics/Fort pics/Vijay Stambh.jpg" },
+        { id: "kirti", icon: "💎", image: "/Each page Pics/Fort pics/Kirti Stambh.jpg" },
+        { id: "padmini", icon: "👑", image: "/Each page Pics/Fort pics/Padmini Palace.jpg" },
+        { id: "gaumukh", icon: "💧", image: "/Each page Pics/Fort pics/Gaumukh Reservoir.jpg" },
+        { id: "kumbha_palace", icon: "🏰", image: "/Each page Pics/Fort pics/Rana Kumbha Palace.jpg" },
+        { id: "meera", icon: "🙏", image: "/Each page Pics/Fort pics/Meera Bai Temple.jpg" }
     ];
 
     const SECTIONS = [
@@ -43,7 +60,8 @@ export default function FortDetailsClient() {
 
     const handleAudioPlay = (monId) => {
         triggerHaptic('medium');
-        window.speechSynthesis.cancel();
+        const synth = window.speechSynthesis;
+        synth.cancel();
 
         if (playingAudio === monId) {
             setPlayingAudio(null);
@@ -56,15 +74,33 @@ export default function FortDetailsClient() {
         const langMap = {
             'en': 'en-US', 'hi': 'hi-IN', 'fr': 'fr-FR', 'nl': 'nl-NL', 'ja': 'ja-JP'
         };
-        utterance.lang = langMap[lang] || 'en-US';
-        utterance.rate = 0.9;
+        const targetLang = langMap[lang] || 'en-US';
+        utterance.lang = targetLang;
         
+        // Find best quality voice
+        const voices = voicesRef.current.length > 0 ? voicesRef.current : synth.getVoices();
+        
+        // Priority: Natural/Online -> Google -> Specific Lang Match -> Any Match
+        const bestVoice = voices.find(v => v.lang.includes(targetLang) && (v.name.includes("Natural") || v.name.includes("Online")))
+                       || voices.find(v => v.lang.includes(targetLang) && v.name.includes("Google"))
+                       || voices.find(v => v.lang === targetLang)
+                       || voices.find(v => v.lang.startsWith(targetLang.split('-')[0]));
+        
+        if (bestVoice) {
+            utterance.voice = bestVoice;
+        }
+        
+        // Clarity adjustments
+        utterance.rate = 0.8; // Slower for clear narration
+        utterance.pitch = 1.05; // Slightly higher for friendly tone
+        
+        utterance.onstart = () => setPlayingAudio(monId);
         utterance.onend = () => setPlayingAudio(null);
         utterance.onerror = () => setPlayingAudio(null);
 
-        setPlayingAudio(monId);
-        window.speechSynthesis.speak(utterance);
+        synth.speak(utterance);
     };
+
 
     return (
         <motion.div 
@@ -175,9 +211,15 @@ export default function FortDetailsClient() {
                         <div className="title-divider"></div>
                     </div>
                     <div className="history-timeline">
-                        {[1, 2, 3].map(i => (
+                        {[
+                            { i: 1, img: "/Each page Pics/Fort pics/six.jpg" },
+                            { i: 2, img: "/Each page Pics/Fort pics/four.jpg" },
+                            { i: 3, img: "/Each page Pics/Fort pics/two.jpg" }
+                        ].map(({ i, img }) => (
                             <div key={i} className="timeline-item">
-                                <div className="timeline-dot"></div>
+                                <div className="timeline-img-wrapper">
+                                    <img src={img} alt={t(`fort.history.era${i}.title`)} className="timeline-img" />
+                                </div>
                                 <div className="timeline-content">
                                     <h3 className="timeline-year">{t(`fort.history.era${i}.year`)}</h3>
                                     <h4 className="timeline-title">{t(`fort.history.era${i}.title`)}</h4>
@@ -190,10 +232,16 @@ export default function FortDetailsClient() {
 
                 {/* ═══ MONUMENTS ═════════════════════════════ */}
                 <section id="monuments" className="fort-section">
-                    <div className="section-header">
-                        <h2 className="section-title text-gold">{t("fort.section.monuments")}</h2>
+                    <motion.div 
+                        initial={{ opacity: 0, y: 30 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        className="section-header"
+                    >
+                        <h2 className="section-title text-gold">{t("fort.section.monuments.title")}</h2>
                         <div className="title-divider"></div>
-                    </div>
+                    </motion.div>
+
                     <div className="monuments-list">
                         {MONUMENTS.map((m, idx) => (
                             <motion.div 
@@ -203,61 +251,46 @@ export default function FortDetailsClient() {
                                 transition={{ delay: idx * 0.1 }}
                                 className="monument-card premium-glass"
                             >
-                                <div className="mon-icon-container">
-                                    <motion.div 
-                                        animate={{ y: [0, -8, 0] }}
-                                        transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-                                        className="mon-icon"
-                                    >
-                                        {m.icon}
-                                    </motion.div>
+                                <div className="mon-image-wrapper">
+                                    <img src={m.image} alt={t(`attr.${m.id}.name`)} className="mon-card-img" />
+
                                 </div>
+
                                 <div className="mon-content">
-                                    <div className="mon-top">
-                                        <h3 className="mon-name">{t(`attr.${m.id}.name`)}</h3>
-                                        <button 
-                                            className={`audio-btn ${playingAudio === m.id ? 'playing' : ''}`}
-                                            onClick={() => handleAudioPlay(m.id)}
-                                        >
-                                            {playingAudio === m.id ? <Pause size={18} fill="currentColor" /> : <Play size={18} fill="currentColor" />}
-                                            <span>{playingAudio === m.id ? t("fort.audio.playing") : t("fort.audio.listen")}</span>
-                                        </button>
-                                    </div>
-                                    <p className="mon-desc">{t(`attr.${m.id}.desc`)}</p>
-                                    <div className="mon-meta">
-                                        <span className="mon-tag">{t(`fort.monument.${m.id}.tag`)}</span>
-                                    </div>
+                                    <h3 className="mon-name">{t(`attr.${m.id}.name`)}</h3>
+                                    <p className={`mon-desc ${expandedMonuments[m.id] ? 'expanded' : ''}`}>
+                                        {t(`attr.${m.id}.desc`)}
+                                    </p>
+                                    
+                                    <button 
+                                        className="read-more-btn"
+                                        onClick={() => {
+                                            setExpandedMonuments(prev => ({...prev, [m.id]: !prev[m.id]}));
+                                            triggerHaptic('light');
+                                        }}
+                                    >
+                                        {expandedMonuments[m.id] ? (
+                                            <><ChevronUp size={16} /> {t("btn.readLess") || "Read Less"}</>
+                                        ) : (
+                                            <><ChevronDown size={16} /> {t("btn.readMore") || "Read More"}</>
+                                        )}
+                                    </button>
+                                    
+                                    <button 
+                                        className={`audio-btn ${playingAudio === m.id ? 'playing' : ''}`}
+                                        onClick={() => handleAudioPlay(m.id)}
+                                    >
+                                        {playingAudio === m.id ? <Pause size={18} fill="currentColor" /> : <Play size={18} fill="currentColor" />}
+                                        <span>{playingAudio === m.id ? t("fort.audio.playing") : t("fort.audio.listen")}</span>
+                                    </button>
                                 </div>
+
+
                             </motion.div>
                         ))}
                     </div>
                 </section>
 
-                {/* ═══ GALLERY ═══════════════════════════════ */}
-                <section id="gallery" className="fort-section">
-                    <div className="section-header">
-                        <h2 className="section-title text-gold">{t("fort.section.gallery")}</h2>
-                        <div className="title-divider"></div>
-                    </div>
-                <div className="fort-gallery-grid">
-                        {[
-                            { src: "/Each page Pics/Fort pics/one.jpg", alt: "Chittorgarh Fort View 1" },
-                            { src: "/Each page Pics/Fort pics/two.jpg", alt: "Chittorgarh Fort View 2" },
-                            { src: "/Each page Pics/Fort pics/three.jpg", alt: "Chittorgarh Fort View 3" },
-                            { src: "/Each page Pics/Fort pics/four.jpg", alt: "Chittorgarh Fort View 4" },
-                            { src: "/Each page Pics/Fort pics/five.jpg", alt: "Chittorgarh Fort View 5" },
-                            { src: "/Each page Pics/Fort pics/six.jpg", alt: "Chittorgarh Fort View 6" },
-                        ].map((img, i) => (
-                            <motion.div 
-                                key={i} 
-                                whileHover={{ scale: 1.05 }}
-                                className="gallery-item premium-glass"
-                            >
-                                <img src={img.src} alt={img.alt} loading="lazy" />
-                            </motion.div>
-                        ))}
-                    </div>
-                </section>
             </main>
 
             <style jsx global>{`
@@ -442,6 +475,23 @@ export default function FortDetailsClient() {
                     display: flex;
                     justify-content: center;
                     overflow-x: auto;
+                    -webkit-overflow-scrolling: touch;
+                    scrollbar-width: none;
+                    -ms-overflow-style: none;
+                    gap: 0.5rem;
+                    padding: 0 1rem;
+                }
+
+                .nav-container::-webkit-scrollbar {
+                    display: none;
+                }
+
+                @media (max-width: 768px) {
+                    .nav-container {
+                        justify-content: flex-start;
+                        mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+                        -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+                    }
                 }
 
                 .nav-item {
@@ -458,6 +508,18 @@ export default function FortDetailsClient() {
                     align-items: center;
                     gap: 0.5rem;
                     white-space: nowrap;
+                    scroll-snap-align: center;
+                    transition: all 0.3s ease;
+                }
+
+                @media (max-width: 768px) {
+                    .nav-container {
+                        justify-content: flex-start;
+                        scroll-snap-type: x mandatory;
+                        padding: 0 2rem;
+                        mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
+                        -webkit-mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
+                    }
                 }
 
                 .nav-item.active { 
@@ -535,33 +597,72 @@ export default function FortDetailsClient() {
                 .history-timeline {
                     display: flex;
                     flex-direction: column;
-                    gap: 2.5rem;
+                    gap: 3.5rem;
+                    position: relative;
                 }
 
                 .timeline-item {
                     display: flex;
                     flex-direction: column;
-                    gap: 1.5rem;
-                    padding: 2rem;
-                    background: rgba(255, 255, 255, 0.03);
-                    border: 1px solid rgba(212, 175, 55, 0.2);
-                    border-radius: 8px;
+                    gap: 2rem;
+                    padding: 2.5rem;
+                    background: rgba(255, 255, 255, 0.02);
+                    border: 1px solid rgba(212, 175, 55, 0.15);
+                    border-radius: 16px;
+                    position: relative;
+                    transition: all 0.4s ease;
+                }
+
+                .timeline-item:hover {
+                    border-color: var(--gold);
+                    background: rgba(212, 175, 55, 0.05);
+                    transform: translateY(-5px);
                 }
 
                 @media (min-width: 768px) {
                     .timeline-item {
                         flex-direction: row;
-                        align-items: flex-start;
-                        gap: 3rem;
-                        padding: 3rem;
+                        align-items: center;
+                        gap: 4rem;
+                        padding: 4rem;
+                    }
+                    .timeline-item:nth-child(even) {
+                        flex-direction: row-reverse;
                     }
                     .timeline-year {
-                        min-width: 150px;
+                        min-width: 200px;
                         border-right: 2px solid rgba(212, 175, 55, 0.5);
                         border-bottom: none;
                         padding-right: 2rem;
                         padding-bottom: 0;
+                        margin-bottom: 0;
                     }
+                }
+
+                .timeline-img-wrapper {
+                    width: 100%;
+                    flex: 1;
+                    max-width: 450px;
+                    aspect-ratio: 16/10;
+                    border-radius: 12px;
+                    overflow: hidden;
+                    border: 1px solid rgba(212, 175, 55, 0.3);
+                    box-shadow: 0 15px 40px rgba(0,0,0,0.6);
+                }
+
+                .timeline-img {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                    transition: transform 0.8s cubic-bezier(0.165, 0.84, 0.44, 1);
+                }
+
+                .timeline-item:hover .timeline-img {
+                    transform: scale(1.1);
+                }
+
+                .timeline-content {
+                    flex: 1.2;
                 }
 
                 .timeline-year {
@@ -596,32 +697,70 @@ export default function FortDetailsClient() {
                     flex-direction: column;
                 }
 
-                .mon-icon-container {
-                    background: rgba(0,0,0,0.4);
-                    padding: 3rem 0;
-                    display: flex;
-                    justify-content: center;
-                    border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+                .mon-image-wrapper {
+                    width: 100%;
+                    height: 220px;
                     position: relative;
+                    overflow: hidden;
                 }
 
-                .mon-icon { font-size: 3.5rem; }
-
-                .mon-tag {
-                    position: absolute;
-                    top: 1rem;
-                    left: 1rem;
-                    background: var(--gold);
-                    color: #000;
-                    padding: 0.3rem 0.8rem;
-                    font-size: 0.7rem;
-                    font-weight: 800;
-                    border-radius: 4px;
+                .mon-card-img {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                    transition: transform 0.5s ease;
                 }
+
+                .monument-card:hover .mon-card-img {
+                    transform: scale(1.1);
+                }
+
+
+
+
 
                 .mon-content {
                     padding: 2rem;
                     flex: 1;
+                    display: flex;
+                    flex-direction: column;
+                }
+
+                .mon-desc {
+                    font-size: 1.1rem;
+                    line-height: 1.7;
+                    color: rgba(255,255,255,0.8);
+                    margin-bottom: 1rem;
+                    display: -webkit-box;
+                    -webkit-line-clamp: 3;
+                    -webkit-box-orient: vertical;
+                    overflow: hidden;
+                }
+
+                .mon-desc.expanded {
+                    -webkit-line-clamp: unset;
+                    display: block;
+                }
+
+                .read-more-btn {
+                    background: none;
+                    border: none;
+                    color: var(--gold);
+                    display: inline-flex;
+                    align-items: center;
+                    gap: 0.4rem;
+                    font-size: 0.9rem;
+                    font-weight: 600;
+                    cursor: pointer;
+                    margin-bottom: 1.5rem;
+                    padding: 0.5rem 0;
+                    transition: all 0.2s ease;
+                    text-transform: uppercase;
+                    letter-spacing: 1px;
+                }
+
+                .read-more-btn:hover {
+                    color: #fff;
                 }
 
                 .mon-name {
@@ -630,47 +769,39 @@ export default function FortDetailsClient() {
                 }
 
                 .audio-btn {
-                    background: rgba(212, 175, 55, 0.15);
-                    border: 1px solid var(--gold);
-                    color: var(--gold) !important;
-                    padding: 0.6rem 1.2rem;
-                    font-size: 0.8rem;
-                    font-weight: 700;
-                    display: inline-flex;
-                    align-items: center;
-                    gap: 0.5rem;
-                    margin-bottom: 1.5rem;
-                    border-radius: 4px;
-                    cursor: pointer;
-                }
-
-                /* --- Gallery --- */
-                .fort-gallery-grid {
-                    display: grid;
-                    grid-template-columns: 1fr;
-                    gap: 1.5rem;
-                }
-
-                @media (min-width: 600px) {
-                    .fort-gallery-grid { grid-template-columns: repeat(2, 1fr); }
-                }
-                
-                @media (min-width: 900px) {
-                    .fort-gallery-grid { grid-template-columns: repeat(3, 1fr); }
-                }
-
-                .gallery-item {
-                    aspect-ratio: 4/3;
-                    border-radius: 8px;
-                    overflow: hidden;
+                    background: rgba(212, 175, 55, 0.1);
                     border: 1px solid rgba(212, 175, 55, 0.3);
+                    color: var(--gold) !important;
+                    padding: 0.8rem 1.5rem;
+                    font-size: 0.85rem;
+                    font-weight: 700;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 0.8rem;
+                    border-radius: 8px;
+                    cursor: pointer;
+                    transition: all 0.3s ease;
+                    width: 100%;
+                    margin-top: auto;
+                    text-transform: uppercase;
+                    letter-spacing: 1px;
                 }
 
-                .gallery-item img {
-                    width: 100%;
-                    height: 100%;
-                    object-fit: cover;
+                .audio-btn:hover {
+                    background: var(--gold);
+                    color: #000 !important;
+                    transform: translateY(-2px);
+                    box-shadow: 0 5px 15px rgba(212, 175, 55, 0.2);
                 }
+
+                .audio-btn.playing {
+                    background: #fff;
+                    color: #000 !important;
+                    border-color: #fff;
+                }
+
+
 
                 /* --- Mobile Polish --- */
                 @media (max-width: 768px) {
