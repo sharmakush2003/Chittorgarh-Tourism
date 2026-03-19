@@ -99,7 +99,7 @@ export default function ChroniclesClient() {
                                         className="explore-saga"
                                         style={{ color: legend.accent, textDecoration: 'none' }}
                                     >
-                                        Wikipedia <ArrowRight size={16} />
+                                        {t("chron.btn.wikipedia") || "Wikipedia"} <ArrowRight size={16} />
                                     </a>
                                 </div>
                             </div>

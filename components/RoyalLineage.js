@@ -88,7 +88,7 @@ export default function RoyalLineage() {
                                     <span className="ruler-honorific">{t(`lineage.${ruler.id}.title`)}</span>
                                     <p className="ruler-desc">{t(`lineage.${ruler.id}.desc`)}</p>
                                     <a href={ruler.link} target="_blank" rel="noopener noreferrer" className="wiki-link">
-                                        Wikipedia <ExternalLink size={14} />
+                                        {t("chron.btn.wikipedia") || "Wikipedia"} <ExternalLink size={14} />
                                     </a>
                                 </div>
                             </div>
