@@ -69,7 +69,7 @@ export default function Footer() {
                     {/* Brand column */}
                     <div className="footer-brand">
                         <div className="footer-logo">
-                            Chittorgarh<span> Tourism</span>
+                            {t("nav.logoPart1") || "Chittorgarh"}<span> {t("nav.logoPart2") || "Tourism"}</span>
                         </div>
                         <p className="footer-tagline">{t("footer.desc")}</p>
 
@@ -111,15 +111,15 @@ export default function Footer() {
                         <ul className="footer-nav-list">
                             <li className="footer-info-item">
                                 <span className="footer-info-icon">📍</span>
-                                <span>Chittorgarh, Rajasthan, India</span>
+                                <span>{t("footer.locationFull") || "Chittorgarh, Rajasthan, India"}</span>
                             </li>
                             <li className="footer-info-item">
                                 <span className="footer-info-icon">🕌</span>
-                                <span>Since 7th Century CE</span>
+                                <span>{t("footer.since") || "Since 7th Century CE"}</span>
                             </li>
                             <li className="footer-info-item">
                                 <span className="footer-info-icon">🌐</span>
-                                <span>UNESCO Heritage Site</span>
+                                <span>{t("footer.unesco") || "UNESCO Heritage Site"}</span>
                             </li>
                             <li className="footer-info-item">
                                 <span className="footer-info-icon">✉️</span>
@@ -141,20 +141,15 @@ export default function Footer() {
                 {/* Bottom bar */}
                 <div className="footer-bottom">
                     <p className="footer-copy">{t("footer.copy")}</p>
-                    <p className="footer-copy">All Rights Reserved</p>
+                    <p className="footer-copy">{t("footer.rights") || "All Rights Reserved"}</p>
                     <p className="footer-made-with">
-                        Made with{" "}
+                        {t("footer.madeWith1") || "Made with "}
                         <span className="footer-heart" aria-label="love">❤️</span>
-                        {" "}by{" "}
-                        <span className="footer-author">Kush Sharma & Lav Sharma</span>
+                        {t("footer.madeWith2") || " by "}
+                        <span className="footer-author">{t("footer.author") || "Kush Sharma & Lav Sharma"}</span>
                     </p>
                     <div className="footer-copy-info">
-                        <p className="footer-location">Chittorgarh, Rajasthan</p>
-                        <div className="footer-legal-links">
-                            <Link href="/privacy" className="footer-legal-link">Privacy Policy</Link>
-                            <span className="footer-legal-separator">•</span>
-                            <Link href="/terms" className="footer-legal-link">Terms & Conditions</Link>
-                        </div>
+                        <p className="footer-location">{t("footer.locationShort") || "Chittorgarh, Rajasthan"}</p>
                     </div>
                 </div>
             </div>

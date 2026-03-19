@@ -17,9 +17,6 @@ export default function LanguageSwitcher() {
         switch (code) {
             case 'en': return 'EN';
             case 'hi': return 'HI';
-            case 'fr': return 'FR';
-            case 'nl': return 'NL';
-            case 'ja': return 'JA';
             default: return 'EN';
         }
     }
@@ -34,9 +31,6 @@ export default function LanguageSwitcher() {
                     <div className="ls-drop ls-drop--up" style={{ position: 'absolute', bottom: '100%', left: 0, background: '#2A1F0E', padding: '0.5rem 0', borderRadius: '4px', marginBottom: '0.5rem', minWidth: '120px', boxShadow: '0 4px 12px rgba(0,0,0,0.3)' }}>
                         <div onClick={() => handleLangChange("en")} style={{ padding: '0.5rem 1rem', cursor: 'pointer', color: 'rgba(255,255,255,0.8)', fontSize: '0.8rem' }}>🇺🇸 English</div>
                         <div onClick={() => handleLangChange("hi")} style={{ padding: '0.5rem 1rem', cursor: 'pointer', color: 'rgba(255,255,255,0.8)', fontSize: '0.8rem' }}>🇮🇳 हिंदी</div>
-                        <div onClick={() => handleLangChange("fr")} style={{ padding: '0.5rem 1rem', cursor: 'pointer', color: 'rgba(255,255,255,0.8)', fontSize: '0.8rem' }}>🇫🇷 Français</div>
-                        <div onClick={() => handleLangChange("nl")} style={{ padding: '0.5rem 1rem', cursor: 'pointer', color: 'rgba(255,255,255,0.8)', fontSize: '0.8rem' }}>🇳🇱 Nederlands</div>
-                        <div onClick={() => handleLangChange("ja")} style={{ padding: '0.5rem 1rem', cursor: 'pointer', color: 'rgba(255,255,255,0.8)', fontSize: '0.8rem' }}>🇯🇵 日本語</div>
                     </div>
                 )}
             </div>

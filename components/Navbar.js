@@ -67,7 +67,7 @@ export default function Navbar() {
             <nav className={`navbar ${scrolled ? "scrolled" : ""}`} id="navbar">
                 <Link href="/" className="logo">
                     <div className="logo-name">
-                        Chittorgarh<span> Tourism</span>
+                        {t("nav.logoPart1") || "Chittorgarh"}<span> {t("nav.logoPart2") || "Tourism"}</span>
                     </div>
                 </Link>
 
@@ -100,15 +100,6 @@ export default function Navbar() {
                                     <div onClick={() => { changeLanguage("hi"); setIsLangOpen(false); }} className={lang === 'hi' ? 'active' : ''}>
                                         <span className="flag">🇮🇳</span> हिंदी
                                     </div>
-                                    <div onClick={() => { changeLanguage("fr"); setIsLangOpen(false); }} className={lang === 'fr' ? 'active' : ''}>
-                                        <span className="flag">🇫🇷</span> Français
-                                    </div>
-                                    <div onClick={() => { changeLanguage("nl"); setIsLangOpen(false); }} className={lang === 'nl' ? 'active' : ''}>
-                                        <span className="flag">🇳🇱</span> Nederlands
-                                    </div>
-                                    <div onClick={() => { changeLanguage("ja"); setIsLangOpen(false); }} className={lang === 'ja' ? 'active' : ''}>
-                                        <span className="flag">🇯🇵</span> 日本語
-                                    </div>
                                 </div>
                             </div>
                         )}
@@ -129,53 +120,73 @@ export default function Navbar() {
 
             {/* Mobile Navigation Overlay */}
             <div className={`mobile-nav ${isMenuOpen ? "open" : ""}`}>
-                {navLinks.map((link) => (
+                {navLinks.map((link, idx) => (
                     <Link
                         key={link.href}
                         href={link.href}
-                        className={isActive(link.href)}
+                        className={`mobile-link ${isActive(link.href)}`}
                         onClick={() => setIsMenuOpen(false)}
+                        style={{ transitionDelay: `${0.1 + idx * 0.05}s` }}
                     >
                         {link.label}
                     </Link>
                 ))}
 
-                {/* Mobile-only Links */}
+                {/* Mobile-only Links (Delayed after main links) */}
                 <Link
                     href="/gallery"
-                    className={isActive("/gallery")}
+                    className={`mobile-link ${isActive("/gallery")}`}
                     onClick={() => setIsMenuOpen(false)}
+                    style={{ transitionDelay: `${0.1 + navLinks.length * 0.05}s` }}
                 >
                     {t("nav.gallery") || "Gallery"}
                 </Link>
 
                 <Link
                     href="/emergency"
-                    className={`${isActive("/emergency")} mobile-emergency-link`}
+                    className={`mobile-link ${isActive("/emergency")} mobile-emergency-link`}
                     onClick={() => setIsMenuOpen(false)}
-                    style={{ color: '#ef4444', fontWeight: '600', borderLeft: '2px solid #ef4444', paddingLeft: '15px' }}
+                    style={{ 
+                        color: '#ef4444', 
+                        fontWeight: '600', 
+                        transitionDelay: `${0.1 + (navLinks.length + 1) * 0.05}s`
+                    }}
                 >
-                    Emergency Info
+                    {t("nav.emergency") || "Emergency Info"}
                 </Link>
 
                 <Link
                     href="/admin/dashboard"
-                    className={`${isActive("/admin/dashboard")} mobile-admin-link`}
+                    className={`mobile-link ${isActive("/admin/dashboard")} mobile-admin-link`}
                     onClick={() => setIsMenuOpen(false)}
-                    style={{ color: 'var(--gold)', fontWeight: '600', borderLeft: '2px solid var(--gold)', paddingLeft: '15px' }}
+                    style={{ 
+                        color: 'var(--gold)', 
+                        fontWeight: '600', 
+                        transitionDelay: `${0.1 + (navLinks.length + 2) * 0.05}s`
+                    }}
                 >
-                    Admin Management
+                    {t("nav.admin") || "Admin Management"}
                 </Link>
 
                 {/* Mobile Language Selection */}
-                <div className="mobile-lang-section">
+                <div 
+                    className="mobile-lang-section" 
+                    style={{ transitionDelay: `${0.1 + (navLinks.length + 3) * 0.05}s` }}
+                >
                     <span className="mobile-lang-label">{t("nav.selectLanguage")}</span>
-                    <div className="mobile-lang-grid">
-                        <button onClick={() => { changeLanguage("en"); setIsMenuOpen(false); }}>EN</button>
-                        <button onClick={() => { changeLanguage("hi"); setIsMenuOpen(false); }}>HI</button>
-                        <button onClick={() => { changeLanguage("fr"); setIsMenuOpen(false); }}>FR</button>
-                        <button onClick={() => { changeLanguage("nl"); setIsMenuOpen(false); }}>NL</button>
-                        <button onClick={() => { changeLanguage("ja"); setIsMenuOpen(false); }}>JA</button>
+                    <div className="mobile-lang-toggle" data-active={lang}>
+                        <button 
+                            className={lang === 'en' ? 'active' : ''}
+                            onClick={() => { changeLanguage("en"); setIsMenuOpen(false); }}
+                        >
+                            Eng
+                        </button>
+                        <button 
+                            className={lang === 'hi' ? 'active' : ''}
+                            onClick={() => { changeLanguage("hi"); setIsMenuOpen(false); }}
+                        >
+                            हिंदी
+                        </button>
                     </div>
                 </div>
             </div>

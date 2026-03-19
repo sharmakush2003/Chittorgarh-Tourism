@@ -268,7 +268,7 @@ h1 {
   left: 0;
   width: 100%;
   padding: 1rem var(--container-px);
-  z-index: 1000;
+  z-index: 1200;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -665,6 +665,7 @@ h1 {
 
 .mobile-menu-btn.open span:nth-child(2) {
   opacity: 0;
+  transform: translateX(10px);
 }
 
 .mobile-menu-btn.open span:nth-child(3) {
@@ -674,7 +675,9 @@ h1 {
 .mobile-nav {
   position: fixed;
   inset: 0;
-  background: var(--dark);
+  background: radial-gradient(ellipse at center, rgba(30, 22, 14, 0.85) 0%, rgba(15, 10, 5, 0.95) 100%);
+  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px);
   z-index: 1050;
   display: flex;
   flex-direction: column;
@@ -684,26 +687,49 @@ h1 {
   padding: 7rem 2rem 4rem;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
-  transform: translateX(100%);
-  transition: 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
 }
 
 .mobile-nav.open {
-  transform: translateX(0);
+  opacity: 1;
+  pointer-events: auto;
 }
 
-.mobile-nav a {
-  font-size: 1.0rem;
+.mobile-nav a.mobile-link, 
+.mobile-nav .mobile-lang-section {
+  font-size: 1.1rem;
   font-family: var(--ff-display);
-  letter-spacing: 4px;
+  letter-spacing: 5px;
   text-transform: uppercase;
   color: #fff;
-  transition: all 0.3s ease;
-  opacity: 0.9;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.mobile-nav a.active {
+.mobile-nav.open a.mobile-link,
+.mobile-nav.open .mobile-lang-section {
+  opacity: 0.9;
+  transform: translateY(0);
+}
+
+.mobile-nav a.mobile-link:hover,
+.mobile-nav a.mobile-link:active {
+  opacity: 1;
   color: var(--gold);
+  transform: scale(1.02) translateY(0);
+}
+
+.mobile-nav a.mobile-link.active {
+  color: var(--gold);
+}
+
+/* Fix Devanagari script spacing issues site-wide */
+[lang="hi"], 
+[lang="hi"] * {
+  letter-spacing: normal !important;
 }
 
 /* ── Mobile Language Section ── */
@@ -717,42 +743,65 @@ h1 {
 
 .mobile-lang-label {
   display: block;
-  font-size: 0.65rem;
-  letter-spacing: 3px;
+  font-size: 0.7rem;
+  letter-spacing: 4px;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.4);
-  margin-bottom: 1rem;
+  color: rgba(255, 255, 255, 0.5);
+  margin-bottom: 1.5rem;
 }
 
-.mobile-lang-grid {
+.mobile-lang-toggle {
   display: flex;
-  justify-content: center;
-  gap: 0.75rem;
-  flex-wrap: wrap;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 6px;
+  border-radius: 50px;
+  width: max-content;
+  margin: 0 auto;
+  position: relative;
+  box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.3);
 }
 
-.mobile-lang-grid button {
-  padding: 0.6rem 1.1rem;
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  color: rgba(255, 255, 255, 0.75);
+.mobile-lang-toggle button {
+  flex: 1;
+  padding: 0.8rem 1.8rem;
+  background: transparent;
+  border: none;
+  color: rgba(255, 255, 255, 0.5);
   font-size: 0.75rem;
   font-weight: 600;
   letter-spacing: 2px;
   text-transform: uppercase;
-  border-radius: 4px;
+  border-radius: 40px;
+  transition: color 0.4s ease;
+  position: relative;
+  z-index: 2;
   cursor: pointer;
-  transition: all 0.25s ease;
-  /* Ensure minimum tap target size for mobile */
-  min-width: 48px;
-  min-height: 44px;
+  min-width: 100px;
+  font-family: var(--ff-body);
 }
 
-.mobile-lang-grid button:hover,
-.mobile-lang-grid button:active {
-  background: rgba(212, 175, 55, 0.2);
-  border-color: var(--gold);
-  color: var(--gold);
+.mobile-lang-toggle button.active {
+  color: #1a1108; /* Dark text contrasting against gold */
+}
+
+/* Background sliding pill */
+.mobile-lang-toggle::before {
+  content: "";
+  position: absolute;
+  top: 6px;
+  bottom: 6px;
+  left: 6px;
+  width: calc(50% - 6px);
+  background: linear-gradient(135deg, var(--gold), #e0c15e);
+  border-radius: 40px;
+  box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4);
+  transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+  z-index: 1;
+}
+
+.mobile-lang-toggle[data-active="hi"]::before {
+  transform: translateX(100%);
 }
 
 /*  Animation Classes  */
