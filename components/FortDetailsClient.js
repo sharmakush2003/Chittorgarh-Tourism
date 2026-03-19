@@ -17,7 +17,6 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { triggerHaptic } from "@/lib/haptics";
 import GoldenHourTracker from "./GoldenHourTracker";
 import { motion } from "framer-motion";
 
@@ -59,7 +58,6 @@ export default function FortDetailsClient() {
     ];
 
     const handleAudioPlay = (monId) => {
-        triggerHaptic('medium');
         const synth = window.speechSynthesis;
         synth.cancel();
 
@@ -143,6 +141,7 @@ export default function FortDetailsClient() {
                             <span className="stat-label">{t("fort.stats.heritage")}</span>
                         </div>
                     </div>
+
                 </motion.div>
                 
                 <div className="scroll-indicator">
@@ -266,7 +265,6 @@ export default function FortDetailsClient() {
                                         className="read-more-btn"
                                         onClick={() => {
                                             setExpandedMonuments(prev => ({...prev, [m.id]: !prev[m.id]}));
-                                            triggerHaptic('light');
                                         }}
                                     >
                                         {expandedMonuments[m.id] ? (
@@ -294,14 +292,29 @@ export default function FortDetailsClient() {
             </main>
 
             <style jsx global>{`
+                :root {
+                    --ff-serif: 'Playfair Display', serif;
+                    --ff-sans: 'Inter', sans-serif;
+                }
+
                 .fort-page {
                     background: #0a0804 !important;
                     color: #fff;
                     min-height: 100vh;
-                    font-family: var(--ff-body);
+                    font-family: var(--ff-sans);
                     overflow-x: hidden;
                     display: block;
                     position: relative;
+                }
+
+                h1, h2, h3, h4 {
+                    font-family: var(--ff-serif);
+                    font-weight: 700;
+                    letter-spacing: -0.02em;
+                    background: linear-gradient(135deg, #fff 0%, var(--gold) 50%, #d4af37 100%);
+                    -webkit-background-clip: text;
+                    -webkit-text-fill-color: transparent;
+                    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
                 }
 
                 .mesh-bg-fixed {
@@ -439,21 +452,24 @@ export default function FortDetailsClient() {
                     display: flex;
                     flex-direction: column;
                     align-items: center;
+                    gap: 0;
                 }
 
                 .stat-val {
-                    font-size: clamp(1.8rem, 5vw, 3rem);
+                    font-size: clamp(2rem, 6vw, 3.5rem);
                     color: var(--gold);
-                    font-family: var(--ff-display);
-                    margin-bottom: 0.5rem;
-                    font-weight: 900;
+                    font-family: var(--ff-serif);
+                    line-height: 1.1;
+                    font-weight: 800;
                 }
 
                 .stat-label {
-                    font-size: 0.75rem;
+                    font-size: clamp(0.7rem, 2vw, 0.9rem);
+                    color: rgba(255, 255, 255, 0.8);
                     text-transform: uppercase;
                     letter-spacing: 2px;
-                    opacity: 0.9;
+                    font-weight: 600;
+                    margin-top: 0;
                 }
 
                 .stat-divider {
@@ -496,20 +512,28 @@ export default function FortDetailsClient() {
 
                 .nav-item {
                     background: none;
-                    border: none;
+                    padding: 0.75rem 1.5rem;
+                    border-radius: 50px;
+                    font-weight: 600;
+                    font-size: 0.8rem; /* Kept from original */
+                    text-transform: uppercase; /* Kept from original */
+                    letter-spacing: 1.5px; /* Kept from original */
+                    cursor: pointer; /* Kept from original */
                     color: rgba(255,255,255,0.7);
-                    padding: 1rem 1.5rem;
-                    font-size: 0.8rem;
-                    font-weight: 700;
-                    text-transform: uppercase;
-                    letter-spacing: 1.5px;
-                    cursor: pointer;
                     display: flex;
                     align-items: center;
                     gap: 0.5rem;
                     white-space: nowrap;
                     scroll-snap-align: center;
-                    transition: all 0.3s ease;
+                    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+                    border: 1px solid transparent;
+                }
+
+                .nav-item:hover {
+                    color: #fff;
+                    border-color: rgba(212,175,55,0.3);
+                    box-shadow: 0 0 20px rgba(212,175,55,0.15);
+                    transform: translateY(-1px);
                 }
 
                 @media (max-width: 768px) {
@@ -666,10 +690,12 @@ export default function FortDetailsClient() {
                 }
 
                 .timeline-year {
-                    font-size: 2rem;
-                    color: var(--gold) !important;
-                    border-bottom: 2px solid rgba(212, 175, 55, 0.5);
-                    padding-bottom: 1rem;
+                    font-size: 2.2rem;
+                    color: var(--gold);
+                    margin-bottom: 1.5rem;
+                    display: inline-block;
+                    height: 2px;
+                    background: var(--gold);
                 }
 
                 .timeline-title {
@@ -689,12 +715,22 @@ export default function FortDetailsClient() {
                 }
 
                 .monument-card {
-                    background: #110d0a !important;
-                    border: 1px solid rgba(212, 175, 55, 0.3);
-                    border-radius: 12px;
+                    background: rgba(255, 255, 255, 0.03);
+                    backdrop-filter: blur(12px);
+                    -webkit-backdrop-filter: blur(12px);
+                    border: 1px solid rgba(255, 255, 255, 0.1);
+                    border-radius: 20px;
                     overflow: hidden;
                     display: flex;
                     flex-direction: column;
+                    transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+                }
+
+                .monument-card:hover {
+                    background: rgba(255, 255, 255, 0.05);
+                    border-color: rgba(212, 175, 55, 0.4);
+                    transform: translateY(-8px);
+                    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 25px rgba(212, 175, 55, 0.1);
                 }
 
                 .mon-image-wrapper {
@@ -746,21 +782,23 @@ export default function FortDetailsClient() {
                     background: none;
                     border: none;
                     color: var(--gold);
-                    display: inline-flex;
+                    cursor: pointer;
+                    display: flex;
                     align-items: center;
                     gap: 0.4rem;
-                    font-size: 0.9rem;
-                    font-weight: 600;
-                    cursor: pointer;
+                    margin-top: 1rem;
                     margin-bottom: 1.5rem;
-                    padding: 0.5rem 0;
-                    transition: all 0.2s ease;
+                    font-weight: 700;
+                    font-size: 0.9rem;
+                    transition: all 0.3s ease;
                     text-transform: uppercase;
                     letter-spacing: 1px;
                 }
 
                 .read-more-btn:hover {
                     color: #fff;
+                    text-shadow: 0 0 10px rgba(212,175,55,0.5);
+                    transform: translateX(5px);
                 }
 
                 .mon-name {
@@ -769,7 +807,7 @@ export default function FortDetailsClient() {
                 }
 
                 .audio-btn {
-                    background: rgba(212, 175, 55, 0.1);
+                    background: rgba(212, 175, 15, 0.1);
                     border: 1px solid rgba(212, 175, 55, 0.3);
                     color: var(--gold) !important;
                     padding: 0.8rem 1.5rem;
@@ -781,7 +819,7 @@ export default function FortDetailsClient() {
                     gap: 0.8rem;
                     border-radius: 8px;
                     cursor: pointer;
-                    transition: all 0.3s ease;
+                    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
                     width: 100%;
                     margin-top: auto;
                     text-transform: uppercase;
@@ -791,8 +829,8 @@ export default function FortDetailsClient() {
                 .audio-btn:hover {
                     background: var(--gold);
                     color: #000 !important;
-                    transform: translateY(-2px);
-                    box-shadow: 0 5px 15px rgba(212, 175, 55, 0.2);
+                    transform: translateY(-3px);
+                    box-shadow: 0 10px 25px rgba(212, 175, 55, 0.4);
                 }
 
                 .audio-btn.playing {
