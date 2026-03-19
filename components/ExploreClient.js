@@ -176,8 +176,6 @@ export default function ExploreClient() {
             <style jsx>{`
                 /* ... other styles ... */
                 
-                .view-more-section {
-
                 .fixed-bg {
                     position: fixed;
                     inset: 0;
