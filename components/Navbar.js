@@ -63,7 +63,15 @@ export default function Navbar() {
     return (
         <>
             <nav className={`navbar ${scrolled ? "scrolled" : ""}`} id="navbar">
-                <Link href="/" className="logo">
+                <Link 
+                    href="/" 
+                    className="logo"
+                    style={{ 
+                        opacity: isMenuOpen ? 0 : 1, 
+                        transition: 'opacity 0.3s ease',
+                        pointerEvents: isMenuOpen ? 'none' : 'auto'
+                    }}
+                >
                     <div className="logo-name">
                         {t("nav.logoPart1") || "Chittorgarh"}<span> {t("nav.logoPart2") || "Tourism"}</span>
                     </div>
