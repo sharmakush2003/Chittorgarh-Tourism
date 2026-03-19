@@ -118,36 +118,33 @@ export default function Navbar() {
 
             {/* Mobile Navigation Overlay */}
             <div className={`mobile-nav ${isMenuOpen ? "open" : ""}`}>
+                {/* Brand Header inside Menu */}
+                <div className="mobile-menu-header" style={{ transitionDelay: '0.05s' }}>
+                    <div className="logo-name">
+                        {t("nav.logoPart1") || "Chittorgarh"}<span> {t("nav.logoPart2") || "Tourism"}</span>
+                    </div>
+                    <div className="mobile-menu-divider"></div>
+                </div>
+
                 {navLinks.map((link, idx) => (
                     <Link
                         key={link.href}
                         href={link.href}
                         className={`mobile-link ${isActive(link.href)}`}
                         onClick={() => setIsMenuOpen(false)}
-                        style={{ transitionDelay: `${0.1 + idx * 0.05}s` }}
+                        style={{ transitionDelay: `${0.15 + idx * 0.08}s` }}
                     >
                         {link.label}
                     </Link>
                 ))}
 
-                {/* Mobile-only Links (Delayed after main links) */}
-                <Link
-                    href="/gallery"
-                    className={`mobile-link ${isActive("/gallery")}`}
-                    onClick={() => setIsMenuOpen(false)}
-                    style={{ transitionDelay: `${0.1 + navLinks.length * 0.05}s` }}
-                >
-                    {t("nav.gallery") || "Gallery"}
-                </Link>
 
                 <Link
                     href="/emergency"
                     className={`mobile-link ${isActive("/emergency")} mobile-emergency-link`}
                     onClick={() => setIsMenuOpen(false)}
                     style={{ 
-                        color: '#ef4444', 
-                        fontWeight: '600', 
-                        transitionDelay: `${0.1 + (navLinks.length + 1) * 0.05}s`
+                        transitionDelay: `${0.15 + (navLinks.length) * 0.08}s`
                     }}
                 >
                     {t("nav.emergency") || "Emergency Info"}
@@ -157,7 +154,7 @@ export default function Navbar() {
                 {/* Mobile Language Selection */}
                 <div 
                     className="mobile-lang-section" 
-                    style={{ transitionDelay: `${0.1 + (navLinks.length + 2) * 0.05}s` }}
+                    style={{ transitionDelay: `${0.15 + (navLinks.length + 1) * 0.08}s` }}
                 >
                     <span className="mobile-lang-label">{t("nav.selectLanguage")}</span>
                     <div className="mobile-lang-toggle" data-active={lang}>
