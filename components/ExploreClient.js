@@ -4,6 +4,7 @@ import { useLanguage } from "@/context/LanguageContext";
 import { Flower, Calendar, MapPin, ArrowRight, Sun, Wind, Cloud, Ticket } from 'lucide-react';
 import FortMap from "@/components/FortMap";
 import { useState, useEffect } from 'react';
+import Link from 'next/link';
 import { Share2, Navigation, X, Send } from 'lucide-react';
 import { triggerHaptic } from "@/lib/haptics";
 
@@ -60,7 +61,7 @@ export default function ExploreClient() {
                             time={t("attr.vijay.time")}
                             dist={t("attr.vijay.dist")}
                             delay={3}
-                            link="https://en.wikipedia.org/wiki/Vijaya_Stambha"
+                            link="/vijay-stambh"
                             image="/vijay_stambh.jpg"
                             imgPos="top"
                         />
@@ -80,7 +81,7 @@ export default function ExploreClient() {
                             time={t("attr.kalika.time")}
                             dist={t("attr.kalika.dist")}
                             delay={5}
-                            link="https://en.wikipedia.org/wiki/Kalika_Mata_Temple,_Chittorgarh_Fort"
+                            link="/kalika-temple"
                             image="/kalika_mata_temple.jpg"
                         />
                         <GlassCard
@@ -169,17 +170,6 @@ export default function ExploreClient() {
 
                     <FortMap />
 
-                    <div className="view-more-section">
-                        <p className="view-more-text">{t("exp.footerText")}</p>
-                        <a
-                            href="https://www.tourism.rajasthan.gov.in/chittorgarh.html"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="view-more-btn"
-                        >
-                            {t("exp.footerBtn")} <ArrowRight size={18} />
-                        </a>
-                    </div>
                 </div>
             </main>
 
@@ -187,13 +177,6 @@ export default function ExploreClient() {
                 /* ... other styles ... */
                 
                 .view-more-section {
-                    text-align: center;
-                    margin: 4rem auto 2rem;
-                    padding-top: 2rem;
-                    border-top: 1px solid rgba(255, 255, 255, 0.1);
-                    width: 100%;
-                    animation: fadeIn 1s ease-out 0.5s backwards;
-                }
 
                 .fixed-bg {
                     position: fixed;
@@ -253,48 +236,6 @@ export default function ExploreClient() {
                     padding: 0 1rem;
                 }
 
-                .view-more-section {
-                    text-align: center;
-                    margin: 4rem auto 2rem;
-                    padding-top: 2rem;
-                    border-top: 1px solid rgba(255, 255, 255, 0.1);
-                    width: 100%;
-                    animation: fadeIn 1s ease-out 0.5s backwards;
-                }
-
-                .view-more-text {
-                    font-family: var(--ff-body);
-                    color: rgba(255, 255, 255, 0.6);
-                    margin-bottom: 1.5rem;
-                    font-size: 0.9rem;
-                    letter-spacing: 1px;
-                    text-transform: uppercase;
-                }
-
-                .view-more-btn {
-                    display: inline-flex;
-                    align-items: center;
-                    justify-content: center;
-                    gap: 10px;
-                    background: rgba(212, 175, 55, 0.1);
-                    border: 1px solid var(--gold);
-                    color: var(--gold);
-                    padding: 1rem 2.5rem;
-                    transition: 0.3s;
-                    text-transform: uppercase;
-                    letter-spacing: 2px;
-                    font-size: 0.85rem;
-                    font-weight: 600;
-                    border-radius: 4px;
-                    text-align: center;
-                }
-
-                .view-more-btn:hover {
-                    background: var(--gold);
-                    color: #000;
-                    transform: translateY(-3px);
-                    box-shadow: 0 10px 20px -5px rgba(212, 175, 55, 0.4);
-                }
 
                 @keyframes fadeIn {
                     from { opacity: 0; }
@@ -430,9 +371,15 @@ function GlassCard({ title, desc, time, dist, delay, link, image, imgPos = 'cent
                     </div>
 
                     <div className="card-actions" style={{ display: 'flex', gap: '0.5rem', alignItems: 'center', marginTop: 'auto', width: '100%' }}>
-                        <a href={link} target="_blank" rel="noopener noreferrer" className="read-more">
-                            {t("btn.readMore")} <ArrowRight className="arrow" size={16} />
-                        </a>
+                        {link.startsWith('/') ? (
+                            <Link href={link} className="read-more">
+                                {t("btn.readMore")} <ArrowRight className="arrow" size={16} />
+                            </Link>
+                        ) : (
+                            <a href={link} target="_blank" rel="noopener noreferrer" className="read-more">
+                                {t("btn.readMore")} <ArrowRight className="arrow" size={16} />
+                            </a>
+                        )}
                         {bookingLink && (
                             <a
                                 href={bookingLink}
@@ -651,28 +598,33 @@ function GlassCard({ title, desc, time, dist, delay, link, image, imgPos = 'cent
                     background: rgba(255, 255, 255, 0.1);
                 }
 
-                .read-more {
-                    background: transparent;
-                    border: none;
-                    color: var(--gold);
-                    font-family: var(--ff-body);
-                    font-size: 0.8rem;
-                    font-weight: 700;
-                    letter-spacing: 2px;
-                    text-transform: uppercase;
+                :global(.read-more) {
+                    background: rgba(212, 175, 55, 0.05) !important;
+                    border: 1px solid rgba(212, 175, 55, 0.3) !important;
+                    color: var(--gold) !important;
+                    font-family: var(--ff-body) !important;
+                    font-size: 0.8rem !important;
+                    font-weight: 700 !important;
+                    letter-spacing: 1px !important;
+                    text-transform: uppercase !important;
                     cursor: pointer;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    gap: 0.5rem;
-                    padding: 0.5rem;
-                    transition: 0.3s;
-                    flex: 1;
+                    display: flex !important;
+                    align-items: center !important;
+                    justify-content: center !important;
+                    gap: 0.5rem !important;
+                    padding: 0.5rem 1.2rem !important;
+                    border-radius: 8px !important;
+                    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+                    flex: 1 !important;
+                    text-decoration: none !important;
                 }
 
-                .read-more:hover {
-                    letter-spacing: 3px;
-                    color: #fff;
+                :global(.read-more:hover) {
+                    background: rgba(212, 175, 55, 0.15) !important;
+                    border-color: var(--gold) !important;
+                    color: #fff !important;
+                    transform: translateY(-2px) !important;
+                    box-shadow: 0 5px 15px rgba(212, 175, 55, 0.2) !important;
                 }
 
                 :global(.arrow) {

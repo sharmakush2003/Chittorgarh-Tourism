@@ -30,17 +30,6 @@ const withPWA = withPWAInit({
         },
       },
       {
-        urlPattern: /\/blog-data\/.*\.json$/i,
-        handler: 'StaleWhileRevalidate',
-        options: {
-          cacheName: 'chronicles-data',
-          expiration: {
-            maxEntries: 100,
-            maxAgeSeconds: 30 * 24 * 60 * 60,
-          },
-        },
-      },
-      {
         urlPattern: /\.(?:png|jpg|jpeg|svg|gif|webp)$/i,
         handler: 'CacheFirst',
         options: {
@@ -67,6 +56,20 @@ const nextConfig = {
     serverActions: {
       bodySizeLimit: '2mb',
     },
+  },
+  async redirects() {
+    return [
+      {
+        source: '/vijay%20stambh',
+        destination: '/vijay-stambh',
+        permanent: true,
+      },
+      {
+        source: '/vijaystambh',
+        destination: '/vijay-stambh',
+        permanent: true,
+      },
+    ];
   },
   turbopack: {},
 };

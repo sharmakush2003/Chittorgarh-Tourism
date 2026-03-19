@@ -48,7 +48,6 @@ const navLinks = [
     { key: "nav.explore", href: "/explore" },
     { key: "nav.chronicles", href: "/chronicles" },
     { key: "nav.stays", href: "/stays" },
-    { key: "nav.cuisine", href: "/cuisine", fallback: "Local Cuisines" },
     { key: "nav.planTrip", href: "/plan" },
 ];
 
@@ -56,7 +55,6 @@ export default function Footer() {
     const { t } = useLanguage();
     const pathname = usePathname();
 
-    if (pathname?.startsWith("/admin")) return null;
 
     return (
         <footer className="site-footer">

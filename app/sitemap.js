@@ -4,29 +4,6 @@ import path from "path";
 export default async function sitemap() {
     const baseUrl = "https://chittorgarh-tourism-five.vercel.app";
 
-    // Get all blog posts
-    const blogDir = path.join(process.cwd(), "public", "blog-data");
-    let blogPages = [];
-    try {
-        const files = await readdir(blogDir);
-        blogPages = await Promise.all(
-            files
-                .filter((f) => f.endsWith(".json"))
-                .map(async (f) => {
-                    const content = await readFile(path.join(blogDir, f), "utf8");
-                    const { slug, date } = JSON.parse(content);
-                    return {
-                        url: `${baseUrl}/blog/${slug}`,
-                        lastModified: new Date(date || new Date()),
-                        changeFrequency: 'monthly',
-                        priority: 0.7,
-                    };
-                })
-        );
-    } catch (error) {
-        console.error("Error generating blog sitemap:", error);
-    }
-
     const staticPages = [
         {
             url: `${baseUrl}`,
@@ -65,24 +42,18 @@ export default async function sitemap() {
             priority: 0.6,
         },
         {
-            url: `${baseUrl}/blog`,
-            lastModified: new Date(),
-            changeFrequency: 'weekly',
-            priority: 0.8,
-        },
-        {
-            url: `${baseUrl}/cuisine`,
+            url: `${baseUrl}/how-to-reach`,
             lastModified: new Date(),
             changeFrequency: 'monthly',
             priority: 0.7,
         },
         {
-            url: `${baseUrl}/how-to-reach`,
+            url: `${baseUrl}/kalika-temple`,
             lastModified: new Date(),
             changeFrequency: 'monthly',
             priority: 0.7,
         },
     ];
 
-    return [...staticPages, ...blogPages];
+    return [...staticPages];
 }

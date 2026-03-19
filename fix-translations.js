@@ -21,8 +21,6 @@ const hindiTranslations = {
     // RTDC
     "stays.rtdc.title": "क्या RTDC होटल पन्ना में बुकिंग नहीं मिली?",
     "stays.rtdc.desc": "RTDC होटल पन्ना एक लोकप्रिय सरकारी विकल्प है, लेकिन पीक सीजन में यह अक्सर पूरी तरह बुक रहता है। नीचे सूचीबद्ध प्राइवेट हेरिटेज होटल समान सुविधाएं, किले से बेहतर नजदीकी और उतना ही प्रामाणिक राजस्थानी अनुभव प्रदान करते हैं।",
-    // Blog nav
-    "nav.blog": "ब्लॉग"
 };
 
 const translationsDir = path.join(__dirname, 'public', 'translations');
@@ -37,7 +35,7 @@ for (const file of files) {
     const relevantKeys = [
         'faq.eyebrow', 'faq.title', 'faq.q1', 'faq.a1',
         'faq.q2', 'faq.a2', 'faq.q3', 'faq.a3', 'faq.q4', 'faq.a4',
-        'stays.rtdc.title', 'stays.rtdc.desc', 'nav.blog'
+        'stays.rtdc.title', 'stays.rtdc.desc'
     ];
 
     for (const key of relevantKeys) {

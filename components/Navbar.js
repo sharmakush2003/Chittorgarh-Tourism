@@ -13,7 +13,7 @@ export default function Navbar() {
     const pathname = usePathname();
     const { lang, changeLanguage, t } = useLanguage();
 
-    const isHiddenPath = pathname?.startsWith("/admin") || pathname === "/chittorgarh-fort";
+    const isHiddenPath = pathname === "/chittorgarh-fort";
     const langRef = useRef(null);
 
     useEffect(() => {
@@ -54,10 +54,8 @@ export default function Navbar() {
         { href: "/explore", label: t("nav.explore") },
         { href: "/chronicles", label: t("nav.chronicles") },
         { href: "/stays", label: t("nav.stays") },
-        { href: "/cuisine", label: t("nav.cuisine") || "Local Cuisines" },
         { href: "/plan", label: t("nav.planTrip") },
         { href: "/how-to-reach", label: t("nav.howToReach") },
-        { href: "/blog", label: t("nav.blog") || "Blog" },
     ];
 
     if (isHiddenPath) return null;
@@ -155,23 +153,11 @@ export default function Navbar() {
                     {t("nav.emergency") || "Emergency Info"}
                 </Link>
 
-                <Link
-                    href="/admin/dashboard"
-                    className={`mobile-link ${isActive("/admin/dashboard")} mobile-admin-link`}
-                    onClick={() => setIsMenuOpen(false)}
-                    style={{ 
-                        color: 'var(--gold)', 
-                        fontWeight: '600', 
-                        transitionDelay: `${0.1 + (navLinks.length + 2) * 0.05}s`
-                    }}
-                >
-                    {t("nav.admin") || "Admin Management"}
-                </Link>
 
                 {/* Mobile Language Selection */}
                 <div 
                     className="mobile-lang-section" 
-                    style={{ transitionDelay: `${0.1 + (navLinks.length + 3) * 0.05}s` }}
+                    style={{ transitionDelay: `${0.1 + (navLinks.length + 2) * 0.05}s` }}
                 >
                     <span className="mobile-lang-label">{t("nav.selectLanguage")}</span>
                     <div className="mobile-lang-toggle" data-active={lang}>
