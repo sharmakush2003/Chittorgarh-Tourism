@@ -727,8 +727,8 @@ h1 {
 }
 
 /* Fix Devanagari script spacing issues site-wide */
-[lang="hi"], 
-[lang="hi"] * {
+[data-lang="hi"], 
+[data-lang="hi"] * {
   letter-spacing: normal !important;
 }
 

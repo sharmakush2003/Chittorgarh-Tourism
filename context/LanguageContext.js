@@ -98,7 +98,7 @@ export function LanguageProvider({ children }) {
     return (
         <LanguageContext.Provider value={{ lang, changeLanguage, t, loading }}>
             {/* The key={lang} enforces a full component tree remount matching the requirement */}
-            <div key={lang} className="lang-wrapper" style={{ display: 'contents' }}>
+            <div key={lang} className="lang-wrapper" data-lang={lang} style={{ display: 'contents' }}>
                 {children}
             </div>
         </LanguageContext.Provider>

@@ -14,12 +14,14 @@ import {
     ScrollText,
 } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { triggerHaptic } from "@/lib/haptics";
 import GoldenHourTracker from "./GoldenHourTracker";
 import { motion } from "framer-motion";
 
 export default function FortDetailsClient() {
     const { t, lang } = useLanguage();
+    const router = useRouter();
     const [activeSection, setActiveSection] = useState("overview");
     const [playingAudio, setPlayingAudio] = useState(null);
 
@@ -82,9 +84,9 @@ export default function FortDetailsClient() {
                     transition={{ delay: 0.2, duration: 0.8 }}
                     className="hero-content"
                 >
-                    <Link href="/explore" className="back-link">
-                        <ArrowLeft size={16} /> {t("btn.back")}
-                    </Link>
+                    <button className="back-btn" onClick={() => router.push('/explore')}>
+                        <ArrowLeft size={16} /> {t("btn.back") || "Back"}
+                    </button>
                     <span className="hero-eyebrow">{t("fort.hero.eyebrow")}</span>
                     <h1 className="hero-title">{t("fort.hero.title")}</h1>
                     <p className="hero-desc">{t("fort.hero.desc")}</p>
@@ -237,14 +239,21 @@ export default function FortDetailsClient() {
                         <h2 className="section-title text-gold">{t("fort.section.gallery")}</h2>
                         <div className="title-divider"></div>
                     </div>
-                    <div className="fort-gallery-grid">
-                        {[1, 2, 3, 4, 5, 6].map(i => (
+                <div className="fort-gallery-grid">
+                        {[
+                            { src: "/Each page Pics/Fort pics/one.jpg", alt: "Chittorgarh Fort View 1" },
+                            { src: "/Each page Pics/Fort pics/two.jpg", alt: "Chittorgarh Fort View 2" },
+                            { src: "/Each page Pics/Fort pics/three.jpg", alt: "Chittorgarh Fort View 3" },
+                            { src: "/Each page Pics/Fort pics/four.jpg", alt: "Chittorgarh Fort View 4" },
+                            { src: "/Each page Pics/Fort pics/five.jpg", alt: "Chittorgarh Fort View 5" },
+                            { src: "/Each page Pics/Fort pics/six.jpg", alt: "Chittorgarh Fort View 6" },
+                        ].map((img, i) => (
                             <motion.div 
                                 key={i} 
                                 whileHover={{ scale: 1.05 }}
                                 className="gallery-item premium-glass"
                             >
-                                <img src={`/hero_bg.png`} alt={`Fort View ${i}`} />
+                                <img src={img.src} alt={img.alt} loading="lazy" />
                             </motion.div>
                         ))}
                     </div>
@@ -338,7 +347,8 @@ export default function FortDetailsClient() {
                     z-index: 10;
                 }
 
-                .back-link {
+                .back-link,
+                .back-btn {
                     display: inline-flex;
                     align-items: center;
                     gap: 0.5rem;
@@ -351,6 +361,12 @@ export default function FortDetailsClient() {
                     padding: 0.75rem 1.5rem;
                     border: 1px solid rgba(212, 175, 55, 0.4);
                     border-radius: 4px;
+                    cursor: pointer;
+                    transition: background 0.2s, transform 0.2s;
+                }
+                .back-btn:hover {
+                    background: rgba(212, 175, 55, 0.35);
+                    transform: translateX(-4px);
                 }
 
                 .hero-eyebrow {
