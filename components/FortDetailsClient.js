@@ -8,7 +8,6 @@ import {
     Clock, 
     Shield, 
     History, 
-    Camera, 
     ArrowLeft,
     MapPin,
     ScrollText,
@@ -54,7 +53,6 @@ export default function FortDetailsClient() {
         { id: "overview", label: t("fort.nav.overview"), icon: <Shield size={18} /> },
         { id: "history", label: t("fort.nav.history"), icon: <History size={18} /> },
         { id: "monuments", label: t("fort.nav.monuments"), icon: <ScrollText size={18} /> },
-        { id: "gallery", label: t("fort.nav.gallery"), icon: <Camera size={18} /> }
     ];
 
     const handleAudioPlay = (monId) => {
