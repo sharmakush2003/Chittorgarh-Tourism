@@ -96,6 +96,7 @@ export default function HomeClient() {
                             image="/vijay_stambh.jpg"
                             title={t("highlights.h1.title")}
                             desc={t("highlights.h1.desc")}
+                            href="/vijay-stambh"
                             delay={0.1}
                         />
                         <HighlightCard
@@ -515,7 +516,7 @@ export default function HomeClient() {
     );
 }
 
-function HighlightCard({ image, title, desc, delay }) {
+function HighlightCard({ image, title, desc, delay, href = "/explore" }) {
     const { t } = useLanguage();
     return (
         <div className="highlight-card premium-glass">
@@ -526,7 +527,7 @@ function HighlightCard({ image, title, desc, delay }) {
             <div className="card-content">
                 <h3>{title}</h3>
                 <p>{desc}</p>
-                <Link href="/explore" className="explore-btn" style={{ color: 'var(--gold)', textDecoration: 'none', fontSize: '0.8rem', letterSpacing: '2px', textTransform: 'uppercase', marginTop: '1.5rem', display: 'inline-block' }}>
+                <Link href={href} className="explore-btn" style={{ color: 'var(--gold)', textDecoration: 'none', fontSize: '0.8rem', letterSpacing: '2px', textTransform: 'uppercase', marginTop: '1.5rem', display: 'inline-block' }}>
                     {t("highlights.explore")}
                 </Link>
             </div>
