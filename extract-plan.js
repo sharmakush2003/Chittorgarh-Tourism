@@ -93,14 +93,14 @@ const itineraries = {
     },
     3: {
         title: "3 Days: The Soul of Mewar",
-        desc: "A holistic journey covering History, Nature, Divinity, and Art. Meet the artisans of Akola and seek blessings at Sanwariya Seth.",
-        highlights: ["Fort & Wildlife", "Sanwariya Seth Temple (Mandraphiya)", "Akola Indigo Printing", "Village Interaction", "Souvenir Shopping"],
+        desc: "A holistic journey covering History, Nature, Divinity, and Art. Meet the artisans of Akola and seek blessings at Saawariya ji Seth.",
+        highlights: ["Fort & Wildlife", "Saawariya ji Seth Temple (Mandraphiya)", "Akola Indigo Printing", "Village Interaction", "Souvenir Shopping"],
         schedule: [
             { time: "Days 1 & 2", title: "History & Nature", activity: "Complete the 2-Day Itinerary covering the Fort, Bassi Sanctuary, and Menal Waterfalls." },
             {
                 time: "Day 3 - 09:00 AM",
                 title: "Pilgrimage to Mandraphiya",
-                activity: "Drive 40km to the Sanwariya Seth Temple. Dedicated to Lord Krishna, this temple is famous for its opulence and the belief that the Lord is a business partner to his devotees."
+                activity: "Drive 40km to the Saawariya ji Seth Temple. Dedicated to Lord Krishna, this temple is famous for its opulence and the belief that the Lord is a business partner to his devotees."
             },
             {
                 time: "Day 3 - 11:30 AM",

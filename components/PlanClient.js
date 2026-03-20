@@ -111,10 +111,10 @@ export default function PlanClient() {
         3: {
             title: "3 Days: The Soul of Mewar",
             desc: "A holistic journey covering History, Nature, Divinity, and Art.",
-            highlights: ["Fort & Wildlife", "Sanwariya Seth Temple (Mandraphiya)", "Akola Indigo Printing", "Village Interaction", "Souvenir Shopping"],
+            highlights: ["Fort & Wildlife", "Saawariya ji Seth Temple (Mandraphiya)", "Akola Indigo Printing", "Village Interaction", "Souvenir Shopping"],
             schedule: [
                 { time: "Days 1 & 2", title: "History & Nature", activity: "Complete the 2-Day Itinerary." },
-                { time: "Day 3 - 09:00 AM", title: "Pilgrimage to Mandraphiya", activity: "Drive 40km to the Sanwariya Seth Temple." },
+                { time: "Day 3 - 09:00 AM", title: "Pilgrimage to Mandraphiya", activity: "Drive 40km to the Saawariya ji Seth Temple." },
                 { time: "Day 3 - 11:30 AM", title: "Akola: The Indigo Village", activity: "Visit Akola (Chhipon-ka-Akola)." },
                 { time: "Day 3 - 01:30 PM", title: "Traditional Village Lunch", activity: "Experience hospitality in a rural home." },
                 { time: "Day 3 - 03:00 PM", title: "Artisan Shopping", activity: "Purchase fabrics directly from the source." },

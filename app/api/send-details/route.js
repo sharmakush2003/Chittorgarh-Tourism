@@ -43,8 +43,8 @@ const PLACE_DATA = {
     tagline: "A hidden natural paradise just 25 km from the fort city.",
     emoji: "🐆",
   },
-  "Sanwariaji Temple": {
-    subject: "Lord Krishna's Divine Abode — Sanwariaji Temple, Chittorgarh",
+  "Saawariya ji Temple": {
+    subject: "Lord Krishna's Divine Abode — Saawariya ji Temple, Chittorgarh",
     tagline: "One of Rajasthan's most revered pilgrimage sites, 40 km away.",
     emoji: "🙏",
   },
