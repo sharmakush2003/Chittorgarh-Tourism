@@ -62,7 +62,7 @@ const itineraries = {
             {
                 time: "Day 2 - 07:00 AM",
                 title: "Jungle Safari",
-                activity: "Board a Gypsy for a safari. Keep your eyes peeled for Panthers, Sloth Bears, Hyenas, and the Four-horned Antelope. The sanctuary is also a birdwatcher's paradise (Peacocks, Eagles, Hawkes)."
+                activity: "Board a Gypsy for a safari. Keep your eyes peeled for Sloth Bears, Hyenas, and the Four-horned Antelope. The sanctuary is also a birdwatcher's paradise (Peacocks, Eagles, Hawkes)."
             },
             {
                 time: "Day 2 - 10:30 AM",

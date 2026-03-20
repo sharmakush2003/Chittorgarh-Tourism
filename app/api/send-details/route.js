@@ -39,7 +39,7 @@ const PLACE_DATA = {
     emoji: "🌅",
   },
   "Bassi Wildlife Sanctuary": {
-    subject: "Panthers, Birds & Wilderness — Bassi Sanctuary Awaits",
+    subject: "Birds & Wilderness — Bassi Sanctuary Awaits",
     tagline: "A hidden natural paradise just 25 km from the fort city.",
     emoji: "🐆",
   },
