@@ -39,7 +39,7 @@ const itineraries = {
             {
                 time: "04:30 PM",
                 title: "Gaumukh Reservoir & Kalika Mata",
-                activity: "Walk down to the Gaumukh Reservoir, fed by a perennial spring from a carved cow's mouth. It's a serene spot teeming with fish. Then, visit the 8th-century Kalika Mata Temple (originally a Sun temple) to witness the sunset prayer."
+                activity: "Walk down to the Gaumukh Reservoir, fed by a perennial spring from a carved cow's mouth. Then, visit the 8th-century Kalika Mata Temple (originally a Sun temple), devoted to Goddess Kalika, a form of Durga, to witness the sunset prayer."
             },
             {
                 time: "07:00 PM",

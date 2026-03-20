@@ -34,7 +34,7 @@ const PLACE_DATA = {
     emoji: "👑",
   },
   "Kalika Mata Temple": {
-    subject: "An 8th-Century Sun Temple Reborn — Kalika Mata, Chittorgarh",
+    subject: "The Protector of Chittorgarh — Kalika Mata Temple (Form of Durga)",
     tagline: "From sun worship to goddess devotion — a temple that spans eras.",
     emoji: "🌅",
   },
