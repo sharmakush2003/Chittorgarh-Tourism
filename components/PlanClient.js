@@ -81,7 +81,7 @@ export default function PlanClient() {
         1: {
             title: "1 Day: The Royal Heritage Tour (Premium)",
             desc: "A meticulously curated journey through 1300 years of valor.",
-            highlights: ["7 Massive Gates (Pols)", "Vijay Stambha (Climb 157 steps)", "Rani Padmini's Water Palace", "Gaumukh Sacred Reservoir", "UNESCO World Heritage Site"],
+            highlights: ["7 Massive Gates (Pols)", "Vijay Stambha (Climb 157 steps)", "Rani Padmini's Water Palace", "Gaumukh Reservoir", "UNESCO World Heritage Site"],
             schedule: [
                 { time: "08:30 AM", title: "Arrival & The Seven Gates", activity: "Begin your ascent driving through the seven historic pols (gates)." },
                 { time: "09:30 AM", title: "Rana Kumbha Palace & Museums", activity: "Explore the ruins of the oldest palace in the fort." },
