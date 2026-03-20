@@ -20,7 +20,7 @@ const PLACE_DATA = {
   },
   "Kirti Stambha (Tower of Fame)": {
     subject: "A 12th-Century Jain Marvel Awaits You in Chittorgarh",
-    tagline: "The finest example of Solanki architecture, dedicated to Adinath.",
+    tagline: "A majestic 12th-century monument, dedicated to Adinath.",
     emoji: "🕌",
   },
   "Meera Bai Temple": {
