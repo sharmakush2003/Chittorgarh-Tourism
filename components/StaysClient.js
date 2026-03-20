@@ -14,9 +14,12 @@ export default function StaysClient() {
             stars: "★★★★",
             rating: "4.1/5",
             price: "₹5,500",
-            distFort: "1.5 km",
-            distStation: "6.0 km",
+            distFort: "9.9 km",
+            walkKm: "11.0",
+            driveKm: "9.9",
+            distStation: "10.5 km",
             image: "/kesarbagh.webp",
+            mapsLink: "https://www.google.com/maps/dir/Kesar+Bagh+Palace,+VH5R%2BC9,+Barada,+Rajasthan+312025/Chittorgarh+Fort,+Chittorgarh,+Rajasthan+312001/@24.8709369,74.5981766,6321m",
             mmtUrl: "https://www.makemytrip.com/hotels/kesarbagh_palace-details-chittorgarh.html"
         },
         {
@@ -26,33 +29,34 @@ export default function StaysClient() {
             rating: "3.5/5",
             price: "₹4,200",
             distFort: "2.5 km",
+            walkKm: "4.2",
+            driveKm: "2.5",
             distStation: "4.2 km",
             image: "/anandam.jpg",
             mmtUrl: "https://www.makemytrip.com/hotels/shree_anandam_resort-details-chittorgarh.html"
         },
         {
             id: "h3",
-            imgSymbol: "💎",
-            stars: "★★★",
-            rating: "4.2/5",
-            price: "₹3,800",
-            distFort: "2.0 km",
-            distStation: "2.8 km",
-            image: "/pride_of_chittor.jpg",
-            mmtUrl: "https://www.makemytrip.com/hotels/hotel_pride_of_chittor-details-chittorgarh.html"
-        },
-        {
-            id: "h4",
-            imgSymbol: "✨",
+            imgSymbol: "🏢",
             stars: "★★★",
             rating: "3.9/5",
-            price: "₹3,200",
-            distFort: "1.7 km",
-            distStation: "1.5 km",
-            image: "/grand_chittor.webp",
-            mmtUrl: "https://www.makemytrip.com/hotels/hotel_the_grand_chittor-details-chittorgarh.html"
+            price: "₹2,800",
+            distFort: "2.3 km",
+            walkKm: "4.6",
+            driveKm: "2.3",
+            distStation: "2.0 km",
+            image: "/pride_of_chittor.jpg",
+            mapsLink: "https://www.google.com/maps/dir/Hotel+Pride+of+Chittor,+58-59,+Radhe+Empire,+Gatiyawali+Road,+Gandhi+Nagar+Sec+5,+Chittorgarh,+Rajasthan+312001/Chittorgarh+Fort,+Chittorgarh,+Rajasthan+312001/@24.8849755,74.6353211,1580m",
+            mmtUrl: "https://www.makemytrip.com/hotels/hotel_pride_of_chittor-details-chittorgarh.html"
         }
     ];
+
+    const rtdcStats = {
+        name: "RTDC Hotel Panna",
+        walkKm: "6.3",
+        driveKm: "4.0",
+        mapsLink: "https://www.google.com/maps/dir/R.T.D.C.+Hotel+Panna,+Road,+near+Railway+Station,+Pratap+Nagar,+Chittorgarh,+Rajasthan+312205/Chittorgarh+Fort,+Chittorgarh,+Rajasthan+312001/@24.8845396,74.6236077,3160m"
+    };
 
     return (
         <div className="stays-page">
@@ -85,7 +89,7 @@ export default function StaysClient() {
         }
         .header-section {
             margin-bottom: 4rem;
-            padding-top: 100px;
+            padding-top: 140px;
         }
         .eyebrow {
             display: block;
@@ -130,11 +134,73 @@ export default function StaysClient() {
             <section className="section-pad" style={{ paddingTop: 0 }}>
                 <div className="container">
 
-                    {/* ═══ RTDC INTERCEPT BLOCK ════════════════ */}
-                    <div className="rtdc-intercept">
-                        <div className="rtdc-content">
-                            <h3 className="rtdc-title">{t("stays.rtdc.title")}</h3>
-                            <p className="rtdc-desc">{t("stays.rtdc.desc")}</p>
+                    {/* ═══ FEATURED STAY (RTDC) ═══════════════ */}
+                    <div className="featured-stay-section">
+                        <div className="featured-badge">
+                            <Flower size={14} className="badge-icon" />
+                            <span>{t("stays.featured.label")}</span>
+                        </div>
+                        
+                        <div className="featured-card">
+                            <div className="featured-image-container">
+                                <img src="/panna.png" alt="Hotel Panna" className="featured-image" />
+                                <div className="gov-badge">
+                                    <Hotel size={14} />
+                                    <span>{t("stays.featured.badge")}</span>
+                                </div>
+                            </div>
+                            
+                            <div className="featured-info">
+                                <div className="info-header">
+                                    <span className="tagline">{t("stays.rtdc.tagline")}</span>
+                                    <h2 className="featured-title">{t("stays.rtdc.title")}</h2>
+                                </div>
+                                <p className="featured-desc">{t("stays.rtdc.desc")}</p>
+                                
+                                <div className="featured-meta">
+                                    <div className="smart-badges">
+                                        <div className="smart-pill walk">
+                                            <Flower size={14} />
+                                            <span>{rtdcStats.walkKm} km {t("lbl.walking")}</span>
+                                        </div>
+                                        <div className="smart-pill drive">
+                                            <Navigation size={14} />
+                                            <span>{rtdcStats.driveKm} km {t("lbl.driving")}</span>
+                                        </div>
+                                    </div>
+                                    <div className="meta-item">
+                                        <MapPin size={16} />
+                                        <span>{t("stays.rtdc.address")}</span>
+                                    </div>
+                                    <div className="meta-item">
+                                        <div className="gov-seal">
+                                            <div className="seal-inner"></div>
+                                        </div>
+                                        <span>{t("lbl.government")}</span>
+                                    </div>
+                                </div>
+                                
+                                <div className="featured-actions">
+                                    <a 
+                                        href="https://rtdc.tourism.rajasthan.gov.in/" 
+                                        target="_blank" 
+                                        rel="noopener noreferrer" 
+                                        className="btn-featured-booking"
+                                    >
+                                        <span>{t("stays.featured.booking")}</span>
+                                        <ArrowRight size={18} />
+                                    </a>
+                                    <a 
+                                        href={rtdcStats.mapsLink} 
+                                        target="_blank" 
+                                        rel="noopener noreferrer" 
+                                        className="btn-featured-booking secondary"
+                                    >
+                                        <Navigation size={18} />
+                                        <span>{t("btn.directionsToFort", { hotel: rtdcStats.name })}</span>
+                                    </a>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
@@ -153,31 +219,204 @@ export default function StaysClient() {
             </section>
 
             <style jsx>{`
-                .rtdc-intercept {
-                    margin-bottom: 3rem;
-                    background: linear-gradient(145deg, rgba(28, 20, 15, 0.9), rgba(15, 10, 6, 0.95));
-                    border: 1px solid rgba(212, 175, 55, 0.3);
-                    border-radius: 16px;
-                    padding: 2.5rem;
-                    text-align: center;
-                    backdrop-filter: blur(10px);
-                    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+                 .featured-stay-section {
+                    margin: 2rem 0 5rem 0;
+                    position: relative;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
                 }
-                .rtdc-title {
-                    font-family: var(--ff-display);
-                    color: var(--gold);
-                    font-size: 1.8rem;
+                .featured-badge {
+                    display: inline-flex;
+                    align-items: center;
+                    gap: 0.5rem;
+                    background: var(--gold);
+                    color: #000;
+                    padding: 0.6rem 1.8rem;
+                    border-radius: 12px 12px 0 0;
+                    font-size: 0.75rem;
+                    font-weight: 800;
+                    text-transform: uppercase;
+                    letter-spacing: 2px;
+                    position: relative;
+                    z-index: 2;
+                    box-shadow: 0 -5px 15px rgba(212, 175, 55, 0.2);
+                }
+                .gov-badge span { font-weight: 700; letter-spacing: 0.5px; }
+                
+                .smart-badges {
+                    display: flex;
+                    gap: 0.75rem;
                     margin-bottom: 1rem;
+                    flex-wrap: wrap;
                 }
-                .rtdc-desc {
-                    color: rgba(255, 255, 255, 0.8);
-                    font-size: 1rem;
-                    line-height: 1.6;
-                    max-width: 800px;
-                    margin: 0 auto;
+                .smart-pill {
+                    display: flex;
+                    align-items: center;
+                    gap: 0.5rem;
+                    padding: 0.5rem 1rem;
+                    border-radius: 100px;
+                    font-size: 0.8rem;
+                    font-weight: 700;
+                    backdrop-filter: blur(10px);
+                    border: 1px solid rgba(255, 255, 255, 0.1);
+                }
+                .smart-pill.walk {
+                    background: rgba(212, 175, 55, 0.15);
+                    color: var(--gold);
+                    border-color: rgba(212, 175, 55, 0.3);
+                }
+                .smart-pill.drive {
+                    background: rgba(255, 255, 255, 0.05);
+                    color: #fff;
+                }
+                .smart-pill span { opacity: 0.9; }
+                .featured-card {
+                    display: grid;
+                    grid-template-columns: 1.2fr 1fr;
+                    background: linear-gradient(145deg, rgba(28, 20, 15, 0.95), rgba(15, 10, 6, 0.98));
+                    border: 1px solid rgba(212, 175, 55, 0.4);
+                    border-radius: 24px;
+                    overflow: hidden;
+                    backdrop-filter: blur(20px);
+                    box-shadow: 0 40px 100px rgba(0,0,0,0.6), inset 0 0 40px rgba(212, 175, 55, 0.05);
+                    width: 100%;
+                }
+                .featured-image-container {
+                    position: relative;
+                    height: 100%;
+                    min-height: 400px;
+                }
+                .featured-image {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                    opacity: 0.9;
+                }
+                .gov-badge {
+                    position: absolute;
+                    top: 1.5rem;
+                    left: 1.5rem;
+                    background: rgba(0, 0, 0, 0.7);
+                    color: var(--gold);
+                    padding: 0.6rem 1rem;
+                    border-radius: 8px;
+                    font-size: 0.7rem;
+                    font-weight: 700;
+                    display: flex;
+                    align-items: center;
+                    gap: 0.5rem;
+                    border: 1px solid var(--gold);
+                    backdrop-filter: blur(5px);
+                }
+                .featured-info {
+                    padding: 3rem;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                    gap: 1.5rem;
+                }
+                .tagline {
+                    color: var(--gold);
+                    text-transform: uppercase;
+                    letter-spacing: 3px;
+                    font-size: 0.7rem;
+                    font-weight: 700;
+                    display: block;
+                    margin-bottom: 0.5rem;
+                }
+                .featured-title {
+                    font-family: var(--ff-display);
+                    font-size: 2.5rem;
+                    color: #fff;
+                    line-height: 1.2;
+                }
+                .featured-desc {
+                    color: rgba(255, 255, 255, 0.7);
+                    line-height: 1.8;
+                    font-size: 1.05rem;
+                }
+                .featured-meta {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 1rem;
+                    margin: 0.5rem 0;
+                }
+                .meta-item {
+                    display: flex;
+                    align-items: center;
+                    gap: 0.8rem;
+                    color: rgba(255, 255, 255, 0.9);
+                    font-size: 0.9rem;
+                }
+                .gov-seal {
+                    width: 16px;
+                    height: 16px;
+                    border: 2px solid var(--gold);
+                    border-radius: 50%;
+                    padding: 2px;
+                }
+                .seal-inner {
+                    width: 100%;
+                    height: 100%;
+                    background: var(--gold);
+                    border-radius: 50%;
+                }
+                .btn-featured-booking {
+                    display: inline-flex;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 1rem;
+                    background: linear-gradient(to right, #D4AF37, #F5E0A3);
+                    color: #000;
+                    padding: 1.2rem 2.5rem;
+                    border-radius: 12px;
+                    font-weight: 800;
+                    text-decoration: none;
+                    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+                    box-shadow: 0 10px 30px rgba(212, 175, 55, 0.3);
+                    width: fit-content;
+                }
+                .btn-featured-booking.secondary {
+                    background: rgba(255, 255, 255, 0.05);
+                    color: var(--gold);
+                    border: 1px solid rgba(212, 175, 55, 0.4);
+                    backdrop-filter: blur(10px);
+                }
+                .btn-featured-booking:hover {
+                    transform: translateY(-5px) scale(1.02);
+                    box-shadow: 0 20px 40px rgba(212, 175, 55, 0.4);
+                    background: #fff;
+                    color: #000;
+                }
+                .btn-featured-booking.secondary:hover {
+                    background: rgba(212, 175, 55, 0.1);
+                    border-color: var(--gold);
+                    color: #fff;
+                }
+
+                @media (max-width: 992px) {
+                    .header-section { padding-top: 130px; margin-bottom: 3rem; }
+                    .featured-stay-section { margin-top: 1rem; align-items: center; }
+                    .featured-badge { border-radius: 12px 12px 0 0; width: fit-content; text-align: center; }
+                    .featured-card { display: flex; flex-direction: column; background: #0f0a06; border-radius: 24px; }
+                    .featured-image-container { height: 280px; min-height: 280px; width: 100%; position: relative; }
+                    .featured-image { height: 100%; width: 100%; object-fit: cover; }
+                    .featured-info { padding: 2.5rem 1.5rem; gap: 1rem; background: #0f0a06; }
+                    .featured-title { font-size: 1.8rem; text-align: center; }
+                    .featured-desc { font-size: 0.9rem; line-height: 1.6; text-align: center; }
+                    .featured-meta { align-items: center; }
+                    .featured-meta .smart-badges { justify-content: center; }
+                    .featured-actions { 
+                        display: flex; 
+                        flex-direction: column;
+                        gap: 1rem;
+                        width: 100%; 
+                        margin-top: 1rem; 
+                    }
+                    .btn-featured-booking { width: 100%; padding: 1rem; }
                 }
             `}</style>
-
         </div>
     );
 }
@@ -195,6 +434,10 @@ function HotelGlassCard({ hotel, delay, t }) {
     }, []);
 
     const handleDirections = () => {
+        if (hotel.mapsLink) {
+            window.open(hotel.mapsLink, '_blank');
+            return;
+        }
         const destination = encodeURIComponent(`${t(`hotel.${hotel.id}.name`)}, Chittorgarh`);
         window.open(`https://www.google.com/maps/dir/?api=1&destination=${destination}`, '_blank');
     };
@@ -260,6 +503,16 @@ function HotelGlassCard({ hotel, delay, t }) {
                     <p className="card-desc">{t(`hotel.${hotel.id}.desc`)}</p>
 
                     <div className="card-meta">
+                        <div className="smart-badges">
+                            <div className="smart-pill walk">
+                                <Flower size={12} />
+                                <span>{hotel.walkKm} km {t("lbl.walking")}</span>
+                            </div>
+                            <div className="smart-pill drive">
+                                <Navigation size={12} />
+                                <span>{hotel.driveKm} km {t("lbl.driving")}</span>
+                            </div>
+                        </div>
                         <div className="meta-row">
                             <Hotel className="meta-icon" />
                             <div>
@@ -277,11 +530,13 @@ function HotelGlassCard({ hotel, delay, t }) {
                     </div>
 
                     <div className="card-actions-row">
-                        <button onClick={handleDirections} className="action-btn-text">
+                        <button onClick={handleDirections} className="action-btn-directions">
                             <Navigation size={16} />
-                            <span>{t("btn.directions")}</span>
+                            <span>{t("btn.directionsToFort", { hotel: t(`hotel.${hotel.id}.name`) })}</span>
                         </button>
-                        <div className="divider-vertical"></div>
+                    </div>
+                    
+                    <div className="card-sub-actions">
                         <button onClick={() => setShowEmailModal(true)} className="action-btn-text">
                             <Share2 size={16} />
                             <span>{t("btn.shareInfo")}</span>
@@ -343,13 +598,66 @@ function HotelGlassCard({ hotel, delay, t }) {
                 .hotel-stars { color: var(--gold); font-size: 0.9rem; letter-spacing: 2px; }
                 .card-title { font-family: var(--ff-display); font-size: 1.6rem; color: var(--gold); margin-bottom: 1rem; text-align: center; }
                 .card-desc { font-size: 0.9rem; color: rgba(255, 255, 255, 0.8); line-height: 1.6; text-align: center; margin-bottom: 1.5rem; flex-grow: 1; }
+                
+                .smart-badges {
+                    display: flex;
+                    gap: 0.5rem;
+                    margin-bottom: 1.2rem;
+                    justify-content: center;
+                    flex-wrap: wrap;
+                }
+                .smart-pill {
+                    display: flex;
+                    align-items: center;
+                    gap: 0.4rem;
+                    padding: 0.45rem 0.9rem;
+                    border-radius: 100px;
+                    font-size: 0.75rem;
+                    font-weight: 700;
+                    backdrop-filter: blur(10px);
+                    border: 1px solid rgba(255, 255, 255, 0.1);
+                    transition: all 0.3s ease;
+                }
+                .smart-pill.walk {
+                    background: rgba(212, 175, 55, 0.1);
+                    color: var(--gold);
+                    border-color: rgba(212, 175, 55, 0.2);
+                }
+                .smart-pill.drive {
+                    background: rgba(255, 255, 255, 0.05);
+                    color: rgba(255, 255, 255, 0.9);
+                }
+                .smart-pill:hover {
+                    transform: translateY(-2px);
+                    border-color: rgba(212, 175, 55, 0.4);
+                }
+
                 .card-meta { border-top: 1px solid rgba(255, 255, 255, 0.1); padding-top: 1.5rem; margin-bottom: 1.5rem; display: flex; flex-direction: column; gap: 1rem; }
                 .meta-row { display: flex; align-items: center; gap: 1rem; }
                 :global(.meta-icon) { width: 18px; height: 18px; color: var(--gold); }
                 .meta-label { display: block; font-size: 0.6rem; text-transform: uppercase; letter-spacing: 1px; color: rgba(255, 255, 255, 0.5); }
                 .meta-val { display: block; font-size: 0.85rem; color: #fff; font-weight: 500; }
-                .card-actions-row { display: flex; align-items: center; justify-content: center; gap: 1rem; margin-bottom: 1.5rem; background: rgba(255, 255, 255, 0.03); padding: 0.8rem; border-radius: 8px; }
-                .action-btn-text { background: transparent; color: rgba(255, 255, 255, 0.7); font-size: 0.75rem; display: flex; align-items: center; gap: 0.5rem; transition: 0.3s; }
+                .card-actions-row { display: flex; align-items: center; justify-content: center; margin-bottom: 0.75rem; }
+                .action-btn-directions { 
+                    background: rgba(212, 175, 55, 0.1); 
+                    border: 1px solid rgba(212, 175, 55, 0.3); 
+                    color: var(--gold); 
+                    padding: 0.8rem; 
+                    border-radius: 8px; 
+                    font-size: 0.7rem; 
+                    font-weight: 700; 
+                    display: flex; 
+                    align-items: center; 
+                    gap: 0.5rem; 
+                    transition: 0.3s; 
+                    width: 100%; 
+                    justify-content: center;
+                    text-transform: uppercase;
+                    letter-spacing: 0.5px;
+                }
+                .action-btn-directions:hover { background: var(--gold); color: #000; transform: translateY(-2px); }
+                .card-sub-actions { display: flex; justify-content: center; margin-bottom: 1.5rem; }
+                .action-btn-text { background: transparent; color: rgba(255, 255, 255, 0.6); font-size: 0.7rem; display: flex; align-items: center; gap: 0.5rem; transition: 0.3s; }
                 .action-btn-text:hover { color: var(--gold); }
                 .divider-vertical { width: 1px; height: 20px; background: rgba(255, 255, 255, 0.1); }
                 .hotel-footer { display: flex; justify-content: space-between; align-items: center; margin-top: auto; padding-top: 1rem; border-top: 1px solid rgba(255, 255, 255, 0.1); }
@@ -371,6 +679,31 @@ function HotelGlassCard({ hotel, delay, t }) {
                 .send-btn:disabled { opacity: 0.7; cursor: not-allowed; }
                 .status-msg.success { color: #4ade80; margin-top: 1rem; }
                 .status-msg.error { color: #f87171; margin-top: 1rem; }
+
+                @media (max-width: 768px) {
+                    .glass-card { 
+                        display: flex; 
+                        flex-direction: column; 
+                        background: #0f0a06; 
+                        margin-bottom: 2rem;
+                    }
+                    .card-image-wrapper { 
+                        height: 220px !important; 
+                        min-height: 220px;
+                        width: 100%;
+                        position: relative;
+                        order: 1;
+                    }
+                    .card-content { 
+                        order: 2;
+                        padding: 1.5rem !important; 
+                        background: #0f0a06;
+                        position: relative;
+                        margin-top: 0;
+                    }
+                    .card-title { font-size: 1.4rem; }
+                    .card-desc { font-size: 0.85rem; margin-bottom: 1rem; }
+                }
             `}</style>
         </>
     );
