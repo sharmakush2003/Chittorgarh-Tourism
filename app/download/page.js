@@ -198,37 +198,39 @@ export default function DownloadPage() {
                     padding: 0 1.5rem;
                 }
                 .download-hero {
-                    padding: 8rem 0 4rem;
+                    padding: 7rem 0 3rem;
                     text-align: center;
                     background: linear-gradient(to bottom, rgba(212, 175, 55, 0.05), transparent);
                     position: relative;
                 }
                 .back-btn {
-                    position: absolute;
-                    top: 2rem;
-                    left: 1.5rem;
-                    display: flex;
+                    display: inline-flex;
                     align-items: center;
                     gap: 0.5rem;
                     color: rgba(255,255,255,0.6);
                     text-decoration: none;
                     font-weight: 600;
-                    font-size: 0.9rem;
+                    font-size: 0.8rem;
                     text-transform: uppercase;
                     letter-spacing: 1px;
+                    margin-bottom: 2rem;
+                    transition: color 0.3s ease;
                 }
+                .back-btn:hover { color: #D4AF37; }
                 .badge {
-                    display: inline-flex;
+                    display: flex;
                     align-items: center;
+                    justify-content: center;
                     gap: 0.5rem;
                     background: rgba(212, 175, 55, 0.1);
                     color: #D4AF37;
                     padding: 0.5rem 1rem;
                     border-radius: 50px;
-                    font-size: 0.8rem;
+                    font-size: 0.75rem;
                     font-weight: 800;
-                    margin-bottom: 2rem;
+                    margin: 0 auto 2rem;
                     border: 1px solid rgba(212, 175, 55, 0.3);
+                    width: fit-content;
                 }
                 .title {
                     font-family: var(--ff-display, serif);
