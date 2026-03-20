@@ -23,8 +23,8 @@ export default function InstallBanner() {
             return;
         }
 
-        // Check if dismissed in this session
-        if (sessionStorage.getItem("pwa_banner_hidden")) return;
+        // Check if dismissed permanently
+        if (localStorage.getItem("pwa_banner_hidden")) return;
 
         // Unified show logic
         const showWithDelay = (delay = 3000) => {
@@ -48,7 +48,7 @@ export default function InstallBanner() {
         const installedHandler = () => {
             setShow(false);
             setShowSuccess(true);
-            sessionStorage.setItem("pwa_banner_hidden", "true");
+            localStorage.setItem("pwa_banner_hidden", "true");
         };
 
         window.addEventListener("beforeinstallprompt", handler);
@@ -88,7 +88,7 @@ export default function InstallBanner() {
 
     const handleDismiss = () => {
         setShow(false);
-        sessionStorage.setItem("pwa_banner_hidden", "true");
+        localStorage.setItem("pwa_banner_hidden", "true");
     };
 
     if (showSuccess) {
@@ -311,7 +311,7 @@ export default function InstallBanner() {
                             <button className="pwa-btn pwa-install-btn" onClick={() => {
                                 setShow(false);
                                 setShowSuccess(true);
-                                sessionStorage.setItem("pwa_banner_hidden", "true");
+                                localStorage.setItem("pwa_banner_hidden", "true");
                             }}>
                                 Got it!
                             </button>
