@@ -14,7 +14,7 @@ const itineraries = {
             {
                 time: "09:30 AM",
                 title: "Rana Kumbha Palace & Museums",
-                activity: "Explore the ruins of the oldest palace in the fort. Visit the Government Museum inside Fateh Prakash Palace to see ancient sculptures, medieval weaponry, and royal artifacts. Legend says Rani Padmini performed Jauhar in the cellars of Rana Kumbha Palace."
+                activity: "Explore the ruins of the grandest palace in the fort. Visit the Government Museum inside Fateh Prakash Palace to see ancient sculptures, medieval weaponry, and royal artifacts. Legend says Rani Padmini performed Jauhar in the cellars of Rana Kumbha Palace."
             },
             {
                 time: "11:00 AM",

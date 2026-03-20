@@ -29,7 +29,7 @@ const PLACE_DATA = {
     emoji: "🎵",
   },
   "Rana Kumbha Palace": {
-    subject: "The Oldest Palace in the Fort — A Royal Chittorgarh Secret",
+    subject: "The Legendary Palace of Kumbha — A Royal Chittorgarh Secret",
     tagline: "Witness the site of Rani Padmini's legendary Jauhar.",
     emoji: "👑",
   },

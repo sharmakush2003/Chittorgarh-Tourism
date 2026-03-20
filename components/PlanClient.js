@@ -84,7 +84,7 @@ export default function PlanClient() {
             highlights: ["7 Massive Gates (Pols)", "Vijay Stambha (Climb 157 steps)", "Rani Padmini's Water Palace", "Gaumukh Reservoir", "UNESCO World Heritage Site"],
             schedule: [
                 { time: "08:30 AM", title: "Arrival & The Seven Gates", activity: "Begin your ascent driving through the seven historic pols (gates)." },
-                { time: "09:30 AM", title: "Rana Kumbha Palace & Museums", activity: "Explore the ruins of the oldest palace in the fort." },
+                { time: "09:30 AM", title: "Rana Kumbha Palace & Museums", activity: "Explore the ruins of the grandest palace in the fort." },
                 { time: "11:00 AM", title: "Towers of Victory & Fame", activity: "Marvel at the Vijay Stambha (Tower of Victory)." },
                 { time: "12:30 PM", title: "Temples of Devotion", activity: "Visit the Kumbha Shyam Temple and the Meera Bai Temple." },
                 { time: "01:30 PM", title: "Royal Rajasthani Feast", activity: "Experience authentic Rajasthani thali." },
