@@ -64,7 +64,7 @@ const PLACE_DATA = {
     emoji: "🌊",
   },
   "Kumbha Shyam Temple": {
-    subject: "Indo-Aryan Splendour — Kumbha Shyam Temple, Chittorgarh",
+    subject: "The Majestic Temple — Kumbha Shyam Temple, Chittorgarh",
     tagline: "Built by Rana Kumbha, dedicated to Lord Vishnu's eternal grace.",
     emoji: "🪔",
   },
