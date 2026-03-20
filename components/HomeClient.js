@@ -103,12 +103,14 @@ export default function HomeClient() {
                             image="/hero_bg.png"
                             title={t("highlights.h2.title")}
                             desc={t("highlights.h2.desc")}
+                            href="/coming-soon"
                             delay={0.2}
                         />
                         <HighlightCard
                             image="/rana_kumbha_palace.jpg"
                             title={t("highlights.h3.title")}
                             desc={t("highlights.h3.desc")}
+                            href="/coming-soon"
                             delay={0.3}
                         />
                     </div>
