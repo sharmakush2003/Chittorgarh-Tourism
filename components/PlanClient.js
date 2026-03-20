@@ -103,7 +103,7 @@ export default function PlanClient() {
                 { time: "Day 2 - 07:00 AM", title: "Jungle Safari", activity: "Board a Gypsy for a safari." },
                 { time: "Day 2 - 10:30 AM", title: "Bassi & Orai Dams", activity: "Visit the Bassi Dam and Orai Dam." },
                 { time: "Day 2 - 01:00 PM", title: "Picnic at Menal", activity: "Drive to Menal (approx 60km)." },
-                { time: "Day 2 - 02:30 PM", title: "Menal: The Mini Khajuraho", activity: "Explore the Mahanaleshwar Temple complex (11th Century)." },
+                { time: "Day 2 - 02:30 PM", title: "Menal: The Waterfall Complex", activity: "Explore the Mahanaleshwar Temple complex (11th Century)." },
                 { time: "Day 2 - 05:30 PM", title: "Rural Drive Back", activity: "Return to Chittorgarh via the scenic rural route." },
                 { time: "Day 2 - 08:00 PM", title: "Dinner at Castle Bijaipur", activity: "Optional: drive to Castle Bijaipur for a royal dinner." }
             ]

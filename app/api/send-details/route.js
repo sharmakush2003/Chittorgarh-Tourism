@@ -74,7 +74,7 @@ const PLACE_DATA = {
     emoji: "✨",
   },
   "Menal Waterfall & Temple": {
-    subject: "The Mini Khajuraho of Rajasthan — Menal, Chittorgarh",
+    subject: "The Great Waterfall of Rajasthan — Menal, Chittorgarh",
     tagline: "Stunning 11th-century temples beside a magnificent waterfall.",
     emoji: "🌊",
   },

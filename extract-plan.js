@@ -76,8 +76,8 @@ const itineraries = {
             },
             {
                 time: "Day 2 - 02:30 PM",
-                title: "Menal: The Mini Khajuraho",
-                activity: "Explore the Mahanaleshwar Temple complex (11th Century). The erotic sculptures and intricate stone carvings rival those of Khajuraho. Witness the Menal River plunging 150 feet into a gorge—a breathtaking sight."
+                title: "Menal: The Waterfall Complex",
+                activity: "Explore the Mahanaleshwar Temple complex (11th Century). Witness the Menal River plunging 150 feet into a gorge—a breathtaking sight."
             },
             {
                 time: "Day 2 - 05:30 PM",
