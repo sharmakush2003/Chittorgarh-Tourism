@@ -4,7 +4,7 @@ const itineraries = {
     1: {
         title: "1 Day: The Royal Heritage Tour (Premium)",
         desc: "A meticulously curated journey through 1300 years of valor. Experience the grandeur of the largest fort in India with deep historical immersion.",
-        highlights: ["7 Massive Gates (Pols)", "Vijay Stambha (Climb 157 steps)", "Rani Padmini's Water Palace", "Gaumukh Reservoir", "UNESCO World Heritage Site"],
+        highlights: ["7 Massive Gates (Pols)", "Vijay Stambha (Climb 157 steps)", "Rani Padmini Palace", "Gaumukh Reservoir", "UNESCO World Heritage Site"],
         schedule: [
             {
                 time: "08:30 AM",
