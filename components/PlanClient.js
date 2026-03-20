@@ -90,7 +90,7 @@ export default function PlanClient() {
                 { time: "01:30 PM", title: "Royal Rajasthani Feast", activity: "Experience authentic Rajasthani thali." },
                 { time: "03:00 PM", title: "Rani Padmini's Palace", activity: "Visit the summer pavilion of Queen Padmini." },
                 { time: "04:30 PM", title: "Gaumukh Reservoir & Kalika Mata", activity: "Walk down to the Gaumukh Reservoir." },
-                { time: "07:00 PM", title: "Lumiere: Sound & Light Show", activity: "Conclude with the spectacular Sound & Light show." }
+                { time: "07:00 PM", title: "Sound & Light Show", activity: "Conclude with the spectacular Sound & Light show." }
             ]
         },
         2: {

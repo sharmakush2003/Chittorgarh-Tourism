@@ -43,7 +43,7 @@ const itineraries = {
             },
             {
                 time: "07:00 PM",
-                title: "Lumiere: Sound & Light Show",
+                title: "Sound & Light Show",
                 activity: "Conclude with the spectacular Sound & Light show (English/Hindi) at the fort complex. Watch the history of Chittorgarh come alive through lights projected on the ancient walls. (Ticket: Approx ₹100, varying by season)."
             }
         ]
