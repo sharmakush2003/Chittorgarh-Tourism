@@ -29,7 +29,7 @@ const itineraries = {
             {
                 time: "01:30 PM",
                 title: "Royal Rajasthani Feast",
-                activity: "Head to 'Chokhi Dhani' or 'Hotel Pratap Palace' nearby for an authentic thali featuring Dal Baati Churma, Gatte ki Sabzi, and Bajre ki Roti. Experience the hospitality of Mewar."
+                activity: "Head to 'Hotel Pratap Palace' or nearby local eateries for an authentic thali featuring Dal Baati Churma, Gatte ki Sabzi, and Bajre ki Roti. Experience the hospitality of Mewar."
             },
             {
                 time: "03:00 PM",
