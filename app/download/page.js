@@ -179,7 +179,7 @@ export default function DownloadPage() {
                         <div className="feat-item">
                             <div className="feat-icon">🧊</div>
                             <h4>Lightweight</h4>
-                            <p>Uses less than 1MB of space — lighter than any photo.</p>
+                            <p>Uses less than 10MB of space — lighter than any photo.</p>
                         </div>
                     </div>
                 </section>
