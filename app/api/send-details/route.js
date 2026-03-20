@@ -34,7 +34,7 @@ const PLACE_DATA = {
     emoji: "👑",
   },
   "Kalika Mata Temple": {
-    subject: "The Protector of Chittorgarh — Kalika Mata Temple (Form of Durga)",
+    subject: "The Protector of Chittorgarh — 7th-Century Kalika Mata Temple",
     tagline: "From sun worship to goddess devotion — a temple that spans eras.",
     emoji: "🌅",
   },
