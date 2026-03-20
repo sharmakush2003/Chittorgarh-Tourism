@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import { Download, X, Share, MoreVertical } from "lucide-react";
+import { useLanguage } from "@/context/LanguageContext";
 
 export default function InstallBanner() {
     const [show, setShow] = useState(false);
@@ -10,7 +11,13 @@ export default function InstallBanner() {
     const [showSuccess, setShowSuccess] = useState(false);
     const promptRef = useRef(null);
 
+    const { lang } = useLanguage();
+
     useEffect(() => {
+        // Only show once per device after language selection
+        if (!localStorage.getItem("ctt_locale")) {
+            return;
+        }
         // Detect platforms and browsers
         const ua = navigator.userAgent;
         const ios = /iPad|iPhone|iPod/.test(ua) && !window.MSStream;
@@ -66,7 +73,7 @@ export default function InstallBanner() {
             window.removeEventListener("beforeinstallprompt", handler);
             window.removeEventListener("appinstalled", installedHandler);
         };
-    }, []);
+    }, [lang]);
 
     const handleInstall = async () => {
         const prompt = promptRef.current || window.__pwaPrompt;
