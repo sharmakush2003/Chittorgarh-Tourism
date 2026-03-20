@@ -2,8 +2,10 @@
 
 import { useEffect, useState } from 'react';
 import { Cloud, Sun, CloudRain, CloudLightning, CloudSnow, Wind, Droplets } from 'lucide-react';
+import { useLanguage } from '@/context/LanguageContext';
 
 export default function WeatherWidget() {
+    const { t } = useLanguage();
     const [weather, setWeather] = useState(null);
     const [loading, setLoading] = useState(true);
 
@@ -30,15 +32,22 @@ export default function WeatherWidget() {
     useEffect(() => {
         const fetchWeather = async () => {
             try {
-                // Chittorgarh Coords
+                // Chittorgarh Coords with modern 'current' endpoint and timezone sync
                 const res = await fetch(
-                    "https://api.open-meteo.com/v1/forecast?latitude=24.8887&longitude=74.6269&current_weather=true&hourly=relativehumidity_2m,windspeed_10m"
+                    "https://api.open-meteo.com/v1/forecast?latitude=24.8887&longitude=74.6269&current=temperature_2m,relative_humidity_2m,apparent_temperature,is_day,weather_code,wind_speed_10m&timezone=auto"
                 );
                 const data = await res.json();
-                setWeather({
-                    ...data.current_weather,
-                    humidity: data.hourly?.relativehumidity_2m?.[0] || 45 // Fallback estimation if hourly sync is complex
-                });
+                
+                if (data.current) {
+                    setWeather({
+                        temperature: data.current.temperature_2m,
+                        feelsLike: data.current.apparent_temperature,
+                        humidity: data.current.relative_humidity_2m,
+                        windspeed: data.current.wind_speed_10m,
+                        weathercode: data.current.weather_code,
+                        isDay: data.current.is_day
+                    });
+                }
                 setLoading(false);
             } catch (error) {
                 console.error("Failed to fetch weather", error);
@@ -69,6 +78,11 @@ export default function WeatherWidget() {
                         {getWeatherIcon(weather.weathercode)}
                         <span className="condition">{getWeatherDesc(weather.weathercode)}</span>
                     </div>
+                    {weather.feelsLike && (
+                        <div className="feels-like">
+                            {t("weather.feelsLike")} {Math.round(weather.feelsLike)}°
+                        </div>
+                    )}
                 </div>
             </div>
 
@@ -158,10 +172,19 @@ export default function WeatherWidget() {
                     font-family: var(--ff-display);
                     font-size: 2.5rem;
                     font-weight: 400;
-                    line-height: 0.9;
+                    line-height: 1;
                     background: linear-gradient(to bottom, #fff, rgba(255,255,255,0.8));
                     -webkit-background-clip: text;
                     -webkit-text-fill-color: transparent;
+                }
+
+                .feels-like {
+                    font-size: 0.65rem;
+                    text-transform: uppercase;
+                    letter-spacing: 1px;
+                    opacity: 0.6;
+                    font-weight: 600;
+                    margin-top: -0.25rem;
                 }
 
                 .condition-wrapper {

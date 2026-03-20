@@ -15,10 +15,9 @@ export default function GoldenHourTracker() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                // Fetch weather and sun times from Open-Meteo
-                // daily=sunrise,sunset & current_weather=true
+                // Fetch weather and sun times from Open-Meteo modern endpoints
                 const response = await fetch(
-                    `https://api.open-meteo.com/v1/forecast?latitude=${CHITTORGARH_LAT}&longitude=${CHITTORGARH_LON}&current_weather=true&daily=sunrise,sunset&timezone=auto`
+                    `https://api.open-meteo.com/v1/forecast?latitude=${CHITTORGARH_LAT}&longitude=${CHITTORGARH_LON}&current=temperature_2m,weather_code&daily=sunrise,sunset&timezone=auto`
                 );
                 const result = await response.json();
 
@@ -51,8 +50,8 @@ export default function GoldenHourTracker() {
                 }
 
                 setData({
-                    temp: result.current_weather.temperature,
-                    conditionCode: result.current_weather.weathercode,
+                    temp: result.current.temperature_2m,
+                    conditionCode: result.current.weather_code,
                     morning: { start: morningStart, end: morningEnd },
                     evening: { start: eveningStart, end: eveningEnd },
                     status,

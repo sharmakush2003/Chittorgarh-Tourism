@@ -329,6 +329,25 @@ export default function HomeClient() {
                     color: #fff;
                     overflow: hidden;
                 }
+
+                .hero-widgets {
+                    position: absolute;
+                    top: 10rem;
+                    right: 4rem;
+                    z-index: 10;
+                    display: flex;
+                    flex-direction: column;
+                    gap: 1.5rem;
+                }
+
+                @media (max-width: 768px) {
+                    .hero-widgets {
+                        top: auto;
+                        bottom: 2.5rem;
+                        left: 1.5rem;
+                        right: auto;
+                    }
+                }
                 .hero-overlay {
                     position: absolute;
                     inset: 0;
