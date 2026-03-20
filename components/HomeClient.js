@@ -340,12 +340,9 @@ export default function HomeClient() {
                     gap: 1.5rem;
                 }
 
-                @media (max-width: 768px) {
+                @media (max-width: 1024px) {
                     .hero-widgets {
-                        top: auto;
-                        bottom: 2.5rem;
-                        left: 1.5rem;
-                        right: auto;
+                        display: none;
                     }
                 }
                 .hero-overlay {
