@@ -49,6 +49,7 @@ const navLinks = [
     { key: "nav.chronicles", href: "/chronicles" },
     { key: "nav.stays", href: "/stays" },
     { key: "nav.planTrip", href: "/plan" },
+    { key: "footer.download", href: "/download" },
 ];
 
 export default function Footer() {

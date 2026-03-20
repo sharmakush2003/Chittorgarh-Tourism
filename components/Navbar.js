@@ -158,11 +158,22 @@ export default function Navbar() {
                     {t("nav.emergency") || "Emergency Info"}
                 </Link>
 
+                <Link
+                    href="/download"
+                    className={`mobile-link ${isActive("/download")} mobile-install-link`}
+                    onClick={() => setIsMenuOpen(false)}
+                    style={{ 
+                        transitionDelay: `${0.15 + (navLinks.length + 1) * 0.08}s`
+                    }}
+                >
+                    {t("nav.download") || "Download App"}
+                </Link>
+
 
                 {/* Mobile Language Selection */}
                 <div 
                     className="mobile-lang-section" 
-                    style={{ transitionDelay: `${0.15 + (navLinks.length + 1) * 0.08}s` }}
+                    style={{ transitionDelay: `${0.15 + (navLinks.length + 2) * 0.08}s` }}
                 >
                     <span className="mobile-lang-label">{t("nav.selectLanguage")}</span>
                     <div className="mobile-lang-toggle" data-active={lang}>
