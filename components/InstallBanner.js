@@ -35,7 +35,11 @@ export default function InstallBanner() {
 
         // Unified show logic
         const showWithDelay = (delay = 3000) => {
-            setTimeout(() => setShow(true), delay);
+            setTimeout(() => {
+                setShow(true);
+                // Mark as shown immediately so it never appears again even without interaction
+                localStorage.setItem("pwa_banner_hidden", "true");
+            }, delay);
         };
 
         if (ios) {
