@@ -8,8 +8,7 @@ export default function Background3D() {
     const canvasRef = useRef(null);
     const pathname = usePathname();
     const isHome = pathname === "/";
-    const isChronicles = pathname === "/chronicles";
-    const showParticles = isHome || isChronicles;
+    const showParticles = isHome;
 
     useEffect(() => {
         if (!canvasRef.current) return;

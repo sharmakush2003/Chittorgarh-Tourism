@@ -18,12 +18,6 @@ export default async function sitemap() {
             priority: 0.8,
         },
         {
-            url: `${baseUrl}/chronicles`,
-            lastModified: new Date(),
-            changeFrequency: 'monthly',
-            priority: 0.8,
-        },
-        {
             url: `${baseUrl}/plan`,
             lastModified: new Date(),
             changeFrequency: 'monthly',
