@@ -13,7 +13,10 @@ import {
     ScrollText,
     ChevronDown,
     ChevronUp,
-    Info
+    Info,
+    Droplets,
+    Columns,
+    Image as ImageIcon
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import GoldenHourTracker from "./GoldenHourTracker";
@@ -23,7 +26,6 @@ import { triggerHaptic } from "@/lib/haptics";
 export default function RatanPalaceClient() {
     const { t, lang } = useLanguage();
     const router = useRouter();
-    const [activeSection, setActiveSection] = useState("overview");
     const [playingAudio, setPlayingAudio] = useState(null);
     const [expandedSections, setExpandedSections] = useState({});
     const voicesRef = useRef([]);
@@ -39,16 +41,12 @@ export default function RatanPalaceClient() {
         };
     }, []);
 
-    const SECTIONS = [
-        { id: "overview", label: t("ratan_palace.nav.overview"), icon: <Shield size={18} /> },
-        { id: "history", label: t("ratan_palace.nav.history"), icon: <History size={18} /> },
-        { id: "architecture", label: t("ratan_palace.nav.architecture"), icon: <ScrollText size={18} /> },
-    ];
+
 
     const ARCH_FEATURES = [
-        { id: "ratan_palace_arch.talab", icon: "💧", image: "/ratan_singh_palace.jpg" },
-        { id: "ratan_palace_arch.courtyards", icon: "🏛️", image: "/ratan_singh_palace.jpg" },
-        { id: "ratan_palace_arch.balconies", icon: "🖼️", image: "/ratan_singh_palace.jpg" }
+        { id: "ratan_palace_arch.talab", icon: <Droplets size={20} /> },
+        { id: "ratan_palace_arch.courtyards", icon: <Columns size={20} /> },
+        { id: "ratan_palace_arch.balconies", icon: <ImageIcon size={20} /> }
     ];
 
     const handleAudioPlay = (sectionId, customText = null) => {
@@ -130,24 +128,7 @@ export default function RatanPalaceClient() {
                 <div className="scroll-indicator"><div className="mouse"></div></div>
             </section>
 
-            <nav className="fort-nav">
-                <div className="nav-container">
-                    {SECTIONS.map(s => (
-                        <button 
-                            key={s.id}
-                            className={`nav-item ${activeSection === s.id ? 'active' : ''}`}
-                            onClick={() => {
-                                setActiveSection(s.id);
-                                triggerHaptic('light');
-                                document.getElementById(s.id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                            }}
-                        >
-                            <span className="nav-icon-wrapper">{s.icon}</span>
-                            <span>{s.label}</span>
-                        </button>
-                    ))}
-                </div>
-            </nav>
+
 
             <main className="fort-main">
                 <motion.section 
@@ -179,6 +160,9 @@ export default function RatanPalaceClient() {
                             </button>
                         </div>
                         <div className="overview-sidebar">
+                            <div style={{ width: '100%', aspectRatio: '16/10', borderRadius: '16px', overflow: 'hidden', marginBottom: '2rem', border: '1px solid rgba(212,175,55,0.2)' }}>
+                                <img src="/ratan_singh_palace.jpg" alt={t("ratan_palace.hero.title")} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                            </div>
                             <GoldenHourTracker />
                         </div>
                     </div>
@@ -197,10 +181,7 @@ export default function RatanPalaceClient() {
                     </div>
                     <div className="history-timeline">
                         {[1, 2, 3].map((i) => (
-                            <div key={i} className="timeline-item">
-                                <div className="timeline-img-wrapper">
-                                    <img src="/ratan_singh_palace.jpg" alt={t(`ratan_palace.history.era${i}.title`)} className="timeline-img" />
-                                </div>
+                            <div key={i} className="timeline-item premium-glass">
                                 <div className="timeline-content">
                                     <h3 className="timeline-year">{t(`ratan_palace.history.era${i}.year`)}</h3>
                                     <h4 className="timeline-title">{t(`ratan_palace.history.era${i}.title`)}</h4>
@@ -231,12 +212,13 @@ export default function RatanPalaceClient() {
                                 transition={{ delay: idx * 0.1 }}
                                 className="monument-card premium-glass"
                             >
-                                <div className="mon-image-wrapper">
-                                    <img src={m.image} alt={t(`attr.${m.id}.name`)} className="mon-card-img" />
-                                </div>
+
 
                                 <div className="mon-content">
-                                    <h3 className="mon-name">{t(`attr.${m.id}.name`)}</h3>
+                                    <h3 className="mon-name" style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                                        <span style={{ color: 'var(--gold)' }}>{m.icon}</span> 
+                                        {t(`attr.${m.id}.name`)}
+                                    </h3>
                                     <p className={`mon-desc ${expandedSections[m.id] ? 'expanded' : ''}`}>
                                         {t(`attr.${m.id}.desc`)}
                                     </p>
@@ -408,10 +390,7 @@ export default function RatanPalaceClient() {
                 .stat-label { font-size: 0.8rem; color: rgba(255,255,255,0.7); text-transform: uppercase; }
                 .stat-divider { width: 1px; height: 40px; background: rgba(212, 175, 55, 0.3); }
 
-                .fort-nav { position: sticky; top: 0; background: #0a0804 !important; z-index: 100; border-bottom: 1px solid rgba(212, 175, 55, 0.2); }
-                .nav-container { display: flex; justify-content: center; gap: 0.5rem; padding: 0.5rem 1rem; overflow-x: auto; scrollbar-width: none; }
-                .nav-item { background: none; border: 1px solid transparent; padding: 0.5rem 1.5rem; border-radius: 50px; color: rgba(255,255,255,0.7); cursor: pointer; display: flex; align-items: center; gap: 0.5rem; white-space: nowrap; transition: 0.4s; }
-                .nav-item.active { color: var(--gold); background: rgba(212, 175, 55, 0.1); border-color: var(--gold); }
+
 
                 .fort-section { padding: 5rem 1.5rem; max-width: 1200px; margin: 0 auto; }
                 .section-header { text-align: center; margin-bottom: 4rem; }

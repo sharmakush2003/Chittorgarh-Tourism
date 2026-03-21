@@ -25,7 +25,7 @@ function getInitialLang() {
 // Use 'en' as the initial state so SSR matches the first client render (Hydration fix)
 export function LanguageProvider({ children }) {
     const [lang, setLang] = useState('en');
-    const [translations, setTranslations] = useState(null);
+    const [translations, setTranslations] = useState(enTranslations);
     const [loading, setLoading] = useState(true);
     const [isMounted, setIsMounted] = useState(false);
 
@@ -74,8 +74,7 @@ export function LanguageProvider({ children }) {
     }, [lang, isMounted]);
 
     const t = (key, params = {}) => {
-        if (!translations) return "";
-        let text = translations[key] || enTranslations[key] || key;
+        let text = (translations && translations[key]) || enTranslations[key] || key;
         
         // Simple parameter replacement for {key} placeholders
         Object.keys(params).forEach(p => {

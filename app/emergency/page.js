@@ -1,6 +1,22 @@
 "use client";
-import { useState, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useLanguage } from "@/context/LanguageContext";
+import { 
+    Hospital, 
+    ShieldAlert, 
+    Accessibility, 
+    Pill, 
+    Phone, 
+    Info, 
+    Globe, 
+    AlertCircle, 
+    MapPin,
+    ArrowLeft,
+    Download,
+    Share2,
+    MessageSquare,
+    Clock
+} from "lucide-react";
 
 export default function EmergencyPage() {
     const { t } = useLanguage();
@@ -8,22 +24,29 @@ export default function EmergencyPage() {
     const [sosState, setSosState] = useState("idle");
     const [isGeneratingPDF, setIsGeneratingPDF] = useState(false);
     const [coords, setCoords] = useState(null);
+    const [currentDate, setCurrentDate] = useState("");
     const pdfTemplateRef = useRef(null);
+    console.log("SERVER_RENDER_TEXT:", t('emg.quick.police'));
+
+    useEffect(() => {
+        setCurrentDate(new Date().toLocaleDateString());
+    }, []);
 
     const mapsSearch = (query, lat, lng) =>
         `https://www.google.com/maps/search/${query}/@${lat},${lng},15z`;
 
     const CATEGORIES = [
-        { type: "hospital", label: `🏥 ${t('emg.cat.hospital')}`, query: "hospital" },
-        { type: "police",   label: `🚔 ${t('emg.cat.police')}`, query: "police+station" },
-        { type: "toilet",   label: `🚻 ${t('emg.cat.toilet')}`, query: "public+toilet" },
-        { type: "pharmacy", label: `💊 ${t('emg.cat.pharmacy')}`, query: "pharmacy" },
+        { type: "hospital", label: t('emg.cat.hospital'), query: "hospital", icon: <Hospital size={18} /> },
+        { type: "police",   label: t('emg.cat.police'), query: "police+station", icon: <ShieldAlert size={18} /> },
+        { type: "toilet",   label: t('emg.cat.toilet'), query: "public+toilet", icon: <Accessibility size={18} /> },
+        { type: "pharmacy", label: t('emg.cat.pharmacy'), query: "pharmacy", icon: <Pill size={18} /> },
     ];
 
     const emergencyData = [
         {
+            id: "police",
             category: t('emg.group.police'),
-            icon: "🚔",
+            icon: <ShieldAlert />,
             accent: "#60a5fa",
             border: "rgba(59,130,246,0.2)",
             glow: "rgba(59,130,246,0.06)",
@@ -34,8 +57,9 @@ export default function EmergencyPage() {
             ]
         },
         {
+            id: "medical",
             category: t('emg.group.medical'),
-            icon: "🏥",
+            icon: <Hospital />,
             accent: "#f87171",
             border: "rgba(239,68,68,0.2)",
             glow: "rgba(239,68,68,0.06)",
@@ -46,8 +70,9 @@ export default function EmergencyPage() {
             ]
         },
         {
+            id: "helpline",
             category: t('emg.group.helpline'),
-            icon: "📞",
+            icon: <Phone />,
             accent: "#D4AF37",
             border: "rgba(212,175,55,0.2)",
             glow: "rgba(212,175,55,0.06)",
@@ -58,8 +83,9 @@ export default function EmergencyPage() {
             ]
         },
         {
+            id: "services",
             category: t('emg.group.services'),
-            icon: "🆘",
+            icon: <AlertCircle />,
             accent: "#fb923c",
             border: "rgba(249,115,22,0.2)",
             glow: "rgba(249,115,22,0.06)",
@@ -661,7 +687,7 @@ export default function EmergencyPage() {
             <div className="ep-grid">
                 {emergencyData.map((s) => (
                     <div
-                        key={s.category}
+                        key={s.id}
                         className="ep-card"
                         style={{ "--card-glow": s.glow, "--card-border": s.border }}
                     >
@@ -670,8 +696,8 @@ export default function EmergencyPage() {
                             <h2 style={{ color: s.accent }}>{s.category}</h2>
                         </div>
                         <div className="ep-contacts">
-                            {s.contacts.map((c) => (
-                                <div className="ep-row" key={c.name}>
+                            {s.contacts.map((c, i) => (
+                                <div className="ep-row" key={i}>
                                     <div className="ep-row-top">
                                         <span className="ep-contact-name">{c.name}</span>
                                         <span className="ep-note">{c.note}</span>
@@ -716,11 +742,11 @@ export default function EmergencyPage() {
 
                 <div className="pdf-grid" style={{ gridTemplateColumns: '1fr 1fr' }}>
                     {emergencyData.map(cat => (
-                        <div key={cat.category} className="pdf-section">
+                        <div key={cat.id} className="pdf-section">
                             <div className="pdf-section-title">{cat.icon} {cat.category}</div>
                             <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                                {cat.contacts.map(c => (
-                                    <div key={c.name} className="pdf-contact">
+                                {cat.contacts.map((c, i) => (
+                                    <div key={i} className="pdf-contact">
                                         <span className="pdf-contact-name">{c.name}</span>
                                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                                             <span className="pdf-contact-num">{c.number || "URL Link"}</span>
@@ -736,7 +762,7 @@ export default function EmergencyPage() {
                 <div className="pdf-footer">
                     <p>{t('emg.pdf.footer1')}</p>
                     <p>{t('emg.pdf.footer2')}</p>
-                    <p>{t('emg.pdf.verified')} {new Date().toLocaleDateString()}</p>
+                    <p>{t('emg.pdf.verified')} {currentDate}</p>
                 </div>
             </div>
         </div>

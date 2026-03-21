@@ -14,7 +14,10 @@ import {
     ChevronDown,
     ChevronUp,
     Camera,
-    Info
+    Info,
+    Mountain,
+    Gem,
+    Layers
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import GoldenHourTracker from "./GoldenHourTracker";
@@ -24,7 +27,6 @@ import { triggerHaptic } from "@/lib/haptics";
 export default function GaumukhClient() {
     const { t, lang } = useLanguage();
     const router = useRouter();
-    const [activeSection, setActiveSection] = useState("overview");
     const [playingAudio, setPlayingAudio] = useState(null);
     const [expandedSections, setExpandedSections] = useState({});
     const voicesRef = useRef([]);
@@ -40,16 +42,12 @@ export default function GaumukhClient() {
         };
     }, []);
 
-    const SECTIONS = [
-        { id: "overview", label: t("gaumukh.nav.overview"), icon: <Shield size={18} /> },
-        { id: "history", label: t("gaumukh.nav.history"), icon: <History size={18} /> },
-        { id: "architecture", label: t("gaumukh.nav.architecture"), icon: <ScrollText size={18} /> },
-    ];
+
 
     const ARCH_FEATURES = [
-        { id: "gaumukh_arch.rock", icon: "🐮", image: "/gaumukh_reservoir.jpg" },
-        { id: "gaumukh_arch.temple", icon: "🛕", image: "/gaumukh_reservoir.jpg" },
-        { id: "gaumukh_arch.steps", icon: "🪜", image: "/gaumukh_reservoir.jpg" }
+        { id: "gaumukh_arch.rock", icon: <Mountain size={20} /> },
+        { id: "gaumukh_arch.temple", icon: <Gem size={20} /> },
+        { id: "gaumukh_arch.steps", icon: <Layers size={20} /> }
     ];
 
     const handleAudioPlay = (sectionId, customText = null) => {
@@ -131,24 +129,7 @@ export default function GaumukhClient() {
                 <div className="scroll-indicator"><div className="mouse"></div></div>
             </section>
 
-            <nav className="fort-nav">
-                <div className="nav-container">
-                    {SECTIONS.map(s => (
-                        <button 
-                            key={s.id}
-                            className={`nav-item ${activeSection === s.id ? 'active' : ''}`}
-                            onClick={() => {
-                                setActiveSection(s.id);
-                                triggerHaptic('light');
-                                document.getElementById(s.id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                            }}
-                        >
-                            <span className="nav-icon-wrapper">{s.icon}</span>
-                            <span>{s.label}</span>
-                        </button>
-                    ))}
-                </div>
-            </nav>
+
 
             <main className="fort-main">
                 <motion.section 
@@ -180,6 +161,9 @@ export default function GaumukhClient() {
                             </button>
                         </div>
                         <div className="overview-sidebar">
+                            <div style={{ width: '100%', aspectRatio: '16/10', borderRadius: '16px', overflow: 'hidden', marginBottom: '2rem', border: '1px solid rgba(212,175,55,0.2)' }}>
+                                <img src="/gaumukh_reservoir.jpg" alt={t("gaumukh.hero.title")} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                            </div>
                             <GoldenHourTracker />
                         </div>
                     </div>
@@ -198,10 +182,7 @@ export default function GaumukhClient() {
                     </div>
                     <div className="history-timeline">
                         {[1, 2, 3].map((i) => (
-                            <div key={i} className="timeline-item">
-                                <div className="timeline-img-wrapper">
-                                    <img src="/gaumukh_reservoir.jpg" alt={t(`gaumukh.history.era${i}.title`)} className="timeline-img" />
-                                </div>
+                            <div key={i} className="timeline-item premium-glass">
                                 <div className="timeline-content">
                                     <h3 className="timeline-year">{t(`gaumukh.history.era${i}.year`)}</h3>
                                     <h4 className="timeline-title">{t(`gaumukh.history.era${i}.title`)}</h4>
@@ -232,12 +213,13 @@ export default function GaumukhClient() {
                                 transition={{ delay: idx * 0.1 }}
                                 className="monument-card premium-glass"
                             >
-                                <div className="mon-image-wrapper">
-                                    <img src={m.image} alt={t(`attr.${m.id}.name`)} className="mon-card-img" />
-                                </div>
+
 
                                 <div className="mon-content">
-                                    <h3 className="mon-name">{t(`attr.${m.id}.name`)}</h3>
+                                    <h3 className="mon-name" style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                                        <span style={{ color: 'var(--gold)' }}>{m.icon}</span> 
+                                        {t(`attr.${m.id}.name`)}
+                                    </h3>
                                     <p className={`mon-desc ${expandedSections[m.id] ? 'expanded' : ''}`}>
                                         {t(`attr.${m.id}.desc`)}
                                     </p>
@@ -409,10 +391,7 @@ export default function GaumukhClient() {
                 .stat-label { font-size: 0.8rem; color: rgba(255,255,255,0.7); text-transform: uppercase; }
                 .stat-divider { width: 1px; height: 40px; background: rgba(212, 175, 55, 0.3); }
 
-                .fort-nav { position: sticky; top: 0; background: #0a0804 !important; z-index: 100; border-bottom: 1px solid rgba(212, 175, 55, 0.2); }
-                .nav-container { display: flex; justify-content: center; gap: 0.5rem; padding: 0.5rem 1rem; overflow-x: auto; scrollbar-width: none; }
-                .nav-item { background: none; border: 1px solid transparent; padding: 0.5rem 1.5rem; border-radius: 50px; color: rgba(255,255,255,0.7); cursor: pointer; display: flex; align-items: center; gap: 0.5rem; white-space: nowrap; transition: 0.4s; }
-                .nav-item.active { color: var(--gold); background: rgba(212, 175, 55, 0.1); border-color: var(--gold); }
+
 
                 .fort-section { padding: 5rem 1.5rem; max-width: 1200px; margin: 0 auto; }
                 .section-header { text-align: center; margin-bottom: 4rem; }

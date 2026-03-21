@@ -13,6 +13,12 @@ import {
     ScrollText,
     ChevronDown,
     ChevronUp,
+    Columns,
+    Gem,
+    Crown,
+    Droplets,
+    Castle,
+    HandsPraying // wait, Lucide has 'Heart' or 'Flame'? I'll use 'Heart' for Meera or 'Sun'. Lucide has 'Flame'. 
 } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -22,7 +28,6 @@ import { motion } from "framer-motion";
 export default function FortDetailsClient() {
     const { t, lang } = useLanguage();
     const router = useRouter();
-    const [activeSection, setActiveSection] = useState("overview");
     const [playingAudio, setPlayingAudio] = useState(null);
     const [expandedMonuments, setExpandedMonuments] = useState({});
     const voicesRef = useRef([]);
@@ -41,19 +46,15 @@ export default function FortDetailsClient() {
 
 
     const MONUMENTS = [
-        { id: "vijay", icon: "🏛️", image: "/Each page Pics/Fort pics/Vijay Stambh.jpg" },
-        { id: "kirti", icon: "💎", image: "/Each page Pics/Fort pics/Kirti Stambh.jpg" },
-        { id: "padmini", icon: "👑", image: "/Each page Pics/Fort pics/Padmini Palace.jpg" },
-        { id: "gaumukh", icon: "💧", image: "/Each page Pics/Fort pics/Gaumukh Reservoir.jpg" },
-        { id: "kumbha_palace", icon: "🏰", image: "/Each page Pics/Fort pics/Rana Kumbha Palace.jpg" },
-        { id: "meera", icon: "🙏", image: "/Each page Pics/Fort pics/Meera Bai Temple.jpg" }
+        { id: "vijay", icon: <Columns size={20} />, image: "/Each page Pics/Fort pics/Vijay Stambh.jpg" },
+        { id: "kirti", icon: <Gem size={20} />, image: "/Each page Pics/Fort pics/Kirti Stambh.jpg" },
+        { id: "padmini", icon: <Crown size={20} />, image: "/Each page Pics/Fort pics/Padmini Palace.jpg" },
+        { id: "gaumukh", icon: <Droplets size={20} />, image: "/Each page Pics/Fort pics/Gaumukh Reservoir.jpg" },
+        { id: "kumbha_palace", icon: <Castle size={20} />, image: "/Each page Pics/Fort pics/Rana Kumbha Palace.jpg" },
+        { id: "meera", icon: <Heart size={20} />, image: "/Each page Pics/Fort pics/Meera Bai Temple.jpg" }
     ];
 
-    const SECTIONS = [
-        { id: "overview", label: t("fort.nav.overview"), icon: <Shield size={18} /> },
-        { id: "history", label: t("fort.nav.history"), icon: <History size={18} /> },
-        { id: "monuments", label: t("fort.nav.monuments"), icon: <ScrollText size={18} /> },
-    ];
+
 
     const handleAudioPlay = (monId) => {
         const synth = window.speechSynthesis;
@@ -147,25 +148,7 @@ export default function FortDetailsClient() {
                 </div>
             </section>
 
-            {/* ═══ STICKY NAVIGATION ══════════════════════ */}
-            <nav className="fort-nav">
-                <div className="nav-container">
-                    {SECTIONS.map(s => (
-                        <button 
-                            key={s.id}
-                            className={`nav-item ${activeSection === s.id ? 'active' : ''}`}
-                            onClick={() => {
-                                setActiveSection(s.id);
-                                triggerHaptic('light');
-                                document.getElementById(s.id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                            }}
-                        >
-                            <span className="nav-icon-wrapper">{s.icon}</span>
-                            <span>{s.label}</span>
-                        </button>
-                    ))}
-                </div>
-            </nav>
+
 
             <main className="fort-main">
                 {/* ═══ OVERVIEW ══════════════════════════════ */}
@@ -254,7 +237,10 @@ export default function FortDetailsClient() {
                                 </div>
 
                                 <div className="mon-content">
-                                    <h3 className="mon-name">{t(`attr.${m.id}.name`)}</h3>
+                                    <h3 className="mon-name" style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                                        <span style={{ color: 'var(--gold)' }}>{m.icon}</span> 
+                                        {t(`attr.${m.id}.name`)}
+                                    </h3>
                                     <p className={`mon-desc ${expandedMonuments[m.id] ? 'expanded' : ''}`}>
                                         {t(`attr.${m.id}.desc`)}
                                     </p>
@@ -476,76 +462,6 @@ export default function FortDetailsClient() {
                     background: rgba(212, 175, 55, 0.3);
                 }
 
-                /* --- Nav --- */
-                .fort-nav {
-                    position: sticky;
-                    top: 0;
-                    background: #0a0804 !important;
-                    z-index: 100;
-                    border-bottom: 1px solid rgba(212, 175, 55, 0.2);
-                }
-
-                .nav-container {
-                    display: flex;
-                    justify-content: center;
-                    overflow-x: auto;
-                    -webkit-overflow-scrolling: touch;
-                    scrollbar-width: none;
-                    -ms-overflow-style: none;
-                    gap: 0.5rem;
-                    padding: 0 1rem;
-                }
-
-                .nav-container::-webkit-scrollbar {
-                    display: none;
-                }
-
-                @media (max-width: 768px) {
-                    .nav-container {
-                        justify-content: flex-start;
-                        mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
-                        -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
-                    }
-                }
-
-                .nav-item {
-                    background: none;
-                    padding: 0.75rem 1.5rem;
-                    border-radius: 50px;
-                    font-weight: 600;
-                    font-size: 0.8rem; /* Kept from original */
-                    text-transform: uppercase; /* Kept from original */
-                    letter-spacing: 1.5px; /* Kept from original */
-                    cursor: pointer; /* Kept from original */
-                    color: rgba(255,255,255,0.7);
-                    display: flex;
-                    align-items: center;
-                    gap: 0.5rem;
-                    white-space: nowrap;
-                    scroll-snap-align: center;
-                    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
-                    border: 1px solid transparent;
-                }
-
-                .nav-item:hover {
-                    color: #fff;
-                    border-color: rgba(212,175,55,0.3);
-                    box-shadow: 0 0 20px rgba(212,175,55,0.15);
-                    transform: translateY(-1px);
-                }
-
-                @media (max-width: 768px) {
-                    .nav-container {
-                        justify-content: flex-start;
-                        scroll-snap-type: x mandatory;
-                        padding: 0 2rem;
-                        mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
-                        -webkit-mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
-                    }
-                }
-
-                .nav-item.active { 
-                    color: var(--gold);
                     background: rgba(212, 175, 55, 0.1);
                     border-bottom: 2px solid var(--gold);
                 }

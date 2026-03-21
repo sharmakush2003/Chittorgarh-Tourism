@@ -14,7 +14,10 @@ import {
     ChevronDown,
     ChevronUp,
     Camera,
-    Info
+    Info,
+    Box,
+    Gem,
+    Flame
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import GoldenHourTracker from "./GoldenHourTracker";
@@ -24,7 +27,6 @@ import { triggerHaptic } from "@/lib/haptics";
 export default function KumbhaPalaceClient() {
     const { t, lang } = useLanguage();
     const router = useRouter();
-    const [activeSection, setActiveSection] = useState("overview");
     const [playingAudio, setPlayingAudio] = useState(null);
     const [expandedSections, setExpandedSections] = useState({});
     const voicesRef = useRef([]);
@@ -41,16 +43,12 @@ export default function KumbhaPalaceClient() {
         };
     }, []);
 
-    const SECTIONS = [
-        { id: "overview", label: t("kumbha.nav.overview"), icon: <Shield size={18} /> },
-        { id: "history", label: t("kumbha.nav.history"), icon: <History size={18} /> },
-        { id: "architecture", label: t("kumbha.nav.architecture"), icon: <ScrollText size={18} /> },
-    ];
+
 
     const ARCH_FEATURES = [
-        { id: "kumbha_arch.stables", icon: "🐎", image: "/Each page Pics/Fort pics/Rana Kumbha Palace.jpg" },
-        { id: "kumbha_arch.temple", icon: "🛕", image: "/Each page Pics/Fort pics/Rana Kumbha Palace.jpg" },
-        { id: "kumbha_arch.cellars", icon: "🕯️", image: "/Each page Pics/Fort pics/Rana Kumbha Palace.jpg" }
+        { id: "kumbha_arch.stables", icon: <Box size={20} /> },
+        { id: "kumbha_arch.temple", icon: <Gem size={20} /> },
+        { id: "kumbha_arch.cellars", icon: <Flame size={20} /> }
     ];
 
     const handleAudioPlay = (sectionId, customText = null) => {
@@ -142,25 +140,7 @@ export default function KumbhaPalaceClient() {
                 </div>
             </section>
 
-            {/* ═══ STICKY NAVIGATION ══════════════════════ */}
-            <nav className="fort-nav">
-                <div className="nav-container">
-                    {SECTIONS.map(s => (
-                        <button 
-                            key={s.id}
-                            className={`nav-item ${activeSection === s.id ? 'active' : ''}`}
-                            onClick={() => {
-                                setActiveSection(s.id);
-                                triggerHaptic('light');
-                                document.getElementById(s.id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                            }}
-                        >
-                            <span className="nav-icon-wrapper">{s.icon}</span>
-                            <span>{s.label}</span>
-                        </button>
-                    ))}
-                </div>
-            </nav>
+
 
             <main className="fort-main">
                 {/* ═══ OVERVIEW ══════════════════════════════ */}
@@ -193,6 +173,9 @@ export default function KumbhaPalaceClient() {
                             </button>
                         </div>
                         <div className="overview-sidebar">
+                            <div style={{ width: '100%', aspectRatio: '16/10', borderRadius: '16px', overflow: 'hidden', marginBottom: '2rem', border: '1px solid rgba(212,175,55,0.2)' }}>
+                                <img src="/Each page Pics/Fort pics/Rana Kumbha Palace.jpg" alt={t("kumbha.hero.title")} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                            </div>
                             <GoldenHourTracker />
                         </div>
                     </div>
@@ -212,10 +195,7 @@ export default function KumbhaPalaceClient() {
                     </div>
                     <div className="history-timeline">
                         {[1, 2, 3].map((i) => (
-                            <div key={i} className="timeline-item">
-                                <div className="timeline-img-wrapper">
-                                    <img src="/Each page Pics/Fort pics/Rana Kumbha Palace.jpg" alt={t(`kumbha.history.era${i}.title`)} className="timeline-img" />
-                                </div>
+                            <div key={i} className="timeline-item premium-glass">
                                 <div className="timeline-content">
                                     <h3 className="timeline-year">{t(`kumbha.history.era${i}.year`)}</h3>
                                     <h4 className="timeline-title">{t(`kumbha.history.era${i}.title`)}</h4>
@@ -247,12 +227,13 @@ export default function KumbhaPalaceClient() {
                                 transition={{ delay: idx * 0.1 }}
                                 className="monument-card premium-glass"
                             >
-                                <div className="mon-image-wrapper">
-                                    <img src={m.image} alt={t(`attr.${m.id}.name`)} className="mon-card-img" />
-                                </div>
+
 
                                 <div className="mon-content">
-                                    <h3 className="mon-name">{t(`attr.${m.id}.name`)}</h3>
+                                    <h3 className="mon-name" style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                                        <span style={{ color: 'var(--gold)' }}>{m.icon}</span> 
+                                        {t(`attr.${m.id}.name`)}
+                                    </h3>
                                     <p className={`mon-desc ${expandedSections[m.id] ? 'expanded' : ''}`}>
                                         {t(`attr.${m.id}.desc`)}
                                     </p>
@@ -460,58 +441,6 @@ export default function KumbhaPalaceClient() {
                     background: rgba(212, 175, 55, 0.3);
                 }
 
-                .fort-nav {
-                    position: sticky;
-                    top: 0;
-                    background: #0a0804 !important;
-                    z-index: 100;
-                    border-bottom: 1px solid rgba(212, 175, 55, 0.2);
-                }
-
-                .nav-container {
-                    display: flex;
-                    justify-content: center;
-                    overflow-x: auto;
-                    -webkit-overflow-scrolling: touch;
-                    scrollbar-width: none;
-                    -ms-overflow-style: none;
-                    gap: 0.5rem;
-                    padding: 0 1rem;
-                }
-
-                .nav-container::-webkit-scrollbar {
-                    display: none;
-                }
-
-                .nav-item {
-                    background: none;
-                    padding: 0.75rem 1.5rem;
-                    border-radius: 50px;
-                    font-weight: 600;
-                    font-size: 0.8rem;
-                    text-transform: uppercase;
-                    letter-spacing: 1.5px;
-                    cursor: pointer;
-                    color: rgba(255,255,255,0.7);
-                    display: flex;
-                    align-items: center;
-                    gap: 0.5rem;
-                    white-space: nowrap;
-                    scroll-snap-align: center;
-                    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
-                    border: 1px solid transparent;
-                }
-
-                .nav-item:hover {
-                    color: #fff;
-                    border-color: rgba(212,175,55,0.3);
-                    box-shadow: 0 0 20px rgba(212,175,55,0.15);
-                    transform: translateY(-1px);
-                }
-
-                .nav-item.active { 
-                    color: var(--gold);
-                    background: rgba(212, 175, 55, 0.1);
                     border-bottom: 2px solid var(--gold);
                 }
 
