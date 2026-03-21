@@ -80,7 +80,7 @@ export default function PlanClient() {
     const itineraries = {
         1: {
             title: "1 Day: The Royal Heritage Tour (Premium)",
-            desc: "A meticulously curated journey through 1300 years of valor.",
+            desc: "A meticulously curated journey through the heart of Rajputana valor.",
             highlights: ["7 Massive Gates (Pols)", "Vijay Stambha (Climb 157 steps)", "Rani Padmini Palace", "Gaumukh Reservoir", "UNESCO World Heritage Site"],
             schedule: [
                 { time: "08:30 AM", title: "Arrival & The Seven Gates", activity: "Begin your ascent driving through the seven historic pols (gates)." },
@@ -96,14 +96,14 @@ export default function PlanClient() {
         2: {
             title: "2 Days: Wildlife & Waterfalls Expedition",
             desc: "Beyond the fort lies the untamed beauty of the Aravallis.",
-            highlights: ["Full Day 1 Fort Tour", "Bassi Wildlife Sanctuary Safari", "Orai Dam", "Menal Waterfalls", "11th Century Temples"],
+            highlights: ["Full Day 1 Fort Tour", "Bassi Wildlife Sanctuary Safari", "Orai Dam", "Menal Waterfalls", "Historic Temples"],
             schedule: [
                 { time: "Day 1", title: "Complete Heritage Tour", activity: "Follow the comprehensive 1-Day Itinerary." },
                 { time: "Day 2 - 06:00 AM", title: "Sunrise Drive to Bassi", activity: "Depart early for Bassi Wildlife Sanctuary (25km)." },
                 { time: "Day 2 - 07:00 AM", title: "Jungle Safari", activity: "Board a Gypsy for a safari." },
                 { time: "Day 2 - 10:30 AM", title: "Bassi & Orai Dams", activity: "Visit the Bassi Dam and Orai Dam." },
                 { time: "Day 2 - 01:00 PM", title: "Picnic at Menal", activity: "Drive to Menal (approx 60km)." },
-                { time: "Day 2 - 02:30 PM", title: "Menal: The Waterfall Complex", activity: "Explore the Mahanaleshwar Temple complex (11th Century)." },
+                { time: "Day 2", title: "Menal: The Waterfall Complex", activity: "Explore the Mahanaleshwar Temple complex." },
                 { time: "Day 2 - 05:30 PM", title: "Rural Drive Back", activity: "Return to Chittorgarh via the scenic rural route." },
                 { time: "Day 2 - 08:00 PM", title: "Dinner at Castle Bijaipur", activity: "Optional: drive to Castle Bijaipur for a royal dinner." }
             ]
@@ -350,8 +350,7 @@ export default function PlanClient() {
                             <div className="timeline">
                                 {itineraries[activeTab].schedule.map((_, index) => (
                                     <div key={index} className="timeline-item">
-                                        <span className="time">{t(`plan.${activeTab}.sch.${index}.time`)}</span>
-                                        <span className="activity-title">{t(`plan.${activeTab}.sch.${index}.title`)}</span>
+                                        <span className="time">{t(`plan.${activeTab}.sch.${index}.title`)}</span>
                                         <p className="activity-desc">{t(`plan.${activeTab}.sch.${index}.activity`)}</p>
                                     </div>
                                 ))}

@@ -5,9 +5,6 @@ import React, { useState, useEffect, useRef } from "react";
 import { 
     Play, 
     Pause, 
-    Clock, 
-    Shield, 
-    History, 
     ArrowLeft,
     MapPin,
     ScrollText,
@@ -22,7 +19,6 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import GoldenHourTracker from "./GoldenHourTracker";
 import { motion } from "framer-motion";
 
 export default function FortDetailsClient() {
@@ -124,22 +120,6 @@ export default function FortDetailsClient() {
                     <h1 className="hero-title">{t("fort.hero.title")}</h1>
                     <p className="hero-desc">{t("fort.hero.desc")}</p>
                     
-                    <div className="hero-stats">
-                        <div className="stat-item">
-                            <span className="stat-val">700</span>
-                            <span className="stat-label">{t("fort.stats.acres")}</span>
-                        </div>
-                        <div className="stat-divider"></div>
-                        <div className="stat-item">
-                            <span className="stat-val">7</span>
-                            <span className="stat-label">{t("fort.stats.gates")}</span>
-                        </div>
-                        <div className="stat-divider"></div>
-                        <div className="stat-item">
-                            <span className="stat-val">UNESCO</span>
-                            <span className="stat-label">{t("fort.stats.heritage")}</span>
-                        </div>
-                    </div>
 
                 </motion.div>
                 
@@ -168,47 +148,12 @@ export default function FortDetailsClient() {
                             <p className="lead-para">{t("fort.overview.p1")}</p>
                             <p>{t("fort.overview.p2")}</p>
                             <div className="info-chips">
-                                <span className="chip"><Clock size={14} /> {t("attr.fort.time")}</span>
                                 <span className="chip"><MapPin size={14} /> {t("fort.overview.location")}</span>
                             </div>
-                        </div>
-                        <div className="overview-sidebar">
-                            <GoldenHourTracker />
                         </div>
                     </div>
                 </motion.section>
 
-                {/* ═══ HISTORY ═══════════════════════════════ */}
-                <motion.section 
-                    initial={{ opacity: 0, y: 40 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    id="history" 
-                    className="fort-section"
-                >
-                    <div className="section-header">
-                        <h2 className="section-title text-gold">{t("fort.section.history")}</h2>
-                        <div className="title-divider"></div>
-                    </div>
-                    <div className="history-timeline">
-                        {[
-                            { i: 1, img: "/Each page Pics/Fort pics/six.jpg" },
-                            { i: 2, img: "/Each page Pics/Fort pics/four.jpg" },
-                            { i: 3, img: "/Each page Pics/Fort pics/two.jpg" }
-                        ].map(({ i, img }) => (
-                            <div key={i} className="timeline-item">
-                                <div className="timeline-img-wrapper">
-                                    <img src={img} alt={t(`fort.history.era${i}.title`)} className="timeline-img" />
-                                </div>
-                                <div className="timeline-content">
-                                    <h3 className="timeline-year">{t(`fort.history.era${i}.year`)}</h3>
-                                    <h4 className="timeline-title">{t(`fort.history.era${i}.title`)}</h4>
-                                    <p>{t(`fort.history.era${i}.desc`)}</p>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                </motion.section>
 
                 {/* ═══ MONUMENTS ═════════════════════════════ */}
                 <section id="monuments" className="fort-section">

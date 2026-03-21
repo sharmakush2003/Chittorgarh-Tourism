@@ -5,9 +5,6 @@ import React, { useState, useEffect, useRef } from "react";
 import { 
     Play, 
     Pause, 
-    Clock, 
-    Shield, 
-    History, 
     ArrowLeft,
     MapPin,
     ScrollText,
@@ -19,7 +16,6 @@ import {
     Image as ImageIcon
 } from "lucide-react";
 import { useRouter } from "next/navigation";
-import GoldenHourTracker from "./GoldenHourTracker";
 import { motion } from "framer-motion";
 import { triggerHaptic } from "@/lib/haptics";
 
@@ -107,22 +103,6 @@ export default function RatanPalaceClient() {
                     <h1 className="hero-title">{t("ratan_palace.hero.title")}</h1>
                     <p className="hero-desc">{t("ratan_palace.hero.desc")}</p>
                     
-                    <div className="hero-stats">
-                        <div className="stat-item">
-                            <span className="stat-val">{t("ratan_palace.stats.built").split(' ')[0]}</span>
-                            <span className="stat-label">{t("ratan_palace.stats.built").split(' ').slice(1).join(' ')}</span>
-                        </div>
-                        <div className="stat-divider"></div>
-                        <div className="stat-item">
-                            <span className="stat-val">Winter</span>
-                            <span className="stat-label">{t("ratan_palace.stats.type")}</span>
-                        </div>
-                        <div className="stat-divider"></div>
-                        <div className="stat-item">
-                            <span className="stat-val">Lake</span>
-                            <span className="stat-label">{t("ratan_palace.stats.feature")}</span>
-                        </div>
-                    </div>
                 </motion.div>
                 
                 <div className="scroll-indicator"><div className="mouse"></div></div>
@@ -146,9 +126,6 @@ export default function RatanPalaceClient() {
                         <div className="overview-text">
                             <p className="lead-para">{t("ratan_palace.overview.p1")}</p>
                             <p>{t("ratan_palace.overview.p2")}</p>
-                            <div className="info-chips">
-                                <span className="chip"><Clock size={14} /> 9:30 AM - 5:00 PM</span>
-                            </div>
                             
                             <button 
                                 className={`audio-btn ${playingAudio === 'overview' ? 'playing' : ''}`}
@@ -159,38 +136,9 @@ export default function RatanPalaceClient() {
                                 <span>{playingAudio === 'overview' ? t("fort.audio.playing") : t("fort.audio.listen")}</span>
                             </button>
                         </div>
-                        <div className="overview-sidebar">
-                            <div style={{ width: '100%', aspectRatio: '16/10', borderRadius: '16px', overflow: 'hidden', marginBottom: '2rem', border: '1px solid rgba(212,175,55,0.2)' }}>
-                                <img src="/ratan_singh_palace.jpg" alt={t("ratan_palace.hero.title")} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                            </div>
-                            <GoldenHourTracker />
-                        </div>
                     </div>
                 </motion.section>
 
-                <motion.section 
-                    initial={{ opacity: 0, y: 40 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    id="history" 
-                    className="fort-section"
-                >
-                    <div className="section-header">
-                        <h2 className="section-title text-gold">{t("ratan_palace.section.history")}</h2>
-                        <div className="title-divider"></div>
-                    </div>
-                    <div className="history-timeline">
-                        {[1, 2, 3].map((i) => (
-                            <div key={i} className="timeline-item premium-glass">
-                                <div className="timeline-content">
-                                    <h3 className="timeline-year">{t(`ratan_palace.history.era${i}.year`)}</h3>
-                                    <h4 className="timeline-title">{t(`ratan_palace.history.era${i}.title`)}</h4>
-                                    <p>{t(`ratan_palace.history.era${i}.desc`)}</p>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                </motion.section>
 
                 <section id="architecture" className="fort-section">
                     <motion.div 

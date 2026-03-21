@@ -59,10 +59,6 @@ export default function Footer() {
                                 <span>{t("footer.locationFull") || "Chittorgarh, Rajasthan, India"}</span>
                             </li>
                             <li className="footer-info-item">
-                                <span className="footer-info-icon">🕌</span>
-                                <span>{t("footer.since") || "Since 7th Century CE"}</span>
-                            </li>
-                            <li className="footer-info-item">
                                 <span className="footer-info-icon">🌐</span>
                                 <span>{t("footer.unesco") || "UNESCO Heritage Site"}</span>
                             </li>

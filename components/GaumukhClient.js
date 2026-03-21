@@ -5,9 +5,6 @@ import React, { useState, useEffect, useRef } from "react";
 import { 
     Play, 
     Pause, 
-    Clock, 
-    Shield, 
-    History, 
     ArrowLeft,
     MapPin,
     ScrollText,
@@ -20,7 +17,6 @@ import {
     Layers
 } from "lucide-react";
 import { useRouter } from "next/navigation";
-import GoldenHourTracker from "./GoldenHourTracker";
 import { motion } from "framer-motion";
 import { triggerHaptic } from "@/lib/haptics";
 
@@ -108,22 +104,6 @@ export default function GaumukhClient() {
                     <h1 className="hero-title">{t("gaumukh.hero.title")}</h1>
                     <p className="hero-desc">{t("gaumukh.hero.desc")}</p>
                     
-                    <div className="hero-stats">
-                        <div className="stat-item">
-                            <span className="stat-val">8th</span>
-                            <span className="stat-label">{t("gaumukh.stats.built").split(' ').slice(1).join(' ')}</span>
-                        </div>
-                        <div className="stat-divider"></div>
-                        <div className="stat-item">
-                            <span className="stat-val">Water</span>
-                            <span className="stat-label">{t("gaumukh.stats.type").split(' ').slice(1).join(' ')}</span>
-                        </div>
-                        <div className="stat-divider"></div>
-                        <div className="stat-item">
-                            <span className="stat-val">Sacred</span>
-                            <span className="stat-label">{t("gaumukh.stats.feature").split(' ').slice(1).join(' ')}</span>
-                        </div>
-                    </div>
                 </motion.div>
                 
                 <div className="scroll-indicator"><div className="mouse"></div></div>
@@ -147,9 +127,6 @@ export default function GaumukhClient() {
                         <div className="overview-text">
                             <p className="lead-para">{t("gaumukh.overview.p1")}</p>
                             <p>{t("gaumukh.overview.p2")}</p>
-                            <div className="info-chips">
-                                <span className="chip"><Clock size={14} /> 24 Hours</span>
-                            </div>
                             
                             <button 
                                 className={`audio-btn ${playingAudio === 'overview' ? 'playing' : ''}`}
@@ -160,38 +137,9 @@ export default function GaumukhClient() {
                                 <span>{playingAudio === 'overview' ? t("fort.audio.playing") : t("fort.audio.listen")}</span>
                             </button>
                         </div>
-                        <div className="overview-sidebar">
-                            <div style={{ width: '100%', aspectRatio: '16/10', borderRadius: '16px', overflow: 'hidden', marginBottom: '2rem', border: '1px solid rgba(212,175,55,0.2)' }}>
-                                <img src="/gaumukh_reservoir.jpg" alt={t("gaumukh.hero.title")} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                            </div>
-                            <GoldenHourTracker />
-                        </div>
                     </div>
                 </motion.section>
 
-                <motion.section 
-                    initial={{ opacity: 0, y: 40 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    id="history" 
-                    className="fort-section"
-                >
-                    <div className="section-header">
-                        <h2 className="section-title text-gold">{t("gaumukh.section.history")}</h2>
-                        <div className="title-divider"></div>
-                    </div>
-                    <div className="history-timeline">
-                        {[1, 2, 3].map((i) => (
-                            <div key={i} className="timeline-item premium-glass">
-                                <div className="timeline-content">
-                                    <h3 className="timeline-year">{t(`gaumukh.history.era${i}.year`)}</h3>
-                                    <h4 className="timeline-title">{t(`gaumukh.history.era${i}.title`)}</h4>
-                                    <p>{t(`gaumukh.history.era${i}.desc`)}</p>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                </motion.section>
 
                 <section id="architecture" className="fort-section">
                     <motion.div 

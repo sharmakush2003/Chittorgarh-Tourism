@@ -5,9 +5,6 @@ import React, { useState, useEffect, useRef } from "react";
 import { 
     Play, 
     Pause, 
-    Clock, 
-    Shield, 
-    History, 
     ArrowLeft,
     MapPin,
     ScrollText,
@@ -20,7 +17,6 @@ import {
     Flame
 } from "lucide-react";
 import { useRouter } from "next/navigation";
-import GoldenHourTracker from "./GoldenHourTracker";
 import { motion } from "framer-motion";
 import { triggerHaptic } from "@/lib/haptics";
 
@@ -116,22 +112,6 @@ export default function KumbhaPalaceClient() {
                     <h1 className="hero-title">{t("kumbha.hero.title")}</h1>
                     <p className="hero-desc">{t("kumbha.hero.desc")}</p>
                     
-                    <div className="hero-stats">
-                        <div className="stat-item">
-                            <span className="stat-val">15th</span>
-                            <span className="stat-label">{t("kumbha.stats.built").split(' ').slice(1).join(' ')}</span>
-                        </div>
-                        <div className="stat-divider"></div>
-                        <div className="stat-item">
-                            <span className="stat-val">Royal</span>
-                            <span className="stat-label">{t("kumbha.stats.type").split(' ').slice(1).join(' ')}</span>
-                        </div>
-                        <div className="stat-divider"></div>
-                        <div className="stat-item">
-                            <span className="stat-val">Massive</span>
-                            <span className="stat-label">{t("kumbha.stats.feature").split(' ').slice(1).join(' ')}</span>
-                        </div>
-                    </div>
 
                 </motion.div>
                 
@@ -159,9 +139,6 @@ export default function KumbhaPalaceClient() {
                         <div className="overview-text">
                             <p className="lead-para">{t("kumbha.overview.p1")}</p>
                             <p>{t("kumbha.overview.p2")}</p>
-                            <div className="info-chips">
-                                <span className="chip"><Clock size={14} /> 9:00 AM - 6:00 PM</span>
-                            </div>
                             
                             <button 
                                 className={`audio-btn ${playingAudio === 'overview' ? 'playing' : ''}`}
@@ -172,39 +149,10 @@ export default function KumbhaPalaceClient() {
                                 <span>{playingAudio === 'overview' ? t("fort.audio.playing") : t("fort.audio.listen")}</span>
                             </button>
                         </div>
-                        <div className="overview-sidebar">
-                            <div style={{ width: '100%', aspectRatio: '16/10', borderRadius: '16px', overflow: 'hidden', marginBottom: '2rem', border: '1px solid rgba(212,175,55,0.2)' }}>
-                                <img src="/Each page Pics/Fort pics/Rana Kumbha Palace.jpg" alt={t("kumbha.hero.title")} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                            </div>
-                            <GoldenHourTracker />
-                        </div>
                     </div>
                 </motion.section>
 
                 {/* ═══ HISTORY ═══════════════════════════════ */}
-                <motion.section 
-                    initial={{ opacity: 0, y: 40 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    id="history" 
-                    className="fort-section"
-                >
-                    <div className="section-header">
-                        <h2 className="section-title text-gold">{t("kumbha.section.history")}</h2>
-                        <div className="title-divider"></div>
-                    </div>
-                    <div className="history-timeline">
-                        {[1, 2, 3].map((i) => (
-                            <div key={i} className="timeline-item premium-glass">
-                                <div className="timeline-content">
-                                    <h3 className="timeline-year">{t(`kumbha.history.era${i}.year`)}</h3>
-                                    <h4 className="timeline-title">{t(`kumbha.history.era${i}.title`)}</h4>
-                                    <p>{t(`kumbha.history.era${i}.desc`)}</p>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                </motion.section>
 
                 {/* ═══ ARCHITECTURE ══════════════════════════ */}
                 <section id="architecture" className="fort-section">
