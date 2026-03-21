@@ -8,13 +8,81 @@ import {
     ArrowLeft
 } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { motion } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
+
+const Waveform = () => (
+    <div style={{ display: 'flex', alignItems: 'center', gap: '3px', height: '24px', width: '24px', justifyContent: 'center' }}>
+        {[...Array(4)].map((_, i) => (
+            <motion.div
+                key={i}
+                animate={{
+                    height: ["8px", "20px", "8px"],
+                }}
+                transition={{
+                    duration: 0.6,
+                    repeat: Infinity,
+                    delay: i * 0.1,
+                    ease: "easeInOut"
+                }}
+                style={{
+                    width: '3px',
+                    backgroundColor: 'currentColor',
+                    borderRadius: '2px'
+                }}
+            />
+        ))}
+    </div>
+);
 
 export default function FatehPrakashClient() {
     const { t, lang } = useLanguage();
     const router = useRouter();
     const [playingAudio, setPlayingAudio] = useState(null);
     const voicesRef = useRef([]);
+    const containerRef = useRef(null);
+
+    const { scrollYProgress } = useScroll({
+        target: containerRef,
+        offset: ["start start", "end end"]
+    });
+
+    const heroScale = useTransform(scrollYProgress, [0, 0.2], [1, 1.1]);
+    const heroOpacity = useTransform(scrollYProgress, [0, 0.2], [1, 0]);
+
+    const containerVariants = {
+        hidden: { opacity: 0 },
+        visible: {
+            opacity: 1,
+            transition: {
+                staggerChildren: 0.1,
+                delayChildren: 0.2
+            }
+        }
+    };
+
+    const itemVariants = {
+        hidden: { y: 20, opacity: 0 },
+        visible: {
+            y: 0,
+            opacity: 1,
+            transition: {
+                duration: 0.8,
+                ease: [0.16, 1, 0.3, 1]
+            }
+        }
+    };
+
+    const sentenceVariants = {
+        hidden: { y: 10, opacity: 0 },
+        visible: {
+            y: 0,
+            opacity: 1,
+            transition: {
+                duration: 0.6,
+                ease: "easeOut"
+            }
+        }
+    };
 
     useEffect(() => {
         const updateVoices = () => {
@@ -60,162 +128,18 @@ export default function FatehPrakashClient() {
 
     return (
         <motion.div 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 1 }}
+            ref={containerRef}
+            initial="hidden"
+            animate="visible"
+            variants={containerVariants}
             className="fort-page"
         >
-            {/* ═══ HERO SECTION ═══════════════════════════ */}
-            <section className="fort-hero">
-                <div className="hero-bg" style={{ backgroundImage: "url('/fateh_prakash_palace.jpg')", backgroundPosition: 'center center' }}></div>
-                <div className="hero-overlay"></div>
-                
-                <motion.div 
-                    initial={{ y: 30, opacity: 0 }}
-                    animate={{ y: 0, opacity: 1 }}
-                    transition={{ delay: 0.2, duration: 0.8 }}
-                    className="hero-content"
-                >
-                    <button className="back-btn" onClick={() => router.push('/explore')}>
-                        <ArrowLeft size={16} /> {t("btn.back") || "Back"}
-                    </button>
-                    <span className="hero-eyebrow">{t("fateh.hero.eyebrow")}</span>
-                    <h1 className="hero-title">{t("fateh.hero.title")}</h1>
-                    <p className="hero-desc">{t("fateh.hero.desc")}</p>
-                </motion.div>
-                
-                <div className="scroll-indicator"><div className="mouse"></div></div>
-            </section>
-
-            {/* ═══ NAVIGATION ═════════════════════════════ */}
-            <nav className="section-nav">
-                <div className="nav-container">
-                    <a href="#history">{t("fateh.nav.history")}</a>
-                    <a href="#collection">{t("fateh.nav.collection")}</a>
-                    <a href="#info">{t("fateh.nav.info")}</a>
-                </div>
-            </nav>
-
-            <main className="fort-main">
-                {/* ═══ HISTORY/ORIGIN ════════════════════════ */}
-                <motion.section 
-                    initial={{ opacity: 0, y: 40 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    id="history" 
-                    className="fort-section mesh-bg"
-                >
-                    <div className="section-header">
-                        <h2 className="section-title text-gold">{t("fateh.section.history")}</h2>
-                        <div className="title-divider"></div>
-                    </div>
-                    <div className="overview-text">
-                        <p className="lead-para">{t("fateh.history.p1")}</p>
-                        
-                        <button 
-                            className={`audio-btn ${playingAudio === 'history' ? 'playing' : ''}`}
-                            onClick={() => handleAudioPlay('history', 'fateh.history.p1')}
-                            style={{ marginTop: '2rem' }}
-                        >
-                            {playingAudio === 'history' ? <Pause size={18} fill="currentColor" /> : <Play size={18} fill="currentColor" />}
-                            <span>{playingAudio === 'history' ? t("fort.audio.playing") : t("fort.audio.listen")}</span>
-                        </button>
-                    </div>
-                </motion.section>
-
-                {/* ═══ COLLECTION/GALLERY ═════════════════════ */}
-                <motion.section 
-                    initial={{ opacity: 0, y: 40 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    id="collection" 
-                    className="fort-section"
-                >
-                    <div className="section-header">
-                        <h2 className="section-title text-gold">{t("fateh.section.collection")}</h2>
-                        <div className="title-divider"></div>
-                    </div>
-                    <div className="overview-text">
-                        <p>{t("fateh.collection.p1")}</p>
-                        
-                        <button 
-                            className={`audio-btn ${playingAudio === 'collection' ? 'playing' : ''}`}
-                            onClick={() => handleAudioPlay('collection', 'fateh.collection.p1')}
-                            style={{ marginTop: '2rem' }}
-                        >
-                            {playingAudio === 'collection' ? <Pause size={18} fill="currentColor" /> : <Play size={18} fill="currentColor" />}
-                            <span>{playingAudio === 'collection' ? t("fort.audio.playing") : t("fort.audio.listen")}</span>
-                        </button>
-                    </div>
-                </motion.section>
-
-                {/* ═══ VISITOR INFO ═══════════════════════════ */}
-                <motion.section 
-                    initial={{ opacity: 0, y: 40 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    id="info" 
-                    className="fort-section mesh-bg"
-                >
-                    <div className="section-header">
-                        <h2 className="section-title text-gold">{t("fateh.section.info")}</h2>
-                        <div className="title-divider"></div>
-                    </div>
-                    <div className="overview-text">
-                        <p className="lead-para">{t("fateh.info.p1")}</p>
-                        
-                        <button 
-                            className={`audio-btn ${playingAudio === 'info' ? 'playing' : ''}`}
-                            onClick={() => handleAudioPlay('info', 'fateh.info.p1')}
-                            style={{ marginTop: '2rem' }}
-                        >
-                            {playingAudio === 'info' ? <Pause size={18} fill="currentColor" /> : <Play size={18} fill="currentColor" />}
-                            <span>{playingAudio === 'info' ? t("fort.audio.playing") : t("fort.audio.listen")}</span>
-                        </button>
-                    </div>
-                </motion.section>
-                {/* ═══ REFERENCES ═════════════════════════════ */}
-                <motion.section 
-                    initial={{ opacity: 0, y: 40 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    className="fort-section"
-                    style={{ paddingBottom: '4rem' }}
-                >
-                    <div className="section-header">
-                        <h2 className="section-title text-gold" style={{ fontSize: '1.5rem' }}>{t("fateh.references.title")}</h2>
-                        <div className="title-divider" style={{ width: '40px' }}></div>
-                    </div>
-                    <div className="overview-text" style={{ gap: '1rem' }}>
-                        <a 
-                            href={t("fateh.references.official_url")} 
-                            target="_blank" 
-                            rel="noopener noreferrer"
-                            className="reference-link"
-                        >
-                            {t("fateh.references.official")}
-                        </a>
-                    </div>
-                </motion.section>
-            </main>
-
             <style jsx global>{`
-                .reference-link {
-                    color: var(--gold);
-                    text-decoration: none;
-                    font-weight: 600;
-                    font-size: 1rem;
-                    transition: all 0.3s;
-                    border-bottom: 1px solid transparent;
-                }
-                .reference-link:hover {
-                    border-bottom-color: var(--gold);
-                    opacity: 0.8;
-                }
                 :root {
                     --ff-serif: 'Playfair Display', serif;
                     --ff-sans: 'Inter', sans-serif;
                     --gold: #d4af37;
+                    --gold-glow: rgba(212, 175, 55, 0.3);
                 }
 
                 .fort-page {
@@ -231,7 +155,7 @@ export default function FatehPrakashClient() {
                 h1, h2, h3, h4 {
                     font-family: var(--ff-serif);
                     font-weight: 700;
-                    letter-spacing: -0.02em;
+                    letter-spacing: -0.01em;
                     background: linear-gradient(135deg, #fff 0%, var(--gold) 50%, #d4af37 100%);
                     -webkit-background-clip: text;
                     -webkit-text-fill-color: transparent;
@@ -239,23 +163,31 @@ export default function FatehPrakashClient() {
                 }
 
                 .fort-page p {
-                    color: rgba(255, 255, 255, 0.98) !important;
+                    color: rgba(255, 255, 255, 0.9) !important;
                     line-height: 1.8;
                     font-size: 1.15rem;
-                    margin: 0 0 1.5rem 0;
+                    margin-bottom: 2rem;
                     text-align: center;
+                }
+
+                /* --- Glassmorphism --- */
+                .glass-panel {
+                    background: rgba(255, 255, 255, 0.03);
+                    backdrop-filter: blur(12px);
+                    border: 1px solid rgba(212, 175, 55, 0.15);
+                    border-radius: 12px;
+                    padding: 2.5rem;
                 }
 
                 /* --- Hero --- */
                 .fort-hero {
-                    min-height: 100vh; 
-                    height: auto;
+                    height: 100vh;
                     position: relative;
                     display: flex;
                     align-items: center;
                     justify-content: center;
                     text-align: center;
-                    padding: 8rem 1.5rem 4rem;
+                    overflow: hidden;
                     z-index: 2;
                 }
 
@@ -263,77 +195,80 @@ export default function FatehPrakashClient() {
                     position: absolute;
                     inset: 0;
                     background-size: cover;
-                    background-repeat: no-repeat;
+                    background-position: center;
                     z-index: -2;
+                    will-change: transform;
                 }
 
                 .hero-overlay {
                     position: absolute;
                     inset: 0;
-                    background: linear-gradient(to bottom, 
-                        rgba(10, 8, 4, 0.6) 0%, 
-                        rgba(10, 8, 4, 0.98) 100%
-                    ) !important;
+                    background: radial-gradient(circle at center, rgba(10, 8, 4, 0.4) 0%, rgba(10, 8, 4, 0.95) 100%);
                     z-index: -1;
                 }
 
                 .hero-content {
-                    max-width: 900px;
-                    width: 100%;
+                    max-width: 1000px;
+                    padding: 0 1.5rem;
                     z-index: 10;
                 }
 
                 .back-btn {
                     display: inline-flex;
                     align-items: center;
-                    gap: 0.5rem;
+                    gap: 0.75rem;
                     color: #fff;
-                    font-size: 0.8rem;
-                    margin-bottom: 3rem;
+                    font-size: 0.85rem;
+                    letter-spacing: 2px;
                     text-transform: uppercase;
-                    font-weight: 800;
-                    background: rgba(212, 175, 55, 0.2);
-                    padding: 0.75rem 1.5rem;
-                    border: 1px solid rgba(212, 175, 55, 0.4);
-                    border-radius: 4px;
+                    font-weight: 700;
+                    background: rgba(212, 175, 55, 0.1);
+                    backdrop-filter: blur(8px);
+                    padding: 0.8rem 1.8rem;
+                    border: 1px solid rgba(212, 175, 55, 0.35);
+                    border-radius: 8px;
                     cursor: pointer;
-                    transition: background 0.2s, transform 0.2s;
-                    font-family: var(--ff-sans);
+                    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+                    margin-bottom: 3rem;
                 }
                 .back-btn:hover {
-                    background: rgba(212, 175, 55, 0.35);
-                    transform: translateX(-4px);
+                    background: var(--gold);
+                    color: #000;
+                    transform: translateX(-5px);
+                    box-shadow: 0 10px 25px rgba(212, 175, 55, 0.4);
                 }
 
                 .hero-eyebrow {
                     display: block;
-                    letter-spacing: 4px;
+                    letter-spacing: 6px;
                     text-transform: uppercase;
                     font-size: 0.9rem;
                     color: var(--gold);
                     margin-bottom: 1.5rem;
                     font-weight: 800;
+                    opacity: 0.9;
                 }
 
                 .hero-title {
-                    font-size: clamp(2.5rem, 8vw, 5rem);
-                    color: #fff;
+                    font-size: clamp(3rem, 10vw, 6rem);
+                    line-height: 1.1;
                     margin-bottom: 2rem;
-                    text-shadow: 0 4px 20px rgba(0,0,0,0.8);
+                    text-shadow: 0 10px 30px rgba(0,0,0,0.5);
                 }
 
                 .hero-desc {
-                    font-size: clamp(1rem, 2.5vw, 1.2rem);
-                    max-width: 700px;
-                    margin: 0 auto 3rem;
+                    font-size: clamp(1.1rem, 2.5vw, 1.35rem);
+                    max-width: 800px;
+                    margin: 0 auto;
+                    color: rgba(255, 255, 255, 0.85) !important;
                 }
 
                 /* --- Nav --- */
                 .section-nav {
                     position: sticky;
                     top: 0;
-                    background: rgba(10, 8, 4, 0.95);
-                    backdrop-filter: blur(10px);
+                    background: rgba(10, 8, 4, 0.85);
+                    backdrop-filter: blur(15px);
                     z-index: 100;
                     border-bottom: 1px solid rgba(212, 175, 55, 0.2);
                     padding: 1.25rem 0;
@@ -343,159 +278,335 @@ export default function FatehPrakashClient() {
                     margin: 0 auto;
                     display: flex;
                     justify-content: center;
-                    gap: 3rem;
+                    gap: 4rem;
                 }
                 .nav-container a {
-                    color: rgba(255, 255, 255, 0.6);
+                    color: rgba(255, 255, 255, 0.5);
                     text-decoration: none;
                     text-transform: uppercase;
                     font-size: 0.85rem;
                     font-weight: 700;
-                    letter-spacing: 1.5px;
+                    letter-spacing: 2px;
                     transition: all 0.3s;
+                    position: relative;
+                }
+                .nav-container a::after {
+                    content: '';
+                    position: absolute;
+                    bottom: -8px;
+                    left: 0;
+                    width: 0;
+                    height: 2px;
+                    background: var(--gold);
+                    transition: width 0.3s;
                 }
                 .nav-container a:hover {
-                    color: var(--gold);
-                    text-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+                    color: #fff;
                 }
-
-                /* --- Sections --- */
-                .fort-main {
-                    display: block;
+                .nav-container a:hover::after {
                     width: 100%;
                 }
 
+                /* --- Sections --- */
                 .fort-section {
-                    display: block;
+                    padding: 10rem 1.5rem;
                     position: relative;
-                    padding: 8rem 1.5rem;
-                    max-width: 1200px;
-                    margin: 0 auto;
-                    background: transparent;
                 }
 
                 .section-header {
-                    margin-bottom: 4rem;
                     text-align: center;
+                    margin-bottom: 6rem;
                 }
 
                 .section-title {
-                    font-size: clamp(2.2rem, 6vw, 3.5rem);
-                    margin-bottom: 1.5rem;
+                    font-size: clamp(2.5rem, 6vw, 4.5rem);
+                    margin-bottom: 2rem;
                     color: var(--gold) !important;
                 }
 
                 .title-divider {
-                    width: 80px;
-                    height: 3px;
+                    width: 120px;
+                    height: 4px;
                     background: var(--gold);
                     margin: 0 auto;
+                    border-radius: 2px;
                 }
 
-                .overview-text {
-                    max-width: 800px;
-                    margin: 0 auto;
-                    display: flex;
-                    flex-direction: column;
-                    align-items: center;
-                }
-
-                .lead-para {
-                    font-size: 1.25rem !important;
-                    font-weight: 500;
-                }
-
-                .audio-btn {
-                    background: rgba(212, 175, 55, 0.1);
+                /* --- Audio Control --- */
+                .audio-bar {
+                    background: rgba(10, 8, 4, 0.9);
+                    backdrop-filter: blur(10px);
                     border: 1px solid rgba(212, 175, 55, 0.3);
-                    color: var(--gold) !important;
-                    padding: 1rem 2rem;
-                    font-size: 0.9rem;
-                    font-weight: 700;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    gap: 1rem;
                     border-radius: 50px;
+                    padding: 1rem 2.5rem;
+                    display: inline-flex;
+                    align-items: center;
+                    gap: 1.5rem;
+                    margin-top: 3rem;
                     cursor: pointer;
                     transition: all 0.4s;
-                    text-transform: uppercase;
-                    letter-spacing: 1.5px;
                 }
-
-                .audio-btn:hover {
+                .audio-bar:hover {
                     background: var(--gold);
-                    color: #000 !important;
-                    transform: translateY(-5px);
-                    box-shadow: 0 15px 30px rgba(212, 175, 55, 0.3);
+                    color: #000;
+                    box-shadow: 0 10px 40px rgba(212, 175, 55, 0.4);
                 }
-
-                .audio-btn.playing {
+                .audio-bar.playing {
                     background: #fff;
-                    color: #000 !important;
+                    color: #000;
                     border-color: #fff;
                 }
 
-                .mesh-bg::before {
+                .mesh-bg {
+                    position: relative;
+                }
+                .mesh-bg::after {
                     content: '';
                     position: absolute;
                     inset: 0;
-                    background-image: radial-gradient(rgba(212, 175, 55, 0.05) 1px, transparent 1px);
-                    background-size: 30px 30px;
+                    background-image: 
+                        radial-gradient(circle at 20% 30%, rgba(212, 175, 55, 0.03) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 70%, rgba(212, 175, 55, 0.03) 0%, transparent 50%);
                     z-index: -1;
+                    pointer-events: none;
                 }
 
                 .scroll-indicator {
                     position: absolute;
-                    bottom: 2rem;
+                    bottom: 3rem;
                     left: 50%;
                     transform: translateX(-50%);
-                    display: flex;
-                    flex-direction: column;
-                    align-items: center;
-                    gap: 1rem;
                     z-index: 10;
                 }
-
                 .mouse {
-                    width: 26px;
-                    height: 42px;
-                    border: 2px solid rgba(255, 255, 255, 0.3);
-                    border-radius: 20px;
+                    width: 30px;
+                    height: 50px;
+                    border: 2px solid rgba(255, 125, 255, 0.2);
+                    border-radius: 15px;
                     position: relative;
                 }
-
                 .mouse::after {
                     content: '';
                     width: 4px;
                     height: 8px;
                     background: var(--gold);
                     position: absolute;
-                    top: 8px;
+                    top: 10px;
                     left: 50%;
                     transform: translateX(-50%);
                     border-radius: 2px;
-                    animation: scroll 2s infinite;
+                    animation: mouseScroll 2s infinite;
                 }
-
-                @keyframes scroll {
-                    0% { transform: translateX(-50%) translateY(0); opacity: 1; }
-                    100% { transform: translateX(-50%) translateY(20px); opacity: 0; }
+                @keyframes mouseScroll {
+                    0% { opacity: 1; transform: translateX(-50%) translateY(0); }
+                    100% { opacity: 0; transform: translateX(-50%) translateY(20px); }
                 }
 
                 @media (max-width: 768px) {
-                    .fort-hero { padding-top: 6rem; padding-bottom: 4rem; min-height: 100vh; }
-                    .hero-title { font-size: 2.5rem; line-height: 1.15; }
-                    .nav-container { gap: 1.5rem; }
-                    .nav-container a { font-size: 0.7rem; }
-                    .fort-section { padding: 5rem 1.25rem; }
-                    .section-title { font-size: 2.2rem; }
+                    .nav-container { gap: 1.5rem; overflow-x: auto; padding: 0 1rem; }
+                    .nav-container a { font-size: 0.7rem; white-space: nowrap; }
+                    .fort-section { padding: 6rem 1.25rem; }
+                    .section-header { margin-bottom: 3rem; }
+                    .hero-title { font-size: 3.5rem; }
                 }
 
                 html {
                     scroll-behavior: smooth;
                 }
             `}</style>
+
+            {/* ═══ HERO SECTION ═══════════════════════════ */}
+            <section className="fort-hero">
+                <motion.div 
+                    style={{ 
+                        scale: heroScale,
+                        backgroundImage: "url('/fateh_prakash_palace.jpg')" 
+                    }} 
+                    className="hero-bg"
+                ></motion.div>
+                <div className="hero-overlay"></div>
+                
+                <motion.div 
+                    variants={containerVariants}
+                    className="hero-content"
+                >
+                    <motion.button variants={itemVariants} className="back-btn" onClick={() => router.push('/explore')}>
+                        <ArrowLeft size={18} /> {t("btn.back") || "Back"}
+                    </motion.button>
+                    <motion.span variants={itemVariants} className="hero-eyebrow">{t("fateh.hero.eyebrow")}</motion.span>
+                    <motion.h1 variants={itemVariants} className="hero-title">{t("fateh.hero.title")}</motion.h1>
+                    <motion.p variants={itemVariants} className="hero-desc">
+                        {t("fateh.hero.desc")?.split('. ').map((sentence, idx) => (
+                            <motion.span 
+                                key={idx} 
+                                variants={sentenceVariants}
+                                style={{ display: 'inline-block', marginRight: '0.4em' }}
+                            >
+                                {sentence}{idx < t("fateh.hero.desc").split('. ').length - 1 ? '.' : ''}
+                            </motion.span>
+                        ))}
+                    </motion.p>
+                </motion.div>
+                
+                <div className="scroll-indicator"><div className="mouse"></div></div>
+            </section>
+
+            {/* ═══ NAVIGATION ═════════════════════════════ */}
+            <nav className="section-nav">
+                <div className="nav-container">
+                    <a href="#history">{t("fateh.nav.history")}</a>
+                    <a href="#collection">{t("fateh.nav.collection")}</a>
+                    <a href="#info">{t("fateh.nav.info")}</a>
+                </div>
+            </nav>
+
+            <main className="fort-main">
+                {/* ═══ HISTORY ═══════════════════════════════ */}
+                <motion.section 
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={{ once: true, margin: "-50px" }}
+                    variants={containerVariants}
+                    id="history" 
+                    className="fort-section mesh-bg"
+                >
+                    <div className="section-header">
+                        <motion.h2 variants={itemVariants} className="section-title">{t("fateh.section.history")}</motion.h2>
+                        <motion.div variants={itemVariants} className="title-divider"></motion.div>
+                    </div>
+                    <div className="glass-panel" style={{ textAlign: 'center' }}>
+                        <motion.p variants={itemVariants} className="lead-para">
+                            {t("fateh.history.p1")?.split('. ').map((sentence, idx) => (
+                                <motion.span key={idx} variants={sentenceVariants} style={{ display: 'inline-block', marginRight: '0.4em' }}>
+                                    {sentence}{idx < t("fateh.history.p1").split('. ').length - 1 ? '.' : ''}
+                                </motion.span>
+                            ))}
+                        </motion.p>
+                        
+                        <motion.div 
+                            variants={itemVariants}
+                            className={`audio-bar ${playingAudio === 'history' ? 'playing' : ''}`}
+                            onClick={() => handleAudioPlay('history', 'fateh.history.p1')}
+                        >
+                            {playingAudio === 'history' ? <Waveform /> : <Play size={24} fill="currentColor" />}
+                            <span style={{ fontWeight: 800, letterSpacing: '2px', textTransform: 'uppercase' }}>
+                                {playingAudio === 'history' ? t("fort.audio.playing") : t("fort.audio.listen")}
+                            </span>
+                        </motion.div>
+                    </div>
+                </motion.section>
+
+                {/* ═══ COLLECTION ═════════════════════════════ */}
+                <motion.section 
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={{ once: true, margin: "-50px" }}
+                    variants={containerVariants}
+                    id="collection" 
+                    className="fort-section"
+                >
+                    <div className="section-header">
+                        <motion.h2 variants={itemVariants} className="section-title">{t("fateh.section.collection")}</motion.h2>
+                        <motion.div variants={itemVariants} className="title-divider"></motion.div>
+                    </div>
+
+                    <div className="collection-showcase" style={{ marginBottom: '4rem' }}>
+                        <motion.div 
+                            variants={itemVariants}
+                            className="glass-panel"
+                            style={{ padding: '0', overflow: 'hidden', height: '500px' }}
+                        >
+                            <img 
+                                src="/images/fateh-prakash-arch.jpg" 
+                                alt="Fateh Prakash Palace Architecture"
+                                style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                            />
+                        </motion.div>
+                    </div>
+
+                    <div className="glass-panel" style={{ textAlign: 'center' }}>
+                        <motion.p variants={itemVariants}>
+                            {t("fateh.collection.p1")?.split('. ').map((sentence, idx) => (
+                                <motion.span key={idx} variants={sentenceVariants} style={{ display: 'inline-block', marginRight: '0.4em' }}>
+                                    {sentence}{idx < t("fateh.collection.p1").split('. ').length - 1 ? '.' : ''}
+                                </motion.span>
+                            ))}
+                        </motion.p>
+                        
+                        <motion.div 
+                            variants={itemVariants}
+                            className={`audio-bar ${playingAudio === 'collection' ? 'playing' : ''}`}
+                            onClick={() => handleAudioPlay('collection', 'fateh.collection.p1')}
+                        >
+                            {playingAudio === 'collection' ? <Waveform /> : <Play size={24} fill="currentColor" />}
+                            <span style={{ fontWeight: 800, letterSpacing: '2px', textTransform: 'uppercase' }}>
+                                {playingAudio === 'collection' ? t("fort.audio.playing") : t("fort.audio.listen")}
+                            </span>
+                        </motion.div>
+                    </div>
+                </motion.section>
+
+                {/* ═══ INFO ══════════════════════════════════ */}
+                <motion.section 
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={{ once: true, margin: "-50px" }}
+                    variants={containerVariants}
+                    id="info" 
+                    className="fort-section mesh-bg"
+                >
+                    <div className="section-header">
+                        <motion.h2 variants={itemVariants} className="section-title">{t("fateh.section.info")}</motion.h2>
+                        <motion.div variants={itemVariants} className="title-divider"></motion.div>
+                    </div>
+                    <div className="glass-panel" style={{ textAlign: 'center' }}>
+                        <motion.p variants={itemVariants} className="lead-para">
+                            {t("fateh.info.p1")?.split('. ').map((sentence, idx) => (
+                                <motion.span key={idx} variants={sentenceVariants} style={{ display: 'inline-block', marginRight: '0.4em' }}>
+                                    {sentence}{idx < t("fateh.info.p1").split('. ').length - 1 ? '.' : ''}
+                                </motion.span>
+                            ))}
+                        </motion.p>
+                        
+                        <motion.div 
+                            variants={itemVariants}
+                            className={`audio-bar ${playingAudio === 'info' ? 'playing' : ''}`}
+                            onClick={() => handleAudioPlay('info', 'fateh.info.p1')}
+                        >
+                            {playingAudio === 'info' ? <Waveform /> : <Play size={24} fill="currentColor" />}
+                            <span style={{ fontWeight: 800, letterSpacing: '2px', textTransform: 'uppercase' }}>
+                                {playingAudio === 'info' ? t("fort.audio.playing") : t("fort.audio.listen")}
+                            </span>
+                        </motion.div>
+                    </div>
+                </motion.section>
+
+                {/* ═══ REFERENCES ═════════════════════════════ */}
+                <motion.section 
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={{ once: true }}
+                    variants={containerVariants}
+                    className="fort-section"
+                    style={{ paddingBottom: '8rem' }}
+                >
+                    <div className="section-inner" style={{ textAlign: 'center' }}>
+                        <motion.h2 variants={itemVariants} className="section-title" style={{ fontSize: '1.8rem' }}>{t("fateh.references.title")}</motion.h2>
+                        <motion.div variants={itemVariants} className="title-divider" style={{ width: '40px', marginBottom: '3rem' }}></motion.div>
+                        
+                        <motion.a 
+                            variants={itemVariants}
+                            href={t("fateh.references.official_url")} 
+                            target="_blank" 
+                            rel="noopener noreferrer"
+                            className="back-btn"
+                            style={{ margin: 0 }}
+                        >
+                            {t("fateh.references.official")}
+                        </motion.a>
+                    </div>
+                </motion.section>
+            </main>
         </motion.div>
     );
 }

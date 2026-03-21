@@ -65,6 +65,36 @@ const nextConfig = {
         permanent: true,
       },
       {
+        source: '/kumbha%20palace',
+        destination: '/kumbha-palace',
+        permanent: true,
+      },
+      {
+        source: '/kumbha%20shyam',
+        destination: '/kumbha-shyam',
+        permanent: true,
+      },
+      {
+        source: '/fateh%20prakash',
+        destination: '/fateh-prakash',
+        permanent: true,
+      },
+      {
+        source: '/padmini%20palace',
+        destination: '/padmini-palace',
+        permanent: true,
+      },
+      {
+        source: '/ratan%20palace',
+        destination: '/ratan-palace',
+        permanent: true,
+      },
+      {
+        source: '/kalika%20temple',
+        destination: '/kalika-temple',
+        permanent: true,
+      },
+      {
         source: '/vijaystambh',
         destination: '/vijay-stambh',
         permanent: true,
