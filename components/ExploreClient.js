@@ -99,7 +99,7 @@ export default function ExploreClient() {
                             time={t("attr.gaumukh.time")}
                             dist={t("attr.gaumukh.dist")}
                             delay={7}
-                            link="https://www.chittorgarh.com/attraction/gaumukh-reservoir/14/"
+                            link="/gaumukh"
                             image="/gaumukh_reservoir.jpg"
                         />
                         <GlassCard
@@ -108,7 +108,7 @@ export default function ExploreClient() {
                             time={t("attr.fateh.time")}
                             dist={t("attr.fateh.dist")}
                             delay={8}
-                            link="https://en.wikipedia.org/wiki/Chittor_Fort#Fateh_Prakash_Palace"
+                            link="/fateh-prakash"
                             image="/fateh_prakash_palace.jpg"
                         />
                         <GlassCard
@@ -117,15 +117,24 @@ export default function ExploreClient() {
                             time={t("attr.kumbha_palace.time")}
                             dist={t("attr.kumbha_palace.dist")}
                             delay={9}
-                            link="https://en.wikipedia.org/wiki/Chittor_Fort#Rana_Kumbha_Palace"
+                            link="/kumbha-palace"
                             image="/rana_kumbha_palace.jpg"
+                        />
+                        <GlassCard
+                            title={t("padmini.hero.title")}
+                            desc={t("padmini.hero.desc")}
+                            time="10:00 AM - 5:00 PM"
+                            dist="Within Fort"
+                            delay={10}
+                            link="/padmini-palace"
+                            image="/padmini.png"
                         />
                         <GlassCard
                             title={t("attr.meera.name")}
                             desc={t("attr.meera.desc")}
                             time={t("attr.meera.time")}
                             dist={t("attr.meera.dist")}
-                            delay={10}
+                            delay={11}
                             link="https://en.wikipedia.org/wiki/Chittor_Fort#Meera_Temple"
                             image="/meerabai_temple.jpg"
                         />
@@ -134,8 +143,8 @@ export default function ExploreClient() {
                             desc={t("attr.ratan.desc")}
                             time={t("attr.ratan.time")}
                             dist={t("attr.ratan.dist")}
-                            delay={11}
-                            link="https://www.chittorgarh.com/attraction/ratan-singh-palace/13/"
+                            delay={12}
+                            link="/ratan-palace"
                             image="/ratan_singh_palace.jpg"
                         />
                         <GlassCard
@@ -143,8 +152,8 @@ export default function ExploreClient() {
                             desc={t("attr.kumbha_shyam.desc")}
                             time={t("attr.kumbha_shyam.time")}
                             dist={t("attr.kumbha_shyam.dist")}
-                            delay={12}
-                            link="https://www.chittorgarh.com/attraction/kumbha-shyam-temple/9/"
+                            delay={13}
+                            link="/kumbha-shyam"
                             image="/kumbha_shyam_temple.jpg"
                         />
                         <GlassCard
@@ -152,7 +161,7 @@ export default function ExploreClient() {
                             desc={t("attr.menal.desc")}
                             time={t("attr.menal.time")}
                             dist={t("attr.menal.dist")}
-                            delay={13}
+                            delay={14}
                             link="https://en.wikipedia.org/wiki/Menal"
                             image="/menal_waterfall.jpg"
                         />
@@ -161,7 +170,7 @@ export default function ExploreClient() {
                             desc={t("attr.light.desc")}
                             time={t("attr.light.time")}
                             dist={t("attr.light.dist")}
-                            delay={14}
+                            delay={15}
                             link="https://www.tourism.rajasthan.gov.in/chittorgarh.html"
                             image="/light_sound_show.jpg"
                             bookingLink="https://asi.payumoney.com/quick/chf"

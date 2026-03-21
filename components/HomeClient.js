@@ -100,17 +100,17 @@ export default function HomeClient() {
                             delay={0.1}
                         />
                         <HighlightCard
-                            image="/hero_bg.png"
+                            image="/Each page Pics/Fort pics/Padmini Palace.jpg"
                             title={t("highlights.h2.title")}
                             desc={t("highlights.h2.desc")}
-                            href="/coming-soon"
+                            href="/padmini-palace"
                             delay={0.2}
                         />
                         <HighlightCard
-                            image="/rana_kumbha_palace.jpg"
+                            image="/Each page Pics/Fort pics/Rana Kumbha Palace.jpg"
                             title={t("highlights.h3.title")}
                             desc={t("highlights.h3.desc")}
-                            href="/coming-soon"
+                            href="/kumbha-palace"
                             delay={0.3}
                         />
                     </div>
