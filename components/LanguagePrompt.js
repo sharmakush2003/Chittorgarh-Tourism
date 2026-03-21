@@ -25,8 +25,8 @@ export default function LanguagePrompt() {
     const pathname = usePathname();
 
     useEffect(() => {
-        // Hide if we are on an admin route
-        if (pathname.startsWith('/admin')) {
+        // Hide if we are on any route other than the homepage (/)
+        if (pathname !== '/') {
             setIsVisible(false);
             return;
         }
