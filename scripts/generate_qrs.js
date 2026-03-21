@@ -18,8 +18,7 @@ const monuments = [
     "plan",
     "stays",
     "how-to-reach",
-    "download",
-    "emergency"
+    "download"
 ];
 
 const outputDir = path.join(__dirname, '../public/QR codes');
