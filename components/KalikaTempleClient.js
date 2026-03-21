@@ -17,7 +17,8 @@ import {
     Info,
     Palette,
     Columns,
-    Gem
+    Gem,
+    Globe
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import GoldenHourTracker from "./GoldenHourTracker";
@@ -124,18 +125,18 @@ export default function KalikaTempleClient() {
                     
                     <div className="hero-stats">
                         <div className="stat-item">
-                            <span className="stat-val">1200+</span>
+                            <span className="stat-val">{t("kalika.stats.age").split(' ')[0]}</span>
                             <span className="stat-label">{t("kalika.stats.age").split(' ').slice(1).join(' ')}</span>
                         </div>
                         <div className="stat-divider"></div>
                         <div className="stat-item">
-                            <span className="stat-val">नगर</span>
-                            <span className="stat-label">Style</span>
+                            <span className="stat-val">{t("kalika.stats.type").split(' ')[0]}</span>
+                            <span className="stat-label">{t("kalika.stats.type").split(' ').slice(1).join(' ') || "Style"}</span>
                         </div>
                         <div className="stat-divider"></div>
                         <div className="stat-item">
-                            <span className="stat-val">शक्ति</span>
-                            <span className="stat-label">Deity</span>
+                            <span className="stat-val">{t("kalika.stats.deity").split(' ')[0]}</span>
+                            <span className="stat-label">{t("kalika.stats.deity").split(' ').slice(1).join(' ') || "Deity"}</span>
                         </div>
                     </div>
 
@@ -270,6 +271,36 @@ export default function KalikaTempleClient() {
                     </div>
                 </section>
 
+                <motion.section 
+                    id="references" 
+                    className="fort-section"
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                >
+                    <div className="section-header">
+                        <h2 className="section-title text-gold">{t("kalika.references.title") || "References"}</h2>
+                        <div className="title-divider"></div>
+                    </div>
+                    <div className="premium-glass" style={{ padding: '2rem', borderRadius: '16px' }}>
+                        <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
+                            <li style={{ display: 'flex', gap: '16px', alignItems: 'flex-start' }}>
+                                <Globe size={24} color="var(--gold)" style={{ marginTop: '4px' }} />
+                                <div>
+                                    <h3 style={{ fontSize: '1.1rem', marginBottom: '0.4rem', color: '#fff', fontFamily: 'var(--ff-sans)', fontWeight: '600' }}>{t("kalika.references.wikipedia") || "Wikipedia"}</h3>
+                                    <a 
+                                        href={t("kalika.references.url") || "https://en.wikipedia.org/wiki/Kalika_Mata_Temple,_Chittorgarh_Fort"} 
+                                        target="_blank" 
+                                        rel="noopener noreferrer" 
+                                        style={{ color: 'var(--gold)', textDecoration: 'none', fontSize: '0.95rem', display: 'inline-flex', alignItems: 'center', gap: '4px' }}
+                                    >
+                                        Kalika Mata Temple, Chittorgarh Fort <span>→</span>
+                                    </a>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </motion.section>
             </main>
 
             <style jsx global>{`
