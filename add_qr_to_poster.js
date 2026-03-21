@@ -72,4 +72,4 @@ async function addQRToPoster(url, inputPath, outputPath) {
     console.log(`Poster with QR created successfully at ${outputPath}`);
 }
 
-addQRToPoster('https://chittorgarh-tourism-five.vercel.app/', 'public/Poster-For-Chittorgarh-Tourism.png', 'public/poster.png');
+addQRToPoster('https://chittorgarh-tourism.in/', 'public/Poster-For-Chittorgarh-Tourism.png', 'public/poster.png');

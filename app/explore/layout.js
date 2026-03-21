@@ -4,7 +4,7 @@ export const metadata = {
     openGraph: {
         title: "Explore Attractions | Chittorgarh Tourism",
         description: "Navigate through the legendary Chittorgarh Fort, Vijay Stambha, and historic temples.",
-        url: "https://chittorgarh-tourism-five.vercel.app/explore",
+        url: "https://chittorgarh-tourism.in/explore",
     }
 };
 

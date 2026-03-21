@@ -167,7 +167,6 @@ export default function RatanPalaceClient() {
                             <p>{t("ratan_palace.overview.p2")}</p>
                             <div className="info-chips">
                                 <span className="chip"><Clock size={14} /> 9:30 AM - 5:00 PM</span>
-                                <span className="chip"><MapPin size={14} /> Northern Fort</span>
                             </div>
                             
                             <button 

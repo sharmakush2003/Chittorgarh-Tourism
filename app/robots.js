@@ -3,8 +3,7 @@ export default function robots() {
         rules: {
             userAgent: '*',
             allow: '/',
-            disallow: ['/api/'],
         },
-        sitemap: 'https://chittorgarh-tourism-five.vercel.app/sitemap.xml',
+        sitemap: 'https://chittorgarh-tourism.in/sitemap.xml',
     }
 }

@@ -63,7 +63,7 @@ export default function PrivacyPolicy() {
                         {
                             title: "Introduction",
                             content: (
-                                <p>Welcome to <strong style={{ color: "var(--gold)" }}>Chittorgarh Tourism</strong> (chittorgarh-tourism-five.vercel.app). We are a purely informational and awareness-driven portal dedicated to the heritage, culture, and travel guides of Chittorgarh, Rajasthan. Your privacy is of paramount importance to us.</p>
+                                <p>Welcome to <strong style={{ color: "var(--gold)" }}>Chittorgarh Tourism</strong> (chittorgarh-tourism.in). We are a purely informational and awareness-driven portal dedicated to the heritage, culture, and travel guides of Chittorgarh, Rajasthan. Your privacy is of paramount importance to us.</p>
                             ),
                         },
                         {

@@ -115,7 +115,7 @@ export async function POST(request) {
     });
 
     const { subject: attrSubject, tagline, emoji } = getPlaceInfo(placeName);
-    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://chittorgarh-tourism-five.vercel.app';
+    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://chittorgarh-tourism.in';
     const year = new Date().getFullYear();
 
     // DYNAMIC METADATA BASED ON CATEGORY

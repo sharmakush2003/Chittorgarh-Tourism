@@ -63,7 +63,7 @@ export default function TermsAndConditions() {
                         {
                             title: "Agreement to Terms",
                             content: (
-                                <p>By accessing and using <strong style={{ color: "var(--gold)" }}>Chittorgarh Tourism</strong> (chittorgarh-tourism-five.vercel.app), you agree to be bound by these Terms & Conditions. This platform is a non-commercial, informational resource dedicated to the history and beauty of Chittorgarh.</p>
+                                <p>By accessing and using <strong style={{ color: "var(--gold)" }}>Chittorgarh Tourism</strong> (chittorgarh-tourism.in), you agree to be bound by these Terms & Conditions. This platform is a non-commercial, informational resource dedicated to the history and beauty of Chittorgarh.</p>
                             ),
                         },
                         {

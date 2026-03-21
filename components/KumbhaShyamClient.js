@@ -167,7 +167,6 @@ export default function KumbhaShyamClient() {
                             <p>{t("kumbha_shyam.overview.p2")}</p>
                             <div className="info-chips">
                                 <span className="chip"><Clock size={14} /> 6:00 AM - 8:00 PM</span>
-                                <span className="chip"><MapPin size={14} /> Near Vijay Stambh</span>
                             </div>
                             
                             <button 

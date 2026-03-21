@@ -56,7 +56,7 @@ export async function POST(request) {
 
     const theme = ITINERARY_THEMES[interest] || ITINERARY_THEMES["1 Day Tour"];
     const formattedDate = formatDate(date);
-    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://chittorgarh-tourism-five.vercel.app';
+    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://chittorgarh-tourism.in';
     const year = new Date().getFullYear();
 
     // Build schedule rows HTML

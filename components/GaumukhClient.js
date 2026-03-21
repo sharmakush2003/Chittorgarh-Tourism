@@ -168,7 +168,6 @@ export default function GaumukhClient() {
                             <p>{t("gaumukh.overview.p2")}</p>
                             <div className="info-chips">
                                 <span className="chip"><Clock size={14} /> 24 Hours</span>
-                                <span className="chip"><MapPin size={14} /> Chittorgarh Fort</span>
                             </div>
                             
                             <button 

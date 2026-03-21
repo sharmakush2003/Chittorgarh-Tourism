@@ -168,7 +168,6 @@ export default function FatehPrakashClient() {
                             <p>{t("fateh.overview.p2")}</p>
                             <div className="info-chips">
                                 <span className="chip"><Clock size={14} /> 10:00 AM - 5:00 PM</span>
-                                <span className="chip"><MapPin size={14} /> Chittorgarh Fort</span>
                                 <span className="chip"><Info size={14} /> Friday Closed</span>
                             </div>
                             

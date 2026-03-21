@@ -4,7 +4,7 @@ export const metadata = {
     openGraph: {
         title: "Plan Your Visit | Chittorgarh Tourism",
         description: "Curated 1, 2, and 3-day itineraries for Chittorgarh Fort.",
-        url: "https://chittorgarh-tourism-five.vercel.app/plan",
+        url: "https://chittorgarh-tourism.in/plan",
     }
 };
 

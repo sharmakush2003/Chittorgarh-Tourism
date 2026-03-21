@@ -181,7 +181,6 @@ export default function KumbhaPalaceClient() {
                             <p>{t("kumbha.overview.p2")}</p>
                             <div className="info-chips">
                                 <span className="chip"><Clock size={14} /> 9:00 AM - 6:00 PM</span>
-                                <span className="chip"><MapPin size={14} /> Chittorgarh Fort</span>
                             </div>
                             
                             <button 

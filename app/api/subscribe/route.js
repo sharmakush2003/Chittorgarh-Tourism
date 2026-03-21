@@ -24,7 +24,7 @@ export async function POST(request) {
     });
 
     const year = new Date().getFullYear();
-    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://chittorgarh-tourism-five.vercel.app';
+    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://chittorgarh-tourism.in';
 
     // V2: CINEMATIC WELCOME EMAIL TEMPLATE
     const welcomeMailOptions = {
