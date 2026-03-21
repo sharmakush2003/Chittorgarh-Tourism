@@ -597,7 +597,20 @@ function HotelGlassCard({ hotel, delay, t }) {
                 .hotel-meta-top { display: flex; justify-content: center; margin-bottom: 0.5rem; }
                 .hotel-stars { color: var(--gold); font-size: 0.9rem; letter-spacing: 2px; }
                 .card-title { font-family: var(--ff-display); font-size: 1.6rem; color: var(--gold); margin-bottom: 1rem; text-align: center; }
-                .card-desc { font-size: 0.9rem; color: rgba(255, 255, 255, 0.8); line-height: 1.6; text-align: center; margin-bottom: 1.5rem; flex-grow: 1; }
+                .card-desc { 
+                    font-size: 0.9rem; 
+                    color: rgba(255, 255, 255, 0.8); 
+                    line-height: 1.6; 
+                    text-align: center; 
+                    margin-bottom: 1.5rem; 
+                    display: -webkit-box;
+                    -webkit-line-clamp: 3;
+                    -webkit-box-orient: vertical;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    height: 4.8rem; /* 3 lines * 1.6 line-height */
+                    flex-shrink: 0;
+                }
                 
                 .smart-badges {
                     display: flex;

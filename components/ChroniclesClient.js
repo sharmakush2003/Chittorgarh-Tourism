@@ -364,6 +364,13 @@ export default function ChroniclesClient() {
                     line-height: 1.8;
                     font-size: 1rem;
                     margin-bottom: 2rem;
+                    display: -webkit-box;
+                    -webkit-line-clamp: 3;
+                    -webkit-box-orient: vertical;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    height: 5.4rem; /* 3 lines * 1.8 line-height */
+                    flex-shrink: 0;
                 }
 
                 .explore-saga {

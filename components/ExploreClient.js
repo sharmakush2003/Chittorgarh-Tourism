@@ -378,15 +378,15 @@ function GlassCard({ title, desc, time, dist, delay, link, image, imgPos = 'cent
                     </div>
 
                     <div className="card-actions" style={{ display: 'flex', gap: '0.5rem', alignItems: 'center', marginTop: 'auto', width: '100%' }}>
-                        {link.startsWith('/') ? (
-                            <Link href={link} className="read-more">
+                        {link && (link.startsWith('/') ? (
+                            <Link href={link} className="read-more" target="_blank">
                                 {t("btn.readMore")} <ArrowRight className="arrow" size={16} />
                             </Link>
                         ) : (
                             <a href={link} target="_blank" rel="noopener noreferrer" className="read-more">
                                 {t("btn.readMore")} <ArrowRight className="arrow" size={16} />
                             </a>
-                        )}
+                        ))}
                         {bookingLink && (
                             <a
                                 href={bookingLink}
@@ -525,8 +525,14 @@ function GlassCard({ title, desc, time, dist, delay, link, image, imgPos = 'cent
                     color: rgba(255, 255, 255, 0.8);
                     line-height: 1.6;
                     text-align: center;
-                    margin-bottom: 2rem;
-                    flex-grow: 1;
+                    margin-bottom: 1.5rem;
+                    display: -webkit-box;
+                    -webkit-line-clamp: 3;
+                    -webkit-box-orient: vertical;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    height: 4.8rem; /* 3 lines * 1.6 line-height */
+                    flex-shrink: 0;
                 }
 
                 .card-meta {
