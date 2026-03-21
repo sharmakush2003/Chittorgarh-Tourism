@@ -5,26 +5,15 @@ import React, { useState, useEffect, useRef } from "react";
 import { 
     Play, 
     Pause, 
-    ArrowLeft,
-    MapPin,
-    ScrollText,
-    ChevronDown,
-    ChevronUp,
-    Camera,
-    Info,
-    Columns,
-    Swords,
-    Gem
+    ArrowLeft
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
-import { triggerHaptic } from "@/lib/haptics";
 
 export default function FatehPrakashClient() {
     const { t, lang } = useLanguage();
     const router = useRouter();
     const [playingAudio, setPlayingAudio] = useState(null);
-    const [expandedSections, setExpandedSections] = useState({});
     const voicesRef = useRef([]);
 
     useEffect(() => {
@@ -38,15 +27,7 @@ export default function FatehPrakashClient() {
         };
     }, []);
 
-
-
-    const ARCH_FEATURES = [
-        { id: "fateh_arch.corridors", icon: <Columns size={20} /> },
-        { id: "fateh_arch.museum", icon: <Swords size={20} /> },
-        { id: "fateh_arch.crystal", icon: <Gem size={20} /> }
-    ];
-
-    const handleAudioPlay = (sectionId, customText = null) => {
+    const handleAudioPlay = (sectionId, textKey) => {
         const synth = window.speechSynthesis;
         synth.cancel();
 
@@ -55,7 +36,7 @@ export default function FatehPrakashClient() {
             return;
         }
 
-        const textToSpeak = customText || `${t(`attr.${sectionId}.name`)}. ${t(`attr.${sectionId}.desc`)}`;
+        const textToSpeak = t(textKey);
         const utterance = new SpeechSynthesisUtterance(textToSpeak);
         
         const langMap = { 'en': 'en-US', 'hi': 'hi-IN' };
@@ -84,6 +65,7 @@ export default function FatehPrakashClient() {
             transition={{ duration: 1 }}
             className="fort-page"
         >
+            {/* ═══ HERO SECTION ═══════════════════════════ */}
             <section className="fort-hero">
                 <div className="hero-bg" style={{ backgroundImage: "url('/fateh_prakash_palace.jpg')", backgroundPosition: 'center center' }}></div>
                 <div className="hero-overlay"></div>
@@ -94,115 +76,142 @@ export default function FatehPrakashClient() {
                     transition={{ delay: 0.2, duration: 0.8 }}
                     className="hero-content"
                 >
-                    <button className="back-btn" onClick={() => {
-                        triggerHaptic('light');
-                        router.push('/explore');
-                    }}>
+                    <button className="back-btn" onClick={() => router.push('/explore')}>
                         <ArrowLeft size={16} /> {t("btn.back") || "Back"}
                     </button>
                     <span className="hero-eyebrow">{t("fateh.hero.eyebrow")}</span>
                     <h1 className="hero-title">{t("fateh.hero.title")}</h1>
                     <p className="hero-desc">{t("fateh.hero.desc")}</p>
-                    
                 </motion.div>
                 
                 <div className="scroll-indicator"><div className="mouse"></div></div>
             </section>
 
-
+            {/* ═══ NAVIGATION ═════════════════════════════ */}
+            <nav className="section-nav">
+                <div className="nav-container">
+                    <a href="#history">{t("fateh.nav.history")}</a>
+                    <a href="#collection">{t("fateh.nav.collection")}</a>
+                    <a href="#info">{t("fateh.nav.info")}</a>
+                </div>
+            </nav>
 
             <main className="fort-main">
+                {/* ═══ HISTORY/ORIGIN ════════════════════════ */}
                 <motion.section 
                     initial={{ opacity: 0, y: 40 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
-                    id="overview" 
+                    id="history" 
                     className="fort-section mesh-bg"
                 >
                     <div className="section-header">
-                        <h2 className="section-title text-gold">{t("fateh.section.overview")}</h2>
+                        <h2 className="section-title text-gold">{t("fateh.section.history")}</h2>
                         <div className="title-divider"></div>
                     </div>
-                    <div className="overview-grid">
-                        <div className="overview-text">
-                            <p className="lead-para">{t("fateh.overview.p1")}</p>
-                            <p>{t("fateh.overview.p2")}</p>
-                            <div className="info-chips">
-                                <span className="chip"><Info size={14} /> Friday Closed</span>
-                            </div>
-                            
-                            <button 
-                                className={`audio-btn ${playingAudio === 'overview' ? 'playing' : ''}`}
-                                onClick={() => handleAudioPlay('overview', `${t("fateh.overview.p1")} ${t("fateh.overview.p2")}`)}
-                                style={{ marginTop: '2rem' }}
-                            >
-                                {playingAudio === 'overview' ? <Pause size={18} fill="currentColor" /> : <Play size={18} fill="currentColor" />}
-                                <span>{playingAudio === 'overview' ? t("fort.audio.playing") : t("fort.audio.listen")}</span>
-                            </button>
-                        </div>
+                    <div className="overview-text">
+                        <p className="lead-para">{t("fateh.history.p1")}</p>
+                        
+                        <button 
+                            className={`audio-btn ${playingAudio === 'history' ? 'playing' : ''}`}
+                            onClick={() => handleAudioPlay('history', 'fateh.history.p1')}
+                            style={{ marginTop: '2rem' }}
+                        >
+                            {playingAudio === 'history' ? <Pause size={18} fill="currentColor" /> : <Play size={18} fill="currentColor" />}
+                            <span>{playingAudio === 'history' ? t("fort.audio.playing") : t("fort.audio.listen")}</span>
+                        </button>
                     </div>
                 </motion.section>
 
-
-                <section id="architecture" className="fort-section">
-                    <motion.div 
-                        initial={{ opacity: 0, y: 30 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        className="section-header"
-                    >
-                        <h2 className="section-title text-gold">{t("fateh.section.architecture")}</h2>
+                {/* ═══ COLLECTION/GALLERY ═════════════════════ */}
+                <motion.section 
+                    initial={{ opacity: 0, y: 40 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    id="collection" 
+                    className="fort-section"
+                >
+                    <div className="section-header">
+                        <h2 className="section-title text-gold">{t("fateh.section.collection")}</h2>
                         <div className="title-divider"></div>
-                    </motion.div>
-
-                    <div className="monuments-list">
-                        {ARCH_FEATURES.map((m, idx) => (
-                            <motion.div 
-                                key={m.id} 
-                                initial={{ opacity: 0, y: 20 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                transition={{ delay: idx * 0.1 }}
-                                className="monument-card premium-glass"
-                            >
-
-
-                                <div className="mon-content">
-                                    <h3 className="mon-name" style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                                        <span style={{ color: 'var(--gold)' }}>{m.icon}</span> 
-                                        {t(`attr.${m.id}.name`)}
-                                    </h3>
-                                    <p className={`mon-desc ${expandedSections[m.id] ? 'expanded' : ''}`}>
-                                        {t(`attr.${m.id}.desc`)}
-                                    </p>
-                                    
-                                    <button 
-                                        className="read-more-btn"
-                                        onClick={() => {
-                                            setExpandedSections(prev => ({...prev, [m.id]: !prev[m.id]}));
-                                        }}
-                                    >
-                                        {expandedSections[m.id] ? (
-                                            <><ChevronUp size={16} /> {t("btn.readLess") || "Read Less"}</>
-                                        ) : (
-                                            <><ChevronDown size={16} /> {t("btn.readMore") || "Read More"}</>
-                                        )}
-                                    </button>
-                                    
-                                    <button 
-                                        className={`audio-btn ${playingAudio === m.id ? 'playing' : ''}`}
-                                        onClick={() => handleAudioPlay(m.id)}
-                                    >
-                                        {playingAudio === m.id ? <Pause size={18} fill="currentColor" /> : <Play size={18} fill="currentColor" />}
-                                        <span>{playingAudio === m.id ? t("fort.audio.playing") : t("fort.audio.listen")}</span>
-                                    </button>
-                                </div>
-                            </motion.div>
-                        ))}
                     </div>
-                </section>
+                    <div className="overview-text">
+                        <p>{t("fateh.collection.p1")}</p>
+                        
+                        <button 
+                            className={`audio-btn ${playingAudio === 'collection' ? 'playing' : ''}`}
+                            onClick={() => handleAudioPlay('collection', 'fateh.collection.p1')}
+                            style={{ marginTop: '2rem' }}
+                        >
+                            {playingAudio === 'collection' ? <Pause size={18} fill="currentColor" /> : <Play size={18} fill="currentColor" />}
+                            <span>{playingAudio === 'collection' ? t("fort.audio.playing") : t("fort.audio.listen")}</span>
+                        </button>
+                    </div>
+                </motion.section>
+
+                {/* ═══ VISITOR INFO ═══════════════════════════ */}
+                <motion.section 
+                    initial={{ opacity: 0, y: 40 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    id="info" 
+                    className="fort-section mesh-bg"
+                >
+                    <div className="section-header">
+                        <h2 className="section-title text-gold">{t("fateh.section.info")}</h2>
+                        <div className="title-divider"></div>
+                    </div>
+                    <div className="overview-text">
+                        <p className="lead-para">{t("fateh.info.p1")}</p>
+                        
+                        <button 
+                            className={`audio-btn ${playingAudio === 'info' ? 'playing' : ''}`}
+                            onClick={() => handleAudioPlay('info', 'fateh.info.p1')}
+                            style={{ marginTop: '2rem' }}
+                        >
+                            {playingAudio === 'info' ? <Pause size={18} fill="currentColor" /> : <Play size={18} fill="currentColor" />}
+                            <span>{playingAudio === 'info' ? t("fort.audio.playing") : t("fort.audio.listen")}</span>
+                        </button>
+                    </div>
+                </motion.section>
+                {/* ═══ REFERENCES ═════════════════════════════ */}
+                <motion.section 
+                    initial={{ opacity: 0, y: 40 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    className="fort-section"
+                    style={{ paddingBottom: '4rem' }}
+                >
+                    <div className="section-header">
+                        <h2 className="section-title text-gold" style={{ fontSize: '1.5rem' }}>{t("fateh.references.title")}</h2>
+                        <div className="title-divider" style={{ width: '40px' }}></div>
+                    </div>
+                    <div className="overview-text" style={{ gap: '1rem' }}>
+                        <a 
+                            href={t("fateh.references.official_url")} 
+                            target="_blank" 
+                            rel="noopener noreferrer"
+                            className="reference-link"
+                        >
+                            {t("fateh.references.official")}
+                        </a>
+                    </div>
+                </motion.section>
             </main>
 
             <style jsx global>{`
+                .reference-link {
+                    color: var(--gold);
+                    text-decoration: none;
+                    font-weight: 600;
+                    font-size: 1rem;
+                    transition: all 0.3s;
+                    border-bottom: 1px solid transparent;
+                }
+                .reference-link:hover {
+                    border-bottom-color: var(--gold);
+                    opacity: 0.8;
+                }
                 :root {
                     --ff-serif: 'Playfair Display', serif;
                     --ff-sans: 'Inter', sans-serif;
@@ -229,28 +238,15 @@ export default function FatehPrakashClient() {
                     filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
                 }
 
-                .fort-page h1, .fort-page h2, .fort-page h3, .fort-page h4, .fort-page .timeline-year {
-                    line-height: 1.3 !important;
-                    margin: 0;
-                    padding: 0;
-                }
-
                 .fort-page p {
                     color: rgba(255, 255, 255, 0.98) !important;
                     line-height: 1.8;
-                    font-size: 1.05rem;
+                    font-size: 1.15rem;
                     margin: 0 0 1.5rem 0;
+                    text-align: center;
                 }
 
-                [lang="hi"] .fort-page .hero-title,
-                [lang="hi"] .fort-page .section-title,
-                [lang="hi"] .fort-page .timeline-year,
-                [lang="hi"] .fort-page .mon-name {
-                    font-family: var(--font-martel), serif !important;
-                    font-weight: 900 !important;
-                    line-height: 1.4 !important;
-                }
-
+                /* --- Hero --- */
                 .fort-hero {
                     min-height: 100vh; 
                     height: auto;
@@ -302,6 +298,11 @@ export default function FatehPrakashClient() {
                     border-radius: 4px;
                     cursor: pointer;
                     transition: background 0.2s, transform 0.2s;
+                    font-family: var(--ff-sans);
+                }
+                .back-btn:hover {
+                    background: rgba(212, 175, 55, 0.35);
+                    transform: translateX(-4px);
                 }
 
                 .hero-eyebrow {
@@ -327,55 +328,173 @@ export default function FatehPrakashClient() {
                     margin: 0 auto 3rem;
                 }
 
-                .hero-stats {
+                /* --- Nav --- */
+                .section-nav {
+                    position: sticky;
+                    top: 0;
+                    background: rgba(10, 8, 4, 0.95);
+                    backdrop-filter: blur(10px);
+                    z-index: 100;
+                    border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+                    padding: 1.25rem 0;
+                }
+                .nav-container {
+                    max-width: 1200px;
+                    margin: 0 auto;
                     display: flex;
                     justify-content: center;
+                    gap: 3rem;
+                }
+                .nav-container a {
+                    color: rgba(255, 255, 255, 0.6);
+                    text-decoration: none;
+                    text-transform: uppercase;
+                    font-size: 0.85rem;
+                    font-weight: 700;
+                    letter-spacing: 1.5px;
+                    transition: all 0.3s;
+                }
+                .nav-container a:hover {
+                    color: var(--gold);
+                    text-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+                }
+
+                /* --- Sections --- */
+                .fort-main {
+                    display: block;
+                    width: 100%;
+                }
+
+                .fort-section {
+                    display: block;
+                    position: relative;
+                    padding: 8rem 1.5rem;
+                    max-width: 1200px;
+                    margin: 0 auto;
+                    background: transparent;
+                }
+
+                .section-header {
+                    margin-bottom: 4rem;
+                    text-align: center;
+                }
+
+                .section-title {
+                    font-size: clamp(2.2rem, 6vw, 3.5rem);
+                    margin-bottom: 1.5rem;
+                    color: var(--gold) !important;
+                }
+
+                .title-divider {
+                    width: 80px;
+                    height: 3px;
+                    background: var(--gold);
+                    margin: 0 auto;
+                }
+
+                .overview-text {
+                    max-width: 800px;
+                    margin: 0 auto;
+                    display: flex;
+                    flex-direction: column;
                     align-items: center;
-                    flex-wrap: wrap;
-                    gap: 2rem;
-                    padding-top: 3rem;
-                    border-top: 1px solid rgba(212, 175, 55, 0.3);
                 }
 
-                .stat-item { display: flex; flex-direction: column; align-items: center; }
-                .stat-val { font-size: clamp(2rem, 6vw, 3.5rem); color: var(--gold); font-family: var(--ff-serif); font-weight: 800; }
-                .stat-label { font-size: 0.8rem; color: rgba(255,255,255,0.7); text-transform: uppercase; }
-                .stat-divider { width: 1px; height: 40px; background: rgba(212, 175, 55, 0.3); }
-
-
-
-                .fort-section { padding: 5rem 1.5rem; max-width: 1200px; margin: 0 auto; }
-                .section-header { text-align: center; margin-bottom: 4rem; }
-                .section-title { font-size: clamp(2rem, 5vw, 3.5rem); color: var(--gold); }
-                .title-divider { width: 60px; height: 3px; background: var(--gold); margin: 0.5rem auto; }
-
-                .overview-grid { display: grid; grid-template-columns: 1fr; gap: 3rem; }
-                @media (min-width: 900px) { .overview-grid { grid-template-columns: 1.5fr 1fr; } }
-                .info-chips { display: flex; flex-wrap: wrap; gap: 1rem; margin-top: 2rem; }
-                .chip { display: inline-flex; align-items: center; gap: 0.5rem; background: rgba(255,255,255,0.05); padding: 0.5rem 1rem; border-radius: 20px; font-size: 0.85rem; border: 1px solid rgba(255,255,255,0.1); }
-
-                .history-timeline { display: flex; flex-direction: column; gap: 3rem; }
-                .timeline-item { display: flex; flex-direction: column; gap: 2rem; padding: 2rem; background: rgba(255,255,255,0.02); border: 1px solid rgba(212,175,55,0.1); border-radius: 16px; }
-                @media (min-width: 768px) { 
-                    .timeline-item { flex-direction: row; align-items: center; gap: 4rem; } 
-                    .timeline-item:nth-child(even) { flex-direction: row-reverse; }
+                .lead-para {
+                    font-size: 1.25rem !important;
+                    font-weight: 500;
                 }
-                .timeline-img-wrapper { flex: 1; border-radius: 12px; overflow: hidden; aspect-ratio: 16/10; border: 1px solid rgba(212,175,55,0.2); }
-                .timeline-img { width: 100%; height: 100%; object-fit: cover; }
-                .timeline-content { flex: 1.2; }
-                .timeline-year { font-size: 2rem; color: var(--gold); }
 
-                .monuments-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 2rem; }
-                .monument-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 20px; overflow: hidden; display: flex; flex-direction: column; transition: 0.4s; }
-                .monument-card:hover { transform: translateY(-10px); border-color: var(--gold); }
-                .mon-image-wrapper { height: 200px; overflow: hidden; }
-                .mon-card-img { width: 100%; height: 100%; object-fit: cover; }
-                .mon-content { padding: 2rem; display: flex; flex-direction: column; gap: 1rem; flex: 1; }
-                .mon-desc { font-size: 1rem; color: rgba(255,255,255,0.8); overflow: hidden; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; }
-                .mon-desc.expanded { -webkit-line-clamp: unset; }
-                .read-more-btn { background: none; border: none; color: var(--gold); cursor: pointer; font-weight: 700; text-transform: uppercase; font-size: 0.8rem; display: flex; align-items: center; gap: 0.5rem; }
-                .audio-btn { background: rgba(212,175,55,0.1); border: 1px solid var(--gold); color: var(--gold); padding: 0.8rem; border-radius: 8px; cursor: pointer; transition: 0.3s; display: flex; align-items: center; justify-content: center; gap: 0.5rem; font-weight: 700; text-transform: uppercase; }
-                .audio-btn:hover { background: var(--gold); color: #000; }
+                .audio-btn {
+                    background: rgba(212, 175, 55, 0.1);
+                    border: 1px solid rgba(212, 175, 55, 0.3);
+                    color: var(--gold) !important;
+                    padding: 1rem 2rem;
+                    font-size: 0.9rem;
+                    font-weight: 700;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 1rem;
+                    border-radius: 50px;
+                    cursor: pointer;
+                    transition: all 0.4s;
+                    text-transform: uppercase;
+                    letter-spacing: 1.5px;
+                }
+
+                .audio-btn:hover {
+                    background: var(--gold);
+                    color: #000 !important;
+                    transform: translateY(-5px);
+                    box-shadow: 0 15px 30px rgba(212, 175, 55, 0.3);
+                }
+
+                .audio-btn.playing {
+                    background: #fff;
+                    color: #000 !important;
+                    border-color: #fff;
+                }
+
+                .mesh-bg::before {
+                    content: '';
+                    position: absolute;
+                    inset: 0;
+                    background-image: radial-gradient(rgba(212, 175, 55, 0.05) 1px, transparent 1px);
+                    background-size: 30px 30px;
+                    z-index: -1;
+                }
+
+                .scroll-indicator {
+                    position: absolute;
+                    bottom: 2rem;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    gap: 1rem;
+                    z-index: 10;
+                }
+
+                .mouse {
+                    width: 26px;
+                    height: 42px;
+                    border: 2px solid rgba(255, 255, 255, 0.3);
+                    border-radius: 20px;
+                    position: relative;
+                }
+
+                .mouse::after {
+                    content: '';
+                    width: 4px;
+                    height: 8px;
+                    background: var(--gold);
+                    position: absolute;
+                    top: 8px;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    border-radius: 2px;
+                    animation: scroll 2s infinite;
+                }
+
+                @keyframes scroll {
+                    0% { transform: translateX(-50%) translateY(0); opacity: 1; }
+                    100% { transform: translateX(-50%) translateY(20px); opacity: 0; }
+                }
+
+                @media (max-width: 768px) {
+                    .fort-hero { padding-top: 6rem; padding-bottom: 4rem; min-height: 100vh; }
+                    .hero-title { font-size: 2.5rem; line-height: 1.15; }
+                    .nav-container { gap: 1.5rem; }
+                    .nav-container a { font-size: 0.7rem; }
+                    .fort-section { padding: 5rem 1.25rem; }
+                    .section-title { font-size: 2.2rem; }
+                }
+
+                html {
+                    scroll-behavior: smooth;
+                }
             `}</style>
         </motion.div>
     );

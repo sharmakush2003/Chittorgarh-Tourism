@@ -41,11 +41,6 @@ export default function KumbhaPalaceClient() {
 
 
 
-    const ARCH_FEATURES = [
-        { id: "kumbha_arch.stables", icon: <Box size={20} /> },
-        { id: "kumbha_arch.temple", icon: <Gem size={20} /> },
-        { id: "kumbha_arch.cellars", icon: <Flame size={20} /> }
-    ];
 
     const handleAudioPlay = (sectionId, customText = null) => {
         const synth = window.speechSynthesis;
@@ -91,130 +86,19 @@ export default function KumbhaPalaceClient() {
             transition={{ duration: 1 }}
             className="fort-page"
         >
-            {/* ═══ HERO SECTION ═══════════════════════════ */}
-            <section className="fort-hero">
-                <div className="hero-bg" style={{ backgroundImage: "url('/Each page Pics/Fort pics/Rana Kumbha Palace.jpg')", backgroundPosition: 'center center' }}></div>
-                <div className="hero-overlay"></div>
-                
-                <motion.div 
-                    initial={{ y: 30, opacity: 0 }}
-                    animate={{ y: 0, opacity: 1 }}
-                    transition={{ delay: 0.2, duration: 0.8 }}
-                    className="hero-content"
-                >
-                    <button className="back-btn" onClick={() => {
-                        triggerHaptic('light');
-                        router.push('/explore');
-                    }}>
-                        <ArrowLeft size={16} /> {t("btn.back") || "Back"}
-                    </button>
-                    <span className="hero-eyebrow">{t("kumbha.hero.eyebrow")}</span>
-                    <h1 className="hero-title">{t("kumbha.hero.title")}</h1>
-                    <p className="hero-desc">{t("kumbha.hero.desc")}</p>
-                    
-
-                </motion.div>
-                
-                <div className="scroll-indicator">
-                    <div className="mouse"></div>
-                </div>
-            </section>
-
-
-
-            <main className="fort-main">
-                {/* ═══ OVERVIEW ══════════════════════════════ */}
-                <motion.section 
-                    initial={{ opacity: 0, y: 40 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    id="overview" 
-                    className="fort-section mesh-bg"
-                >
-                    <div className="section-header">
-                        <h2 className="section-title text-gold">{t("kumbha.section.overview")}</h2>
-                        <div className="title-divider"></div>
-                    </div>
-                    <div className="overview-grid">
-                        <div className="overview-text">
-                            <p className="lead-para">{t("kumbha.overview.p1")}</p>
-                            <p>{t("kumbha.overview.p2")}</p>
-                            
-                            <button 
-                                className={`audio-btn ${playingAudio === 'overview' ? 'playing' : ''}`}
-                                onClick={() => handleAudioPlay('overview', `${t("kumbha.overview.p1")} ${t("kumbha.overview.p2")}`)}
-                                style={{ marginTop: '2rem' }}
-                            >
-                                {playingAudio === 'overview' ? <Pause size={18} fill="currentColor" /> : <Play size={18} fill="currentColor" />}
-                                <span>{playingAudio === 'overview' ? t("fort.audio.playing") : t("fort.audio.listen")}</span>
-                            </button>
-                        </div>
-                    </div>
-                </motion.section>
-
-                {/* ═══ HISTORY ═══════════════════════════════ */}
-
-                {/* ═══ ARCHITECTURE ══════════════════════════ */}
-                <section id="architecture" className="fort-section">
-                    <motion.div 
-                        initial={{ opacity: 0, y: 30 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        className="section-header"
-                    >
-                        <h2 className="section-title text-gold">{t("kumbha.section.architecture")}</h2>
-                        <div className="title-divider"></div>
-                    </motion.div>
-
-                    <div className="monuments-list">
-                        {ARCH_FEATURES.map((m, idx) => (
-                            <motion.div 
-                                key={m.id} 
-                                initial={{ opacity: 0, y: 20 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                transition={{ delay: idx * 0.1 }}
-                                className="monument-card premium-glass"
-                            >
-
-
-                                <div className="mon-content">
-                                    <h3 className="mon-name" style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                                        <span style={{ color: 'var(--gold)' }}>{m.icon}</span> 
-                                        {t(`attr.${m.id}.name`)}
-                                    </h3>
-                                    <p className={`mon-desc ${expandedSections[m.id] ? 'expanded' : ''}`}>
-                                        {t(`attr.${m.id}.desc`)}
-                                    </p>
-                                    
-                                    <button 
-                                        className="read-more-btn"
-                                        onClick={() => {
-                                            setExpandedSections(prev => ({...prev, [m.id]: !prev[m.id]}));
-                                        }}
-                                    >
-                                        {expandedSections[m.id] ? (
-                                            <><ChevronUp size={16} /> {t("btn.readLess") || "Read Less"}</>
-                                        ) : (
-                                            <><ChevronDown size={16} /> {t("btn.readMore") || "Read More"}</>
-                                        )}
-                                    </button>
-                                    
-                                    <button 
-                                        className={`audio-btn ${playingAudio === m.id ? 'playing' : ''}`}
-                                        onClick={() => handleAudioPlay(m.id)}
-                                    >
-                                        {playingAudio === m.id ? <Pause size={18} fill="currentColor" /> : <Play size={18} fill="currentColor" />}
-                                        <span>{playingAudio === m.id ? t("fort.audio.playing") : t("fort.audio.listen")}</span>
-                                    </button>
-                                </div>
-                            </motion.div>
-                        ))}
-                    </div>
-                </section>
-
-            </main>
-
             <style jsx global>{`
+                .reference-link {
+                    color: var(--gold);
+                    text-decoration: none;
+                    font-weight: 600;
+                    font-size: 1rem;
+                    transition: all 0.3s;
+                    border-bottom: 1px solid transparent;
+                }
+                .reference-link:hover {
+                    border-bottom-color: var(--gold);
+                    opacity: 0.8;
+                }
                 :root {
                     --ff-serif: 'Playfair Display', serif;
                     --ff-sans: 'Inter', sans-serif;
@@ -241,33 +125,15 @@ export default function KumbhaPalaceClient() {
                     filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
                 }
 
-                .fort-page h1, .fort-page h2, .fort-page h3, .fort-page h4, .fort-page .timeline-year {
-                    line-height: 1.3 !important;
-                    margin: 0;
-                    padding: 0;
-                }
-
                 .fort-page p {
                     color: rgba(255, 255, 255, 0.98) !important;
                     line-height: 1.8;
-                    font-size: 1.05rem;
+                    font-size: 1.15rem;
                     margin: 0 0 1.5rem 0;
+                    text-align: center;
                 }
 
-                [lang="hi"] .fort-page .hero-title,
-                [lang="hi"] .fort-page .section-title,
-                [lang="hi"] .fort-page .timeline-year,
-                [lang="hi"] .fort-page .mon-name {
-                    font-family: var(--font-martel), serif !important;
-                    font-weight: 900 !important;
-                    line-height: 1.4 !important;
-                }
-
-                [lang="hi"] .fort-page p {
-                    font-weight: 500 !important;
-                    line-height: 1.9;
-                }
-
+                /* --- Hero --- */
                 .fort-hero {
                     min-height: 100vh; 
                     height: auto;
@@ -349,49 +215,38 @@ export default function KumbhaPalaceClient() {
                     margin: 0 auto 3rem;
                 }
 
-                .hero-stats {
+                /* --- Nav --- */
+                .section-nav {
+                    position: sticky;
+                    top: 0;
+                    background: rgba(10, 8, 4, 0.95);
+                    backdrop-filter: blur(10px);
+                    z-index: 100;
+                    border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+                    padding: 1.25rem 0;
+                }
+                .nav-container {
+                    max-width: 1200px;
+                    margin: 0 auto;
                     display: flex;
                     justify-content: center;
-                    align-items: center;
-                    flex-wrap: wrap;
-                    gap: 2rem;
-                    padding-top: 3rem;
-                    border-top: 1px solid rgba(212, 175, 55, 0.3);
+                    gap: 3rem;
                 }
-
-                .stat-item {
-                    display: flex;
-                    flex-direction: column;
-                    align-items: center;
-                    gap: 0;
-                }
-
-                .stat-val {
-                    font-size: clamp(2rem, 6vw, 3.5rem);
-                    color: var(--gold);
-                    font-family: var(--ff-serif);
-                    line-height: 1.1;
-                    font-weight: 800;
-                }
-
-                .stat-label {
-                    font-size: clamp(0.7rem, 2vw, 0.9rem);
-                    color: rgba(255, 255, 255, 0.8);
+                .nav-container a {
+                    color: rgba(255, 255, 255, 0.6);
+                    text-decoration: none;
                     text-transform: uppercase;
-                    letter-spacing: 2px;
-                    font-weight: 600;
-                    margin-top: 0;
+                    font-size: 0.85rem;
+                    font-weight: 700;
+                    letter-spacing: 1.5px;
+                    transition: all 0.3s;
+                }
+                .nav-container a:hover {
+                    color: var(--gold);
+                    text-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
                 }
 
-                .stat-divider {
-                    width: 1px;
-                    height: 40px;
-                    background: rgba(212, 175, 55, 0.3);
-                }
-
-                    border-bottom: 2px solid var(--gold);
-                }
-
+                /* --- Sections --- */
                 .fort-main {
                     display: block;
                     width: 100%;
@@ -400,12 +255,10 @@ export default function KumbhaPalaceClient() {
                 .fort-section {
                     display: block;
                     position: relative;
-                    height: auto !important;
-                    min-height: auto !important;
-                    padding: 5rem 1.5rem;
+                    padding: 8rem 1.5rem;
                     max-width: 1200px;
                     margin: 0 auto;
-                    background: #0a0804 !important;
+                    background: transparent;
                 }
 
                 .section-header {
@@ -414,258 +267,260 @@ export default function KumbhaPalaceClient() {
                 }
 
                 .section-title {
-                    font-size: clamp(2.2rem, 6vw, 4rem);
+                    font-size: clamp(2.2rem, 6vw, 3.5rem);
                     margin-bottom: 1.5rem;
                     color: var(--gold) !important;
                 }
 
                 .title-divider {
-                    width: 60px;
+                    width: 80px;
                     height: 3px;
                     background: var(--gold);
                     margin: 0 auto;
                 }
 
-                .overview-grid {
-                    display: grid;
-                    grid-template-columns: 1fr;
-                    gap: 3rem;
-                }
-                
-                @media (min-width: 900px) {
-                    .overview-grid { grid-template-columns: 1.5fr 1fr; }
-                }
-
-                .info-chips {
+                .overview-text {
+                    max-width: 800px;
+                    margin: 0 auto;
                     display: flex;
-                    flex-wrap: wrap;
-                    gap: 1rem;
-                    margin-top: 2rem;
-                }
-
-                .chip {
-                    display: inline-flex;
+                    flex-direction: column;
                     align-items: center;
-                    gap: 0.5rem;
-                    background: rgba(255,255,255,0.05);
-                    padding: 0.5rem 1rem;
-                    border-radius: 20px;
-                    font-size: 0.85rem;
-                    border: 1px solid rgba(255,255,255,0.1);
                 }
 
-                .history-timeline {
-                    display: flex;
-                    flex-direction: column;
-                    gap: 3.5rem;
-                    position: relative;
-                }
-
-                .timeline-item {
-                    display: flex;
-                    flex-direction: column;
-                    gap: 2rem;
-                    padding: 2.5rem;
-                    background: rgba(255, 255, 255, 0.02);
-                    border: 1px solid rgba(212, 175, 55, 0.15);
-                    border-radius: 16px;
-                    position: relative;
-                    transition: all 0.4s ease;
-                }
-
-                .timeline-item:hover {
-                    border-color: var(--gold);
-                    background: rgba(212, 175, 55, 0.05);
-                    transform: translateY(-5px);
-                }
-
-                @media (min-width: 768px) {
-                    .timeline-item {
-                        flex-direction: row;
-                        align-items: center;
-                        gap: 4rem;
-                        padding: 4rem;
-                    }
-                    .timeline-item:nth-child(even) {
-                        flex-direction: row-reverse;
-                    }
-                }
-
-                .timeline-img-wrapper {
-                    width: 100%;
-                    flex: 1;
-                    max-width: 450px;
-                    aspect-ratio: 16/10;
-                    border-radius: 12px;
-                    overflow: hidden;
-                    border: 1px solid rgba(212, 175, 55, 0.3);
-                    box-shadow: 0 15px 40px rgba(0,0,0,0.6);
-                }
-
-                .timeline-img {
-                    width: 100%;
-                    height: 100%;
-                    object-fit: cover;
-                    transition: transform 0.8s cubic-bezier(0.165, 0.84, 0.44, 1);
-                }
-
-                .timeline-item:hover .timeline-img {
-                    transform: scale(1.1);
-                }
-
-                .timeline-content {
-                    flex: 1.2;
-                }
-
-                .timeline-year {
-                    font-size: 2.2rem;
-                    color: var(--gold);
-                    margin-bottom: 1.5rem;
-                    display: inline-block;
-                }
-
-                .timeline-title {
-                    font-size: 1.6rem;
-                    margin-bottom: 1rem;
-                }
-
-                .monuments-list {
-                    display: grid;
-                    grid-template-columns: 1fr;
-                    gap: 2.5rem;
-                }
-
-                @media (min-width: 768px) {
-                    .monuments-list { grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 3rem; }
-                }
-
-                .monument-card {
-                    background: rgba(255, 255, 255, 0.03);
-                    backdrop-filter: blur(12px);
-                    -webkit-backdrop-filter: blur(12px);
-                    border: 1px solid rgba(255, 255, 255, 0.1);
-                    border-radius: 20px;
-                    overflow: hidden;
-                    display: flex;
-                    flex-direction: column;
-                    transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
-                }
-
-                .monument-card:hover {
-                    background: rgba(255, 255, 255, 0.05);
-                    border-color: rgba(212, 175, 55, 0.4);
-                    transform: translateY(-8px);
-                    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 25px rgba(212, 175, 55, 0.1);
-                }
-
-                .mon-image-wrapper {
-                    width: 100%;
-                    height: 220px;
-                    position: relative;
-                    overflow: hidden;
-                }
-
-                .mon-card-img {
-                    width: 100%;
-                    height: 100%;
-                    object-fit: cover;
-                    transition: transform 0.5s ease;
-                }
-
-                .monument-card:hover .mon-card-img {
-                    transform: scale(1.1);
-                }
-
-                .mon-content {
-                    padding: 2rem;
-                    flex: 1;
-                    display: flex;
-                    flex-direction: column;
-                }
-
-                .mon-desc {
-                    font-size: 1.1rem;
-                    line-height: 1.7;
-                    color: rgba(255,255,255,0.8);
-                    margin-bottom: 1rem;
-                    display: -webkit-box;
-                    -webkit-line-clamp: 3;
-                    -webkit-box-orient: vertical;
-                    overflow: hidden;
-                }
-
-                .mon-desc.expanded {
-                    -webkit-line-clamp: unset;
-                    display: block;
-                }
-
-                .read-more-btn {
-                    background: none;
-                    border: none;
-                    color: var(--gold);
-                    cursor: pointer;
-                    display: flex;
-                    align-items: center;
-                    gap: 0.4rem;
-                    margin-top: 1rem;
-                    margin-bottom: 1.5rem;
-                    font-weight: 700;
-                    font-size: 0.9rem;
-                    transition: all 0.3s ease;
-                    text-transform: uppercase;
-                    letter-spacing: 1px;
-                }
-
-                .read-more-btn:hover {
-                    color: #fff;
-                    text-shadow: 0 0 10px rgba(212,175,55,0.5);
-                    transform: translateX(5px);
-                }
-
-                .mon-name {
-                    font-size: 1.8rem;
-                    margin-bottom: 1rem;
+                .lead-para {
+                    font-size: 1.25rem !important;
+                    font-weight: 500;
                 }
 
                 .audio-btn {
-                    background: rgba(212, 175, 15, 0.1);
+                    background: rgba(212, 175, 55, 0.1);
                     border: 1px solid rgba(212, 175, 55, 0.3);
                     color: var(--gold) !important;
-                    padding: 0.8rem 1.5rem;
-                    font-size: 0.85rem;
+                    padding: 1rem 2rem;
+                    font-size: 0.9rem;
                     font-weight: 700;
                     display: flex;
                     align-items: center;
                     justify-content: center;
-                    gap: 0.8rem;
-                    border-radius: 8px;
+                    gap: 1rem;
+                    border-radius: 50px;
                     cursor: pointer;
-                    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
-                    width: 100%;
-                    margin-top: auto;
+                    transition: all 0.4s;
                     text-transform: uppercase;
-                    letter-spacing: 1px;
+                    letter-spacing: 1.5px;
                 }
 
                 .audio-btn:hover {
                     background: var(--gold);
                     color: #000 !important;
-                    transform: translateY(-3px);
-                    box-shadow: 0 10px 25px rgba(212, 175, 55, 0.4);
+                    transform: translateY(-5px);
+                    box-shadow: 0 15px 30px rgba(212, 175, 55, 0.3);
+                }
+
+                .audio-btn.playing {
+                    background: #fff;
+                    color: #000 !important;
+                    border-color: #fff;
+                }
+
+                .mesh-bg::before {
+                    content: '';
+                    position: absolute;
+                    inset: 0;
+                    background-image: radial-gradient(rgba(212, 175, 55, 0.05) 1px, transparent 1px);
+                    background-size: 30px 30px;
+                    z-index: -1;
+                }
+
+                .scroll-indicator {
+                    position: absolute;
+                    bottom: 2rem;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    gap: 1rem;
+                    z-index: 10;
+                }
+
+                .mouse {
+                    width: 26px;
+                    height: 42px;
+                    border: 2px solid rgba(255, 255, 255, 0.3);
+                    border-radius: 20px;
+                    position: relative;
+                }
+
+                .mouse::after {
+                    content: '';
+                    width: 4px;
+                    height: 8px;
+                    background: var(--gold);
+                    position: absolute;
+                    top: 8px;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    border-radius: 2px;
+                    animation: scroll 2s infinite;
+                }
+
+                @keyframes scroll {
+                    0% { transform: translateX(-50%) translateY(0); opacity: 1; }
+                    100% { transform: translateX(-50%) translateY(20px); opacity: 0; }
                 }
 
                 @media (max-width: 768px) {
                     .fort-hero { padding-top: 6rem; padding-bottom: 4rem; min-height: 100vh; }
-                    .hero-title { font-size: 2.8rem; line-height: 1.15 !important; margin-bottom: 1.5rem; }
-                    .hero-desc { font-size: 1rem; margin-bottom: 2rem; }
-                    .hero-stats { flex-direction: column; gap: 1.5rem; border-top: none; padding-top: 1rem; }
-                    .stat-divider { display: none; }
-                    
-                    .fort-section { padding: 4rem 1.25rem; }
-                    .section-header { margin-bottom: 3rem; }
-                    .section-title { font-size: 2.4rem; }
+                    .hero-title { font-size: 2.5rem; line-height: 1.15; }
+                    .nav-container { gap: 1.5rem; }
+                    .nav-container a { font-size: 0.7rem; }
+                    .fort-section { padding: 5rem 1.25rem; }
+                    .section-title { font-size: 2.2rem; }
+                }
+
+                html {
+                    scroll-behavior: smooth;
                 }
             `}</style>
+            {/* ═══ HERO SECTION ═══════════════════════════ */}
+            <section className="fort-hero">
+                <div className="hero-bg" style={{ backgroundImage: "url('/Each page Pics/Fort pics/Rana Kumbha Palace.jpg')", backgroundPosition: 'center center' }}></div>
+                <div className="hero-overlay"></div>
+                
+                <motion.div 
+                    initial={{ y: 30, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    transition={{ delay: 0.2, duration: 0.8 }}
+                    className="hero-content"
+                >
+                    <button className="back-btn" onClick={() => {
+                        triggerHaptic('light');
+                        router.push('/explore');
+                    }}>
+                        <ArrowLeft size={16} /> {t("btn.back") || "Back"}
+                    </button>
+                    <span className="hero-eyebrow">{t("kumbha.hero.eyebrow")}</span>
+                    <h1 className="hero-title">{t("kumbha.hero.title")}</h1>
+                    <p className="hero-desc">{t("kumbha.hero.desc")}</p>
+                </motion.div>
+                
+                <div className="scroll-indicator"><div className="mouse"></div></div>
+            </section>
+
+            {/* ═══ NAVIGATION ═════════════════════════════ */}
+            <nav className="section-nav">
+                <div className="nav-container">
+                    <a href="#history">{t("kumbha.nav.history")}</a>
+                    <a href="#layout">{t("kumbha.nav.layout")}</a>
+                    <a href="#cellars">{t("kumbha.nav.cellars")}</a>
+                </div>
+            </nav>
+
+            <main className="fort-main">
+                {/* ═══ HISTORY / THE ROYAL RUIN ══════════════ */}
+                <motion.section 
+                    initial={{ opacity: 0, y: 40 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    id="history" 
+                    className="fort-section mesh-bg"
+                >
+                    <div className="section-header">
+                        <h2 className="section-title text-gold">{t("kumbha.section.history")}</h2>
+                        <div className="title-divider"></div>
+                    </div>
+                    <div className="overview-text">
+                        <p className="lead-para">{t("kumbha.history.p1")}</p>
+                        
+                        <button 
+                            className={`audio-btn ${playingAudio === 'history' ? 'playing' : ''}`}
+                            onClick={() => handleAudioPlay('history', t("kumbha.history.p1"))}
+                            style={{ marginTop: '2rem' }}
+                        >
+                            {playingAudio === 'history' ? <Pause size={18} fill="currentColor" /> : <Play size={18} fill="currentColor" />}
+                            <span>{playingAudio === 'history' ? t("fort.audio.playing") : t("fort.audio.listen")}</span>
+                        </button>
+                    </div>
+                </motion.section>
+
+                {/* ═══ ARCHITECTURAL LAYOUT ══════════════════ */}
+                <motion.section 
+                    initial={{ opacity: 0, y: 40 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    id="layout" 
+                    className="fort-section"
+                >
+                    <div className="section-header">
+                        <h2 className="section-title text-gold">{t("kumbha.section.layout")}</h2>
+                        <div className="title-divider"></div>
+                    </div>
+                    <div className="overview-text">
+                        <p>{t("kumbha.layout.p1")}</p>
+                        
+                        <button 
+                            className={`audio-btn ${playingAudio === 'layout' ? 'playing' : ''}`}
+                            onClick={() => handleAudioPlay('layout', t("kumbha.layout.p1"))}
+                            style={{ marginTop: '2rem' }}
+                        >
+                            {playingAudio === 'layout' ? <Pause size={18} fill="currentColor" /> : <Play size={18} fill="currentColor" />}
+                            <span>{playingAudio === 'layout' ? t("fort.audio.playing") : t("fort.audio.listen")}</span>
+                        </button>
+                    </div>
+                </motion.section>
+
+                {/* ═══ DUNGEONS & CELLARS ════════════════════ */}
+                <motion.section 
+                    initial={{ opacity: 0, y: 40 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    id="cellars" 
+                    className="fort-section mesh-bg"
+                >
+                    <div className="section-header">
+                        <h2 className="section-title text-gold">{t("kumbha.section.cellars")}</h2>
+                        <div className="title-divider"></div>
+                    </div>
+                    <div className="overview-text">
+                        <p className="lead-para">{t("kumbha.cellars.p1")}</p>
+                        
+                        <button 
+                            className={`audio-btn ${playingAudio === 'cellars' ? 'playing' : ''}`}
+                            onClick={() => handleAudioPlay('cellars', t("kumbha.cellars.p1"))}
+                            style={{ marginTop: '2rem' }}
+                        >
+                            {playingAudio === 'cellars' ? <Pause size={18} fill="currentColor" /> : <Play size={18} fill="currentColor" />}
+                            <span>{playingAudio === 'cellars' ? t("fort.audio.playing") : t("fort.audio.listen")}</span>
+                        </button>
+                    </div>
+                </motion.section>
+
+                {/* ═══ REFERENCES ═════════════════════════════ */}
+                <motion.section 
+                    initial={{ opacity: 0, y: 40 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    className="fort-section"
+                    style={{ paddingBottom: '4rem' }}
+                >
+                    <div className="section-header">
+                        <h2 className="section-title text-gold" style={{ fontSize: '1.5rem' }}>{t("kumbha.references.title")}</h2>
+                        <div className="title-divider" style={{ width: '40px' }}></div>
+                    </div>
+                    <div className="overview-text" style={{ gap: '1rem' }}>
+                        <a 
+                            href={t("kumbha.references.official_url")} 
+                            target="_blank" 
+                            rel="noopener noreferrer"
+                            className="reference-link"
+                        >
+                            {t("kumbha.references.official")}
+                        </a>
+                    </div>
+                </motion.section>
+            </main>
+
         </motion.div>
     );
 }
