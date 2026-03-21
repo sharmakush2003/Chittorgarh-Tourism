@@ -18,7 +18,7 @@ import {
     Crown,
     Droplets,
     Castle,
-    HandsPraying // wait, Lucide has 'Heart' or 'Flame'? I'll use 'Heart' for Meera or 'Sun'. Lucide has 'Flame'. 
+    Heart
 } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";

@@ -1,0 +1,19 @@
+﻿{
+    "batchcomplete":  "",
+    "query":  {
+                  "normalized":  [
+                                     {
+                                         "from":  "Kumbha_Shyam_Temple,_Chittorgarh",
+                                         "to":  "Kumbha Shyam Temple, Chittorgarh"
+                                     }
+                                 ],
+                  "pages":  {
+                                "77749671":  {
+                                                 "pageid":  77749671,
+                                                 "ns":  0,
+                                                 "title":  "Kumbha Shyam Temple, Chittorgarh",
+                                                 "extract":  "Kumbha Shyam Temple Chittorgarh was constructed by Maharana Sangram Singh I, the ruler of Mewar (1482–1528), on the special request of Mirabai, his daughter-in-law. It was used as a private worship place to chant the name of Krishna by his devotee Mirabai.The grand structure of the temple, with a pyramidal tower, high roofs, and archways, is installed with idols of many Hindu gods and goddesses.\n\nIn the vicinity of Kumbha Shyama Temple, there is a chhatri constructed in memory of Meera Bai\u0027s guru named Ravidass. This chattri, located opposite the main temple, preserves the impression of Guru Ravidass\u0027s footprints.\n\n\n== See also ==\nChittor Fort\nRavidas\n\n\n== References =="
+                                             }
+                            }
+              }
+}
