@@ -89,17 +89,6 @@ const nextConfig = {
   async redirects() {
     return [
       {
-        source: '/:path*',
-        has: [
-          {
-            type: 'host',
-            value: 'www.chittorgarh-tourism.in',
-          },
-        ],
-        destination: 'https://chittorgarh-tourism.in/:path*',
-        permanent: true,
-      },
-      {
         source: '/vijay%20stambh',
         destination: '/vijay-stambh',
         permanent: true,
