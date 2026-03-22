@@ -8,13 +8,14 @@ if (!fs.existsSync(qrDir)) {
 }
 
 const urls = [
-    { name: 'Home', url: 'https://www.chittorgarh-tourism.in/' },
-    { name: 'Vijay-Stambh', url: 'https://www.chittorgarh-tourism.in/vijay-stambh' },
-    { name: 'Fateh-Prakash', url: 'https://www.chittorgarh-tourism.in/fateh-prakash' },
-    { name: 'Rana-Kumbha-Palace', url: 'https://www.chittorgarh-tourism.in/kumbha-palace' },
-    { name: 'Kumbha-Shyam-Temple', url: 'https://www.chittorgarh-tourism.in/kumbha-shyam' },
-    { name: 'Jain-Temples', url: 'https://www.chittorgarh-tourism.in/jain-temples' },
-    { name: 'Meera-Bai-Temple', url: 'https://www.chittorgarh-tourism.in/meera-bai-temple' }
+    { name: 'Home', url: 'https://chittorgarh-tourism.in/' },
+    { name: 'Vijay-Stambh', url: 'https://chittorgarh-tourism.in/vijay-stambh' },
+    { name: 'Fateh-Prakash', url: 'https://chittorgarh-tourism.in/fateh-prakash' },
+    { name: 'Rana-Kumbha-Palace', url: 'https://chittorgarh-tourism.in/kumbha-palace' },
+    { name: 'Kumbha-Shyam-Temple', url: 'https://chittorgarh-tourism.in/kumbha-shyam' },
+    { name: 'Jain-Temples', url: 'https://chittorgarh-tourism.in/jain-temples' },
+    { name: 'Meera-Bai-Temple', url: 'https://chittorgarh-tourism.in/meera-bai-temple' },
+    { name: 'Kirti-Stambh', url: 'https://chittorgarh-tourism.in/kirti-stambh' }
 ];
 
 async function generateQRs() {
