@@ -449,6 +449,56 @@ export default function JainTemplesClient() {
                     .glass-panel { padding: 2rem; }
                 }
 
+                .architecture-grid {
+                    display: grid;
+                    grid-template-columns: 1fr;
+                    gap: 2rem;
+                    margin: 4rem auto 0;
+                    max-width: 1200px;
+                }
+                @media (min-width: 768px) {
+                    .architecture-grid {
+                        grid-template-columns: 1fr 1fr;
+                    }
+                }
+                .architecture-image-container {
+                    position: relative;
+                    border-radius: 15px;
+                    overflow: hidden;
+                    border: 1px solid rgba(212, 175, 55, 0.3);
+                    box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+                    cursor: crosshair;
+                }
+                .architecture-image {
+                    width: 100%;
+                    height: auto;
+                    display: block;
+                    transition: transform 0.8s cubic-bezier(0.165, 0.84, 0.44, 1);
+                }
+                .architecture-image-container:hover .architecture-image {
+                    transform: scale(1.08);
+                }
+                .image-caption {
+                    position: absolute;
+                    bottom: 0;
+                    left: 0;
+                    right: 0;
+                    background: linear-gradient(transparent, rgba(10, 8, 4, 0.9));
+                    padding: 2rem 1rem 1rem;
+                    font-size: 0.85rem;
+                    color: var(--gold);
+                    text-transform: uppercase;
+                    letter-spacing: 2px;
+                    font-weight: 700;
+                    opacity: 0;
+                    transform: translateY(10px);
+                    transition: all 0.4s ease;
+                }
+                .architecture-image-container:hover .image-caption {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+
                 html {
                     scroll-behavior: smooth;
                 }
@@ -564,37 +614,6 @@ export default function JainTemplesClient() {
                     </div>
                 </motion.section>
 
-                {/* ═══ FEATURE IMAGE ═════════════════════════ */}
-                <motion.section
-                    initial={{ opacity: 0, scale: 0.95 }}
-                    whileInView={{ opacity: 1, scale: 1 }}
-                    viewport={{ once: true, margin: "-100px" }}
-                    transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
-                    className="feature-image-section"
-                    style={{ padding: '4rem 1.5rem', display: 'flex', justifyContent: 'center' }}
-                >
-                    <div style={{ 
-                        width: '100%',
-                        maxWidth: '1400px', 
-                        borderRadius: '30px',
-                        overflow: 'hidden',
-                        border: '1px solid rgba(212, 175, 55, 0.4)',
-                        boxShadow: '0 50px 100px -20px rgba(0,0,0,0.9)',
-                        background: 'rgba(255, 255, 255, 0.02)'
-                    }}>
-                        <img 
-                            src="/jain_temples_satbees.jpg" 
-                            alt="Satbees Deori Panorama" 
-                            style={{ 
-                                width: '100%', 
-                                height: 'auto', 
-                                display: 'block',
-                                filter: 'brightness(1.1) contrast(1.05)',
-                                opacity: 0.8
-                            }}
-                        />
-                    </div>
-                </motion.section>
 
                 {/* ═══ ARCHITECTURE ═════════════════════════ */}
                 <motion.section 
@@ -618,6 +637,21 @@ export default function JainTemplesClient() {
                             ))}
                         </motion.p>
                         
+                        <motion.div variants={itemVariants} className="architecture-grid">
+                            <div className="architecture-image-container">
+                                <img src="/images/jain-temple-1.jpg" alt="Jain Temple Architecture Details" className="architecture-image" />
+                                <div className="image-caption">
+                                    {lang === 'hi' ? 'जैन मंदिर की वास्तुकला' : 'Jain Temple Architecture Details'}
+                                </div>
+                            </div>
+                            <div className="architecture-image-container">
+                                <img src="/images/jain-temple-2.jpg" alt="Exquisite Carvings of Jain Temple" className="architecture-image" />
+                                <div className="image-caption">
+                                    {lang === 'hi' ? 'उत्कृष्ट नक्काशी' : 'Exquisite Carvings'}
+                                </div>
+                            </div>
+                        </motion.div>
+
                         <motion.div 
                             variants={itemVariants}
                             className={`audio-bar ${playingAudio === 'architecture' ? 'playing' : ''}`}
