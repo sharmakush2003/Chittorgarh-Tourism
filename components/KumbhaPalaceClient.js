@@ -97,7 +97,7 @@ export default function KumbhaPalaceClient() {
         };
     }, []);
 
-    const handleAudioPlay = (sectionId, customText = null) => {
+    const handleAudioPlay = (sectionId, textKey) => {
         const synth = window.speechSynthesis;
         synth.cancel();
 
@@ -106,7 +106,7 @@ export default function KumbhaPalaceClient() {
             return;
         }
 
-        const textToSpeak = customText || `${t(`attr.${sectionId}.name`)}. ${t(`attr.${sectionId}.desc`)}`;
+        const textToSpeak = t(textKey);
         const utterance = new SpeechSynthesisUtterance(textToSpeak);
         
         const langMap = {
@@ -421,6 +421,24 @@ export default function KumbhaPalaceClient() {
                 html {
                     scroll-behavior: smooth;
                 }
+
+                /* Hindi High Contrast & Spacing */
+                [data-lang="hi"] .section-title,
+                :global([data-lang="hi"]) h1, 
+                :global([data-lang="hi"]) h2, 
+                :global([data-lang="hi"]) h3 {
+                    font-family: 'Martel', serif !important;
+                    font-weight: 900 !important;
+                    line-height: 1.5 !important;
+                    letter-spacing: normal !important;
+                }
+
+                :global([data-lang="hi"]) .fort-page p {
+                    font-family: 'Martel', serif !important;
+                    font-weight: 500 !important;
+                    line-height: 1.8 !important;
+                    letter-spacing: normal !important;
+                }
             `}</style>
 
             {/* ═══ HERO SECTION ═══════════════════════════ */}
@@ -428,7 +446,7 @@ export default function KumbhaPalaceClient() {
                 <motion.div 
                     style={{ 
                         scale: heroScale,
-                        backgroundImage: "url('/images/kumbha-palace-hero.jpg')"
+                        backgroundImage: "url('/Each page Pics/Fort pics/Rana Kumbha Palace.jpg')"
                     }} 
                     className="hero-bg"
                 ></motion.div>
@@ -446,7 +464,7 @@ export default function KumbhaPalaceClient() {
                     </motion.button>
                     <motion.span variants={itemVariants} className="hero-eyebrow">{t("kumbha.hero.eyebrow")}</motion.span>
                     <motion.h1 variants={itemVariants} className="hero-title">{t("kumbha.hero.title")}</motion.h1>
-                    <motion.p variants={itemVariants} className="hero-desc">
+                    <motion.p variants={itemVariants} className="hero-desc" style={{ color: '#fff !important' }}>
                         {t("kumbha.hero.desc")?.split('. ').map((sentence, idx) => (
                             <motion.span 
                                 key={idx} 
@@ -462,7 +480,6 @@ export default function KumbhaPalaceClient() {
                 <div className="scroll-indicator"><div className="mouse"></div></div>
             </section>
 
-            {/* ═══ NAVIGATION ═════════════════════════════ */}
             <nav className="section-nav">
                 <div className="nav-container">
                     <a href="#history">{t("kumbha.nav.history")}</a>
@@ -486,7 +503,7 @@ export default function KumbhaPalaceClient() {
                         <motion.div variants={itemVariants} className="title-divider"></motion.div>
                     </div>
                     <div className="glass-panel" style={{ textAlign: 'center' }}>
-                        <motion.p variants={itemVariants} className="lead-para">
+                        <motion.p variants={itemVariants} className="lead-para" style={{ color: '#fff !important', fontSize: '1.25rem' }}>
                             {t("kumbha.history.p1")?.split('. ').map((sentence, idx) => (
                                 <motion.span key={idx} variants={sentenceVariants} style={{ display: 'inline-block', marginRight: '0.4em' }}>
                                     {sentence}{idx < t("kumbha.history.p1").split('. ').length - 1 ? '.' : ''}
@@ -497,7 +514,7 @@ export default function KumbhaPalaceClient() {
                         <motion.div 
                             variants={itemVariants}
                             className={`audio-bar ${playingAudio === 'history' ? 'playing' : ''}`}
-                            onClick={() => handleAudioPlay('history', t("kumbha.history.p1"))}
+                            onClick={() => handleAudioPlay('history', 'kumbha.history.p1')}
                         >
                             {playingAudio === 'history' ? <Waveform /> : <Play size={24} fill="currentColor" />}
                             <span style={{ fontWeight: 800, letterSpacing: '2px', textTransform: 'uppercase' }}>
@@ -535,7 +552,7 @@ export default function KumbhaPalaceClient() {
                             </motion.div>
                         </div>
                         <div className="glass-panel" style={{ textAlign: 'center' }}>
-                        <motion.p variants={itemVariants}>
+                        <motion.p variants={itemVariants} style={{ color: '#fff !important', fontSize: '1.25rem' }}>
                             {t("kumbha.layout.p1")?.split('. ').map((sentence, idx) => (
                                 <motion.span key={idx} variants={sentenceVariants} style={{ display: 'inline-block', marginRight: '0.4em' }}>
                                     {sentence}{idx < t("kumbha.layout.p1").split('. ').length - 1 ? '.' : ''}
@@ -546,7 +563,7 @@ export default function KumbhaPalaceClient() {
                         <motion.div 
                             variants={itemVariants}
                             className={`audio-bar ${playingAudio === 'layout' ? 'playing' : ''}`}
-                            onClick={() => handleAudioPlay('layout', t("kumbha.layout.p1"))}
+                            onClick={() => handleAudioPlay('layout', 'kumbha.layout.p1')}
                         >
                             {playingAudio === 'layout' ? <Waveform /> : <Play size={24} fill="currentColor" />}
                             <span style={{ fontWeight: 800, letterSpacing: '2px', textTransform: 'uppercase' }}>
@@ -570,7 +587,7 @@ export default function KumbhaPalaceClient() {
                         <motion.div variants={itemVariants} className="title-divider"></motion.div>
                     </div>
                     <div className="glass-panel" style={{ textAlign: 'center' }}>
-                        <motion.p variants={itemVariants}>
+                        <motion.p variants={itemVariants} style={{ color: '#fff !important', fontSize: '1.25rem' }}>
                             {t("kumbha.cellars.p1")?.split('. ').map((sentence, idx) => (
                                 <motion.span key={idx} variants={sentenceVariants} style={{ display: 'inline-block', marginRight: '0.4em' }}>
                                     {sentence}{idx < t("kumbha.cellars.p1").split('. ').length - 1 ? '.' : ''}
@@ -581,7 +598,7 @@ export default function KumbhaPalaceClient() {
                         <motion.div 
                             variants={itemVariants}
                             className={`audio-bar ${playingAudio === 'cellars' ? 'playing' : ''}`}
-                            onClick={() => handleAudioPlay('cellars', t("kumbha.cellars.p1"))}
+                            onClick={() => handleAudioPlay('cellars', 'kumbha.cellars.p1')}
                         >
                             {playingAudio === 'cellars' ? <Waveform /> : <Play size={24} fill="currentColor" />}
                             <span style={{ fontWeight: 800, letterSpacing: '2px', textTransform: 'uppercase' }}>

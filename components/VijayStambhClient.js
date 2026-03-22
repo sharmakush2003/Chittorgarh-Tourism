@@ -170,11 +170,32 @@ export default function VijayStambhClient() {
                 }
 
                 .fort-page p {
-                    color: rgba(255, 255, 255, 0.9) !important;
+                    color: #fff !important;
                     line-height: 1.8;
                     font-size: 1.15rem;
                     margin-bottom: 2rem;
                     text-align: center;
+                }
+
+                /* --- Language Specific --- */
+                :global([data-lang="hi"]) .fort-page {
+                    --ff-serif: 'Martel', serif;
+                }
+
+                :global([data-lang="hi"]) h1, 
+                :global([data-lang="hi"]) h2, 
+                :global([data-lang="hi"]) h3 {
+                    font-family: 'Martel', serif !important;
+                    font-weight: 900 !important;
+                    line-height: 1.5 !important;
+                    letter-spacing: normal !important;
+                }
+
+                :global([data-lang="hi"]) .fort-page p {
+                    font-family: 'Martel', serif !important;
+                    font-weight: 500 !important;
+                    line-height: 1.8 !important;
+                    letter-spacing: normal !important;
                 }
 
                 /* --- Glassmorphism --- */
@@ -482,7 +503,7 @@ export default function VijayStambhClient() {
                         <motion.div variants={itemVariants} className="title-divider"></motion.div>
                     </div>
                     <div className="glass-panel" style={{ textAlign: 'center' }}>
-                        <motion.p variants={itemVariants} className="lead-para">
+                        <motion.p variants={itemVariants} className="lead-para" style={{ color: '#fff !important', fontSize: '1.25rem' }}>
                             {t("vijay.history.p1")?.split('. ').map((sentence, idx) => (
                                 <motion.span key={idx} variants={sentenceVariants} style={{ display: 'inline-block', marginRight: '0.4em' }}>
                                     {sentence}{idx < t("vijay.history.p1").split('. ').length - 1 ? '.' : ''}
@@ -532,7 +553,7 @@ export default function VijayStambhClient() {
                     </div>
 
                     <div className="glass-panel" style={{ textAlign: 'center' }}>
-                        <motion.p variants={itemVariants}>
+                        <motion.p variants={itemVariants} style={{ color: '#fff !important' }}>
                             {t("vijay.architecture.p1")?.split('. ').map((sentence, idx) => (
                                 <motion.span key={idx} variants={sentenceVariants} style={{ display: 'inline-block', marginRight: '0.4em' }}>
                                     {sentence}{idx < t("vijay.architecture.p1").split('. ').length - 1 ? '.' : ''}
@@ -567,7 +588,7 @@ export default function VijayStambhClient() {
                         <motion.div variants={itemVariants} className="title-divider"></motion.div>
                     </div>
                     <div className="glass-panel" style={{ textAlign: 'center' }}>
-                        <motion.p variants={itemVariants}>
+                        <motion.p variants={itemVariants} style={{ color: '#fff !important' }}>
                             {t("vijay.experience.p1")?.split('. ').map((sentence, idx) => (
                                 <motion.span key={idx} variants={sentenceVariants} style={{ display: 'inline-block', marginRight: '0.4em' }}>
                                     {sentence}{idx < t("vijay.experience.p1").split('. ').length - 1 ? '.' : ''}

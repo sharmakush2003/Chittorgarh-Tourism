@@ -286,26 +286,34 @@ export default function KalikaTempleClient() {
                 }
 
                 .fort-page p {
-                    color: rgba(255, 255, 255, 0.98) !important;
+                    color: #fff !important;
                     line-height: 1.8;
-                    font-size: 1.05rem;
-                    margin: 0 0 1.5rem 0;
+                    font-size: 1.15rem;
+                    margin-bottom: 2rem;
+                }
+
+                /* --- Language Specific --- */
+                :global([data-lang="hi"]) .fort-page {
+                    --ff-serif: 'Martel', serif;
+                }
+
+                :global([data-lang="hi"]) h1, 
+                :global([data-lang="hi"]) h2, 
+                :global([data-lang="hi"]) h3 {
+                    font-family: 'Martel', serif !important;
+                    font-weight: 900 !important;
+                    line-height: 1.5 !important;
+                    letter-spacing: normal !important;
+                }
+
+                :global([data-lang="hi"]) .fort-page p {
+                    font-family: 'Martel', serif !important;
+                    font-weight: 500 !important;
+                    line-height: 1.8 !important;
+                    letter-spacing: normal !important;
                 }
 
                 /* Hindi High Contrast & Spacing */
-                [lang="hi"] .fort-page .hero-title,
-                [lang="hi"] .fort-page .section-title,
-                [lang="hi"] .fort-page .timeline-year,
-                [lang="hi"] .fort-page .mon-name {
-                    font-family: var(--font-martel), serif !important;
-                    font-weight: 900 !important;
-                    line-height: 1.4 !important;
-                }
-
-                [lang="hi"] .fort-page p {
-                    font-weight: 500 !important;
-                    line-height: 1.9;
-                }
 
                 /* --- Hero --- */
                 .fort-hero {

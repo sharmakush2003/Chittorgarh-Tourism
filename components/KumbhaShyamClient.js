@@ -177,10 +177,31 @@ export default function KumbhaShyamClient() {
                 }
 
                 .fort-page p {
-                    color: rgba(255, 255, 255, 0.9) !important;
+                    color: #fff !important;
                     line-height: 1.8;
                     font-size: 1.15rem;
                     margin-bottom: 2rem;
+                }
+
+                /* --- Language Specific --- */
+                :global([data-lang="hi"]) .fort-page {
+                    --ff-serif: 'Martel', serif;
+                }
+
+                :global([data-lang="hi"]) h1, 
+                :global([data-lang="hi"]) h2, 
+                :global([data-lang="hi"]) h3 {
+                    font-family: 'Martel', serif !important;
+                    font-weight: 900 !important;
+                    line-height: 1.5 !important;
+                    letter-spacing: normal !important;
+                }
+
+                :global([data-lang="hi"]) .fort-page p {
+                    font-family: 'Martel', serif !important;
+                    font-weight: 500 !important;
+                    line-height: 1.8 !important;
+                    letter-spacing: normal !important;
                 }
 
                 /* --- Glassmorphism --- */
@@ -503,7 +524,7 @@ export default function KumbhaShyamClient() {
                     </motion.button>
                     <motion.span variants={itemVariants} className="hero-eyebrow">{t("kumbha_shyam.hero.eyebrow")}</motion.span>
                     <motion.h1 variants={itemVariants} className="hero-title">{t("kumbha_shyam.hero.title")}</motion.h1>
-                    <motion.p variants={itemVariants} className="hero-desc">
+                    <motion.p variants={itemVariants} className="hero-desc" style={{ color: '#fff !important' }}>
                         {t("kumbha_shyam.hero.desc")?.split('. ').map((sentence, idx) => (
                             <motion.span 
                                 key={idx} 
@@ -603,7 +624,7 @@ export default function KumbhaShyamClient() {
                         </div>
 
                         <div className="glass-panel" style={{ textAlign: 'center' }}>
-                            <motion.p variants={itemVariants}>
+                            <motion.p variants={itemVariants} style={{ color: '#fff !important' }}>
                                 {t("kumbha_shyam.architecture.p1")?.split('. ').map((sentence, idx) => (
                                     <motion.span 
                                         key={idx} 
