@@ -71,7 +71,7 @@ export default function ExploreClient() {
                             time={t("attr.kirti.time")}
                             dist={t("attr.kirti.dist")}
                             delay={4}
-                            link="https://en.wikipedia.org/wiki/Kirti_Stambha"
+                            link="/kirti-stambh"
                             image="/kirti_stambha.jpg"
                             imgPos="top"
                         />
