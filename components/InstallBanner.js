@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import { Download, X, Share, MoreVertical } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
+import { usePathname } from "next/navigation";
 
 export default function InstallBanner() {
     const [show, setShow] = useState(false);
@@ -10,12 +11,13 @@ export default function InstallBanner() {
     const [canInstall, setCanInstall] = useState(false);
     const [showSuccess, setShowSuccess] = useState(false);
     const promptRef = useRef(null);
-
+    const pathname = usePathname();
+ 
     const { lang } = useLanguage();
 
     useEffect(() => {
-        // Only show once per device after language selection
-        if (!localStorage.getItem("ctt_locale")) {
+        // Only show once per device after language selection AND only on homepage
+        if (pathname !== "/" || !localStorage.getItem("ctt_locale")) {
             return;
         }
         // Detect platforms and browsers
@@ -77,7 +79,7 @@ export default function InstallBanner() {
             window.removeEventListener("beforeinstallprompt", handler);
             window.removeEventListener("appinstalled", installedHandler);
         };
-    }, [lang]);
+    }, [lang, pathname]);
 
     const handleInstall = async () => {
         const prompt = promptRef.current || window.__pwaPrompt;
