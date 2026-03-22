@@ -92,6 +92,12 @@ export const metadata = {
     description: "Plan your ultimate trip. Discover Rajasthan's mightiest citadel and best local attractions.",
     images: ["/Poster-For-Chittorgarh-Tourism.png"],
   },
+  formatDetection: {
+    telephone: false,
+    address: false,
+    email: false,
+  },
+  applicationName: "Chittorgarh Tourism",
 };
 
 export const viewport = {
@@ -183,6 +189,10 @@ export default function RootLayout({ children }) {
         <link rel="preconnect" href="https://chittorgarh-tourism.in" crossOrigin="anonymous" />
         <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <meta name="mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+        <meta name="theme-color" content="#D4AF37" />
         <script
           dangerouslySetInnerHTML={{
             __html: `
