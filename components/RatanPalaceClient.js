@@ -577,12 +577,18 @@ export default function RatanPalaceClient() {
                         <motion.div variants={itemVariants} className="title-divider"></motion.div>
                     </div>
 
-                    <div className="gallery-grid">
+                    <div className="gallery-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))', gap: '2rem' }}>
                         <motion.div 
                             variants={itemVariants}
                             className="gallery-item"
                         >
                             <img src="/ratan_singh_palace.jpg" alt="Ratan Singh Palace" className="gallery-img" />
+                        </motion.div>
+                        <motion.div 
+                            variants={itemVariants}
+                            className="gallery-item"
+                        >
+                            <img src="/images/Ratan singh palace new.jpg" alt="Ratan Singh Palace New" className="gallery-img" />
                         </motion.div>
                     </div>
                 </motion.section>
