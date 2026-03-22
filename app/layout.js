@@ -179,6 +179,10 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
+        <link rel="dns-prefetch" href="https://chittorgarh-tourism.in" />
+        <link rel="preconnect" href="https://chittorgarh-tourism.in" crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <script
           dangerouslySetInnerHTML={{
             __html: `

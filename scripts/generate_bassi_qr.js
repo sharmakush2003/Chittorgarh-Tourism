@@ -3,7 +3,7 @@ const fs = require('fs');
 const path = require('path');
 
 async function generateQR() {
-    const url = 'https://www.chittorgarh-tourism.in/bassi';
+    const url = 'https://chittorgarh-tourism.in/bassi';
     const outputPath = path.join(__dirname, '../public/QR_codes/Bassi.png');
 
     try {
