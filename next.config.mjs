@@ -104,6 +104,21 @@ const nextConfig = {
         destination: '/vijay-stambh',
         permanent: true,
       },
+      {
+        source: '/meera-bai-temple',
+        destination: '/meera-bai-temple',
+        permanent: true,
+      },
+      {
+        source: '/meera%20bai%20temple',
+        destination: '/meera-bai-temple',
+        permanent: true,
+      },
+      {
+        source: '/meerabai%20temple',
+        destination: '/meera-bai-temple',
+        permanent: true,
+      },
     ];
   },
   turbopack: {},

@@ -134,7 +134,7 @@ export default function ExploreClient() {
                             time={t("attr.meera.time")}
                             dist={t("attr.meera.dist")}
                             delay={11}
-                            link="https://en.wikipedia.org/wiki/Chittor_Fort#Meera_Temple"
+                            link="/meera-bai-temple"
                             image="/meerabai_temple.jpg"
                         />
                         <GlassCard

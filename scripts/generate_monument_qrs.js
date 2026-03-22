@@ -13,7 +13,8 @@ const urls = [
     { name: 'Fateh-Prakash', url: 'https://www.chittorgarh-tourism.in/fateh-prakash' },
     { name: 'Rana-Kumbha-Palace', url: 'https://www.chittorgarh-tourism.in/kumbha-palace' },
     { name: 'Kumbha-Shyam-Temple', url: 'https://www.chittorgarh-tourism.in/kumbha-shyam' },
-    { name: 'Jain-Temples', url: 'https://www.chittorgarh-tourism.in/jain-temples' }
+    { name: 'Jain-Temples', url: 'https://www.chittorgarh-tourism.in/jain-temples' },
+    { name: 'Meera-Bai-Temple', url: 'https://www.chittorgarh-tourism.in/meera-bai-temple' }
 ];
 
 async function generateQRs() {
