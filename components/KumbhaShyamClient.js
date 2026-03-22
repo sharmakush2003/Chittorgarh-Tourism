@@ -16,38 +16,49 @@ import { useRouter } from "next/navigation";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { triggerHaptic } from "@/lib/haptics";
 
-const GoldenGlow = ({ children, className = "" }) => (
-    <motion.div
-        whileHover={{ scale: 1.02, boxShadow: "0 0 20px rgba(212, 175, 55, 0.4)" }}
-        className={`relative overflow-hidden ${className}`}
-    >
-        {children}
-    </motion.div>
-);
-
 const Waveform = () => (
-    <div style={{ display: 'flex', alignItems: 'center', gap: '3px', height: '24px', width: '24px', justifyContent: 'center' }}>
-        {[...Array(4)].map((_, i) => (
+    <div style={{ display: 'flex', alignItems: 'center', gap: '2px', height: '30px', width: '40px', justifyContent: 'center' }}>
+        {[...Array(8)].map((_, i) => (
             <motion.div
                 key={i}
                 animate={{
-                    height: ["8px", "20px", "8px"],
+                    height: ["6px", "24px", "10px", "28px", "6px"],
+                    opacity: [0.3, 1, 0.5, 1, 0.3]
                 }}
                 transition={{
-                    duration: 0.6,
+                    duration: 1.2,
                     repeat: Infinity,
-                    delay: i * 0.1,
+                    delay: i * 0.15,
                     ease: "easeInOut"
                 }}
                 style={{
                     width: '3px',
                     backgroundColor: 'currentColor',
-                    borderRadius: '2px'
+                    borderRadius: '4px',
+                    boxShadow: '0 0 10px rgba(0,0,0,0.2)'
                 }}
             />
         ))}
     </div>
 );
+
+const KineticScroll = ({ progress }) => {
+    const width = useTransform(progress, [0, 1], ["0%", "100%"]);
+    return (
+        <motion.div 
+            style={{ 
+                position: 'fixed',
+                bottom: 0,
+                left: 0,
+                height: '4px',
+                background: 'linear-gradient(90deg, transparent, var(--gold), #fff)',
+                zIndex: 1000,
+                width,
+                boxShadow: '0 -2px 15px var(--gold-glow)'
+            }} 
+        />
+    );
+};
 
 export default function KumbhaShyamClient() {
     const { t, lang } = useLanguage();
@@ -61,7 +72,7 @@ export default function KumbhaShyamClient() {
         offset: ["start start", "end end"]
     });
 
-    const heroScale = useTransform(scrollYProgress, [0, 0.2], [1, 1.1]);
+    const heroScale = useTransform(scrollYProgress, [0, 0.2], [1, 1.05]);
     const heroOpacity = useTransform(scrollYProgress, [0, 0.2], [1, 0]);
 
     const containerVariants = {
@@ -69,32 +80,34 @@ export default function KumbhaShyamClient() {
         visible: {
             opacity: 1,
             transition: {
-                staggerChildren: 0.1,
-                delayChildren: 0.2
+                staggerChildren: 0.15,
+                delayChildren: 0.3
             }
         }
     };
 
     const itemVariants = {
-        hidden: { y: 20, opacity: 0 },
+        hidden: { y: 30, opacity: 0, filter: "blur(10px)" },
         visible: {
             y: 0,
             opacity: 1,
+            filter: "blur(0px)",
             transition: {
-                duration: 0.8,
+                duration: 1,
                 ease: [0.16, 1, 0.3, 1]
             }
         }
     };
 
     const sentenceVariants = {
-        hidden: { y: 10, opacity: 0 },
+        hidden: { y: 15, opacity: 0, filter: "blur(8px)" },
         visible: {
             y: 0,
             opacity: 1,
+            filter: "blur(0px)",
             transition: {
-                duration: 0.6,
-                ease: "easeOut"
+                duration: 0.8,
+                ease: [0.16, 1, 0.3, 1]
             }
         }
     };
@@ -148,6 +161,7 @@ export default function KumbhaShyamClient() {
             variants={containerVariants}
             className="fort-page"
         >
+            <KineticScroll progress={scrollYProgress} />
             <style jsx global>{`
                 :root {
                     --ff-serif: 'Playfair Display', serif;
@@ -174,13 +188,34 @@ export default function KumbhaShyamClient() {
                     -webkit-background-clip: text;
                     -webkit-text-fill-color: transparent;
                     filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+                    position: relative;
+                }
+
+                /* Divine Golden Aura */
+                .aura-heading {
+                    position: relative;
+                }
+                .aura-heading::before {
+                    content: '';
+                    position: absolute;
+                    inset: -20px -40px;
+                    background: radial-gradient(circle, rgba(212, 175, 55, 0.15) 0%, transparent 70%);
+                    z-index: -1;
+                    filter: blur(20px);
+                    animation: auraPulse 4s infinite alternate ease-in-out;
+                }
+
+                @keyframes auraPulse {
+                    from { opacity: 0.3; transform: scale(0.95); }
+                    to { opacity: 1; transform: scale(1.05); }
                 }
 
                 .fort-page p {
-                    color: #fff !important;
+                    color: #e0e0e0 !important;
                     line-height: 1.8;
                     font-size: 1.15rem;
                     margin-bottom: 2rem;
+                    text-align: center;
                 }
 
                 /* --- Language Specific --- */
@@ -204,13 +239,21 @@ export default function KumbhaShyamClient() {
                     letter-spacing: normal !important;
                 }
 
-                /* --- Glassmorphism --- */
+                /* --- Glassmorphism 2.0 --- */
                 .glass-panel {
-                    background: rgba(255, 255, 255, 0.03);
-                    backdrop-filter: blur(12px);
-                    border: 1px solid rgba(212, 175, 55, 0.15);
-                    border-radius: 12px;
-                    padding: 2.5rem;
+                    background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%);
+                    backdrop-filter: blur(16px);
+                    border: 1px solid rgba(212, 175, 55, 0.2);
+                    border-radius: 20px;
+                    padding: 3rem;
+                    box-shadow: 
+                        0 10px 30px rgba(0,0,0,0.5),
+                        inset 0 0 20px rgba(212, 175, 55, 0.05);
+                    position: relative;
+                    transition: border-color 0.4s ease;
+                }
+                .glass-panel:hover {
+                    border-color: rgba(212, 175, 55, 0.4);
                 }
 
                 /* --- Hero --- */
@@ -237,7 +280,7 @@ export default function KumbhaShyamClient() {
                 .hero-overlay {
                     position: absolute;
                     inset: 0;
-                    background: radial-gradient(circle at center, rgba(10, 8, 4, 0.4) 0%, rgba(10, 8, 4, 0.95) 100%);
+                    background: radial-gradient(circle at center, rgba(10, 8, 4, 0.3) 0%, rgba(10, 8, 4, 0.95) 100%);
                     z-index: -1;
                 }
 
@@ -284,55 +327,57 @@ export default function KumbhaShyamClient() {
                 }
 
                 .hero-title {
-                    font-size: clamp(3rem, 10vw, 6rem);
-                    line-height: 1.1;
-                    margin-bottom: 2rem;
-                    text-shadow: 0 10px 30px rgba(0,0,0,0.5);
+                    font-size: clamp(3.5rem, 12vw, 7rem);
+                    line-height: 1;
+                    margin-bottom: 2.5rem;
+                    text-shadow: 0 15px 40px rgba(0,0,0,0.6);
                 }
 
                 .hero-desc {
-                    font-size: clamp(1.1rem, 2.5vw, 1.35rem);
-                    max-width: 800px;
+                    font-size: clamp(1.2rem, 3vw, 1.4rem);
+                    max-width: 850px;
                     margin: 0 auto;
-                    color: rgba(255, 255, 255, 0.85) !important;
+                    color: rgba(255, 255, 255, 0.9) !important;
                 }
 
                 /* --- Nav --- */
                 .section-nav {
                     position: sticky;
                     top: 0;
-                    background: rgba(10, 8, 4, 0.85);
-                    backdrop-filter: blur(15px);
+                    background: rgba(10, 8, 4, 0.8);
+                    backdrop-filter: blur(20px);
                     z-index: 100;
-                    border-bottom: 1px solid rgba(212, 175, 55, 0.2);
-                    padding: 1.25rem 0;
+                    border-bottom: 1px solid rgba(212, 175, 55, 0.1);
+                    padding: 1.5rem 0;
                 }
                 .nav-container {
                     max-width: 1200px;
                     margin: 0 auto;
                     display: flex;
                     justify-content: center;
-                    gap: 4rem;
+                    gap: 5rem;
                 }
                 .nav-link {
-                    color: rgba(255, 255, 255, 0.5);
+                    color: rgba(255, 255, 255, 0.6);
                     text-decoration: none;
                     text-transform: uppercase;
-                    font-size: 0.85rem;
-                    font-weight: 700;
-                    letter-spacing: 2px;
+                    font-size: 0.9rem;
+                    font-weight: 800;
+                    letter-spacing: 3px;
                     transition: all 0.3s;
                     position: relative;
                 }
                 .nav-link::after {
                     content: '';
                     position: absolute;
-                    bottom: -8px;
-                    left: 0;
+                    bottom: -10px;
+                    left: 50%;
+                    transform: translateX(-50%);
                     width: 0;
-                    height: 2px;
+                    height: 3px;
                     background: var(--gold);
-                    transition: width 0.3s;
+                    transition: width 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+                    box-shadow: 0 0 10px var(--gold);
                 }
                 .nav-link:hover {
                     color: #fff;
@@ -343,108 +388,56 @@ export default function KumbhaShyamClient() {
 
                 /* --- Sections --- */
                 .fort-section {
-                    padding: 10rem 1.5rem;
+                    padding: 12rem 1.5rem;
                     position: relative;
-                }
-
-                .section-inner {
-                    max-width: 1100px;
-                    margin: 0 auto;
                 }
 
                 .section-header {
                     text-align: center;
-                    margin-bottom: 6rem;
-                }
-
-                .section-eyebrow {
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    gap: 1rem;
-                    color: var(--gold);
-                    font-weight: 800;
-                    text-transform: uppercase;
-                    letter-spacing: 3px;
-                    font-size: 0.8rem;
-                    margin-bottom: 1.5rem;
+                    margin-bottom: 8rem;
                 }
 
                 .section-title {
-                    font-size: clamp(2.5rem, 6vw, 4.5rem);
-                    margin-bottom: 2rem;
+                    font-size: clamp(3rem, 7vw, 5rem);
+                    margin-bottom: 2.5rem;
+                    color: var(--gold) !important;
                 }
 
                 .title-line {
-                    width: 120px;
-                    height: 4px;
-                    background: var(--gold);
+                    width: 150px;
+                    height: 3px;
+                    background: linear-gradient(90deg, transparent, var(--gold), transparent);
                     margin: 0 auto;
-                    border-radius: 2px;
-                }
-
-                /* --- Features Grid --- */
-                .features-grid {
-                    display: grid;
-                    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-                    gap: 2.5rem;
-                    margin-top: 4rem;
-                }
-
-                .feature-card {
-                    background: rgba(255, 255, 255, 0.02);
-                    border: 1px solid rgba(212, 175, 55, 0.1);
-                    padding: 3rem 2rem;
-                    border-radius: 16px;
-                    text-align: center;
-                    transition: all 0.4s;
-                }
-                .feature-card:hover {
-                    background: rgba(212, 175, 55, 0.05);
-                    border-color: var(--gold);
-                    transform: translateY(-10px);
-                }
-
-                .feature-icon {
-                    color: var(--gold);
-                    margin-bottom: 2rem;
-                    display: inline-block;
-                    padding: 1.5rem;
-                    background: rgba(212, 175, 55, 0.1);
-                    border-radius: 50%;
-                }
-
-                .feature-card h3 {
-                    font-size: 1.8rem;
-                    margin-bottom: 1.25rem;
-                    background: #fff;
-                    -webkit-background-clip: text;
-                    -webkit-text-fill-color: transparent;
                 }
 
                 /* --- Audio Control --- */
                 .audio-bar {
-                    background: rgba(10, 8, 4, 0.9);
+                    background: rgba(255, 255, 255, 0.03);
                     backdrop-filter: blur(10px);
                     border: 1px solid rgba(212, 175, 55, 0.3);
-                    border-radius: 50px;
-                    padding: 1rem 2.5rem;
+                    border-radius: 60px;
+                    padding: 1.25rem 3rem;
                     display: inline-flex;
                     align-items: center;
-                    gap: 1.5rem;
-                    margin-top: 3rem;
+                    gap: 2rem;
+                    margin-top: 4rem;
                     cursor: pointer;
-                    transition: all 0.4s;
+                    transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
                 }
                 .audio-bar:hover {
-                    background: var(--gold);
-                    color: #000;
-                    box-shadow: 0 10px 40px rgba(212, 175, 55, 0.4);
+                    background: rgba(212, 175, 55, 0.1);
+                    border-color: var(--gold);
+                    transform: scale(1.05);
+                    box-shadow: 0 15px 45px rgba(212, 175, 55, 0.2);
                 }
                 .audio-bar.playing {
                     background: #fff;
                     color: #000;
-                    border-color: #fff;
+                    border-color: var(--gold);
+                    box-shadow: 0 10px 40px rgba(255,255,255,0.3);
+                }
+                .audio-bar.playing :global(svg) {
+                    fill: #000;
                 }
 
                 .mesh-bg {
@@ -455,8 +448,8 @@ export default function KumbhaShyamClient() {
                     position: absolute;
                     inset: 0;
                     background-image: 
-                        radial-gradient(circle at 20% 30%, rgba(212, 175, 55, 0.03) 0%, transparent 50%),
-                        radial-gradient(circle at 80% 70%, rgba(212, 175, 55, 0.03) 0%, transparent 50%);
+                        radial-gradient(circle at 15% 25%, rgba(212, 175, 55, 0.04) 0%, transparent 45%),
+                        radial-gradient(circle at 85% 75%, rgba(212, 175, 55, 0.04) 0%, transparent 45%);
                     z-index: -1;
                     pointer-events: none;
                 }
@@ -470,34 +463,43 @@ export default function KumbhaShyamClient() {
                 }
                 .mouse {
                     width: 30px;
-                    height: 50px;
-                    border: 2px solid rgba(255, 125, 255, 0.2);
+                    height: 54px;
+                    border: 2px solid rgba(212, 175, 55, 0.4);
                     border-radius: 15px;
                     position: relative;
                 }
                 .mouse::after {
                     content: '';
-                    width: 4px;
-                    height: 8px;
+                    width: 5px;
+                    height: 10px;
                     background: var(--gold);
                     position: absolute;
                     top: 10px;
                     left: 50%;
                     transform: translateX(-50%);
                     border-radius: 2px;
-                    animation: mouseScroll 2s infinite;
+                    animation: mouseScroll 2.2s infinite ease-in-out;
+                    box-shadow: 0 0 8px var(--gold);
                 }
                 @keyframes mouseScroll {
-                    0% { opacity: 1; transform: translateX(-50%) translateY(0); }
-                    100% { opacity: 0; transform: translateX(-50%) translateY(20px); }
+                    0% { opacity: 0; transform: translateX(-50%) translateY(0); }
+                    20% { opacity: 1; }
+                    80% { opacity: 0; transform: translateX(-50%) translateY(25px); }
+                    100% { opacity: 0; }
                 }
 
                 @media (max-width: 768px) {
-                    .nav-container { gap: 1.5rem; overflow-x: auto; padding: 0 1rem; }
-                    .nav-link { font-size: 0.7rem; white-space: nowrap; }
-                    .fort-section { padding: 6rem 1.25rem; }
-                    .section-header { margin-bottom: 3rem; }
-                    .hero-title { font-size: 3.5rem; }
+                    .nav-container { gap: 2rem; overflow-x: auto; padding: 0 1.5rem; justify-content: flex-start; }
+                    .nav-link { font-size: 0.75rem; white-space: nowrap; }
+                    .fort-section { padding: 8rem 1.5rem; }
+                    .section-header { margin-bottom: 5rem; }
+                    .hero-title { font-size: 4rem; }
+                    .hero-desc { font-size: 1.1rem; }
+                    .glass-panel { padding: 2.5rem 1.5rem; }
+                }
+
+                html {
+                    scroll-behavior: smooth;
                 }
             `}</style>
 
@@ -523,8 +525,8 @@ export default function KumbhaShyamClient() {
                         <ArrowLeft size={18} /> {t("btn.back") || "Back"}
                     </motion.button>
                     <motion.span variants={itemVariants} className="hero-eyebrow">{t("kumbha_shyam.hero.eyebrow")}</motion.span>
-                    <motion.h1 variants={itemVariants} className="hero-title">{t("kumbha_shyam.hero.title")}</motion.h1>
-                    <motion.p variants={itemVariants} className="hero-desc" style={{ color: '#fff !important' }}>
+                    <motion.h1 variants={itemVariants} className="hero-title aura-heading">{t("kumbha_shyam.hero.title")}</motion.h1>
+                    <motion.p variants={itemVariants} className="hero-desc">
                         {t("kumbha_shyam.hero.desc")?.split('. ').map((sentence, idx) => (
                             <motion.span 
                                 key={idx} 
@@ -561,13 +563,12 @@ export default function KumbhaShyamClient() {
                 >
                     <div className="section-inner">
                         <div className="section-header">
-                            <motion.span variants={itemVariants} className="section-eyebrow"><History size={16} /> {t("kumbha_shyam.nav.history")}</motion.span>
-                            <motion.h2 variants={itemVariants} className="section-title">{t("kumbha_shyam.section.history")}</motion.h2>
+                            <motion.h2 variants={itemVariants} className="section-title aura-heading">{t("kumbha_shyam.section.history")}</motion.h2>
                             <motion.div variants={itemVariants} className="title-line"></motion.div>
                         </div>
                         
                         <div className="glass-panel" style={{ textAlign: 'center' }}>
-                            <motion.p variants={itemVariants} className="lead-para" style={{ color: '#fff !important', fontSize: '1.25rem' }}>
+                            <motion.p variants={itemVariants} className="lead-para" style={{ color: '#fff !important', fontSize: '1.3rem', fontWeight: 300 }}>
                                 {t("kumbha_shyam.history.p1")?.split('. ').map((sentence, idx) => (
                                     <motion.span 
                                         key={idx} 
@@ -584,8 +585,8 @@ export default function KumbhaShyamClient() {
                                 className={`audio-bar ${playingAudio === 'history' ? 'playing' : ''}`}
                                 onClick={() => handleAudioPlay('history', "kumbha_shyam.history.p1")}
                             >
-                                {playingAudio === 'history' ? <Waveform /> : <Play size={24} fill="currentColor" />}
-                                <span style={{ fontWeight: 800, letterSpacing: '2px', textTransform: 'uppercase' }}>
+                                {playingAudio === 'history' ? <Waveform /> : <Play size={28} fill="currentColor" />}
+                                <span style={{ fontWeight: 800, letterSpacing: '3px', textTransform: 'uppercase', fontSize: '1rem' }}>
                                     {playingAudio === 'history' ? t("fort.audio.playing") : t("fort.audio.listen")}
                                 </span>
                             </motion.div>
@@ -604,27 +605,27 @@ export default function KumbhaShyamClient() {
                 >
                     <div className="section-inner">
                         <div className="section-header">
-                            <motion.span variants={itemVariants} className="section-eyebrow"><Anchor size={16} /> {t("kumbha_shyam.nav.architecture")}</motion.span>
-                            <motion.h2 variants={itemVariants} className="section-title">{t("kumbha_shyam.section.architecture")}</motion.h2>
+                            <motion.h2 variants={itemVariants} className="section-title aura-heading">{t("kumbha_shyam.section.architecture")}</motion.h2>
                             <motion.div variants={itemVariants} className="title-line"></motion.div>
                         </div>
 
-                        <div className="architecture-showcase" style={{ marginBottom: '4rem' }}>
+                        <div className="architecture-showcase" style={{ marginBottom: '6rem' }}>
                             <motion.div 
                                 variants={itemVariants}
+                                whileHover={{ scale: 1.02 }}
                                 className="glass-panel"
-                                style={{ padding: '0', overflow: 'hidden', height: '500px' }}
+                                style={{ padding: '0', overflow: 'hidden', height: '600px', border: '1px solid rgba(212, 175, 55, 0.4)', boxShadow: '0 40px 80px rgba(0,0,0,0.8)' }}
                             >
                                 <img 
                                     src="/images/kumbha-shyam-arch.jpg" 
                                     alt="Kumbha Shyam Temple Architecture"
-                                    style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                                    style={{ width: '100%', height: '100%', objectFit: 'cover', opacity: 0.9 }}
                                 />
                             </motion.div>
                         </div>
 
                         <div className="glass-panel" style={{ textAlign: 'center' }}>
-                            <motion.p variants={itemVariants} style={{ color: '#fff !important' }}>
+                            <motion.p variants={itemVariants} style={{ color: '#fff !important', fontSize: '1.25rem' }}>
                                 {t("kumbha_shyam.architecture.p1")?.split('. ').map((sentence, idx) => (
                                     <motion.span 
                                         key={idx} 
@@ -640,8 +641,8 @@ export default function KumbhaShyamClient() {
                                 className={`audio-bar ${playingAudio === 'arch' ? 'playing' : ''}`}
                                 onClick={() => handleAudioPlay('arch', "kumbha_shyam.architecture.p1")}
                             >
-                                {playingAudio === 'arch' ? <Waveform /> : <Play size={24} fill="currentColor" />}
-                                <span style={{ fontWeight: 800, letterSpacing: '2px', textTransform: 'uppercase' }}>
+                                {playingAudio === 'arch' ? <Waveform /> : <Play size={28} fill="currentColor" />}
+                                <span style={{ fontWeight: 800, letterSpacing: '3px', textTransform: 'uppercase', fontSize: '1rem' }}>
                                     {playingAudio === 'arch' ? t("fort.audio.playing") : t("fort.audio.listen")}
                                 </span>
                             </motion.div>
@@ -657,11 +658,11 @@ export default function KumbhaShyamClient() {
                     variants={containerVariants}
                     id="references"
                     className="fort-section mesh-bg"
-                    style={{ paddingBottom: '8rem' }}
+                    style={{ paddingBottom: '10rem' }}
                 >
                     <div className="section-inner" style={{ textAlign: 'center' }}>
-                        <motion.h2 variants={itemVariants} className="section-title" style={{ fontSize: '1.8rem' }}>{t("kumbha_shyam.section.references")}</motion.h2>
-                        <motion.div variants={itemVariants} className="title-line" style={{ width: '40px', marginBottom: '3rem' }}></motion.div>
+                        <motion.h2 variants={itemVariants} className="section-title" style={{ fontSize: '2.5rem' }}>{t("kumbha_shyam.section.references")}</motion.h2>
+                        <motion.div variants={itemVariants} className="title-line" style={{ width: '80px', marginBottom: '4rem' }}></motion.div>
                         
                         <motion.a 
                             variants={itemVariants}
@@ -669,14 +670,13 @@ export default function KumbhaShyamClient() {
                             target="_blank" 
                             rel="noopener noreferrer"
                             className="back-btn"
-                            style={{ margin: 0 }}
+                            style={{ margin: 0, padding: '1rem 2.5rem' }}
                         >
                             <Globe size={18} /> {t("kumbha_shyam.references.official")}
                         </motion.a>
                     </div>
                 </motion.section>
             </main>
-
         </motion.div>
     );
 }
