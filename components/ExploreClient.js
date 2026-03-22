@@ -171,7 +171,7 @@ export default function ExploreClient() {
                             time={t("attr.light.time")}
                             dist={t("attr.light.dist")}
                             delay={15}
-                            link="https://www.tourism.rajasthan.gov.in/chittorgarh.html"
+                            link="/light-and-sound-show"
                             image="/light_sound_show.jpg"
                             bookingLink="https://asi.payumoney.com/quick/chf"
                         />
