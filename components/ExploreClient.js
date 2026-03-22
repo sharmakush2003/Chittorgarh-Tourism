@@ -4,7 +4,6 @@ import { useLanguage } from "@/context/LanguageContext";
 import { Flower, Calendar, MapPin, ArrowRight, Sun, Wind, Cloud, Ticket } from 'lucide-react';
 import FortMap from "@/components/FortMap";
 import { useState, useEffect } from 'react';
-import Link from 'next/link';
 import { Share2, Navigation, X, Send } from 'lucide-react';
 import { triggerHaptic } from "@/lib/haptics";
 
@@ -90,7 +89,7 @@ export default function ExploreClient() {
                             time={t("attr.jain.time")}
                             dist={t("attr.jain.dist")}
                             delay={6}
-                            link="https://en.wikipedia.org/wiki/Chittor_Fort#Jain_temples"
+                            link="/jain-temples"
                             image="/jain_temples.jpg"
                         />
                         <GlassCard
@@ -379,9 +378,9 @@ function GlassCard({ title, desc, time, dist, delay, link, image, imgPos = 'cent
 
                     <div className="card-actions" style={{ display: 'flex', gap: '0.5rem', alignItems: 'center', marginTop: 'auto', width: '100%' }}>
                         {link && (link.startsWith('/') ? (
-                            <Link href={link} className="read-more" target="_blank">
+                            <a href={link} className="read-more">
                                 {t("btn.readMore")} <ArrowRight className="arrow" size={16} />
-                            </Link>
+                            </a>
                         ) : (
                             <a href={link} target="_blank" rel="noopener noreferrer" className="read-more">
                                 {t("btn.readMore")} <ArrowRight className="arrow" size={16} />

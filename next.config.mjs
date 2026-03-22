@@ -95,6 +95,11 @@ const nextConfig = {
         permanent: true,
       },
       {
+        source: '/jain%20temples',
+        destination: '/jain-temples',
+        permanent: true,
+      },
+      {
         source: '/vijaystambh',
         destination: '/vijay-stambh',
         permanent: true,
