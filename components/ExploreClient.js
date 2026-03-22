@@ -43,8 +43,8 @@ export default function ExploreClient() {
                             time={t("attr.bassi.time")}
                             dist={t("attr.bassi.dist")}
                             delay={1}
-                            link="https://en.wikipedia.org/wiki/Bassi_Wildlife_Sanctuary"
-                            image="/bassi_sanctuary.png"
+                            link="/bassi"
+                            image="/images/bassi_path.jpg"
                         />
                         <GlassCard
                             title={t("attr.temple.name")}

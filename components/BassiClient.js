@@ -10,14 +10,16 @@ import {
     ChevronUp,
     Trees,
     Bird,
-    Wind,
-    Globe
+    Waves,
+    Globe,
+    Compass,
+    ShieldCheck
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { triggerHaptic } from "@/lib/haptics";
 
-export default function SitamataClient() {
+export default function BassiClient() {
     const { t, lang: locale } = useLanguage();
     const router = useRouter();
     const [playingAudio, setPlayingAudio] = useState(null);
@@ -36,9 +38,9 @@ export default function SitamataClient() {
     }, []);
 
     const ATTRACTIONS = [
-        { id: "flora", icon: <Trees size={20} /> },
-        { id: "fauna", icon: <Bird size={20} /> },
-        { id: "squirrel", icon: <Wind size={20} /> }
+        { id: "habitats", icon: <Trees size={20} /> },
+        { id: "fauna", icon: <ShieldCheck size={20} /> },
+        { id: "birds", icon: <Bird size={20} /> }
     ];
 
     const handleAudioPlay = (sectionId, customText = null) => {
@@ -50,13 +52,13 @@ export default function SitamataClient() {
             return;
         }
 
-        const textToSpeak = customText || `${t(`sitamata.wildlife.${sectionId}.title`)}. ${t(`sitamata.wildlife.${sectionId}.desc`)}`;
+        const textToSpeak = customText || `${t(`bassi.highlights.${sectionId}.title`)}. ${t(`bassi.highlights.${sectionId}.desc`)}`;
         const utterance = new SpeechSynthesisUtterance(textToSpeak);
         
         const langMap = {
             'en': 'en-US', 'hi': 'hi-IN'
         };
-        const targetLang = langMap[lang] || 'en-US';
+        const targetLang = langMap[locale] || 'en-US';
         utterance.lang = targetLang;
         
         const voices = voicesRef.current.length > 0 ? voicesRef.current : synth.getVoices();
@@ -87,9 +89,7 @@ export default function SitamataClient() {
         >
             {/* ═══ HERO SECTION ═══════════════════════════ */}
             <section className="fort-hero">
-                <div className="hero-bg" style={{ backgroundImage: "url('/images/sitamata_1.jpg')", backgroundPosition: 'center center' }}></div>
-...
-
+                <div className="hero-bg" style={{ backgroundImage: "url('/images/bassi_path.jpg')", backgroundPosition: 'center center' }}></div>
                 <div className="hero-overlay"></div>
                 
                 <motion.div 
@@ -104,9 +104,9 @@ export default function SitamataClient() {
                     }}>
                         <ArrowLeft size={16} /> {t("btn.back") || "Back"}
                     </button>
-                    <span className="hero-eyebrow">{t("sitamata.hero.eyebrow")}</span>
-                    <h1 className="hero-title">{t("sitamata.hero.title")}</h1>
-                    <p className="hero-desc">{t("sitamata.hero.desc")}</p>
+                    <span className="hero-eyebrow">{t("bassi.hero.eyebrow")}</span>
+                    <h1 className="hero-title">{t("bassi.hero.title")}</h1>
+                    <p className="hero-desc">{t("bassi.hero.desc")}</p>
                 </motion.div>
                 
                 <div className="scroll-indicator">
@@ -124,17 +124,17 @@ export default function SitamataClient() {
                     className="fort-section mesh-bg"
                 >
                     <div className="section-header">
-                        <h2 className="section-title text-gold">{t("sitamata.section.overview")}</h2>
+                        <h2 className="section-title text-gold">{t("bassi.section.overview")}</h2>
                         <div className="title-divider"></div>
                     </div>
                     <div className="overview-grid">
                         <div className="overview-text">
-                            <p className="lead-para">{t("sitamata.overview.p1")}</p>
-                            <p>{t("sitamata.overview.p2")}</p>
+                            <p className="lead-para">{t("bassi.overview.p1")}</p>
+                            <p>{t("bassi.overview.p2")}</p>
                             
                             <button 
                                 className={`audio-btn ${playingAudio === 'overview' ? 'playing' : ''}`}
-                                onClick={() => handleAudioPlay('overview', `${t("sitamata.overview.p1")} ${t("sitamata.overview.p2")}`)}
+                                onClick={() => handleAudioPlay('overview', `${t("bassi.overview.p1")} ${t("bassi.overview.p2")}`)}
                                 style={{ marginTop: '2rem' }}
                             >
                                 {playingAudio === 'overview' ? <Pause size={18} fill="currentColor" /> : <Play size={18} fill="currentColor" />}
@@ -157,15 +157,15 @@ export default function SitamataClient() {
                     </div>
                     <div className="gallery-grid">
                         <div className="gallery-item-large premium-glass">
-                            <img src="/images/sitamata_1.jpg" alt="Sitamata 1" />
+                            <img src="/images/bassi_welcome.jpg" alt="Bassi 1" />
                         </div>
                         <div className="gallery-item-large premium-glass">
-                            <img src="/images/sitamata_2.jpg" alt="Sitamata 2" />
+                            <img src="/images/bassi_waterfall.jpg" alt="Bassi 2" />
                         </div>
                     </div>
                 </motion.section>
 
-                {/* ═══ FEATURES ══════════════════════════ */}
+                {/* ═══ FEATURES (WILDLIFE) ══════════════════════ */}
                 <section id="wildlife" className="fort-section">
                     <motion.div 
                         initial={{ opacity: 0, y: 30 }}
@@ -173,7 +173,7 @@ export default function SitamataClient() {
                         viewport={{ once: true }}
                         className="section-header"
                     >
-                        <h2 className="section-title text-gold">{t("sitamata.section.wildlife")}</h2>
+                        <h2 className="section-title text-gold">{t("bassi.section.highlights")}</h2>
                         <div className="title-divider"></div>
                     </motion.div>
 
@@ -189,10 +189,10 @@ export default function SitamataClient() {
                                 <div className="mon-content">
                                     <h3 className="mon-name" style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                                         <span style={{ color: 'var(--gold)' }}>{m.icon}</span> 
-                                        {t(`sitamata.wildlife.${m.id}.title`)}
+                                        {t(`bassi.highlights.${m.id}.title`)}
                                     </h3>
                                     <p className={`mon-desc ${expandedSections[m.id] ? 'expanded' : ''}`}>
-                                        {t(`sitamata.wildlife.${m.id}.desc`)}
+                                        {t(`bassi.highlights.${m.id}.desc`)}
                                     </p>
                                     
                                     <button 
@@ -229,7 +229,7 @@ export default function SitamataClient() {
                     viewport={{ once: true }}
                 >
                     <div className="section-header">
-                        <h2 className="section-title text-gold">{t("sitamata.references.title")}</h2>
+                        <h2 className="section-title text-gold">{t("bassi.references.title")}</h2>
                         <div className="title-divider"></div>
                     </div>
                     <div className="premium-glass" style={{ padding: '2rem', borderRadius: '16px' }}>
@@ -237,9 +237,9 @@ export default function SitamataClient() {
                             <li style={{ display: 'flex', gap: '16px', alignItems: 'flex-start' }}>
                                 <Globe size={24} color="var(--gold)" style={{ marginTop: '4px' }} />
                                 <div>
-                                    <h3 style={{ fontSize: '1.1rem', marginBottom: '0.4rem', color: '#fff', fontFamily: 'var(--ff-sans)', fontWeight: '600' }}>{t("sitamata.references.official")}</h3>
+                                    <h3 style={{ fontSize: '1.1rem', marginBottom: '0.4rem', color: '#fff', fontFamily: 'var(--ff-sans)', fontWeight: '600' }}>{t("bassi.references.official")}</h3>
                                     <a 
-                                        href={t("sitamata.references.official_url")} 
+                                        href={t("bassi.references.official_url")} 
                                         target="_blank" 
                                         rel="noopener noreferrer" 
                                         style={{ color: 'var(--gold)', textDecoration: 'none', fontSize: '0.95rem', display: 'inline-flex', alignItems: 'center', gap: '4px' }}
