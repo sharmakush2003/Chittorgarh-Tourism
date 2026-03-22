@@ -5,27 +5,108 @@ import React, { useState, useEffect, useRef } from "react";
 import { 
     Play, 
     Pause, 
-    ArrowLeft,
-    MapPin,
-    ScrollText,
-    ChevronDown,
-    ChevronUp,
-    Info,
-    Droplets,
-    Columns,
-    Image as ImageIcon
+    ArrowLeft
 } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { motion } from "framer-motion";
-import { triggerHaptic } from "@/lib/haptics";
+import { motion, useScroll, useTransform } from "framer-motion";
+
+const Waveform = () => (
+    <div style={{ display: 'flex', alignItems: 'center', gap: '2px', height: '30px', width: '40px', justifyContent: 'center' }}>
+        {[...Array(8)].map((_, i) => (
+            <motion.div
+                key={i}
+                animate={{
+                    height: ["6px", "24px", "10px", "28px", "6px"],
+                    opacity: [0.3, 1, 0.5, 1, 0.3]
+                }}
+                transition={{
+                    duration: 1.2,
+                    repeat: Infinity,
+                    delay: i * 0.15,
+                    ease: "easeInOut"
+                }}
+                style={{
+                    width: '3px',
+                    backgroundColor: 'currentColor',
+                    borderRadius: '4px',
+                    boxShadow: '0 0 10px rgba(0,0,0,0.2)'
+                }}
+            />
+        ))}
+    </div>
+);
+
+const KineticScroll = ({ progress }) => {
+    const width = useTransform(progress, [0, 1], ["0%", "100%"]);
+    return (
+        <motion.div 
+            style={{ 
+                position: 'fixed',
+                bottom: 0,
+                left: 0,
+                height: '4px',
+                background: 'linear-gradient(90deg, transparent, var(--gold), #fff)',
+                zIndex: 1000,
+                width,
+                boxShadow: '0 -2px 15px var(--gold-glow)'
+            }} 
+        />
+    );
+};
 
 export default function RatanPalaceClient() {
     const { t, lang } = useLanguage();
     const router = useRouter();
     const [playingAudio, setPlayingAudio] = useState(null);
-    const [expandedSections, setExpandedSections] = useState({});
     const voicesRef = useRef([]);
+    const containerRef = useRef(null);
 
+    const { scrollYProgress } = useScroll({
+        target: containerRef,
+        offset: ["start start", "end end"]
+    });
+
+    const heroScale = useTransform(scrollYProgress, [0, 0.2], [1, 1.05]);
+    const heroOpacity = useTransform(scrollYProgress, [0, 0.2], [1, 0]);
+
+    const containerVariants = {
+        hidden: { opacity: 0 },
+        visible: {
+            opacity: 1,
+            transition: {
+                staggerChildren: 0.15,
+                delayChildren: 0.3
+            }
+        }
+    };
+
+    const itemVariants = {
+        hidden: { y: 30, opacity: 0, filter: "blur(10px)" },
+        visible: {
+            y: 0,
+            opacity: 1,
+            filter: "blur(0px)",
+            transition: {
+                duration: 1,
+                ease: [0.16, 1, 0.3, 1]
+            }
+        }
+    };
+
+    const sentenceVariants = {
+        hidden: { y: 15, opacity: 0, filter: "blur(8px)" },
+        visible: {
+            y: 0,
+            opacity: 1,
+            filter: "blur(0px)",
+            transition: {
+                duration: 0.8,
+                ease: [0.16, 1, 0.3, 1]
+            }
+        }
+    };
+
+    // Pre-load voices for better reliability
     useEffect(() => {
         const updateVoices = () => {
             voicesRef.current = window.speechSynthesis.getVoices();
@@ -37,15 +118,7 @@ export default function RatanPalaceClient() {
         };
     }, []);
 
-
-
-    const ARCH_FEATURES = [
-        { id: "ratan_palace_arch.talab", icon: <Droplets size={20} /> },
-        { id: "ratan_palace_arch.courtyards", icon: <Columns size={20} /> },
-        { id: "ratan_palace_arch.balconies", icon: <ImageIcon size={20} /> }
-    ];
-
-    const handleAudioPlay = (sectionId, customText = null) => {
+    const handleAudioPlay = (sectionId, textParts) => {
         const synth = window.speechSynthesis;
         synth.cancel();
 
@@ -54,19 +127,25 @@ export default function RatanPalaceClient() {
             return;
         }
 
-        const textToSpeak = customText || `${t(`attr.${sectionId}.name`)}. ${t(`attr.${sectionId}.desc`)}`;
+        const textToSpeak = textParts.map(key => t(key)).join(". ");
         const utterance = new SpeechSynthesisUtterance(textToSpeak);
         
-        const langMap = { 'en': 'en-US', 'hi': 'hi-IN' };
+        const langMap = {
+            'en': 'en-US', 'hi': 'hi-IN'
+        };
         const targetLang = langMap[lang] || 'en-US';
         utterance.lang = targetLang;
         
         const voices = voicesRef.current.length > 0 ? voicesRef.current : synth.getVoices();
         const bestVoice = voices.find(v => v.lang.includes(targetLang) && (v.name.includes("Natural") || v.name.includes("Online")))
                        || voices.find(v => v.lang.includes(targetLang) && v.name.includes("Google"))
-                       || voices.find(v => v.lang === targetLang);
+                       || voices.find(v => v.lang === targetLang)
+                       || voices.find(v => v.lang.startsWith(targetLang.split('-')[0]));
         
-        if (bestVoice) utterance.voice = bestVoice;
+        if (bestVoice) {
+            utterance.voice = bestVoice;
+        }
+        
         utterance.rate = 0.85; 
         
         utterance.onstart = () => setPlayingAudio(sectionId);
@@ -78,131 +157,19 @@ export default function RatanPalaceClient() {
 
     return (
         <motion.div 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 1 }}
+            ref={containerRef}
+            initial="hidden"
+            animate="visible"
+            variants={containerVariants}
             className="fort-page"
         >
-            <section className="fort-hero">
-                <div className="hero-bg" style={{ backgroundImage: "url('/ratan_singh_palace.jpg')", backgroundPosition: 'center center' }}></div>
-                <div className="hero-overlay"></div>
-                
-                <motion.div 
-                    initial={{ y: 30, opacity: 0 }}
-                    animate={{ y: 0, opacity: 1 }}
-                    transition={{ delay: 0.2, duration: 0.8 }}
-                    className="hero-content"
-                >
-                    <button className="back-btn" onClick={() => {
-                        triggerHaptic('light');
-                        router.push('/explore');
-                    }}>
-                        <ArrowLeft size={16} /> {t("btn.back") || "Back"}
-                    </button>
-                    <span className="hero-eyebrow">{t("ratan_palace.hero.eyebrow")}</span>
-                    <h1 className="hero-title">{t("ratan_palace.hero.title")}</h1>
-                    <p className="hero-desc">{t("ratan_palace.hero.desc")}</p>
-                    
-                </motion.div>
-                
-                <div className="scroll-indicator"><div className="mouse"></div></div>
-            </section>
-
-
-
-            <main className="fort-main">
-                <motion.section 
-                    initial={{ opacity: 0, y: 40 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    id="overview" 
-                    className="fort-section mesh-bg"
-                >
-                    <div className="section-header">
-                        <h2 className="section-title text-gold">{t("ratan_palace.section.overview")}</h2>
-                        <div className="title-divider"></div>
-                    </div>
-                    <div className="overview-grid">
-                        <div className="overview-text">
-                            <p className="lead-para">{t("ratan_palace.overview.p1")}</p>
-                            <p>{t("ratan_palace.overview.p2")}</p>
-                            
-                            <button 
-                                className={`audio-btn ${playingAudio === 'overview' ? 'playing' : ''}`}
-                                onClick={() => handleAudioPlay('overview', `${t("ratan_palace.overview.p1")} ${t("ratan_palace.overview.p2")}`)}
-                                style={{ marginTop: '2rem' }}
-                            >
-                                {playingAudio === 'overview' ? <Pause size={18} fill="currentColor" /> : <Play size={18} fill="currentColor" />}
-                                <span>{playingAudio === 'overview' ? t("fort.audio.playing") : t("fort.audio.listen")}</span>
-                            </button>
-                        </div>
-                    </div>
-                </motion.section>
-
-
-                <section id="architecture" className="fort-section">
-                    <motion.div 
-                        initial={{ opacity: 0, y: 30 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        className="section-header"
-                    >
-                        <h2 className="section-title text-gold">{t("ratan_palace.section.architecture")}</h2>
-                        <div className="title-divider"></div>
-                    </motion.div>
-
-                    <div className="monuments-list">
-                        {ARCH_FEATURES.map((m, idx) => (
-                            <motion.div 
-                                key={m.id} 
-                                initial={{ opacity: 0, y: 20 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                transition={{ delay: idx * 0.1 }}
-                                className="monument-card premium-glass"
-                            >
-
-
-                                <div className="mon-content">
-                                    <h3 className="mon-name" style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                                        <span style={{ color: 'var(--gold)' }}>{m.icon}</span> 
-                                        {t(`attr.${m.id}.name`)}
-                                    </h3>
-                                    <p className={`mon-desc ${expandedSections[m.id] ? 'expanded' : ''}`}>
-                                        {t(`attr.${m.id}.desc`)}
-                                    </p>
-                                    
-                                    <button 
-                                        className="read-more-btn"
-                                        onClick={() => {
-                                            setExpandedSections(prev => ({...prev, [m.id]: !prev[m.id]}));
-                                        }}
-                                    >
-                                        {expandedSections[m.id] ? (
-                                            <><ChevronUp size={16} /> {t("btn.readLess") || "Read Less"}</>
-                                        ) : (
-                                            <><ChevronDown size={16} /> {t("btn.readMore") || "Read More"}</>
-                                        )}
-                                    </button>
-                                    
-                                    <button 
-                                        className={`audio-btn ${playingAudio === m.id ? 'playing' : ''}`}
-                                        onClick={() => handleAudioPlay(m.id)}
-                                    >
-                                        {playingAudio === m.id ? <Pause size={18} fill="currentColor" /> : <Play size={18} fill="currentColor" />}
-                                        <span>{playingAudio === m.id ? t("fort.audio.playing") : t("fort.audio.listen")}</span>
-                                    </button>
-                                </div>
-                            </motion.div>
-                        ))}
-                    </div>
-                </section>
-            </main>
-
+            <KineticScroll progress={scrollYProgress} />
             <style jsx global>{`
                 :root {
                     --ff-serif: 'Playfair Display', serif;
                     --ff-sans: 'Inter', sans-serif;
                     --gold: #d4af37;
+                    --gold-glow: rgba(212, 175, 55, 0.3);
                 }
 
                 .fort-page {
@@ -218,24 +185,39 @@ export default function RatanPalaceClient() {
                 h1, h2, h3, h4 {
                     font-family: var(--ff-serif);
                     font-weight: 700;
-                    letter-spacing: -0.02em;
+                    letter-spacing: -0.01em;
                     background: linear-gradient(135deg, #fff 0%, var(--gold) 50%, #d4af37 100%);
                     -webkit-background-clip: text;
                     -webkit-text-fill-color: transparent;
-                    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+                    filter: drop-shadow(0 4px 8px rgba(0,0,0,0.5));
+                    position: relative;
                 }
 
-                .fort-page h1, .fort-page h2, .fort-page h3, .fort-page h4, .fort-page .timeline-year {
-                    line-height: 1.3 !important;
-                    margin: 0;
-                    padding: 0;
+                /* Golden Aura Effect */
+                .aura-heading {
+                    position: relative;
+                }
+                .aura-heading::before {
+                    content: '';
+                    position: absolute;
+                    inset: -20px -40px;
+                    background: radial-gradient(circle, rgba(212, 175, 55, 0.15) 0%, transparent 70%);
+                    z-index: -1;
+                    filter: blur(20px);
+                    animation: auraPulse 4s infinite alternate ease-in-out;
+                }
+
+                @keyframes auraPulse {
+                    from { opacity: 0.4; transform: scale(0.95); }
+                    to { opacity: 1; transform: scale(1.05); }
                 }
 
                 .fort-page p {
-                    color: #fff !important;
+                    color: #e0e0e0 !important;
                     line-height: 1.8;
                     font-size: 1.15rem;
                     margin-bottom: 2rem;
+                    text-align: center;
                 }
 
                 /* --- Language Specific --- */
@@ -259,16 +241,32 @@ export default function RatanPalaceClient() {
                     letter-spacing: normal !important;
                 }
 
+                /* --- Glassmorphism 2.0 --- */
+                .glass-panel {
+                    background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%);
+                    backdrop-filter: blur(16px);
+                    border: 1px solid rgba(212, 175, 55, 0.2);
+                    border-radius: 20px;
+                    padding: 3rem;
+                    box-shadow: 
+                        0 10px 30px rgba(0,0,0,0.5),
+                        inset 0 0 20px rgba(212, 175, 55, 0.05);
+                    position: relative;
+                    transition: border-color 0.4s ease;
+                }
+                .glass-panel:hover {
+                    border-color: rgba(212, 175, 55, 0.4);
+                }
 
+                /* --- Hero --- */
                 .fort-hero {
-                    min-height: 100vh; 
-                    height: auto;
+                    height: 100vh;
                     position: relative;
                     display: flex;
                     align-items: center;
                     justify-content: center;
                     text-align: center;
-                    padding: 8rem 1.5rem 4rem;
+                    overflow: hidden;
                     z-index: 2;
                 }
 
@@ -276,116 +274,346 @@ export default function RatanPalaceClient() {
                     position: absolute;
                     inset: 0;
                     background-size: cover;
-                    background-repeat: no-repeat;
+                    background-position: center;
                     z-index: -2;
+                    will-change: transform;
                 }
 
                 .hero-overlay {
                     position: absolute;
                     inset: 0;
-                    background: linear-gradient(to bottom, 
-                        rgba(10, 8, 4, 0.6) 0%, 
-                        rgba(10, 8, 4, 0.98) 100%
-                    ) !important;
+                    background: radial-gradient(circle at center, rgba(10, 8, 4, 0.5) 0%, rgba(10, 8, 4, 0.95) 100%);
                     z-index: -1;
                 }
 
                 .hero-content {
-                    max-width: 900px;
-                    width: 100%;
+                    max-width: 1000px;
+                    padding: 0 1.5rem;
                     z-index: 10;
                 }
 
                 .back-btn {
                     display: inline-flex;
                     align-items: center;
-                    gap: 0.5rem;
+                    gap: 0.75rem;
                     color: #fff;
-                    font-size: 0.8rem;
-                    margin-bottom: 3rem;
+                    font-size: 0.85rem;
+                    letter-spacing: 2px;
                     text-transform: uppercase;
-                    font-weight: 800;
-                    background: rgba(212, 175, 55, 0.2);
-                    padding: 0.75rem 1.5rem;
-                    border: 1px solid rgba(212, 175, 55, 0.4);
-                    border-radius: 4px;
+                    font-weight: 700;
+                    background: rgba(212, 175, 55, 0.1);
+                    backdrop-filter: blur(8px);
+                    padding: 0.8rem 1.8rem;
+                    border: 1px solid rgba(212, 175, 55, 0.35);
+                    border-radius: 8px;
                     cursor: pointer;
-                    transition: background 0.2s, transform 0.2s;
+                    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+                    margin-bottom: 3rem;
+                }
+                .back-btn:hover {
+                    background: var(--gold);
+                    color: #000;
+                    transform: translateX(-5px);
+                    box-shadow: 0 10px 25px rgba(212, 175, 55, 0.4);
                 }
 
                 .hero-eyebrow {
                     display: block;
-                    letter-spacing: 4px;
+                    letter-spacing: 6px;
                     text-transform: uppercase;
                     font-size: 0.9rem;
                     color: var(--gold);
                     margin-bottom: 1.5rem;
                     font-weight: 800;
+                    opacity: 0.9;
                 }
 
                 .hero-title {
-                    font-size: clamp(2.5rem, 8vw, 5rem);
-                    color: #fff;
-                    margin-bottom: 2rem;
-                    text-shadow: 0 4px 20px rgba(0,0,0,0.8);
+                    font-size: clamp(3.5rem, 12vw, 7.5rem);
+                    line-height: 1;
+                    margin-bottom: 2.5rem;
+                    text-shadow: 
+                        0 10px 30px rgba(0,0,0,0.8),
+                        0 0 100px rgba(0,0,0,0.4);
                 }
 
                 .hero-desc {
-                    font-size: clamp(1rem, 2.5vw, 1.2rem);
-                    max-width: 700px;
-                    margin: 0 auto 3rem;
+                    font-size: clamp(1.2rem, 3vw, 1.5rem);
+                    max-width: 850px;
+                    margin: 0 auto;
+                    color: rgba(255, 255, 255, 0.9) !important;
+                    font-weight: 400;
                 }
 
-                .hero-stats {
-                    display: flex;
-                    justify-content: center;
+                /* --- Sections --- */
+                .fort-section {
+                    padding: 12rem 1.5rem;
+                    position: relative;
+                }
+
+                .section-header {
+                    text-align: center;
+                    margin-bottom: 8rem;
+                }
+
+                .section-title {
+                    font-size: clamp(3rem, 7vw, 5rem);
+                    margin-bottom: 2.5rem;
+                    color: var(--gold) !important;
+                }
+
+                .title-divider {
+                    width: 150px;
+                    height: 3px;
+                    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+                    margin: 0 auto;
+                }
+
+                /* --- Audio Control --- */
+                .audio-bar {
+                    background: rgba(255, 255, 255, 0.03);
+                    backdrop-filter: blur(10px);
+                    border: 1px solid rgba(212, 175, 55, 0.3);
+                    border-radius: 60px;
+                    padding: 1.25rem 3rem;
+                    display: inline-flex;
                     align-items: center;
-                    flex-wrap: wrap;
                     gap: 2rem;
-                    padding-top: 3rem;
-                    border-top: 1px solid rgba(212, 175, 55, 0.3);
+                    margin-top: 4rem;
+                    cursor: pointer;
+                    transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+                }
+                .audio-bar:hover {
+                    background: rgba(212, 175, 55, 0.1);
+                    border-color: var(--gold);
+                    transform: scale(1.05);
+                    box-shadow: 0 15px 45px rgba(212, 175, 55, 0.2);
+                }
+                .audio-bar.playing {
+                    background: #fff;
+                    color: #000;
+                    border-color: var(--gold);
+                    box-shadow: 0 10px 40px rgba(255,255,255,0.3);
+                }
+                .audio-bar.playing :global(svg) {
+                    fill: #000;
                 }
 
-                .stat-item { display: flex; flex-direction: column; align-items: center; }
-                .stat-val { font-size: clamp(2rem, 6vw, 3.5rem); color: var(--gold); font-family: var(--ff-serif); font-weight: 800; }
-                .stat-label { font-size: 0.8rem; color: rgba(255,255,255,0.7); text-transform: uppercase; }
-                .stat-divider { width: 1px; height: 40px; background: rgba(212, 175, 55, 0.3); }
-
-
-
-                .fort-section { padding: 5rem 1.5rem; max-width: 1200px; margin: 0 auto; }
-                .section-header { text-align: center; margin-bottom: 4rem; }
-                .section-title { font-size: clamp(2rem, 5vw, 3.5rem); color: var(--gold); }
-                .title-divider { width: 60px; height: 3px; background: var(--gold); margin: 0.5rem auto; }
-
-                .overview-grid { display: grid; grid-template-columns: 1fr; gap: 3rem; }
-                @media (min-width: 900px) { .overview-grid { grid-template-columns: 1.5fr 1fr; } }
-                .info-chips { display: flex; flex-wrap: wrap; gap: 1rem; margin-top: 2rem; }
-                .chip { display: inline-flex; align-items: center; gap: 0.5rem; background: rgba(255,255,255,0.05); padding: 0.5rem 1rem; border-radius: 20px; font-size: 0.85rem; border: 1px solid rgba(255,255,255,0.1); }
-
-                .history-timeline { display: flex; flex-direction: column; gap: 3rem; }
-                .timeline-item { display: flex; flex-direction: column; gap: 2rem; padding: 2rem; background: rgba(255,255,255,0.02); border: 1px solid rgba(212,175,55,0.1); border-radius: 16px; }
-                @media (min-width: 768px) { 
-                    .timeline-item { flex-direction: row; align-items: center; gap: 4rem; } 
-                    .timeline-item:nth-child(even) { flex-direction: row-reverse; }
+                .mesh-bg {
+                    position: relative;
                 }
-                .timeline-img-wrapper { flex: 1; border-radius: 12px; overflow: hidden; aspect-ratio: 16/10; border: 1px solid rgba(212,175,55,0.2); }
-                .timeline-img { width: 100%; height: 100%; object-fit: cover; }
-                .timeline-content { flex: 1.2; }
-                .timeline-year { font-size: 2rem; color: var(--gold); }
+                .mesh-bg::after {
+                    content: '';
+                    position: absolute;
+                    inset: 0;
+                    background-image: 
+                        radial-gradient(circle at 10% 20%, rgba(212, 175, 55, 0.05) 0%, transparent 40%),
+                        radial-gradient(circle at 90% 80%, rgba(212, 175, 55, 0.05) 0%, transparent 40%);
+                    z-index: -1;
+                    pointer-events: none;
+                }
 
-                .monuments-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 2rem; }
-                .monument-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 20px; overflow: hidden; display: flex; flex-direction: column; transition: 0.4s; }
-                .monument-card:hover { transform: translateY(-10px); border-color: var(--gold); }
-                .mon-image-wrapper { height: 200px; overflow: hidden; }
-                .mon-card-img { width: 100%; height: 100%; object-fit: cover; }
-                .mon-content { padding: 2rem; display: flex; flex-direction: column; gap: 1rem; flex: 1; }
-                .mon-desc { font-size: 1rem; color: rgba(255,255,255,0.8); overflow: hidden; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; }
-                .mon-desc.expanded { -webkit-line-clamp: unset; }
-                .read-more-btn { background: none; border: none; color: var(--gold); cursor: pointer; font-weight: 700; text-transform: uppercase; font-size: 0.8rem; display: flex; align-items: center; gap: 0.5rem; }
-                .audio-btn { background: rgba(212,175,55,0.1); border: 1px solid var(--gold); color: var(--gold); padding: 0.8rem; border-radius: 8px; cursor: pointer; transition: 0.3s; display: flex; align-items: center; justify-content: center; gap: 0.5rem; font-weight: 700; text-transform: uppercase; }
-                .audio-btn:hover { background: var(--gold); color: #000; }
+                .scroll-indicator {
+                    position: absolute;
+                    bottom: 3rem;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    z-index: 10;
+                }
+                .mouse {
+                    width: 30px;
+                    height: 54px;
+                    border: 2px solid rgba(212, 175, 55, 0.4);
+                    border-radius: 15px;
+                    position: relative;
+                }
+                .mouse::after {
+                    content: '';
+                    width: 5px;
+                    height: 10px;
+                    background: var(--gold);
+                    position: absolute;
+                    top: 10px;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    border-radius: 2px;
+                    animation: mouseScroll 2.2s infinite ease-in-out;
+                    box-shadow: 0 0 8px var(--gold);
+                }
+                @keyframes mouseScroll {
+                    0% { opacity: 0; transform: translateX(-50%) translateY(0); }
+                    20% { opacity: 1; }
+                    80% { opacity: 0; transform: translateX(-50%) translateY(25px); }
+                    100% { opacity: 0; }
+                }
+
+                .gallery-grid {
+                    display: grid;
+                    grid-template-columns: 1fr;
+                    gap: 2rem;
+                    max-width: 1200px;
+                    margin: 0 auto;
+                }
+                .gallery-item {
+                    border-radius: 20px;
+                    overflow: hidden;
+                    border: 1px solid rgba(212, 175, 55, 0.3);
+                    box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+                }
+                .gallery-img {
+                    width: 100%;
+                    height: auto;
+                    display: block;
+                    transition: transform 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+                }
+                .gallery-item:hover .gallery-img {
+                    transform: scale(1.02);
+                }
+
+                @media (max-width: 768px) {
+                    .fort-section { padding: 8rem 1.5rem; }
+                    .section-header { margin-bottom: 5rem; }
+                    .hero-title { font-size: 4rem; }
+                    .hero-desc { font-size: 1.1rem; }
+                    .glass-panel { padding: 2rem; }
+                }
+
+                html {
+                    scroll-behavior: smooth;
+                }
             `}</style>
+
+            {/* ═══ HERO SECTION ═══════════════════════════ */}
+            <section className="fort-hero">
+                <motion.div 
+                    style={{ 
+                        scale: heroScale,
+                        backgroundImage: "url('/ratan_singh_palace.jpg')"
+                    }} 
+                    className="hero-bg"
+                ></motion.div>
+                <div className="hero-overlay"></div>
+                
+                <motion.div 
+                    variants={containerVariants}
+                    className="hero-content"
+                >
+                    <motion.button variants={itemVariants} className="back-btn" onClick={() => router.push('/explore')}>
+                        <ArrowLeft size={18} /> {t("btn.back") || "Back"}
+                    </motion.button>
+                    <motion.span variants={itemVariants} className="hero-eyebrow">{t("ratan_palace.hero.eyebrow")}</motion.span>
+                    <motion.h1 variants={itemVariants} className="hero-title aura-heading">{t("ratan_palace.hero.title")}</motion.h1>
+                    <motion.p variants={itemVariants} className="hero-desc">
+                        {t("ratan_palace.hero.desc")?.split('. ').map((sentence, idx) => (
+                            <motion.span 
+                                key={idx} 
+                                variants={sentenceVariants}
+                                style={{ display: 'inline-block', marginRight: '0.4em' }}
+                            >
+                                {sentence}{idx < t("ratan_palace.hero.desc").split('. ').length - 1 ? '.' : ''}
+                            </motion.span>
+                        ))}
+                    </motion.p>
+                </motion.div>
+                
+                <div className="scroll-indicator"><div className="mouse"></div></div>
+            </section>
+
+            <main className="fort-main">
+                {/* ═══ OVERVIEW ═══════════════════════════════ */}
+                <motion.section 
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={{ once: true, margin: "-100px" }}
+                    variants={containerVariants}
+                    id="overview" 
+                    className="fort-section mesh-bg"
+                >
+                    <div className="section-header">
+                        <motion.h2 variants={itemVariants} className="section-title aura-heading">{t("ratan_palace.section.overview")}</motion.h2>
+                        <motion.div variants={itemVariants} className="title-divider"></motion.div>
+                    </div>
+                    <div className="glass-panel" style={{ textAlign: 'center' }}>
+                        <motion.p variants={itemVariants} className="lead-para" style={{ color: '#fff !important', fontSize: '1.3rem', fontWeight: 300 }}>
+                            {t("ratan_palace.overview.p1")?.split('. ').map((sentence, idx) => (
+                                <motion.span key={idx} variants={sentenceVariants} style={{ display: 'inline-block', marginRight: '0.4em' }}>
+                                    {sentence}{idx < t("ratan_palace.overview.p1").split('. ').length - 1 ? '.' : ''}
+                                </motion.span>
+                            ))}
+                        </motion.p>
+                        
+                        <motion.p variants={itemVariants} style={{ color: '#fff !important', fontSize: '1.25rem' }}>
+                            {t("ratan_palace.overview.p2")?.split('. ').map((sentence, idx) => (
+                                <motion.span key={idx} variants={sentenceVariants} style={{ display: 'inline-block', marginRight: '0.4em' }}>
+                                    {sentence}{idx < t("ratan_palace.overview.p2").split('. ').length - 1 ? '.' : ''}
+                                </motion.span>
+                            ))}
+                        </motion.p>
+                        
+                        <motion.div 
+                            variants={itemVariants}
+                            className={`audio-bar ${playingAudio === 'overview' ? 'playing' : ''}`}
+                            onClick={() => handleAudioPlay('overview', ['ratan_palace.overview.p1', 'ratan_palace.overview.p2'])}
+                        >
+                            {playingAudio === 'overview' ? <Waveform /> : <Play size={28} fill="currentColor" />}
+                            <span style={{ fontWeight: 800, letterSpacing: '3px', textTransform: 'uppercase', fontSize: '1rem' }}>
+                                {playingAudio === 'overview' ? (t("fort.audio.playing") || "Playing") : (t("fort.audio.listen") || "Listen Narrative")}
+                            </span>
+                        </motion.div>
+                    </div>
+                </motion.section>
+
+                {/* ═══ GALLERY ═══════════════════════════════ */}
+                <motion.section 
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={{ once: true, margin: "-100px" }}
+                    variants={containerVariants}
+                    id="gallery" 
+                    className="fort-section"
+                >
+                    <div className="section-header">
+                        <motion.h2 variants={itemVariants} className="section-title aura-heading">{t("ratan_palace.section.gallery")}</motion.h2>
+                        <motion.div variants={itemVariants} className="title-divider"></motion.div>
+                    </div>
+
+                    <div className="gallery-grid">
+                        <motion.div 
+                            variants={itemVariants}
+                            className="gallery-item"
+                        >
+                            <img src="/ratan_singh_palace.jpg" alt="Ratan Singh Palace" className="gallery-img" />
+                        </motion.div>
+                    </div>
+                </motion.section>
+
+                {/* ═══ REFERENCES ═════════════════════════════ */}
+                <motion.section 
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={{ once: true }}
+                    variants={containerVariants}
+                    className="fort-section"
+                    style={{ paddingBottom: '10rem' }}
+                >
+                    <div className="section-inner" style={{ textAlign: 'center' }}>
+                        <motion.h2 variants={itemVariants} className="section-title" style={{ fontSize: '2.5rem' }}>{t("vijay.references.title")}</motion.h2>
+                        <motion.div variants={itemVariants} className="title-divider" style={{ width: '80px', marginBottom: '4rem' }}></motion.div>
+                        
+                        <motion.a 
+                            variants={itemVariants}
+                            href="https://www.tourism.rajasthan.gov.in/chittorgarh.html" 
+                            target="_blank" 
+                            rel="noopener noreferrer"
+                            className="back-btn"
+                            style={{ margin: 0, padding: '1rem 2.5rem' }}
+                        >
+                            {t("vijay.references.official")}
+                        </motion.a>
+                    </div>
+                </motion.section>
+            </main>
+
         </motion.div>
     );
 }
