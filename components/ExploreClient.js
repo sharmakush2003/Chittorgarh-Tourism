@@ -6,6 +6,7 @@ import FortMap from "@/components/FortMap";
 import { useState, useEffect } from 'react';
 import { Share2, Navigation, X, Send } from 'lucide-react';
 import { triggerHaptic } from "@/lib/haptics";
+import Link from 'next/link';
 
 export default function ExploreClient() {
     const { t } = useLanguage();
@@ -378,9 +379,9 @@ function GlassCard({ title, desc, time, dist, delay, link, image, imgPos = 'cent
 
                     <div className="card-actions" style={{ display: 'flex', gap: '0.5rem', alignItems: 'center', marginTop: 'auto', width: '100%' }}>
                         {link && (link.startsWith('/') ? (
-                            <a href={link} className="read-more">
+                            <Link href={link} className="read-more">
                                 {t("btn.readMore")} <ArrowRight className="arrow" size={16} />
-                            </a>
+                            </Link>
                         ) : (
                             <a href={link} target="_blank" rel="noopener noreferrer" className="read-more">
                                 {t("btn.readMore")} <ArrowRight className="arrow" size={16} />

@@ -2,7 +2,7 @@ const QRCode = require('qrcode');
 const fs = require('fs');
 const path = require('path');
 
-const qrDir = path.join(process.cwd(), 'QR_codes');
+const qrDir = path.join(process.cwd(), 'public', 'QR_codes');
 if (!fs.existsSync(qrDir)) {
     fs.mkdirSync(qrDir);
 }
