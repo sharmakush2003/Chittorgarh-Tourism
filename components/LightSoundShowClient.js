@@ -630,7 +630,7 @@ export default function LightSoundShowClient() {
                         <motion.div variants={itemVariants} className="info-card">
                             <Info className="info-icon" size={40} />
                             <span className="info-label">{t("lbl.distance") || "Location"}</span>
-                            <span className="info-value">Kumbha Palace Grounds</span>
+                            <span className="info-value">{t("light_show.details.location")}</span>
                         </motion.div>
                     </div>
                 </motion.section>
