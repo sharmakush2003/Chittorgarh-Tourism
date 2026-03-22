@@ -336,51 +336,7 @@ export default function FatehPrakashClient() {
                     font-weight: 400;
                 }
 
-                /* --- Nav --- */
-                .section-nav {
-                    position: sticky;
-                    top: 0;
-                    background: rgba(10, 8, 4, 0.8);
-                    backdrop-filter: blur(20px);
-                    z-index: 100;
-                    border-bottom: 1px solid rgba(212, 175, 55, 0.1);
-                    padding: 1.5rem 0;
-                }
-                .nav-container {
-                    max-width: 1200px;
-                    margin: 0 auto;
-                    display: flex;
-                    justify-content: center;
-                    gap: 5rem;
-                }
-                .nav-container a {
-                    color: rgba(255, 255, 255, 0.6);
-                    text-decoration: none;
-                    text-transform: uppercase;
-                    font-size: 0.9rem;
-                    font-weight: 800;
-                    letter-spacing: 3px;
-                    transition: all 0.3s;
-                    position: relative;
-                }
-                .nav-container a::after {
-                    content: '';
-                    position: absolute;
-                    bottom: -10px;
-                    left: 50%;
-                    transform: translateX(-50%);
-                    width: 0;
-                    height: 3px;
-                    background: var(--gold);
-                    transition: width 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
-                    box-shadow: 0 0 10px var(--gold);
-                }
-                .nav-container a:hover {
-                    color: #fff;
-                }
-                .nav-container a:hover::after {
-                    width: 100%;
-                }
+
 
                 /* --- Sections --- */
                 .fort-section {
@@ -485,8 +441,7 @@ export default function FatehPrakashClient() {
                 }
 
                 @media (max-width: 768px) {
-                    .nav-container { gap: 2rem; overflow-x: auto; padding: 0 1.5rem; justify-content: flex-start; }
-                    .nav-container a { font-size: 0.75rem; white-space: nowrap; }
+                    .fort-section { padding: 8rem 1.5rem; }
                     .fort-section { padding: 8rem 1.5rem; }
                     .section-header { margin-bottom: 5rem; }
                     .hero-title { font-size: 4rem; }
@@ -535,14 +490,7 @@ export default function FatehPrakashClient() {
                 <div className="scroll-indicator"><div className="mouse"></div></div>
             </section>
 
-            {/* ═══ NAVIGATION ═════════════════════════════ */}
-            <nav className="section-nav">
-                <div className="nav-container">
-                    <a href="#history">{t("fateh.nav.history")}</a>
-                    <a href="#collection">{t("fateh.nav.collection")}</a>
-                    <a href="#info">{t("fateh.nav.info")}</a>
-                </div>
-            </nav>
+
 
             <main className="fort-main">
                 {/* ═══ HISTORY ═══════════════════════════════ */}
