@@ -562,12 +562,12 @@ export default function KumbhaShyamClient() {
                                 variants={itemVariants}
                                 whileHover={{ scale: 1.02 }}
                                 className="glass-panel"
-                                style={{ padding: '0', overflow: 'hidden', height: '600px', border: '1px solid rgba(212, 175, 55, 0.4)', boxShadow: '0 40px 80px rgba(0,0,0,0.8)' }}
+                                style={{ padding: '0', overflow: 'hidden', height: 'auto', border: '1px solid rgba(212, 175, 55, 0.4)', boxShadow: '0 40px 80px rgba(0,0,0,0.8)' }}
                             >
                                 <img 
-                                    src="/images/kumbha-shyam-arch.jpg" 
+                                    src="/images/Kumbha Shyam 1.jpg" 
                                     alt="Kumbha Shyam Temple Architecture"
-                                    style={{ width: '100%', height: '100%', objectFit: 'cover', opacity: 0.9 }}
+                                    style={{ width: '100%', height: 'auto', display: 'block', opacity: 1 }}
                                 />
                             </motion.div>
                         </div>

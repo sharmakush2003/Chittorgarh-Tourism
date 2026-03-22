@@ -189,7 +189,7 @@ export default function VijayStambhClient() {
                     background: linear-gradient(135deg, #fff 0%, var(--gold) 50%, #d4af37 100%);
                     -webkit-background-clip: text;
                     -webkit-text-fill-color: transparent;
-                    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+                    filter: drop-shadow(0 4px 8px rgba(0,0,0,0.5));
                     position: relative;
                 }
 
@@ -274,7 +274,7 @@ export default function VijayStambhClient() {
                     position: absolute;
                     inset: 0;
                     background-size: cover;
-                    background-position: center;
+                    background-position: 50% 30%;
                     z-index: -2;
                     will-change: transform;
                 }
@@ -282,7 +282,7 @@ export default function VijayStambhClient() {
                 .hero-overlay {
                     position: absolute;
                     inset: 0;
-                    background: radial-gradient(circle at center, rgba(10, 8, 4, 0.3) 0%, rgba(10, 8, 4, 0.95) 100%);
+                    background: radial-gradient(circle at center, rgba(10, 8, 4, 0.5) 0%, rgba(10, 8, 4, 0.95) 100%);
                     z-index: -1;
                 }
 
@@ -332,7 +332,9 @@ export default function VijayStambhClient() {
                     font-size: clamp(3.5rem, 12vw, 7.5rem);
                     line-height: 1;
                     margin-bottom: 2.5rem;
-                    text-shadow: 0 15px 40px rgba(0,0,0,0.6);
+                    text-shadow: 
+                        0 10px 30px rgba(0,0,0,0.8),
+                        0 0 100px rgba(0,0,0,0.4);
                 }
 
                 .hero-desc {
@@ -466,7 +468,7 @@ export default function VijayStambhClient() {
                 <motion.div 
                     style={{ 
                         scale: heroScale,
-                        backgroundImage: "url('/Each page Pics/Fort pics/Vijay Stambh.jpg')"
+                        backgroundImage: "url('/vijay_stambh.jpg')"
                     }} 
                     className="hero-bg"
                 ></motion.div>
@@ -549,19 +551,6 @@ export default function VijayStambhClient() {
                         <motion.div variants={itemVariants} className="title-divider"></motion.div>
                     </div>
 
-                    <div className="architecture-showcase" style={{ marginBottom: '6rem' }}>
-                        <motion.div 
-                            variants={itemVariants}
-                            className="glass-panel"
-                            style={{ padding: '0', overflow: 'hidden', height: '600px', border: '1px solid rgba(212, 175, 55, 0.4)' }}
-                        >
-                            <img 
-                                src="/Each page Pics/Fort pics/Vijay Stambh.jpg" 
-                                alt="Vijay Stambh Architecture"
-                                style={{ width: '100%', height: '100%', objectFit: 'cover', opacity: 0.8 }}
-                            />
-                        </motion.div>
-                    </div>
 
                     <div className="glass-panel" style={{ textAlign: 'center' }}>
                         <motion.p variants={itemVariants} style={{ color: '#fff !important', fontSize: '1.25rem' }}>
