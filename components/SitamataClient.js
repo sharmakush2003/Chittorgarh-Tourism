@@ -89,26 +89,7 @@ export default function SitamataClient() {
             <section className="fort-hero">
                 <div className="hero-bg" style={{ backgroundImage: "url('/images/sitamata_1.jpg')", backgroundPosition: 'center center' }}></div>
 ...
-                {/* ═══ GALLERY ══════════════════════════════ */}
-                <motion.section 
-                    initial={{ opacity: 0, y: 40 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    className="fort-section"
-                >
-                    <div className="section-header">
-                        <h2 className="section-title text-gold">{t("fort.section.gallery") || "Sanctuary Gallery"}</h2>
-                        <div className="title-divider"></div>
-                    </div>
-                    <div className="gallery-grid">
-                        <div className="gallery-item-large premium-glass">
-                            <img src="/images/sitamata_1.jpg" alt="Sitamata 1" />
-                        </div>
-                        <div className="gallery-item-large premium-glass" style={{ marginTop: '2rem' }}>
-                            <img src="/images/sitamata_2.jpg" alt="Sitamata 2" />
-                        </div>
-                    </div>
-                </motion.section>
+
                 <div className="hero-overlay"></div>
                 
                 <motion.div 
@@ -159,6 +140,27 @@ export default function SitamataClient() {
                                 {playingAudio === 'overview' ? <Pause size={18} fill="currentColor" /> : <Play size={18} fill="currentColor" />}
                                 <span>{playingAudio === 'overview' ? t("fort.audio.playing") : t("fort.audio.listen")}</span>
                             </button>
+                        </div>
+                    </div>
+                </motion.section>
+
+                {/* ═══ GALLERY ══════════════════════════════ */}
+                <motion.section 
+                    initial={{ opacity: 0, y: 40 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    className="fort-section"
+                >
+                    <div className="section-header">
+                        <h2 className="section-title text-gold">{t("fort.section.gallery") || "Sanctuary Gallery"}</h2>
+                        <div className="title-divider"></div>
+                    </div>
+                    <div className="gallery-grid">
+                        <div className="gallery-item-large premium-glass">
+                            <img src="/images/sitamata_1.jpg" alt="Sitamata 1" />
+                        </div>
+                        <div className="gallery-item-large premium-glass">
+                            <img src="/images/sitamata_2.jpg" alt="Sitamata 2" />
                         </div>
                     </div>
                 </motion.section>
@@ -545,6 +547,43 @@ export default function SitamataClient() {
                     background-image: 
                         radial-gradient(circle at 0% 0%, rgba(212, 175, 55, 0.05) 0%, transparent 50%),
                         radial-gradient(circle at 100% 100%, rgba(212, 175, 55, 0.05) 0%, transparent 50%) !important;
+                }
+
+                .gallery-grid {
+                    display: grid;
+                    grid-template-columns: 1fr;
+                    gap: 2rem;
+                    margin-top: 2rem;
+                }
+
+                @media (min-width: 768px) {
+                    .gallery-grid {
+                        grid-template-columns: 1fr 1fr;
+                    }
+                }
+
+                .gallery-item-large {
+                    border-radius: 24px;
+                    overflow: hidden;
+                    height: 400px;
+                    border: 1px solid rgba(212, 175, 55, 0.2);
+                    transition: all 0.5s ease;
+                }
+
+                .gallery-item-large img {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                    transition: transform 0.8s ease;
+                }
+
+                .gallery-item-large:hover img {
+                    transform: scale(1.05);
+                }
+
+                .gallery-item-large:hover {
+                    border-color: var(--gold);
+                    box-shadow: 0 20px 40px rgba(0,0,0,0.5), 0 0 20px rgba(212, 175, 55, 0.2);
                 }
             `}</style>
         </motion.div>
