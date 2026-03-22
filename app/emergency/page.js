@@ -25,10 +25,11 @@ export default function EmergencyPage() {
     const [isGeneratingPDF, setIsGeneratingPDF] = useState(false);
     const [coords, setCoords] = useState(null);
     const [currentDate, setCurrentDate] = useState("");
+    const [isMounted, setIsMounted] = useState(false);
     const pdfTemplateRef = useRef(null);
-    console.log("SERVER_RENDER_TEXT:", t('emg.quick.police'));
 
     useEffect(() => {
+        setIsMounted(true);
         setCurrentDate(new Date().toLocaleDateString());
     }, []);
 
@@ -659,26 +660,22 @@ export default function EmergencyPage() {
 
                 {locState === "done" && coords && (
                     <div className="ep-nearby-grid">
-                        {CATEGORIES.map(c => {
-                            const icon = c.label.split(' ')[0];
-                            const text = c.label.substring(icon.length).trim();
-                            return (
-                                <a
-                                    key={c.type}
-                                    href={mapsSearch(c.query, coords.lat, coords.lng)}
-                                    target="_blank"
-                                    rel="noreferrer"
-                                    className="ep-nearby-item"
-                                >
-                                    <div className="ep-nearby-icon">{icon}</div>
-                                    <div className="ep-nearby-content">
-                                        <span className="ep-nearby-name">{text}</span>
-                                        <span className="ep-nearby-dist">{t('emg.nearby.open')}</span>
-                                    </div>
-                                    <div className="ep-nearby-arrow">→</div>
-                                </a>
-                            );
-                        })}
+                        {CATEGORIES.map(c => (
+                            <a
+                                key={c.type}
+                                href={mapsSearch(c.query, coords.lat, coords.lng)}
+                                target="_blank"
+                                rel="noreferrer"
+                                className="ep-nearby-item"
+                            >
+                                <div className="ep-nearby-icon">{c.icon}</div>
+                                <div className="ep-nearby-content">
+                                    <span className="ep-nearby-name">{c.label}</span>
+                                    <span className="ep-nearby-dist">{t('emg.nearby.open')}</span>
+                                </div>
+                                <div className="ep-nearby-arrow">→</div>
+                            </a>
+                        ))}
                     </div>
                 )}
             </div>
@@ -762,7 +759,7 @@ export default function EmergencyPage() {
                 <div className="pdf-footer">
                     <p>{t('emg.pdf.footer1')}</p>
                     <p>{t('emg.pdf.footer2')}</p>
-                    <p>{t('emg.pdf.verified')} {currentDate}</p>
+                    <p>{t('emg.pdf.verified')} {isMounted ? currentDate : ""}</p>
                 </div>
             </div>
         </div>
