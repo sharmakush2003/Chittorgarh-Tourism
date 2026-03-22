@@ -16,9 +16,34 @@ import {
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { triggerHaptic } from "@/lib/haptics";
+ 
+const Waveform = () => (
+    <div style={{ display: 'flex', alignItems: 'center', gap: '2px', height: '18px', width: '24px', justifyContent: 'center' }}>
+        {[...Array(4)].map((_, i) => (
+            <motion.div
+                key={i}
+                animate={{
+                    height: ["4px", "14px", "8px", "16px", "4px"],
+                    opacity: [0.3, 1, 0.5, 1, 0.3]
+                }}
+                transition={{
+                    duration: 1.2,
+                    repeat: Infinity,
+                    delay: i * 0.15,
+                    ease: "easeInOut"
+                }}
+                style={{
+                    width: '2.5px',
+                    backgroundColor: 'currentColor',
+                    borderRadius: '4px',
+                }}
+            />
+        ))}
+    </div>
+);
 
 export default function SitamataClient() {
-    const { t, lang: locale } = useLanguage();
+    const { t, lang } = useLanguage();
     const router = useRouter();
     const [playingAudio, setPlayingAudio] = useState(null);
     const [expandedSections, setExpandedSections] = useState({});
@@ -137,7 +162,7 @@ export default function SitamataClient() {
                                 onClick={() => handleAudioPlay('overview', `${t("sitamata.overview.p1")} ${t("sitamata.overview.p2")}`)}
                                 style={{ marginTop: '2rem' }}
                             >
-                                {playingAudio === 'overview' ? <Pause size={18} fill="currentColor" /> : <Play size={18} fill="currentColor" />}
+                                {playingAudio === 'overview' ? <Waveform /> : <Play size={18} fill="currentColor" />}
                                 <span>{playingAudio === 'overview' ? t("fort.audio.playing") : t("fort.audio.listen")}</span>
                             </button>
                         </div>
@@ -212,7 +237,7 @@ export default function SitamataClient() {
                                         className={`audio-btn ${playingAudio === m.id ? 'playing' : ''}`}
                                         onClick={() => handleAudioPlay(m.id)}
                                     >
-                                        {playingAudio === m.id ? <Pause size={18} fill="currentColor" /> : <Play size={18} fill="currentColor" />}
+                                        {playingAudio === m.id ? <Waveform /> : <Play size={18} fill="currentColor" />}
                                         <span>{playingAudio === m.id ? t("fort.audio.playing") : t("fort.audio.listen")}</span>
                                     </button>
                                 </div>
@@ -529,6 +554,17 @@ export default function SitamataClient() {
                     letter-spacing: 1px;
                 }
 
+                .audio-btn.playing {
+                    background: #fff;
+                    color: #000 !important;
+                    border-color: var(--gold);
+                    box-shadow: 0 10px 40px rgba(255,255,255,0.3);
+                }
+ 
+                .audio-btn.playing :global(svg) {
+                    fill: #000;
+                }
+ 
                 .audio-btn:hover {
                     background: var(--gold);
                     color: #000 !important;
