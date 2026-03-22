@@ -275,7 +275,7 @@ export default function FatehPrakashClient() {
                 .hero-overlay {
                     position: absolute;
                     inset: 0;
-                    background: radial-gradient(circle at center, rgba(10, 8, 4, 0.3) 0%, rgba(10, 8, 4, 0.95) 100%);
+                    background: radial-gradient(circle at center, rgba(10, 8, 4, 0.7) 0%, rgba(10, 8, 4, 0.98) 100%);
                     z-index: -1;
                 }
 
@@ -325,15 +325,19 @@ export default function FatehPrakashClient() {
                     font-size: clamp(3.5rem, 12vw, 7.5rem);
                     line-height: 1;
                     margin-bottom: 2.5rem;
-                    text-shadow: 0 15px 40px rgba(0,0,0,0.6);
+                    text-shadow: 
+                        0 10px 30px rgba(0,0,0,0.8),
+                        0 0 80px rgba(0,0,0,0.4),
+                        0 0 120px rgba(212, 175, 55, 0.2);
                 }
 
                 .hero-desc {
                     font-size: clamp(1.2rem, 3vw, 1.5rem);
                     max-width: 850px;
                     margin: 0 auto;
-                    color: rgba(255, 255, 255, 0.9) !important;
+                    color: rgba(255, 255, 255, 0.95) !important;
                     font-weight: 400;
+                    text-shadow: 0 2px 15px rgba(0,0,0,0.9);
                 }
 
 
@@ -440,13 +444,36 @@ export default function FatehPrakashClient() {
                     100% { opacity: 0; }
                 }
 
+                .collection-grid {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+                    gap: 2rem;
+                    margin-bottom: 6rem;
+                }
+
+                .gallery-item {
+                    padding: 0;
+                    overflow: hidden;
+                    height: 520px;
+                    border: 1px solid rgba(212, 175, 55, 0.4);
+                    box-shadow: 0 30px 60px rgba(0,0,0,0.8);
+                    position: relative;
+                }
+
                 @media (max-width: 768px) {
-                    .fort-section { padding: 8rem 1.5rem; }
-                    .fort-section { padding: 8rem 1.5rem; }
-                    .section-header { margin-bottom: 5rem; }
-                    .hero-title { font-size: 4rem; }
+                    .fort-section { padding: 8rem 1.25rem; }
+                    .section-header { margin-bottom: 4rem; }
+                    .hero-title { font-size: 3.5rem; }
                     .hero-desc { font-size: 1.1rem; }
-                    .glass-panel { padding: 2rem; }
+                    .glass-panel { padding: 2rem 1.5rem; }
+                    
+                    .collection-grid {
+                        grid-template-columns: 1fr;
+                        gap: 1.5rem;
+                    }
+                    .gallery-item {
+                        height: 280px;
+                    }
                 }
 
                 html {
@@ -542,16 +569,26 @@ export default function FatehPrakashClient() {
                         <motion.div variants={itemVariants} className="title-divider"></motion.div>
                     </div>
 
-                    <div className="collection-showcase" style={{ marginBottom: '6rem' }}>
+                    <div className="collection-grid">
                         <motion.div 
                             variants={itemVariants}
                             whileHover={{ scale: 1.02 }}
-                            className="glass-panel"
-                            style={{ padding: '0', overflow: 'hidden', height: '600px', border: '1px solid rgba(212, 175, 55, 0.4)', boxShadow: '0 40px 80px rgba(0,0,0,0.8)' }}
+                            className="glass-panel gallery-item"
                         >
                             <img 
                                 src="/images/fateh-prakash-arch.jpg" 
-                                alt="Fateh Prakash Palace Architecture"
+                                alt="Fateh Prakash Palace Architecture 1"
+                                style={{ width: '100%', height: '100%', objectFit: 'cover', opacity: 0.9 }}
+                            />
+                        </motion.div>
+                        <motion.div 
+                            variants={itemVariants}
+                            whileHover={{ scale: 1.02 }}
+                            className="glass-panel gallery-item"
+                        >
+                            <img 
+                                src="/images/fateh-prakash-arch2.jpg" 
+                                alt="Fateh Prakash Palace Architecture 2"
                                 style={{ width: '100%', height: '100%', objectFit: 'cover', opacity: 0.9 }}
                             />
                         </motion.div>
