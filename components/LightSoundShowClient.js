@@ -61,8 +61,13 @@ export default function LightSoundShowClient() {
     const { t, lang } = useLanguage();
     const router = useRouter();
     const [playingAudio, setPlayingAudio] = useState(null);
+    const [isMounted, setIsMounted] = useState(false);
     const voicesRef = useRef([]);
     const containerRef = useRef(null);
+
+    useEffect(() => {
+        setIsMounted(true);
+    }, []);
 
     const { scrollYProgress } = useScroll({
         target: containerRef,
@@ -508,13 +513,38 @@ export default function LightSoundShowClient() {
                     100% { opacity: 0; }
                 }
 
+                .collection-grid {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+                    gap: 2.5rem;
+                    max-width: 1200px;
+                    margin: 0 auto;
+                }
+
+                .gallery-item {
+                    padding: 0;
+                    overflow: hidden;
+                    height: 500px;
+                    border: 1px solid rgba(255, 255, 255, 0.2);
+                    box-shadow: 0 30px 60px rgba(0,0,0,0.8);
+                    position: relative;
+                }
+
                 @media (max-width: 768px) {
-                    .fort-section { padding: 8rem 1.5rem; }
-                    .fort-section { padding: 8rem 1.5rem; }
-                    .section-header { margin-bottom: 5rem; }
-                    .hero-title { font-size: 4rem; }
+                    .fort-section { padding: 8rem 1.25rem; }
+                    .section-header { margin-bottom: 4rem; }
+                    .hero-title { font-size: 3.5rem; }
+                    .hero-desc { font-size: 1.1rem; }
+                    .glass-panel { padding: 2.5rem 1.25rem; }
                     .info-grid { grid-template-columns: 1fr; gap: 2rem; }
-                    .glass-panel { padding: 2.5rem 1.5rem; }
+                    
+                    .collection-grid {
+                        grid-template-columns: 1fr;
+                        gap: 1.5rem;
+                    }
+                    .gallery-item {
+                        height: 280px;
+                    }
                 }
 
                 html {
@@ -631,6 +661,46 @@ export default function LightSoundShowClient() {
                             <span style={{ fontWeight: 800, letterSpacing: '3px', textTransform: 'uppercase', fontSize: '1rem' }}>
                                 {playingAudio === 'experience' ? t("fort.audio.playing") : t("fort.audio.listen")}
                             </span>
+                        </motion.div>
+                    </div>
+                </motion.section>
+
+                {/* ═══ GALLERY ═══════════════════════════════ */}
+                <motion.section 
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={{ once: true, margin: "-100px" }}
+                    variants={containerVariants}
+                    id="gallery" 
+                    className="fort-section"
+                >
+                    <div className="section-header">
+                        <motion.h2 variants={itemVariants} className="section-title aura-heading">{t("light_show.section.gallery") || "Visual Splendor"}</motion.h2>
+                        <motion.div variants={itemVariants} className="title-divider"></motion.div>
+                    </div>
+
+                    <div className="collection-grid">
+                        <motion.div 
+                            variants={itemVariants}
+                            whileHover={{ scale: 1.02 }}
+                            className="glass-panel gallery-item"
+                        >
+                            <img 
+                                src="/images/ls-show-1.jpg" 
+                                alt="Light and Sound Show Display 1"
+                                style={{ width: '100%', height: '100%', objectFit: 'cover', opacity: 0.9 }}
+                            />
+                        </motion.div>
+                        <motion.div 
+                            variants={itemVariants}
+                            whileHover={{ scale: 1.02 }}
+                            className="glass-panel gallery-item"
+                        >
+                            <img 
+                                src="/images/ls-show-2.jpg" 
+                                alt="Light and Sound Show Display 2"
+                                style={{ width: '100%', height: '100%', objectFit: 'cover', opacity: 0.9 }}
+                            />
                         </motion.div>
                     </div>
                 </motion.section>
