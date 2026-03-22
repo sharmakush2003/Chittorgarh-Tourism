@@ -450,14 +450,19 @@ export default function FatehPrakashClient() {
                     gap: 2rem;
                     margin-bottom: 6rem;
                 }
-
+                @media (max-width: 480px) {
+                    .collection-grid {
+                        grid-template-columns: 1fr;
+                        gap: 1.5rem;
+                    }
+                }
                 .gallery-item {
                     padding: 0;
                     overflow: hidden;
-                    height: 520px;
                     border: 1px solid rgba(212, 175, 55, 0.4);
                     box-shadow: 0 30px 60px rgba(0,0,0,0.8);
                     position: relative;
+                    aspect-ratio: 16/10;
                 }
 
                 @media (max-width: 768px) {
@@ -470,9 +475,6 @@ export default function FatehPrakashClient() {
                     .collection-grid {
                         grid-template-columns: 1fr;
                         gap: 1.5rem;
-                    }
-                    .gallery-item {
-                        height: 280px;
                     }
                 }
 

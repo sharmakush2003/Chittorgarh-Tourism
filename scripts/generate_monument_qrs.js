@@ -15,7 +15,9 @@ const urls = [
     { name: 'Kumbha-Shyam-Temple', url: 'https://chittorgarh-tourism.in/kumbha-shyam' },
     { name: 'Jain-Temples', url: 'https://chittorgarh-tourism.in/jain-temples' },
     { name: 'Meera-Bai-Temple', url: 'https://chittorgarh-tourism.in/meera-bai-temple' },
-    { name: 'Kirti-Stambh', url: 'https://chittorgarh-tourism.in/kirti-stambh' }
+    { name: 'Kirti-Stambh', url: 'https://chittorgarh-tourism.in/kirti-stambh' },
+    { name: 'Ratan-Singh-Palace', url: 'https://chittorgarh-tourism.in/ratan-palace' },
+    { name: 'Nagari', url: 'https://chittorgarh-tourism.in/nagari' }
 ];
 
 async function generateQRs() {

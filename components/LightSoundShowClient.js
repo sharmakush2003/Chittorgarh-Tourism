@@ -520,14 +520,19 @@ export default function LightSoundShowClient() {
                     max-width: 1200px;
                     margin: 0 auto;
                 }
-
+                @media (max-width: 480px) {
+                    .collection-grid {
+                        grid-template-columns: 1fr;
+                        gap: 1.5rem;
+                    }
+                }
                 .gallery-item {
                     padding: 0;
                     overflow: hidden;
-                    height: 500px;
                     border: 1px solid rgba(255, 255, 255, 0.2);
                     box-shadow: 0 30px 60px rgba(0,0,0,0.8);
                     position: relative;
+                    aspect-ratio: 16/10;
                 }
 
                 @media (max-width: 768px) {
@@ -541,9 +546,6 @@ export default function LightSoundShowClient() {
                     .collection-grid {
                         grid-template-columns: 1fr;
                         gap: 1.5rem;
-                    }
-                    .gallery-item {
-                        height: 280px;
                     }
                 }
 

@@ -457,50 +457,12 @@ export default function MeeraBaiTempleClient() {
                     box-shadow: 0 20px 40px rgba(0,0,0,0.6);
                     max-width: 700px;
                     cursor: crosshair;
+                    aspect-ratio: 16/10;
                 }
                 .architecture-image {
                     width: 100%;
-                    height: auto;
-                    display: block;
-                    transition: transform 0.8s cubic-bezier(0.165, 0.84, 0.44, 1);
-                }
-                .architecture-image-container:hover .architecture-image {
-                    transform: scale(1.08);
-                }
-                .image-caption {
-                    position: absolute;
-                    bottom: 0;
-                    left: 0;
-                    right: 0;
-                    background: linear-gradient(transparent, rgba(10, 8, 4, 0.9));
-                    padding: 2rem 1rem 1rem;
-                    font-size: 0.85rem;
-                    color: var(--gold);
-                    text-transform: uppercase;
-                    letter-spacing: 2px;
-                    font-weight: 700;
-                    opacity: 0;
-                    transform: translateY(10px);
-                    transition: all 0.4s ease;
-                }
-                .architecture-image-container:hover .image-caption {
-                    opacity: 1;
-                    transform: translateY(0);
-                }
-
-                .architecture-image-container {
-                    margin: 3rem auto 0;
-                    position: relative;
-                    border-radius: 15px;
-                    overflow: hidden;
-                    border: 1px solid rgba(212, 175, 55, 0.3);
-                    box-shadow: 0 20px 40px rgba(0,0,0,0.6);
-                    max-width: 700px;
-                    cursor: crosshair;
-                }
-                .architecture-image {
-                    width: 100%;
-                    height: auto;
+                    height: 100%;
+                    object-fit: cover;
                     display: block;
                     transition: transform 0.8s cubic-bezier(0.165, 0.84, 0.44, 1);
                 }

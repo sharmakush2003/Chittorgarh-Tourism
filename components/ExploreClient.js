@@ -127,7 +127,7 @@ export default function ExploreClient() {
                             dist="Within Fort"
                             delay={10}
                             link="/padmini-palace"
-                            image="/padmini.png"
+                            image="/Each page Pics/Fort pics/Padmini Palace.jpg"
                         />
                         <GlassCard
                             title={t("attr.meera.name")}
@@ -146,6 +146,15 @@ export default function ExploreClient() {
                             delay={12}
                             link="/ratan-palace"
                             image="/ratan_singh_palace.jpg"
+                        />
+                        <GlassCard
+                            title={t("attr.nagari.name")}
+                            desc={t("attr.nagari.desc")}
+                            time={t("attr.nagari.time")}
+                            dist={t("attr.nagari.dist")}
+                            delay={13}
+                            link="/nagari"
+                            image="/images/Nagari.jpg"
                         />
                         <GlassCard
                             title={t("attr.kumbha_shyam.name")}

@@ -555,7 +555,7 @@ export default function KumbhaPalaceClient() {
                                 variants={itemVariants}
                                 whileHover={{ scale: 1.02 }}
                                 className="glass-panel"
-                                style={{ padding: '0', overflow: 'hidden', height: '600px', border: '1px solid rgba(212, 175, 55, 0.4)', boxShadow: '0 40px 80px rgba(0,0,0,0.8)' }}
+                                style={{ padding: '0', overflow: 'hidden', height: 'auto', border: '1px solid rgba(212, 175, 55, 0.4)', boxShadow: '0 40px 80px rgba(0,0,0,0.8)', aspectRatio: '16/10' }}
                             >
                                 <img 
                                     src="/images/kumbha-palace-layout.jpg" 

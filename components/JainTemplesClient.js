@@ -468,10 +468,12 @@ export default function JainTemplesClient() {
                     border: 1px solid rgba(212, 175, 55, 0.3);
                     box-shadow: 0 20px 40px rgba(0,0,0,0.6);
                     cursor: crosshair;
+                    aspect-ratio: 16/10;
                 }
                 .architecture-image {
                     width: 100%;
-                    height: auto;
+                    height: 100%;
+                    object-fit: cover;
                     display: block;
                     transition: transform 0.8s cubic-bezier(0.165, 0.84, 0.44, 1);
                 }

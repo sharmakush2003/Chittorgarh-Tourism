@@ -449,20 +449,28 @@ export default function RatanPalaceClient() {
 
                 .gallery-grid {
                     display: grid;
-                    grid-template-columns: 1fr;
+                    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
                     gap: 2rem;
                     max-width: 1200px;
                     margin: 0 auto;
+                }
+                @media (max-width: 480px) {
+                    .gallery-grid {
+                        grid-template-columns: 1fr;
+                        gap: 1.5rem;
+                    }
                 }
                 .gallery-item {
                     border-radius: 20px;
                     overflow: hidden;
                     border: 1px solid rgba(212, 175, 55, 0.3);
                     box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+                    aspect-ratio: 16/10;
                 }
                 .gallery-img {
                     width: 100%;
-                    height: auto;
+                    height: 100%;
+                    object-fit: cover;
                     display: block;
                     transition: transform 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
                 }
@@ -577,7 +585,7 @@ export default function RatanPalaceClient() {
                         <motion.div variants={itemVariants} className="title-divider"></motion.div>
                     </div>
 
-                    <div className="gallery-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))', gap: '2rem' }}>
+                    <div className="gallery-grid">
                         <motion.div 
                             variants={itemVariants}
                             className="gallery-item"
