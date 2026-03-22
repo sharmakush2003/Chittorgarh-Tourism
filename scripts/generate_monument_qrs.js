@@ -17,7 +17,8 @@ const urls = [
     { name: 'Meera-Bai-Temple', url: 'https://chittorgarh-tourism.in/meera-bai-temple' },
     { name: 'Kirti-Stambh', url: 'https://chittorgarh-tourism.in/kirti-stambh' },
     { name: 'Ratan-Singh-Palace', url: 'https://chittorgarh-tourism.in/ratan-palace' },
-    { name: 'Nagari', url: 'https://chittorgarh-tourism.in/nagari' }
+    { name: 'Nagari', url: 'https://chittorgarh-tourism.in/nagari' },
+    { name: 'Sitamata', url: 'https://chittorgarh-tourism.in/sitamata' }
 ];
 
 async function generateQRs() {

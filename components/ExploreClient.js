@@ -157,6 +157,15 @@ export default function ExploreClient() {
                             image="/images/Nagari.jpg"
                         />
                         <GlassCard
+                            title={t("attr.sitamata.name")}
+                            desc={t("attr.sitamata.desc")}
+                            time={t("attr.sitamata.time")}
+                            dist={t("attr.sitamata.dist")}
+                            delay={14}
+                            link="/sitamata"
+                            image="/images/sitamata_1.jpg"
+                        />
+                        <GlassCard
                             title={t("attr.kumbha_shyam.name")}
                             desc={t("attr.kumbha_shyam.desc")}
                             time={t("attr.kumbha_shyam.time")}
