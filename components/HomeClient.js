@@ -314,6 +314,14 @@ export default function HomeClient() {
                     overflow: hidden;
                 }
 
+                @media (max-width: 768px) {
+                    .hero {
+                        padding-top: 80px;
+                        align-items: flex-start;
+                        padding-top: 15vh;
+                    }
+                }
+
                 .hero-overlay {
                     position: absolute;
                     inset: 0;
