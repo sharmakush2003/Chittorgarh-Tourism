@@ -250,10 +250,11 @@ export default function MenalClient() {
                     height: auto;
                     position: relative;
                     display: flex;
+                    flex-direction: column;
                     align-items: center;
                     justify-content: center;
                     text-align: center;
-                    padding: 8rem 1.5rem 4rem;
+                    padding: 9rem 1.5rem 6rem;
                     z-index: 2;
                 }
 
@@ -269,9 +270,9 @@ export default function MenalClient() {
                     position: absolute;
                     inset: 0;
                     background: linear-gradient(to bottom, 
-                        rgba(10, 8, 4, 0.3) 0%, 
-                        rgba(10, 8, 4, 0.6) 70%,
-                        rgba(10, 8, 4, 0.9) 100%
+                        rgba(10, 8, 4, 0.2) 0%, 
+                        rgba(10, 8, 4, 0.5) 60%,
+                        rgba(10, 8, 4, 0.8) 100%
                     ) !important;
                     z-index: -1;
                 }
@@ -404,7 +405,7 @@ export default function MenalClient() {
                 }
 
                 @media (max-width: 768px) {
-                    .fort-hero { padding-top: 6.5rem; padding-bottom: 2rem; min-height: 75vh; }
+                    .fort-hero { padding-top: 8rem; padding-bottom: 2rem; min-height: 60vh; }
                     .hero-title { font-size: 2.5rem; line-height: 1.2 !important; margin-bottom: 1.2rem; }
                     .hero-desc { font-size: 0.95rem; line-height: 1.6; margin-bottom: 2rem; padding: 0 1rem; }
                     .fort-section { padding: 3rem 1.25rem; }
@@ -416,10 +417,10 @@ export default function MenalClient() {
                 }
 
                 @media (max-width: 480px) {
-                    .fort-hero { padding-top: 5.5rem; min-height: 70vh; }
+                    .fort-hero { padding-top: 6rem; padding-bottom: 1.5rem; min-height: auto; }
                     .hero-title { font-size: 2.2rem; }
-                    .hero-desc { font-size: 0.9rem; }
-                    .back-btn { margin-top: 0.5rem; margin-bottom: 1.2rem; }
+                    .hero-desc { font-size: 0.9rem; margin-bottom: 1.5rem; }
+                    .back-btn { margin-top: 0.5rem; margin-bottom: 1rem; }
                 }
 
                 .mesh-bg {
