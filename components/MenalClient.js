@@ -269,8 +269,9 @@ export default function MenalClient() {
                     position: absolute;
                     inset: 0;
                     background: linear-gradient(to bottom, 
-                        rgba(10, 8, 4, 0.4) 0%, 
-                        rgba(10, 8, 4, 0.95) 100%
+                        rgba(10, 8, 4, 0.3) 0%, 
+                        rgba(10, 8, 4, 0.6) 70%,
+                        rgba(10, 8, 4, 0.9) 100%
                     ) !important;
                     z-index: -1;
                 }
@@ -403,22 +404,22 @@ export default function MenalClient() {
                 }
 
                 @media (max-width: 768px) {
-                    .fort-hero { padding-top: 7rem; padding-bottom: 3rem; min-height: 85vh; }
-                    .hero-title { font-size: 2.5rem; line-height: 1.2 !important; margin-bottom: 1.5rem; }
-                    .hero-desc { font-size: 0.95rem; line-height: 1.6; margin-bottom: 2.5rem; padding: 0 1rem; }
-                    .fort-section { padding: 4rem 1.25rem; }
+                    .fort-hero { padding-top: 6.5rem; padding-bottom: 2rem; min-height: 75vh; }
+                    .hero-title { font-size: 2.5rem; line-height: 1.2 !important; margin-bottom: 1.2rem; }
+                    .hero-desc { font-size: 0.95rem; line-height: 1.6; margin-bottom: 2rem; padding: 0 1rem; }
+                    .fort-section { padding: 3rem 1.25rem; }
                     .section-title { font-size: 2.2rem; }
-                    .back-btn { margin-bottom: 2rem; font-size: 0.75rem; padding: 0.5rem 1rem; }
+                    .back-btn { margin-bottom: 1.5rem; font-size: 0.75rem; padding: 0.5rem 1rem; }
                     
                     :global([data-lang="hi"]) .hero-title { font-size: 2.2rem; line-height: 1.4 !important; }
                     :global([data-lang="hi"]) .section-title { font-size: 2rem; }
                 }
 
                 @media (max-width: 480px) {
-                    .fort-hero { padding-top: 6rem; min-height: 90vh; }
+                    .fort-hero { padding-top: 5.5rem; min-height: 70vh; }
                     .hero-title { font-size: 2.2rem; }
                     .hero-desc { font-size: 0.9rem; }
-                    .back-btn { margin-top: 1rem; }
+                    .back-btn { margin-top: 0.5rem; margin-bottom: 1.2rem; }
                 }
 
                 .mesh-bg {
