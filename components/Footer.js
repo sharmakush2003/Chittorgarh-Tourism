@@ -55,7 +55,6 @@ export default function Footer() {
                         <h4 className="footer-col-title">{t("footer.connect")}</h4>
                         <ul className="footer-nav-list">
                             <li className="footer-info-item">
-                                <span className="footer-info-icon">📍</span>
                                 <span>{t("footer.locationFull") || "Chittorgarh, Rajasthan, India"}</span>
                             </li>
                             <li className="footer-info-item">
@@ -86,10 +85,10 @@ export default function Footer() {
                         <span className="footer-copy">{t("footer.copy")}</span>
                         <span className="footer-separator">|</span>
                         <span className="footer-rights">{t("footer.rights") || "All Rights Reserved"}</span>
-                    </div>
-                    <div className="footer-meta-info">
-                        <span className="footer-location-icon">📍</span>
-                        <span className="footer-location-text">{t("footer.locationShort") || "Chittorgarh, Rajasthan"}</span>
+                        <span className="footer-separator">|</span>
+                        <Link href="/developer" className="footer-dev-link">
+                            {t("footer.devInfo")}
+                        </Link>
                     </div>
                 </div>
             </div>
