@@ -109,10 +109,6 @@ export default function BassiClient() {
                     <h1 className="hero-title">{t("bassi.hero.title")}</h1>
                     <p className="hero-desc">{t("bassi.hero.desc")}</p>
                 </motion.div>
-                
-                <div className="scroll-indicator">
-                    <div className="mouse"></div>
-                </div>
             </section>
 
             <main className="fort-main">

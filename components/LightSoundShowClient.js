@@ -481,40 +481,6 @@ export default function LightSoundShowClient() {
                     position: relative;
                 }
 
-                .scroll-indicator {
-                    position: absolute;
-                    bottom: 3rem;
-                    left: 50%;
-                    transform: translateX(-50%);
-                    z-index: 10;
-                }
-                .mouse {
-                    width: 32px;
-                    height: 56px;
-                    border: 2px solid rgba(255, 255, 255, 0.3);
-                    border-radius: 16px;
-                    position: relative;
-                }
-                .mouse::after {
-                    content: '';
-                    width: 6px;
-                    height: 12px;
-                    background: #fff;
-                    position: absolute;
-                    top: 12px;
-                    left: 50%;
-                    transform: translateX(-50%);
-                    border-radius: 3px;
-                    animation: mouseScroll 2.2s infinite ease-in-out;
-                    box-shadow: 0 0 10px #fff;
-                }
-                @keyframes mouseScroll {
-                    0% { opacity: 0; transform: translateX(-50%) translateY(0); }
-                    20% { opacity: 1; }
-                    80% { opacity: 0; transform: translateX(-50%) translateY(25px); }
-                    100% { opacity: 0; }
-                }
-
                 .collection-grid {
                     display: grid;
                     grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
@@ -600,7 +566,7 @@ export default function LightSoundShowClient() {
                     </motion.div>
                 </motion.div>
                 
-                <div className="scroll-indicator"><div className="mouse"></div></div>
+                {/* NO SCROLL INDICATOR */}
             </section>
 
 

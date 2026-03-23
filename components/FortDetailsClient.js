@@ -124,10 +124,6 @@ export default function FortDetailsClient() {
                     
 
                 </motion.div>
-                
-                <div className="scroll-indicator">
-                    <div className="mouse"></div>
-                </div>
             </section>
 
 

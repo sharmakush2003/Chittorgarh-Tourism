@@ -107,10 +107,6 @@ export default function NagariClient() {
                     <h1 className="hero-title">{t("nagari.hero.title")}</h1>
                     <p className="hero-desc">{t("nagari.hero.desc")}</p>
                 </motion.div>
-                
-                <div className="scroll-indicator">
-                    <div className="mouse"></div>
-                </div>
             </section>
 
             <main className="fort-main">

@@ -106,8 +106,6 @@ export default function GaumukhClient() {
                     <p className="hero-desc">{t("gaumukh.hero.desc")}</p>
                     
                 </motion.div>
-                
-                <div className="scroll-indicator"><div className="mouse"></div></div>
             </section>
 
 

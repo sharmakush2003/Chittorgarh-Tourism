@@ -118,10 +118,6 @@ export default function PadminiPalaceClient() {
                     
 
                 </motion.div>
-                
-                <div className="scroll-indicator">
-                    <div className="mouse"></div>
-                </div>
             </section>
 
 

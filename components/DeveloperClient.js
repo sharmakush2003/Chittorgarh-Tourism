@@ -107,10 +107,6 @@ export default function DeveloperClient() {
                     <h1 className="hero-title">{t("dev.hero.title")}</h1>
                     <p className="hero-desc">{t("dev.hero.sub")}</p>
                 </motion.div>
-                
-                <div className="scroll-indicator">
-                    <div className="mouse"></div>
-                </div>
             </section>
 
             <main className="fort-main">

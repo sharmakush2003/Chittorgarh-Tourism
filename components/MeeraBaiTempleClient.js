@@ -377,36 +377,6 @@ export default function MeeraBaiTempleClient() {
                     pointer-events: none;
                 }
 
-                .scroll-indicator {
-                    position: absolute;
-                    bottom: 3rem;
-                    left: 50%;
-                    transform: translateX(-50%);
-                    z-index: 10;
-                }
-                .mouse {
-                    width: 30px;
-                    height: 54px;
-                    border: 2px solid rgba(212, 175, 55, 0.4);
-                    border-radius: 15px;
-                    position: relative;
-                }
-                .mouse::after {
-                    content: '';
-                    width: 5px;
-                    height: 10px;
-                    background: var(--gold);
-                    position: absolute;
-                    top: 10px;
-                    left: 50%;
-                    transform: translateX(-50%);
-                    border-radius: 2px;
-                    animation: mouseScroll 2.2s infinite ease-in-out;
-                    box-shadow: 0 0 8px var(--gold);
-                }
-                @keyframes mouseScroll {
-                    0% { opacity: 0; transform: translateX(-50%) translateY(0); }
-                    20% { opacity: 1; }
                     80% { opacity: 0; transform: translateX(-50%) translateY(25px); }
                     100% { opacity: 0; }
                 }
@@ -500,7 +470,7 @@ export default function MeeraBaiTempleClient() {
                     </motion.p>
                 </motion.div>
                 
-                <div className="scroll-indicator"><div className="mouse"></div></div>
+                {/* NO SCROLL INDICATOR */}
             </section>
 
 

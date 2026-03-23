@@ -102,10 +102,6 @@ export default function KalikaTempleClient() {
                     
 
                 </motion.div>
-                
-                <div className="scroll-indicator">
-                    <div className="mouse"></div>
-                </div>
             </section>
 
 
