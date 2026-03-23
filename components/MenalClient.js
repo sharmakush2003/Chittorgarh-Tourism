@@ -119,10 +119,6 @@ export default function MenalClient() {
                     <h1 className="hero-title">{t("menal.hero.title")}</h1>
                     <p className="hero-desc">{t("menal.hero.desc")}</p>
                 </motion.div>
-                
-                <div className="scroll-indicator">
-                    <div className="mouse"></div>
-                </div>
             </section>
 
             <main className="fort-main">
@@ -405,25 +401,25 @@ export default function MenalClient() {
                 }
 
                 @media (max-width: 768px) {
-                    .fort-hero { padding-top: 8rem; padding-bottom: 0.5rem; min-height: auto; }
-                    .hero-title { font-size: 2.5rem; line-height: 1.2 !important; margin-bottom: 1rem; }
-                    .hero-desc { font-size: 0.95rem; line-height: 1.6; margin-bottom: 1rem; padding: 0 1rem; }
-                    .fort-section { padding: 2rem 1.25rem; }
-                    .section-header { margin-bottom: 1.5rem; }
-                    .section-title { font-size: 2.2rem; }
-                    .back-btn { margin-bottom: 1.5rem; font-size: 0.75rem; padding: 0.5rem 1rem; }
+                    .fort-hero { padding-top: 8rem; padding-bottom: 0 !important; min-height: auto !important; }
+                    .hero-title { font-size: 2.2rem; line-height: 1.2 !important; margin-bottom: 0.8rem; }
+                    .hero-desc { font-size: 0.9rem; line-height: 1.5; margin-bottom: 1rem; padding: 0 1rem; }
+                    .fort-section { padding: 1.5rem 1.25rem; }
+                    .section-header { margin-bottom: 1rem; }
+                    .section-title { font-size: 2rem; }
+                    .back-btn { margin-bottom: 1.2rem; font-size: 0.75rem; padding: 0.5rem 1rem; }
                     
-                    :global([data-lang="hi"]) .hero-title { font-size: 2.2rem; line-height: 1.4 !important; }
-                    :global([data-lang="hi"]) .section-title { font-size: 2rem; }
+                    :global([data-lang="hi"]) .hero-title { font-size: 2rem; line-height: 1.4 !important; }
+                    :global([data-lang="hi"]) .section-title { font-size: 1.8rem; }
                 }
 
                 @media (max-width: 480px) {
-                    .fort-hero { padding-top: 5rem; padding-bottom: 0; min-height: auto; }
-                    .hero-title { font-size: 2rem; }
-                    .hero-desc { font-size: 0.85rem; margin-bottom: 1rem; }
-                    .back-btn { margin-top: 0.2rem; margin-bottom: 1rem; }
-                    .fort-section { padding: 1.5rem 1rem; }
-                    .overview-text p { font-size: 1rem; margin-bottom: 1rem; }
+                    .fort-hero { padding-top: 5rem; padding-bottom: 0 !important; }
+                    .hero-title { font-size: 1.8rem; }
+                    .hero-desc { font-size: 0.8rem; margin-bottom: 0.8rem; }
+                    .back-btn { margin-top: 0; margin-bottom: 0.8rem; }
+                    #overview { margin-top: -3rem !important; position: relative; z-index: 5; }
+                    .fort-section { padding: 1.25rem 1rem !important; }
                 }
 
                 .mesh-bg {
