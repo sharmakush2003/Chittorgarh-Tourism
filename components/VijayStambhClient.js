@@ -402,14 +402,16 @@ export default function VijayStambhClient() {
                     .fort-hero {
                         align-items: flex-start;
                         padding-top: 110px;
+                        min-height: 100vh;
+                        height: auto;
+                        padding-bottom: 4rem;
                     }
                     .back-btn {
                         margin-bottom: 2rem;
                     }
                     .fort-section { padding: 8rem 1.5rem; }
-                    .fort-section { padding: 8rem 1.5rem; }
                     .section-header { margin-bottom: 5rem; }
-                    .hero-title { font-size: 4rem; }
+                    .hero-title { font-size: 2.8rem; line-height: 1.15 !important; }
                     .hero-desc { font-size: 1.1rem; }
                     .glass-panel { padding: 2rem; }
                 }

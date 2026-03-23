@@ -504,10 +504,20 @@ export default function LightSoundShowClient() {
                 }
 
                 @media (max-width: 768px) {
+                    .fort-hero {
+                        align-items: flex-start;
+                        padding-top: 110px;
+                        min-height: 100vh;
+                        height: auto;
+                        padding-bottom: 4rem;
+                    }
+                    .back-btn {
+                        margin-bottom: 2rem;
+                    }
                     .fort-section { padding: 8rem 1.25rem; }
                     .section-header { margin-bottom: 4rem; }
-                    .hero-title { font-size: 3.5rem; }
-                    .hero-desc { font-size: 1.1rem; }
+                    .hero-title { font-size: 2.8rem; line-height: 1.2 !important; }
+                    .hero-desc { font-size: 1.05rem; }
                     .glass-panel { padding: 2.5rem 1.25rem; }
                     .info-grid { grid-template-columns: 1fr; gap: 2rem; }
                     
@@ -517,15 +527,7 @@ export default function LightSoundShowClient() {
                     }
                 }
 
-                @media (max-width: 768px) {
-                    .fort-hero {
-                        align-items: flex-start;
-                        padding-top: 110px;
-                    }
-                    .back-btn {
-                        margin-bottom: 2rem;
-                    }
-                }
+
 
                 html {
                     scroll-behavior: smooth;
