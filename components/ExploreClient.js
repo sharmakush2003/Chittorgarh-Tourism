@@ -191,7 +191,7 @@ export default function ExploreClient() {
                             delay={15}
                             link="/light-and-sound-show"
                             image="/light_sound_show.jpg"
-                            bookingLink="https://asi.payumoney.com/quick/chf"
+                            bookingLink="https://obms-tourist.rajasthan.gov.in/place-details/Chittorgarh-Fort-light-and-sound-show"
                         />
                     </div>
 
