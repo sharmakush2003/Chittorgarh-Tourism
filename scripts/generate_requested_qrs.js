@@ -2,7 +2,7 @@ const QRCode = require('qrcode');
 const fs = require('fs');
 const path = require('path');
 
-const baseUrl = "http://chittorgarh-tourism.in";
+const baseUrl = "https://www.chittorgarh-tourism.in";
 const qrDir = path.join(process.cwd(), 'public', 'Qr_Codes');
 
 // Ensure directory exists
