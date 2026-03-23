@@ -7,13 +7,19 @@ import { X, Camera } from 'lucide-react';
 import { triggerHaptic } from '@/lib/haptics';
 
 export default function QRWebScanner({ onClose, onResult }) {
-    const scannerRef = useRef(null);
     const [html5QrCode, setHtml5QrCode] = useState(null);
     const [error, setError] = useState(null);
     const [mounted, setMounted] = useState(false);
 
     useEffect(() => {
         setMounted(true);
+        return () => setMounted(false);
+    }, []);
+
+    useEffect(() => {
+        if (!mounted) return;
+
+        // Initialize scanner ONLY after mounted is true and element is in DOM
         const qrCode = new Html5Qrcode("qr-reader");
         setHtml5QrCode(qrCode);
 
@@ -32,7 +38,7 @@ export default function QRWebScanner({ onClose, onResult }) {
                 // Ignore silent errors
             }
         ).catch(err => {
-            console.error(err);
+            console.error("Scanner start error:", err);
             setError("Camera permission denied or camera not found.");
         });
 
@@ -41,7 +47,7 @@ export default function QRWebScanner({ onClose, onResult }) {
                 qrCode.stop().catch(err => console.error("Error stopping scanner:", err));
             }
         };
-    }, []);
+    }, [mounted]);
 
     if (!mounted) return null;
 
