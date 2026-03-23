@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { Html5Qrcode } from 'html5-qrcode';
 import { X, Camera } from 'lucide-react';
 import { triggerHaptic } from '@/lib/haptics';
@@ -9,8 +10,10 @@ export default function QRWebScanner({ onClose, onResult }) {
     const scannerRef = useRef(null);
     const [html5QrCode, setHtml5QrCode] = useState(null);
     const [error, setError] = useState(null);
+    const [mounted, setMounted] = useState(false);
 
     useEffect(() => {
+        setMounted(true);
         const qrCode = new Html5Qrcode("qr-reader");
         setHtml5QrCode(qrCode);
 
@@ -40,7 +43,9 @@ export default function QRWebScanner({ onClose, onResult }) {
         };
     }, []);
 
-    return (
+    if (!mounted) return null;
+
+    return createPortal(
         <div className="qr-scanner-overlay">
             <div className="qr-scanner-container">
                 <div className="scanner-header">
@@ -70,7 +75,7 @@ export default function QRWebScanner({ onClose, onResult }) {
                     inset: 0;
                     background: rgba(0, 0, 0, 0.85);
                     backdrop-filter: blur(8px);
-                    z-index: 9999;
+                    z-index: 100001;
                     display: flex;
                     align-items: center;
                     justify-content: center;
@@ -121,6 +126,7 @@ export default function QRWebScanner({ onClose, onResult }) {
                     object-fit: cover !important;
                 }
             `}</style>
-        </div>
+        </div>,
+        document.body
     );
 }

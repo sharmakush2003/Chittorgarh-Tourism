@@ -161,24 +161,7 @@ export default function HomeClient() {
                 </div>
             </section>
 
-            {/* ═══ STATS ══════════════════════════════════ */}
-            <section className="stats-band">
-                <div className="container">
-                    {[1, 2, 3].map((i) => (
-                        <motion.div 
-                            key={i}
-                            initial={{ opacity: 0, y: 20 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ delay: i * 0.1 }}
-                            className="stat-item"
-                        >
-                            <div className="number">{t(`stats.n${i}`)}</div>
-                            <div className="label">{t(`stats.l${i}`)}</div>
-                        </motion.div>
-                    ))}
-                </div>
-            </section>
+
 
             {/* ═══ QUOTE ════════════════════════════════════ */}
             <section className="quote-band">
