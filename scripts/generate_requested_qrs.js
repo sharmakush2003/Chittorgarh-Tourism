@@ -11,6 +11,9 @@ if (!fs.existsSync(qrDir)) {
 }
 
 const mappings = [
+    { name: 'Home', slug: '' },
+    { name: 'Explore', slug: 'explore' },
+    { name: 'Emergency', slug: 'emergency' },
     { name: 'Chittorgarh Fort', slug: 'chittorgarh-fort' },
     { name: 'Bassi Sanctuary', slug: 'bassi' },
     { name: 'Sanwariya ji temple', slug: 'sanwaliya' },
