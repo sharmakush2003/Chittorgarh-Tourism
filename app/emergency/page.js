@@ -185,8 +185,11 @@ export default function EmergencyPage() {
                     min-height: 100vh;
                     background: #080604;
                     color: #fff;
-                    font-family: var(--font-jost);
+                    font-family: var(--ff-body);
                     padding-bottom: 60px;
+                }
+                :global([data-lang="hi"]) .ep {
+                    font-family: var(--font-martel), serif;
                 }
 
                 /* ─ Hero ─ */
@@ -226,11 +229,16 @@ export default function EmergencyPage() {
                 }
 
                 .ep-hero h1 {
-                    font-family: var(--font-cormorant);
+                    font-family: var(--ff-display);
                     font-size: clamp(2.4rem, 7vw, 4.5rem);
-                    line-height: 1.08;
+                    line-height: 1.25;
                     margin: 0 0 16px;
                     font-weight: 700;
+                    padding: 0.1em 0;
+                }
+                :global([data-lang="hi"]) .ep-hero h1 {
+                    line-height: 1.4;
+                    font-family: var(--font-martel), serif;
                 }
 
                 .ep-hero h1 em {
@@ -313,10 +321,13 @@ export default function EmergencyPage() {
                 }
 
                 .ep-card-head h2 {
-                    font-family: var(--font-cormorant);
+                    font-family: var(--ff-display);
                     font-size: 1.5rem;
                     margin: 0;
                     font-weight: 600;
+                }
+                :global([data-lang="hi"]) .ep-card-head h2 {
+                    font-family: var(--font-martel), serif;
                 }
 
                 /* ─ Contact Rows ─ */
@@ -403,8 +414,11 @@ export default function EmergencyPage() {
                     margin-bottom: 24px; gap: 14px; text-align: center;
                 }
                 .ep-nearby-head h3 {
-                    font-family: var(--font-cormorant);
+                    font-family: var(--ff-display);
                     font-size: 1.8rem; margin: 0; color: #fff;
+                }
+                :global([data-lang="hi"]) .ep-nearby-head h3 {
+                    font-family: var(--font-martel), serif;
                 }
                 .ep-loc-btn {
                     display: flex; align-items: center; gap: 8px;
@@ -500,8 +514,11 @@ export default function EmergencyPage() {
                     opacity: 0.5; pointer-events: none;
                 }
                 .ep-sos-head h3 {
-                    font-family: var(--font-cormorant);
+                    font-family: var(--ff-display);
                     font-size: 1.8rem; margin: 0 0 8px; color: #fca5a5;
+                }
+                :global([data-lang="hi"]) .ep-sos-head h3 {
+                    font-family: var(--font-martel), serif;
                 }
                 .ep-sos-head p {
                     color: #999; font-size: 0.9rem; margin-bottom: 24px;
