@@ -414,11 +414,11 @@ export default function MenalClient() {
                 }
 
                 @media (max-width: 480px) {
-                    .fort-hero { padding-top: 5rem; padding-bottom: 0 !important; }
+                    .fort-hero { padding-top: 5rem; padding-bottom: 2rem !important; min-height: auto !important; }
                     .hero-title { font-size: 1.8rem; }
                     .hero-desc { font-size: 0.8rem; margin-bottom: 0.8rem; }
                     .back-btn { margin-top: 0; margin-bottom: 0.8rem; }
-                    #overview { margin-top: -3rem !important; position: relative; z-index: 5; }
+                    #overview { margin-top: 0 !important; position: relative; z-index: 5; }
                     .fort-section { padding: 1.25rem 1rem !important; }
                 }
 
