@@ -180,7 +180,7 @@ export default function ExploreClient() {
                             time={t("attr.menal.time")}
                             dist={t("attr.menal.dist")}
                             delay={14}
-                            link="https://en.wikipedia.org/wiki/Menal"
+                            link="/menal"
                             image="/menal_waterfall.jpg"
                         />
                         <GlassCard
