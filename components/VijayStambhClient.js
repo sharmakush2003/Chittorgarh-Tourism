@@ -2,13 +2,15 @@
 
 import { useLanguage } from "@/context/LanguageContext";
 import React, { useState, useEffect, useRef } from "react";
-import { 
-    Play, 
-    Pause, 
-    ArrowLeft
+import {
+    Play,
+    Pause,
+    ArrowLeft,
+    Info
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { motion, useScroll, useTransform } from "framer-motion";
+import QRScannerButton from "./QRScannerButton";
 
 const Waveform = () => (
     <div style={{ display: 'flex', alignItems: 'center', gap: '2px', height: '30px', width: '40px', justifyContent: 'center' }}>
@@ -632,6 +634,10 @@ export default function VijayStambhClient() {
                         >
                             {t("vijay.references.official")}
                         </motion.a>
+
+                        <motion.div variants={itemVariants} style={{ marginTop: '4rem' }}>
+                            <QRScannerButton />
+                        </motion.div>
                     </div>
                 </motion.section>
             </main>

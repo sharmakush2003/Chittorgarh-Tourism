@@ -14,6 +14,7 @@ import {
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { triggerHaptic } from "@/lib/haptics";
+import QRScannerButton from "./QRScannerButton";
  
 const Waveform = () => (
     <div style={{ display: 'flex', alignItems: 'center', gap: '2px', height: '18px', width: '24px', justifyContent: 'center' }}>
@@ -216,6 +217,10 @@ export default function SanwaliyaClient() {
                         </div>
                     </div>
                 </motion.section>
+
+                <div style={{ textAlign: 'center', padding: '4rem 0' }}>
+                    <QRScannerButton />
+                </div>
             </main>
 
             <style jsx global>{`

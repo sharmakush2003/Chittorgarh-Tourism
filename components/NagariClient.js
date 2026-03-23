@@ -16,6 +16,7 @@ import {
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { triggerHaptic } from "@/lib/haptics";
+import QRScannerButton from "./QRScannerButton";
 
 export default function NagariClient() {
     const { t, lang } = useLanguage();
@@ -255,6 +256,10 @@ export default function NagariClient() {
                         </ul>
                     </div>
                 </motion.section>
+
+                <div style={{ textAlign: 'center', padding: '4rem 0' }}>
+                    <QRScannerButton />
+                </div>
             </main>
 
             <style jsx global>{`

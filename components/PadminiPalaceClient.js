@@ -14,11 +14,15 @@ import {
     Info,
     Flower2,
     Columns,
-    Crown
+    Crown,
+    X,
+    Map,
+    Headphones
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { triggerHaptic } from "@/lib/haptics";
+import QRScannerButton from "./QRScannerButton";
 
 export default function PadminiPalaceClient() {
     const { t, lang } = useLanguage();
@@ -123,6 +127,11 @@ export default function PadminiPalaceClient() {
 
 
             <main className="fort-main">
+                {/* ═══ QR SCANNER ═══════════════════════════ */}
+                <div style={{ textAlign: 'center', padding: '2rem 0' }}>
+                    <QRScannerButton />
+                </div>
+
                 {/* ═══ OVERVIEW ══════════════════════════════ */}
                 <motion.section 
                     initial={{ opacity: 0, y: 40 }}

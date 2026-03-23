@@ -2,39 +2,12 @@
 
 import { useLanguage } from "@/context/LanguageContext";
 import React, { useState, useEffect, useRef } from "react";
-import { 
-    Play, 
-    Pause, 
-    ArrowLeft
-} from "lucide-react";
+import { ArrowLeft, Play, Info } from 'lucide-react';
 import { useRouter } from "next/navigation";
 import { motion, useScroll, useTransform } from "framer-motion";
+import { Waveform } from "./Waveform";
+import QRScannerButton from "./QRScannerButton";
 
-const Waveform = () => (
-    <div style={{ display: 'flex', alignItems: 'center', gap: '2px', height: '30px', width: '40px', justifyContent: 'center' }}>
-        {[...Array(8)].map((_, i) => (
-            <motion.div
-                key={i}
-                animate={{
-                    height: ["6px", "24px", "10px", "28px", "6px"],
-                    opacity: [0.3, 1, 0.5, 1, 0.3]
-                }}
-                transition={{
-                    duration: 1.2,
-                    repeat: Infinity,
-                    delay: i * 0.15,
-                    ease: "easeInOut"
-                }}
-                style={{
-                    width: '3px',
-                    backgroundColor: 'currentColor',
-                    borderRadius: '4px',
-                    boxShadow: '0 0 10px rgba(0,0,0,0.2)'
-                }}
-            />
-        ))}
-    </div>
-);
 
 const KineticScroll = ({ progress }) => {
     const width = useTransform(progress, [0, 1], ["0%", "100%"]);
@@ -628,6 +601,10 @@ export default function KirtiStambhClient() {
                         >
                             {t("vijay.references.official")}
                         </motion.a>
+
+                        <motion.div variants={itemVariants} style={{ marginTop: '4rem' }}>
+                            <QRScannerButton />
+                        </motion.div>
                     </div>
                 </motion.section>
             </main>
