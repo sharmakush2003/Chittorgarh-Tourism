@@ -287,19 +287,20 @@ export default function MenalClient() {
                     gap: 0.5rem;
                     color: #fff;
                     font-size: 0.8rem;
-                    margin-bottom: 3rem;
+                    margin-bottom: 2.5rem;
                     text-transform: uppercase;
                     font-weight: 800;
                     background: rgba(212, 175, 55, 0.2);
-                    padding: 0.75rem 1.5rem;
+                    padding: 0.65rem 1.25rem;
                     border: 1px solid rgba(212, 175, 55, 0.4);
                     border-radius: 4px;
                     cursor: pointer;
-                    transition: background 0.2s, transform 0.2s;
+                    transition: all 0.2s ease;
                 }
                 .back-btn:hover {
                     background: rgba(212, 175, 55, 0.35);
                     transform: translateX(-4px);
+                    border-color: var(--gold);
                 }
 
                 .hero-eyebrow {
@@ -402,10 +403,22 @@ export default function MenalClient() {
                 }
 
                 @media (max-width: 768px) {
-                    .fort-hero { padding-top: 6rem; padding-bottom: 4rem; min-height: 70vh; }
-                    .hero-title { font-size: 2.8rem; line-height: 1.15 !important; }
+                    .fort-hero { padding-top: 7rem; padding-bottom: 3rem; min-height: 85vh; }
+                    .hero-title { font-size: 2.5rem; line-height: 1.2 !important; margin-bottom: 1.5rem; }
+                    .hero-desc { font-size: 0.95rem; line-height: 1.6; margin-bottom: 2.5rem; padding: 0 1rem; }
                     .fort-section { padding: 4rem 1.25rem; }
-                    .section-title { font-size: 2.4rem; }
+                    .section-title { font-size: 2.2rem; }
+                    .back-btn { margin-bottom: 2rem; font-size: 0.75rem; padding: 0.5rem 1rem; }
+                    
+                    :global([data-lang="hi"]) .hero-title { font-size: 2.2rem; line-height: 1.4 !important; }
+                    :global([data-lang="hi"]) .section-title { font-size: 2rem; }
+                }
+
+                @media (max-width: 480px) {
+                    .fort-hero { padding-top: 6rem; min-height: 90vh; }
+                    .hero-title { font-size: 2.2rem; }
+                    .hero-desc { font-size: 0.9rem; }
+                    .back-btn { margin-top: 1rem; }
                 }
 
                 .mesh-bg {
