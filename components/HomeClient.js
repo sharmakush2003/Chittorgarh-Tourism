@@ -24,13 +24,7 @@ export default function HomeClient() {
         setIsScannerOpen(false);
         // Handle result (usually it's a URL)
         if (result.startsWith('http')) {
-            // Local testing support: if scanned URL is for production, translate to current origin
-            const productionUrl = "https://chittorgarh-tourism.in";
-            let targetUrl = result;
-            if (result.startsWith(productionUrl)) {
-                targetUrl = result.replace(productionUrl, window.location.origin);
-            }
-            window.location.href = targetUrl;
+            window.location.href = result;
         } else {
             alert("Scanned: " + result);
         }
@@ -310,37 +304,6 @@ export default function HomeClient() {
                     position: relative;
                 }
 
-                .hero-actions {
-                    display: flex;
-                    gap: 1.5rem;
-                    justify-content: center;
-                    flex-wrap: wrap;
-                }
-                .btn-outline-gold {
-                    padding: 1rem 2.5rem;
-                    background: rgba(255, 255, 255, 0.05);
-                    backdrop-filter: blur(10px);
-                    -webkit-backdrop-filter: blur(10px);
-                    border: 1px solid rgba(212, 175, 55, 0.3);
-                    color: #fff;
-                    font-family: var(--ff-display);
-                    font-weight: 600;
-                    font-size: 1.05rem;
-                    cursor: pointer;
-                    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-                    border-radius: 12px;
-                    display: inline-flex;
-                    align-items: center;
-                    justify-content: center;
-                    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-                }
-                .btn-outline-gold:hover {
-                    background: rgba(212, 175, 55, 0.15);
-                    border-color: var(--gold);
-                    transform: translateY(-3px) scale(1.02);
-                    box-shadow: 0 8px 25px rgba(212, 175, 55, 0.2);
-                    color: var(--gold);
-                }
                 .container {
                     max-width: 1200px;
                     margin: 0 auto;
@@ -559,6 +522,34 @@ export default function HomeClient() {
                     letter-spacing: 2px;
                     color: rgba(255, 255, 255, 0.6);
                     font-weight: 500;
+                }
+
+                .hero-actions {
+                    display: flex;
+                    gap: 1.5rem;
+                    justify-content: center;
+                    flex-wrap: wrap;
+                }
+                .btn-outline-gold {
+                    padding: 1rem 2.5rem;
+                    background: transparent;
+                    border: 2px solid var(--gold);
+                    color: var(--gold);
+                    font-family: var(--ff-display);
+                    font-weight: 700;
+                    font-size: 1.1rem;
+                    cursor: pointer;
+                    transition: all 0.3s;
+                    border-radius: 4px;
+                    display: inline-flex;
+                    align-items: center;
+                    justify-content: center;
+                }
+                .btn-outline-gold:hover {
+                    background: var(--gold);
+                    color: #fff;
+                    transform: translateY(-2px);
+                    box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
                 }
             `}</style>
         </div>
