@@ -4,6 +4,15 @@ import { ArrowLeft } from "lucide-react";
 export const metadata = {
     title: "Privacy Policy | Chittorgarh Tourism",
     description: "Privacy Policy for Chittorgarh Tourism – Rajasthan's Greatest Fort Official Guide.",
+    alternates: {
+        canonical: '/privacy',
+    },
+    openGraph: {
+        title: "Privacy Policy | Chittorgarh Tourism",
+        description: "Your privacy is important to us. Read how we handle data at Chittorgarh Tourism.",
+        url: "/privacy",
+        siteName: "Chittorgarh Tourism",
+    },
 };
 
 export default function PrivacyPolicy() {

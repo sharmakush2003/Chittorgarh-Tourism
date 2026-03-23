@@ -4,6 +4,15 @@ import { ArrowLeft } from "lucide-react";
 export const metadata = {
     title: "Terms & Conditions | Chittorgarh Tourism",
     description: "Terms and Conditions for Chittorgarh Tourism – Rajasthan's Greatest Fort Official Guide.",
+    alternates: {
+        canonical: '/terms',
+    },
+    openGraph: {
+        title: "Terms & Conditions | Chittorgarh Tourism",
+        description: "Read the terms and conditions for using the Chittorgarh Tourism guide.",
+        url: "/terms",
+        siteName: "Chittorgarh Tourism",
+    },
 };
 
 export default function TermsAndConditions() {

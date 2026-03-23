@@ -1,3 +1,4 @@
+require('dotenv').config();
 const fs = require('fs');
 const QRCode = require('qrcode');
 const { createCanvas, loadImage, registerFont } = require('canvas');
@@ -90,5 +91,5 @@ async function createPoster(url, outputPath) {
     console.log(`Poster created successfully at ${outputPath}`);
 }
 
-// Replace with the actual deployed URL when ready
-createPoster('https://chittorgarh-tourism.in/', 'public/poster.png');
+const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://chittorgarh-tourism.in';
+createPoster(baseUrl, 'public/poster.png');

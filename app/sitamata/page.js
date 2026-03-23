@@ -4,13 +4,13 @@ export const metadata = {
     title: "Sitamata Wildlife Sanctuary - Teak Forests & Flying Squirrels",
     description: "Explore the lush Sitamata Wildlife Sanctuary, home to unique teak forests, the rare flying squirrel, and diverse wildlife across the Aravali and Vindhyachal ranges.",
     alternates: {
-        canonical: 'https://chittorgarh-tourism.in/sitamata',
+        canonical: '/sitamata',
     },
     keywords: ["Sitamata Wildlife Sanctuary", "Flying Squirrel Rajasthan", "Teak Forests India", "Chittorgarh Wildlife", "Nature Trails Rajasthan", "Aravalli Hills Sanctuary"],
     openGraph: {
         title: "Sitamata Wildlife Sanctuary - Teak Forests & Flying Squirrels",
         description: "A biodiverse haven spanning the Aravalli and Vindhyachal ranges. Discover the rare flying squirrel and lush teak forests.",
-        url: "https://chittorgarh-tourism.in/sitamata",
+        url: "/sitamata",
         siteName: "Chittorgarh Tourism",
         images: [
             {

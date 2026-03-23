@@ -16,7 +16,7 @@ export const metadata = {
   openGraph: {
     title: "Chittorgarh Tourism — Complete Guide to Rajasthan's Greatest Fort",
     description: "Discover the ultimate travel guide for Chittorgarh Fort. Find out the best places to see, local tips, and how to plan your journey to Rajasthan.",
-    url: "https://chittorgarh-tourism.in",
+    url: "/",
     siteName: "Chittorgarh Tourism",
   },
 };

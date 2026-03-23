@@ -31,23 +31,23 @@ const martel = Martel({
 });
 
 export const metadata = {
-  metadataBase: new URL('https://chittorgarh-tourism.in'),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://chittorgarh-tourism.in'),
   title: {
     default: "Chittorgarh Tourism — Official Guide to Rajasthan's Greatest Fort",
     template: "%s | Chittorgarh Tourism"
   },
   description: "Official guide to Chittorgarh Fort, Rajasthan. Explore the UNESCO World Heritage Site, Rani Padmini's Palace, Vijay Stambh, and plan your perfect heritage trip.",
   alternates: {
-    canonical: 'https://chittorgarh-tourism.in',
+    canonical: '/',
     languages: {
-      'en': 'https://chittorgarh-tourism.in',
-      'hi': 'https://chittorgarh-tourism.in?lang=hi',
-      'fr': 'https://chittorgarh-tourism.in?lang=fr',
-      'de': 'https://chittorgarh-tourism.in?lang=de',
-      'ja': 'https://chittorgarh-tourism.in?lang=ja',
-      'ru': 'https://chittorgarh-tourism.in?lang=ru',
-      'es': 'https://chittorgarh-tourism.in?lang=es',
-      'it': 'https://chittorgarh-tourism.in?lang=it',
+      'en': '/',
+      'hi': '/?lang=hi',
+      'fr': '/?lang=fr',
+      'de': '/?lang=de',
+      'ja': '/?lang=ja',
+      'ru': '/?lang=ru',
+      'es': '/?lang=es',
+      'it': '/?lang=it',
     },
   },
   keywords: [
@@ -72,7 +72,7 @@ export const metadata = {
   openGraph: {
     title: "Chittorgarh Tourism — Complete Guide to Rajasthan's Greatest Fort",
     description: "Discover the saga of bravery and sacrifice. Plan your ultimate trip to Rajasthan's mightiest citadel.",
-    url: "https://chittorgarh-tourism.in",
+    url: process.env.NEXT_PUBLIC_SITE_URL || 'https://chittorgarh-tourism.in',
     siteName: "Chittorgarh Tourism",
     images: [
       {
@@ -118,8 +118,8 @@ export default function RootLayout({ children }) {
     '@type': 'TouristAttraction',
     name: 'Chittorgarh Fort',
     description: "Rajasthan's mightiest citadel and a UNESCO World Heritage Site.",
-    url: 'https://chittorgarh-tourism.in',
-    image: 'https://chittorgarh-tourism.in/Poster-For-Chittorgarh-Tourism.png',
+    url: process.env.NEXT_PUBLIC_SITE_URL || 'https://chittorgarh-tourism.in',
+    image: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://chittorgarh-tourism.in'}/Poster-For-Chittorgarh-Tourism.png`,
     address: {
       '@type': 'PostalAddress',
       addressLocality: 'Chittorgarh',
@@ -148,8 +148,8 @@ export default function RootLayout({ children }) {
     '@context': 'https://schema.org',
     '@type': 'Organization',
     name: 'Chittorgarh Tourism',
-    url: 'https://chittorgarh-tourism.in',
-    logo: 'https://chittorgarh-tourism.in/logo.jpg',
+    url: process.env.NEXT_PUBLIC_SITE_URL || 'https://chittorgarh-tourism.in',
+    logo: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://chittorgarh-tourism.in'}/logo.jpg`,
     sameAs: [
       'https://www.facebook.com/chittorgarhtourism',
       'https://www.instagram.com/chittorgarhtourism',
@@ -165,19 +165,19 @@ export default function RootLayout({ children }) {
         "@type": "ListItem",
         "position": 1,
         "name": "Home",
-        "item": "https://chittorgarh-tourism.in"
+        "item": process.env.NEXT_PUBLIC_SITE_URL || 'https://chittorgarh-tourism.in'
       },
       {
         "@type": "ListItem",
         "position": 2,
         "name": "Explore",
-        "item": "https://chittorgarh-tourism.in/explore"
+        "item": `${process.env.NEXT_PUBLIC_SITE_URL || 'https://chittorgarh-tourism.in'}/explore`
       },
       {
         "@type": "ListItem",
         "position": 3,
         "name": "Plan Your Visit",
-        "item": "https://chittorgarh-tourism.in/plan"
+        "item": `${process.env.NEXT_PUBLIC_SITE_URL || 'https://chittorgarh-tourism.in'}/plan`
       }
     ]
   };
@@ -185,8 +185,8 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        <link rel="dns-prefetch" href="https://chittorgarh-tourism.in" />
-        <link rel="preconnect" href="https://chittorgarh-tourism.in" crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href={process.env.NEXT_PUBLIC_SITE_URL || "https://chittorgarh-tourism.in"} />
+        <link rel="preconnect" href={process.env.NEXT_PUBLIC_SITE_URL || "https://chittorgarh-tourism.in"} crossOrigin="anonymous" />
         <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <meta name="mobile-web-app-capable" content="yes" />

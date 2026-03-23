@@ -2,7 +2,7 @@ import { readdir, readFile } from "fs/promises";
 import path from "path";
 
 export default async function sitemap() {
-    const baseUrl = "https://chittorgarh-tourism.in";
+    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://chittorgarh-tourism.in";
 
     const staticPages = [
         {

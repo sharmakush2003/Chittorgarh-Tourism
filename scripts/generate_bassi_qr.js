@@ -1,9 +1,11 @@
+require('dotenv').config();
 const QRCode = require('qrcode');
 const fs = require('fs');
 const path = require('path');
 
 async function generateQR() {
-    const url = 'https://chittorgarh-tourism.in/bassi';
+    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://chittorgarh-tourism.in';
+    const url = `${baseUrl}/bassi`;
     const outputPath = path.join(__dirname, '../public/QR_codes/Bassi.png');
 
     try {

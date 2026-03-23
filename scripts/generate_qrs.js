@@ -1,8 +1,9 @@
+require('dotenv').config();
 const QRCode = require('qrcode');
 const fs = require('fs');
 const path = require('path');
 
-const baseUrl = "https://chittorgarh-tourism.in";
+const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://chittorgarh-tourism.in";
 const monuments = [
     "chittorgarh-fort",
     "vijay-stambh",

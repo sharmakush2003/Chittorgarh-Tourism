@@ -1,3 +1,4 @@
+require('dotenv').config();
 const fs = require('fs');
 const QRCode = require('qrcode');
 const { createCanvas, loadImage } = require('canvas');
@@ -72,4 +73,5 @@ async function addQRToPoster(url, inputPath, outputPath) {
     console.log(`Poster with QR created successfully at ${outputPath}`);
 }
 
-addQRToPoster('https://chittorgarh-tourism.in/', 'public/Poster-For-Chittorgarh-Tourism.png', 'public/poster.png');
+const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://chittorgarh-tourism.in';
+addQRToPoster(baseUrl, 'public/Poster-For-Chittorgarh-Tourism.png', 'public/poster.png');

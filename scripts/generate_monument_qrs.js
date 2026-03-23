@@ -1,3 +1,4 @@
+require('dotenv').config();
 const QRCode = require('qrcode');
 const fs = require('fs');
 const path = require('path');
@@ -7,18 +8,19 @@ if (!fs.existsSync(qrDir)) {
     fs.mkdirSync(qrDir);
 }
 
+const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://chittorgarh-tourism.in';
 const urls = [
-    { name: 'Home', url: 'https://chittorgarh-tourism.in/' },
-    { name: 'Vijay-Stambh', url: 'https://chittorgarh-tourism.in/vijay-stambh' },
-    { name: 'Fateh-Prakash', url: 'https://chittorgarh-tourism.in/fateh-prakash' },
-    { name: 'Rana-Kumbha-Palace', url: 'https://chittorgarh-tourism.in/kumbha-palace' },
-    { name: 'Kumbha-Shyam-Temple', url: 'https://chittorgarh-tourism.in/kumbha-shyam' },
-    { name: 'Jain-Temples', url: 'https://chittorgarh-tourism.in/jain-temples' },
-    { name: 'Meera-Bai-Temple', url: 'https://chittorgarh-tourism.in/meera-bai-temple' },
-    { name: 'Kirti-Stambh', url: 'https://chittorgarh-tourism.in/kirti-stambh' },
-    { name: 'Ratan-Singh-Palace', url: 'https://chittorgarh-tourism.in/ratan-palace' },
-    { name: 'Nagari', url: 'https://chittorgarh-tourism.in/nagari' },
-    { name: 'Sitamata', url: 'https://chittorgarh-tourism.in/sitamata' }
+    { name: 'Home', url: `${baseUrl}/` },
+    { name: 'Vijay-Stambh', url: `${baseUrl}/vijay-stambh` },
+    { name: 'Fateh-Prakash', url: `${baseUrl}/fateh-prakash` },
+    { name: 'Rana-Kumbha-Palace', url: `${baseUrl}/kumbha-palace` },
+    { name: 'Kumbha-Shyam-Temple', url: `${baseUrl}/kumbha-shyam` },
+    { name: 'Jain-Temples', url: `${baseUrl}/jain-temples` },
+    { name: 'Meera-Bai-Temple', url: `${baseUrl}/meera-bai-temple` },
+    { name: 'Kirti-Stambh', url: `${baseUrl}/kirti-stambh` },
+    { name: 'Ratan-Singh-Palace', url: `${baseUrl}/ratan-palace` },
+    { name: 'Nagari', url: `${baseUrl}/nagari` },
+    { name: 'Sitamata', url: `${baseUrl}/sitamata` }
 ];
 
 async function generateQRs() {
