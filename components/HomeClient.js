@@ -1,16 +1,34 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import { useLanguage } from "@/context/LanguageContext";
 import { triggerHaptic } from "@/lib/haptics";
 import { motion } from "framer-motion";
-import { Map, Zap, Headphones } from 'lucide-react';
+import { Map, Zap, Headphones, Camera } from 'lucide-react';
 
 import RoyalLineage from "./RoyalLineage";
 import FAQ from "./FAQ";
+import QRWebScanner from "./QRWebScanner";
 
 export default function HomeClient() {
     const { t } = useLanguage();
+    const [isScannerOpen, setIsScannerOpen] = useState(false);
+    
+    const handleScanQR = () => {
+        triggerHaptic('medium');
+        setIsScannerOpen(true);
+    };
+
+    const handleScannerResult = (result) => {
+        setIsScannerOpen(false);
+        // Handle result (usually it's a URL)
+        if (result.startsWith('http')) {
+            window.location.href = result;
+        } else {
+            alert("Scanned: " + result);
+        }
+    };
 
     return (
         <div className="home-page-container">
@@ -51,6 +69,10 @@ export default function HomeClient() {
                         <Link href="/plan" className="btn-gold" onClick={() => triggerHaptic('light')}>
                             {t("hero.cta1")}
                         </Link>
+                        <button className="btn-outline-gold" onClick={handleScanQR}>
+                            <Camera size={20} style={{ marginRight: '8px', verticalAlign: 'middle' }} />
+                            {t("hero.ctaScan")}
+                        </button>
                     </motion.div>
                 </div>
                 <motion.div 
@@ -242,6 +264,13 @@ export default function HomeClient() {
 
             <FAQ />
 
+            {isScannerOpen && (
+                <QRWebScanner 
+                    onClose={() => setIsScannerOpen(false)} 
+                    onResult={handleScannerResult} 
+                />
+            )}
+
             <style jsx global>{`
                 .home-page-container {
                     background: #0a0804;
@@ -275,6 +304,37 @@ export default function HomeClient() {
                     position: relative;
                 }
 
+                .hero-actions {
+                    display: flex;
+                    gap: 1.5rem;
+                    justify-content: center;
+                    flex-wrap: wrap;
+                }
+                .btn-outline-gold {
+                    padding: 1rem 2.5rem;
+                    background: rgba(255, 255, 255, 0.05);
+                    backdrop-filter: blur(10px);
+                    -webkit-backdrop-filter: blur(10px);
+                    border: 1px solid rgba(212, 175, 55, 0.3);
+                    color: #fff;
+                    font-family: var(--ff-display);
+                    font-weight: 600;
+                    font-size: 1.05rem;
+                    cursor: pointer;
+                    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+                    border-radius: 12px;
+                    display: inline-flex;
+                    align-items: center;
+                    justify-content: center;
+                    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+                }
+                .btn-outline-gold:hover {
+                    background: rgba(212, 175, 55, 0.15);
+                    border-color: var(--gold);
+                    transform: translateY(-3px) scale(1.02);
+                    box-shadow: 0 8px 25px rgba(212, 175, 55, 0.2);
+                    color: var(--gold);
+                }
                 .container {
                     max-width: 1200px;
                     margin: 0 auto;

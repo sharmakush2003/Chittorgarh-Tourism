@@ -18,6 +18,8 @@
     "hero.line2": "India's Greatest Fort",
     "hero.sub": "Commanding 700 acres of unconquerable Rajputana heritage. A colossal citadel where the legendary pride of Mewar was forged in blood, immortalized in stone, and echoes through eternity.",
     "hero.cta1": "Plan Your Journey →",
+    "hero.ctaScan": "Scan Monument QR",
+    "hero.scanFallback": "Please use your mobile phone's Google Lens or Camera app to scan our monument QR codes.",
     "weather.feelsLike": "Feels like",
     "stats.l1": "Annual Visitors",
     "stats.l2": "Fort Complex",
