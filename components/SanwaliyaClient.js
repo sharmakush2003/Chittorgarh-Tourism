@@ -6,7 +6,10 @@ import {
     Play, 
     Pause, 
     ArrowLeft,
-    Globe
+    Phone,
+    Clock,
+    MapPin,
+    Calendar
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
@@ -37,7 +40,7 @@ const Waveform = () => (
     </div>
 );
 
-export default function MenalClient() {
+export default function SanwaliyaClient() {
     const { t, lang } = useLanguage();
     const router = useRouter();
     const [playingAudio, setPlayingAudio] = useState(null);
@@ -63,7 +66,7 @@ export default function MenalClient() {
             return;
         }
 
-        const textToSpeak = customText || `${t(`menal.hero.title`)}. ${t(`menal.overview.p1`)} ${t(`menal.overview.p2`)}`;
+        const textToSpeak = customText || `${t(`sanwaliya.hero.title`)}. ${t(`sanwaliya.history.p1`)} ${t(`sanwaliya.history.p2`)}`;
         const utterance = new SpeechSynthesisUtterance(textToSpeak);
         
         const langMap = {
@@ -100,7 +103,7 @@ export default function MenalClient() {
         >
             {/* ═══ HERO SECTION ═══════════════════════════ */}
             <section className="fort-hero">
-                <div className="hero-bg" style={{ backgroundImage: "url('/images/menal_hero.jpg')", backgroundPosition: 'center center' }}></div>
+                <div className="hero-bg" style={{ backgroundImage: "url('/images/sanwaliya_idol.jpg')", backgroundPosition: 'center top' }}></div>
                 <div className="hero-overlay"></div>
                 
                 <motion.div 
@@ -115,14 +118,14 @@ export default function MenalClient() {
                     }}>
                         <ArrowLeft size={16} /> {t("btn.back") || "Back"}
                     </button>
-                    <span className="hero-eyebrow">{t("menal.hero.eyebrow")}</span>
-                    <h1 className="hero-title">{t("menal.hero.title")}</h1>
-                    <p className="hero-desc">{t("menal.hero.desc")}</p>
+                    <span className="hero-eyebrow">{t("sanwaliya.hero.eyebrow")}</span>
+                    <h1 className="hero-title">{t("sanwaliya.hero.title")}</h1>
+                    <p className="hero-desc">{t("sanwaliya.hero.desc")}</p>
                 </motion.div>
             </section>
 
             <main className="fort-main">
-                {/* ═══ OVERVIEW ══════════════════════════════ */}
+                {/* ═══ HISTORY ══════════════════════════════ */}
                 <motion.section 
                     initial={{ opacity: 0, y: 40 }}
                     whileInView={{ opacity: 1, y: 0 }}
@@ -131,54 +134,86 @@ export default function MenalClient() {
                     className="fort-section mesh-bg"
                 >
                     <div className="section-header">
-                        <h2 className="section-title text-gold">{t("menal.section.overview")}</h2>
+                        <h2 className="section-title text-gold">{t("sanwaliya.section.history")}</h2>
                         <div className="title-divider"></div>
                     </div>
                     <div className="overview-grid">
                         <div className="overview-text">
-                            <p className="lead-para">{t("menal.overview.p1")}</p>
-                            <p>{t("menal.overview.p2")}</p>
+                            <p className="lead-para">{t("sanwaliya.history.p1")}</p>
+                            <p>{t("sanwaliya.history.p2")}</p>
                             
                             <button 
-                                className={`audio-btn ${playingAudio === 'overview' ? 'playing' : ''}`}
-                                onClick={() => handleAudioPlay('overview')}
+                                className={`audio-btn ${playingAudio === 'history' ? 'playing' : ''}`}
+                                onClick={() => handleAudioPlay('history')}
                                 style={{ marginTop: '2rem', marginLeft: 'auto', marginRight: 'auto' }}
                             >
-                                {playingAudio === 'overview' ? <Waveform /> : <Play size={18} fill="currentColor" />}
-                                <span>{playingAudio === 'overview' ? t("fort.audio.playing") || "Playing" : t("fort.audio.listen") || "Listen Narrated View"}</span>
+                                {playingAudio === 'history' ? <Waveform /> : <Play size={18} fill="currentColor" />}
+                                <span>{playingAudio === 'history' ? t("fort.audio.playing") || "Playing" : t("fort.audio.listen") || "Listen Narrated History"}</span>
                             </button>
                         </div>
                     </div>
                 </motion.section>
 
+                {/* ═══ THE THREE IDOLS ═════════════════════════ */}
                 <motion.section 
-                    id="references" 
                     className="fort-section"
                     initial={{ opacity: 0, y: 30 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                 >
                     <div className="section-header">
-                        <h2 className="section-title text-gold">{t("menal.references.title")}</h2>
+                        <h2 className="section-title text-gold">{t("sanwaliya.section.temples")}</h2>
                         <div className="title-divider"></div>
                     </div>
-                    <div className="premium-glass" style={{ padding: '2rem', borderRadius: '16px' }}>
-                        <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
-                            <li style={{ display: 'flex', gap: '16px', alignItems: 'flex-start' }}>
-                                <Globe size={24} color="var(--gold)" style={{ marginTop: '4px' }} />
-                                <div>
-                                    <h3 style={{ fontSize: '1.1rem', marginBottom: '0.4rem', color: '#fff', fontFamily: 'var(--ff-sans)', fontWeight: '600' }}>{t("menal.references.official")}</h3>
-                                    <a 
-                                        href={t("menal.references.official_url")} 
-                                        target="_blank" 
-                                        rel="noopener noreferrer" 
-                                        style={{ color: 'var(--gold)', textDecoration: 'none', fontSize: '0.95rem', display: 'inline-flex', alignItems: 'center', gap: '4px' }}
-                                    >
-                                        {t("menal.references.official")} <span>→</span>
-                                    </a>
-                                </div>
-                            </li>
-                        </ul>
+                    
+                    <div className="temple-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '2rem' }}>
+                        {[1, 2, 3].map((num) => (
+                            <div key={num} className="premium-glass" style={{ padding: '2rem', borderRadius: '16px' }}>
+                                <h3 style={{ color: 'var(--gold)', marginBottom: '1rem', fontSize: '1.4rem' }}>{t(`sanwaliya.temple${num}.title`)}</h3>
+                                <p style={{ fontSize: '1rem', margin: 0 }}>{t(`sanwaliya.temple${num}.desc`)}</p>
+                            </div>
+                        ))}
+                    </div>
+                </motion.section>
+
+                {/* ═══ TIMINGS & INFO ══════════════════════════ */}
+                <motion.section 
+                    className="fort-section mesh-bg"
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                >
+                    <div className="section-header">
+                        <h2 className="section-title text-gold">{t("sanwaliya.timings.title")}</h2>
+                        <div className="title-divider"></div>
+                    </div>
+
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '2rem' }}>
+                        <div className="premium-glass" style={{ padding: '2rem', borderRadius: '16px' }}>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '1.5rem' }}>
+                                <Clock size={24} color="var(--gold)" />
+                                <h3 style={{ margin: 0, color: '#fff' }}>{t("sanwaliya.timings.title")}</h3>
+                            </div>
+                            <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                                <li>{t("sanwaliya.timings.mangla")}</li>
+                                <li>{t("sanwaliya.timings.rajbhog")}</li>
+                                <li>{t("sanwaliya.timings.arati_afternoon")}</li>
+                                <li>{t("sanwaliya.timings.arati_evening")}</li>
+                                <li>{t("sanwaliya.timings.bhajan")}</li>
+                            </ul>
+                        </div>
+
+                        <div className="premium-glass" style={{ padding: '2rem', borderRadius: '16px' }}>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '1.5rem' }}>
+                                <Phone size={24} color="var(--gold)" />
+                                <h3 style={{ margin: 0, color: '#fff' }}>{t("sanwaliya.info.contact")}</h3>
+                            </div>
+                            <p style={{ marginBottom: '1rem' }}>{t("sanwaliya.info.phone")}</p>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                                <MapPin size={24} color="var(--gold)" />
+                                <p style={{ margin: 0 }}>Chittorgarh-Udaipur Highway, Mandafiya</p>
+                            </div>
+                        </div>
                     </div>
                 </motion.section>
             </main>

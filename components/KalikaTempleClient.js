@@ -5,17 +5,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { 
     Play, 
     Pause, 
-    ArrowLeft,
-    MapPin,
-    ScrollText,
-    ChevronDown,
-    ChevronUp,
-    Camera,
-    Info,
-    Palette,
-    Columns,
-    Gem,
-    Globe
+    ArrowLeft
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
@@ -25,7 +15,6 @@ export default function KalikaTempleClient() {
     const { t, lang } = useLanguage();
     const router = useRouter();
     const [playingAudio, setPlayingAudio] = useState(null);
-    const [expandedSections, setExpandedSections] = useState({});
     const voicesRef = useRef([]);
 
     // Pre-load voices for better reliability
@@ -40,15 +29,7 @@ export default function KalikaTempleClient() {
         };
     }, []);
 
-
-
-    const ARCH_FEATURES = [
-        { id: "mandapa", icon: <Columns size={20} /> },
-        { id: "sanctum", icon: <Gem size={20} /> },
-        { id: "facade", icon: <Palette size={20} /> }
-    ];
-
-    const handleAudioPlay = (sectionId, customText = null) => {
+    const handleAudioPlay = (sectionId, textToSpeak) => {
         const synth = window.speechSynthesis;
         synth.cancel();
 
@@ -57,7 +38,6 @@ export default function KalikaTempleClient() {
             return;
         }
 
-        const textToSpeak = customText || `${t(`attr.kalika_arch.${sectionId}.name`)}. ${t(`attr.kalika_arch.${sectionId}.desc`)}`;
         const utterance = new SpeechSynthesisUtterance(textToSpeak);
         
         const langMap = {
@@ -150,103 +130,65 @@ export default function KalikaTempleClient() {
                             <button 
                                 className={`audio-btn ${playingAudio === 'overview' ? 'playing' : ''}`}
                                 onClick={() => handleAudioPlay('overview', `${t("kalika.overview.p1")} ${t("kalika.overview.p2")}`)}
-                                style={{ marginTop: '2rem' }}
+                                style={{ marginTop: '2rem', marginLeft: 'auto', marginRight: 'auto' }}
                             >
                                 {playingAudio === 'overview' ? <Pause size={18} fill="currentColor" /> : <Play size={18} fill="currentColor" />}
-                                <span>{playingAudio === 'overview' ? t("fort.audio.playing") : t("fort.audio.listen")}</span>
+                                <span>{playingAudio === 'overview' ? t("fort.audio.playing") || "Playing" : t("fort.audio.listen") || "Listen Narrated History"}</span>
                             </button>
                         </div>
                     </div>
                 </motion.section>
-
-                {/* ═══ HISTORY ═══════════════════════════════ */}
-
-                {/* ═══ ARCHITECTURE ══════════════════════════ */}
-                <section id="architecture" className="fort-section">
-                    <motion.div 
-                        initial={{ opacity: 0, y: 30 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        className="section-header"
-                    >
-                        <h2 className="section-title text-gold">{t("kalika.section.architecture")}</h2>
-                        <div className="title-divider"></div>
-                    </motion.div>
-
-                    <div className="monuments-list">
-                        {ARCH_FEATURES.map((m, idx) => (
-                            <motion.div 
-                                key={m.id} 
-                                initial={{ opacity: 0, y: 20 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                transition={{ delay: idx * 0.1 }}
-                                className="monument-card premium-glass"
-                            >
-
-
-                                <div className="mon-content">
-                                    <h3 className="mon-name" style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                                        <span style={{ color: 'var(--gold)' }}>{m.icon}</span> 
-                                        {t(`attr.kalika_arch.${m.id}.name`)}
-                                    </h3>
-                                    <p className={`mon-desc ${expandedSections[m.id] ? 'expanded' : ''}`}>
-                                        {t(`attr.kalika_arch.${m.id}.desc`)}
-                                    </p>
-                                    
-                                    <button 
-                                        className="read-more-btn"
-                                        onClick={() => {
-                                            setExpandedSections(prev => ({...prev, [m.id]: !prev[m.id]}));
-                                        }}
-                                    >
-                                        {expandedSections[m.id] ? (
-                                            <><ChevronUp size={16} /> {t("btn.readLess") || "Read Less"}</>
-                                        ) : (
-                                            <><ChevronDown size={16} /> {t("btn.readMore") || "Read More"}</>
-                                        )}
-                                    </button>
-                                    
-                                    <button 
-                                        className={`audio-btn ${playingAudio === m.id ? 'playing' : ''}`}
-                                        onClick={() => handleAudioPlay(m.id)}
-                                    >
-                                        {playingAudio === m.id ? <Pause size={18} fill="currentColor" /> : <Play size={18} fill="currentColor" />}
-                                        <span>{playingAudio === m.id ? t("fort.audio.playing") : t("fort.audio.listen")}</span>
-                                    </button>
-                                </div>
-                            </motion.div>
-                        ))}
-                    </div>
-                </section>
-
+                {/* ═══ VISUALS ═══════════════════════════════ */}
                 <motion.section 
-                    id="references" 
-                    className="fort-section"
                     initial={{ opacity: 0, y: 30 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
+                    className="fort-section"
                 >
                     <div className="section-header">
-                        <h2 className="section-title text-gold">{t("kalika.references.title") || "References"}</h2>
+                        <h2 className="section-title text-gold">{t("kalika.section.visuals") || "Sacred Visuals"}</h2>
                         <div className="title-divider"></div>
                     </div>
-                    <div className="premium-glass" style={{ padding: '2rem', borderRadius: '16px' }}>
-                        <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
-                            <li style={{ display: 'flex', gap: '16px', alignItems: 'flex-start' }}>
-                                <Globe size={24} color="var(--gold)" style={{ marginTop: '4px' }} />
-                                <div>
-                                    <h3 style={{ fontSize: '1.1rem', marginBottom: '0.4rem', color: '#fff', fontFamily: 'var(--ff-sans)', fontWeight: '600' }}>{t("kalika.references.wikipedia") || "Wikipedia"}</h3>
-                                    <a 
-                                        href={t("kalika.references.url") || "https://en.wikipedia.org/wiki/Kalika_Mata_Temple,_Chittorgarh_Fort"} 
-                                        target="_blank" 
-                                        rel="noopener noreferrer" 
-                                        style={{ color: 'var(--gold)', textDecoration: 'none', fontSize: '0.95rem', display: 'inline-flex', alignItems: 'center', gap: '4px' }}
-                                    >
-                                        Kalika Mata Temple, Chittorgarh Fort <span>→</span>
-                                    </a>
-                                </div>
-                            </li>
-                        </ul>
+
+                    <div className="monuments-list" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))' }}>
+                        {/* Image 1: Exterior */}
+                        <motion.div 
+                            initial={{ opacity: 0, scale: 0.95 }}
+                            whileInView={{ opacity: 1, scale: 1 }}
+                            className="monument-card premium-glass"
+                        >
+                            <div className="mon-image-wrapper" style={{ height: '300px' }}>
+                                <img 
+                                    src="/images/kalika/exterior.jpg" 
+                                    alt="Kalika Mata Temple Exterior" 
+                                    className="mon-card-img"
+                                />
+                            </div>
+                            <div className="mon-content">
+                                <h3 className="mon-name">{t("kalika.visuals.exterior.title") || "Temple Architecture"}</h3>
+                                <p className="mon-desc">{t("kalika.visuals.exterior.desc") || "The majestic exterior of the 8th-century temple, showcasing its grand shikhara and ancient stones."}</p>
+                            </div>
+                        </motion.div>
+
+                        {/* Image 2: Idols */}
+                        <motion.div 
+                            initial={{ opacity: 0, scale: 0.95 }}
+                            whileInView={{ opacity: 1, scale: 1 }}
+                            transition={{ delay: 0.1 }}
+                            className="monument-card premium-glass"
+                        >
+                            <div className="mon-image-wrapper" style={{ height: '300px' }}>
+                                <img 
+                                    src="/images/kalika/idols.jpg" 
+                                    alt="Kalika Mata Idols" 
+                                    className="mon-card-img"
+                                />
+                            </div>
+                            <div className="mon-content">
+                                <h3 className="mon-name">{t("kalika.visuals.idols.title") || "Goddess Kalika"}</h3>
+                                <p className="mon-desc">{t("kalika.visuals.idols.desc") || "The powerful shrine of Goddess Kali, the presiding deity of power and protection for the Mewar royals."}</p>
+                            </div>
+                        </motion.div>
                     </div>
                 </motion.section>
             </main>

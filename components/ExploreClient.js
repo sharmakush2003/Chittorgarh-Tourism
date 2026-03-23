@@ -47,13 +47,13 @@ export default function ExploreClient() {
                             image="/images/bassi_path.jpg"
                         />
                         <GlassCard
-                            title={t("attr.temple.name")}
-                            desc={t("attr.temple.desc")}
-                            time={t("attr.temple.time")}
-                            dist={t("attr.temple.dist")}
+                            title={t("attr.sanwaliya.name")}
+                            desc={t("attr.sanwaliya.desc")}
+                            time={t("attr.sanwaliya.time")}
+                            dist={t("attr.sanwaliya.dist")}
                             delay={2}
-                            link="https://en.wikipedia.org/wiki/Sawariya_Seth_Temple"
-                            image="/sanwariaji_temple.jpg"
+                            link="/sanwaliya"
+                            image="/images/sanwaliya_idol.jpg"
                         />
                         <GlassCard
                             title={t("attr.vijay.name")}
