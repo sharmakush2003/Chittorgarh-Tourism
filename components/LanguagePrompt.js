@@ -3,7 +3,6 @@
 import { useState, useEffect } from "react";
 import { useLanguage } from "@/context/LanguageContext";
 import { usePathname } from "next/navigation";
-import Link from "next/link";
 
 const COUNTRIES = [
     { code: "IN", name: "India (भारत)", lang: "hi" },
@@ -147,41 +146,21 @@ export default function LanguagePrompt() {
             background: #ccc;
             cursor: not-allowed;
         }
-        .admin-entry {
-            margin-top: 2rem;
-            padding-top: 1.5rem;
-            border-top: 1px solid #eee;
-        }
-        .admin-entry p {
-            font-size: 0.8rem;
-            color: #888;
-            letter-spacing: 0.5px;
-        }
-        .admin-entry a {
-            color: #D4AF37;
-            font-weight: 600;
-            text-decoration: none;
-            transition: color 0.3s;
-        }
-        .admin-entry a:hover {
-            color: #C5A028;
-            text-decoration: underline;
-        }
         @keyframes fadeIn {
             from { opacity: 0; }
             to { opacity: 1; }
         }
       `}</style>
             <div className="language-modal">
-                <h2 className="modal-title">{t("prompt.welcome")}</h2>
+                <h2 className="modal-title">{t("modal.welcome")}</h2>
                 <p className="modal-desc">
-                    {t("prompt.desc")}
+                    {t("modal.sub")}
                 </p>
 
                 <div className="form-group">
-                    <label>{t("prompt.country")}</label>
+                    <label>{t("modal.country") || "Country"}</label>
                     <select value={country} onChange={handleCountryChange}>
-                        <option value="" disabled>{t("prompt.countryPlaceholder")}</option>
+                        <option value="" disabled>{t("modal.search") || "Select Country"}</option>
                         {COUNTRIES.map(c => (
                             <option key={c.code} value={c.code}>{c.name}</option>
                         ))}
@@ -189,7 +168,7 @@ export default function LanguagePrompt() {
                 </div>
 
                 <div className="form-group">
-                    <label>{t("prompt.language")}</label>
+                    <label>{t("modal.language") || "Language"}</label>
                     <select value={language} onChange={(e) => setLanguage(e.target.value)}>
                         {LANGUAGES.map(l => (
                             <option key={l.code} value={l.code}>{l.name}</option>
@@ -202,12 +181,9 @@ export default function LanguagePrompt() {
                     onClick={handleConfirm}
                     disabled={!country}
                 >
-                    {t("prompt.enter")}
+                    {t("modal.confirm") || "Continue"}
                 </button>
 
-                <div className="admin-entry">
-                    <p>Are you an Admin? <Link href="/admin/login">Click here</Link></p>
-                </div>
             </div>
         </div>
     );

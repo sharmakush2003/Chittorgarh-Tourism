@@ -70,12 +70,11 @@ export default function DownloadPage() {
                     </Link>
                     
                     <div className="badge">
-                        <Smartphone size={16} /> OFFICIAL APP
+                        <Smartphone size={16} /> {t("dl.hero.official")}
                     </div>
-                    <h1 className="title">Chittorgarh in Your Pocket</h1>
+                    <h1 className="title">{t("dl.hero.title")}</h1>
                     <p className="subtitle">
-                        Experience the citadel like never before with our official Progressive Web App (PWA). 
-                        Swift, offline-ready, and lightweight.
+                        {t("dl.hero.subtitle")}
                     </p>
                 </motion.div>
             </div>
@@ -89,46 +88,46 @@ export default function DownloadPage() {
                                 <Download size={24} />
                             </div>
                             <div>
-                                <h3>Android / Chrome</h3>
-                                <p>Standard Installation</p>
+                                <h3>{t("dl.android.title")}</h3>
+                                <p>{t("dl.android.subtitle")}</p>
                             </div>
                         </div>
                         
                         <div className="steps-list">
                             <div className="step">
                                 <span className="step-num">1</span>
-                                <p>Tap the <strong>"Install App"</strong> button below if visible.</p>
+                                <p dangerouslySetInnerHTML={{ __html: t("dl.android.step1") }}></p>
                             </div>
                             <div className="step">
                                 <span className="step-num">2</span>
-                                <p>If not visible, tap the <strong>three dots (⋮)</strong> in Chrome.</p>
+                                <p dangerouslySetInnerHTML={{ __html: t("dl.android.step2") }}></p>
                             </div>
                             <div className="step">
                                 <span className="step-num">3</span>
-                                <p>Select <strong>"Install App"</strong> or <strong>"Add to Home Screen"</strong>.</p>
+                                <p dangerouslySetInnerHTML={{ __html: t("dl.android.step3") }}></p>
                             </div>
                         </div>
 
                         {canInstall && !isInstalled ? (
                             <button className="primary-btn" onClick={handleInstall}>
-                                <Download size={20} /> Install Now
+                                <Download size={20} /> {t("dl.android.installBtn")}
                             </button>
                         ) : isInstalled ? (
                             <div className="status-badge success">
-                                <CheckCircle2 size={16} /> Already Installed
+                                <CheckCircle2 size={16} /> {t("dl.android.installed")}
                             </div>
                         ) : (
                             <div className="status-badge info">
-                                <AlertCircle size={16} /> Use Browser Menu to Install
+                                <AlertCircle size={16} /> {t("dl.android.menuInstall")}
                             </div>
                         ) }
 
-                        <div className="divider"><span>OR</span></div>
+                        <div className="divider"><span>{t("dl.android.or")}</span></div>
 
                         <a href="/chittorgarh-tourism.apk" download className="secondary-btn">
-                            <Download size={20} /> Download APK Directly
+                            <Download size={20} /> {t("dl.android.directApk")}
                         </a>
-                        <p className="note">*For devices that don't support PWA installation.</p>
+                        <p className="note">{t("dl.android.note")}</p>
                     </div>
 
                     <div className="platform-card premium-glass">
@@ -137,49 +136,49 @@ export default function DownloadPage() {
                                 <Share size={24} />
                             </div>
                             <div>
-                                <h3>iOS / Safari</h3>
-                                <p>Apple Device Guide</p>
+                                <h3>{t("dl.ios.title")}</h3>
+                                <p>{t("dl.ios.subtitle")}</p>
                             </div>
                         </div>
                         
                         <div className="steps-list">
                             <div className="step">
                                 <span className="step-num">1</span>
-                                <p>Tap the <strong>Share</strong> button <Share size={16} className="inline-icon" /> at the bottom of Safari.</p>
+                                <p dangerouslySetInnerHTML={{ __html: t("dl.ios.step1") }}></p>
                             </div>
                             <div className="step">
                                 <span className="step-num">2</span>
-                                <p>Scroll down and tap <strong>"Add to Home Screen"</strong>.</p>
+                                <p dangerouslySetInnerHTML={{ __html: t("dl.ios.step2") }}></p>
                             </div>
                             <div className="step">
                                 <span className="step-num">3</span>
-                                <p>Tap <strong>"Add"</strong> in the top right corner.</p>
+                                <p dangerouslySetInnerHTML={{ __html: t("dl.ios.step3") }}></p>
                             </div>
                         </div>
 
                         <div className="status-badge ios-only">
-                            <Smartphone size={16} /> Optimized for iPhone & iPad
+                            <Smartphone size={16} /> {t("dl.ios.optimized")}
                         </div>
                     </div>
                 </div>
 
                 <section className="features-section">
-                    <h2 className="section-title">Why Install the App?</h2>
+                    <h2 className="section-title">{t("dl.why.title")}</h2>
                     <div className="features-grid">
                         <div className="feat-item">
                             <div className="feat-icon">⚡</div>
-                            <h4>Instant Access</h4>
-                            <p>Launch directly from your home screen without typing URLs.</p>
+                            <h4>{t("dl.feat1.title")}</h4>
+                            <p>{t("dl.feat1.desc")}</p>
                         </div>
                         <div className="feat-item">
                             <div className="feat-icon">📶</div>
-                            <h4>Offline Maps</h4>
-                            <p>Access heritage maps and survival guides even without internet.</p>
+                            <h4>{t("dl.feat2.title")}</h4>
+                            <p>{t("dl.feat2.desc")}</p>
                         </div>
                         <div className="feat-item">
                             <div className="feat-icon">🧊</div>
-                            <h4>Lightweight</h4>
-                            <p>Uses less than 10MB of space — lighter than any photo.</p>
+                            <h4>{t("dl.feat3.title")}</h4>
+                            <p>{t("dl.feat3.desc")}</p>
                         </div>
                     </div>
                 </section>
@@ -191,6 +190,9 @@ export default function DownloadPage() {
                     color: #fff;
                     min-height: 100vh;
                     padding-bottom: 5rem;
+                }
+                :global([data-lang="hi"]) .download-page {
+                    font-family: var(--font-martel), serif;
                 }
                 .container {
                     max-width: 1000px;
@@ -239,6 +241,12 @@ export default function DownloadPage() {
                     background: linear-gradient(to bottom, #fff, #D4AF37);
                     -webkit-background-clip: text;
                     -webkit-text-fill-color: transparent;
+                    padding: 0.1em 0; /* Prevents clipping of Hindi matras */
+                    line-height: 1.2;
+                }
+                :global([data-lang="hi"]) .title {
+                    font-family: var(--font-martel), serif;
+                    line-height: 1.4;
                 }
                 .subtitle {
                     font-size: 1.2rem;
@@ -304,8 +312,8 @@ export default function DownloadPage() {
                     font-size: 0.8rem;
                     flex-shrink: 0;
                 }
-                .step p { font-size: 0.95rem; line-height: 1.5; color: rgba(255,255,255,0.9); }
-                .step strong { color: #D4AF37; }
+                .step p { font-size: 0.95rem; line-height: 1.8; color: rgba(255,255,255,0.9); }
+                .step strong { color: #D4AF37; white-space: nowrap; }
                 
                 .primary-btn {
                     background: #D4AF37;

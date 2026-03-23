@@ -295,10 +295,10 @@ export default function HowToReachClient() {
                     </div>
                     <div className="htr-transport-grid">
                         {TRANSPORT.map((item) => {
-                            const isLocalTransport = item.mode === "Local Transport";
+                            const isLocalTransport = item._key === "local";
                             const showCardAtTop = cityMatch?.local && isLocalTransport;
                             return (
-                                <div className={`htr-card ${showCardAtTop ? "htr-card-featured" : ""}`} key={item.mode}>
+                                <div className={`htr-card ${showCardAtTop ? "htr-card-featured" : ""}`} key={item._key}>
                                     {item.badge && <span className="htr-badge">{t(item.badge)}</span>}
                                     <img src={item.icon} alt={t(`htr.mode.${item._key}`)} className="htr-card-img" />
                                     <div className="htr-card-body">

@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { useLanguage } from "@/context/LanguageContext";
-import WeatherWidget from "@/components/WeatherWidget";
 import { triggerHaptic } from "@/lib/haptics";
 import { motion } from "framer-motion";
 import { Map, Zap, Headphones } from 'lucide-react';
@@ -17,9 +16,6 @@ export default function HomeClient() {
         <div className="home-page-container">
             {/* ═══ HERO ══════════════════════════════════ */}
             <header id="home" className="hero">
-                <div className="hero-widgets">
-                    <WeatherWidget />
-                </div>
                 <div className="hero-overlay"></div>
                 <div className="hero-content">
                     <motion.div 
@@ -333,21 +329,6 @@ export default function HomeClient() {
                     overflow: hidden;
                 }
 
-                .hero-widgets {
-                    position: absolute;
-                    top: 10rem;
-                    right: 4rem;
-                    z-index: 10;
-                    display: flex;
-                    flex-direction: column;
-                    gap: 1.5rem;
-                }
-
-                @media (max-width: 1024px) {
-                    .hero-widgets {
-                        display: none;
-                    }
-                }
                 .hero-overlay {
                     position: absolute;
                     inset: 0;
