@@ -316,9 +316,12 @@ export default function HomeClient() {
 
                 @media (max-width: 768px) {
                     .hero {
-                        padding-top: 80px;
+                        height: auto;
+                        min-height: 100vh;
+                        padding-top: 120px;
+                        padding-bottom: 60px;
                         align-items: flex-start;
-                        padding-top: 15vh;
+                        overflow: visible;
                     }
                 }
 
