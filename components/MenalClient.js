@@ -100,7 +100,7 @@ export default function MenalClient() {
         >
             {/* ═══ HERO SECTION ═══════════════════════════ */}
             <section className="fort-hero">
-                <div className="hero-bg" style={{ backgroundImage: "url('/images/menal_hero.png')", backgroundPosition: 'center center' }}></div>
+                <div className="hero-bg" style={{ backgroundImage: "url('/images/menal_hero.jpg')", backgroundPosition: 'center center' }}></div>
                 <div className="hero-overlay"></div>
                 
                 <motion.div 
