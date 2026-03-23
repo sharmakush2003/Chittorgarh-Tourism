@@ -24,7 +24,13 @@ export default function HomeClient() {
         setIsScannerOpen(false);
         // Handle result (usually it's a URL)
         if (result.startsWith('http')) {
-            window.location.href = result;
+            // Local testing support: if scanned URL is for production, translate to current origin
+            const productionUrl = "https://chittorgarh-tourism.in";
+            let targetUrl = result;
+            if (result.startsWith(productionUrl)) {
+                targetUrl = result.replace(productionUrl, window.location.origin);
+            }
+            window.location.href = targetUrl;
         } else {
             alert("Scanned: " + result);
         }

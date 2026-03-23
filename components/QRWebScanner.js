@@ -13,44 +13,67 @@ export default function QRWebScanner({ onClose, onResult }) {
     const [hasFlash, setHasFlash] = useState(false);
 
     useEffect(() => {
-        const qrCode = new Html5Qrcode("qr-reader");
-        setHtml5QrCode(qrCode);
+        let qrCode = null;
 
-        const config = { 
-            fps: 20, 
-            qrbox: (viewfinderWidth, viewfinderHeight) => {
-                const minEdge = Math.min(viewfinderWidth, viewfinderHeight);
-                const qrboxSize = Math.floor(minEdge * 0.7);
-                return { width: qrboxSize, height: qrboxSize };
+        const startScanner = async () => {
+            try {
+                // Check if in secure context
+                if (!window.isSecureContext && window.location.hostname !== "localhost") {
+                    setError("Camera access requires a secure (HTTPS) connection. Please access the site via HTTPS or localhost.");
+                    return;
+                }
+
+                // Pre-check for cameras
+                const devices = await Html5Qrcode.getCameras();
+                if (!devices || devices.length === 0) {
+                    setError("No cameras found on your device.");
+                    return;
+                }
+
+                qrCode = new Html5Qrcode("qr-reader");
+                setHtml5QrCode(qrCode);
+
+                const config = { 
+                    fps: 20, 
+                    qrbox: (viewfinderWidth, viewfinderHeight) => {
+                        const minEdge = Math.min(viewfinderWidth, viewfinderHeight);
+                        // Ensure a minimum size for the qrbox
+                        const qrboxSize = Math.max(200, Math.floor(minEdge * 0.7));
+                        return { width: qrboxSize, height: qrboxSize };
+                    }
+                };
+
+                await qrCode.start(
+                    { facingMode: "environment" },
+                    config,
+                    (decodedText) => {
+                        triggerHaptic('success');
+                        // Call onResult immediately
+                        onResult(decodedText);
+                        // Stop in background
+                        qrCode.stop().catch(e => console.error("background stop err", e));
+                    },
+                    (errorMessage) => {
+                        // ignore
+                    }
+                );
+
+                // Check for flash
+                const capabilities = qrCode.getRunningTrackCapabilities();
+                if (capabilities.torch) {
+                    setHasFlash(true);
+                }
+            } catch (err) {
+                console.error("Scanner Start Error:", err);
+                setError(err.message || "Failed to start camera. Please ensure permissions are granted.");
             }
         };
 
-        qrCode.start(
-            { facingMode: "environment" },
-            config,
-            (decodedText) => {
-                triggerHaptic('success');
-                qrCode.stop().then(() => {
-                    onResult(decodedText);
-                });
-            },
-            (errorMessage) => {
-                // Ignore silent errors
-            }
-        ).then(() => {
-            // Check if flash is supported
-            const cameras = qrCode.getRunningTrackCapabilities();
-            if (cameras.torch) {
-                setHasFlash(true);
-            }
-        }).catch(err => {
-            console.error(err);
-            setError("Camera permission denied or camera not found.");
-        });
+        startScanner();
 
         return () => {
-            if (qrCode.isScanning) {
-                qrCode.stop().catch(err => console.error("Error stopping scanner:", err));
+            if (qrCode && qrCode.isScanning) {
+                qrCode.stop().catch(err => console.error("Cleanup stop err:", err));
             }
         };
     }, []);
