@@ -22,10 +22,6 @@ import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { triggerHaptic } from "@/lib/haptics";
 import QRScannerButton from "./QRScannerButton";
-import { triggerHaptic } from "@/lib/haptics";
-import QRScannerButton from "./QRScannerButton";
-import { triggerHaptic } from "@/lib/haptics";
-import QRScannerButton from "./QRScannerButton";
 
 export default function FortDetailsClient() {
     const { t, lang } = useLanguage();
