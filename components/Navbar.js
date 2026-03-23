@@ -57,6 +57,8 @@ export default function Navbar() {
         { href: "/how-to-reach", label: t("nav.howToReach") },
     ];
 
+    const isDeveloperPath = pathname === "/developer";
+
     if (isHiddenPath) return null;
 
     return (
@@ -66,9 +68,9 @@ export default function Navbar() {
                     href="/" 
                     className="logo"
                     style={{ 
-                        opacity: isMenuOpen ? 0 : 1, 
+                        opacity: isMenuOpen || isDeveloperPath ? 0 : 1, 
                         transition: 'opacity 0.3s ease',
-                        pointerEvents: isMenuOpen ? 'none' : 'auto'
+                        pointerEvents: isMenuOpen || isDeveloperPath ? 'none' : 'auto'
                     }}
                 >
                     <div className="logo-name">
@@ -168,11 +170,22 @@ export default function Navbar() {
                     {t("nav.download") || "Download App"}
                 </Link>
 
+                <Link
+                    href="/developer"
+                    className={`mobile-link ${isActive("/developer")} mobile-developer-link`}
+                    onClick={() => setIsMenuOpen(false)}
+                    style={{ 
+                        transitionDelay: `${0.15 + (navLinks.length + 2) * 0.08}s`
+                    }}
+                >
+                    {t("nav.developer") || "Developer Info"}
+                </Link>
+
 
                 {/* Mobile Language Selection */}
                 <div 
                     className="mobile-lang-section" 
-                    style={{ transitionDelay: `${0.15 + (navLinks.length + 2) * 0.08}s` }}
+                    style={{ transitionDelay: `${0.15 + (navLinks.length + 3) * 0.08}s` }}
                 >
                     <span className="mobile-lang-label">{t("nav.selectLanguage")}</span>
                     <div className="mobile-lang-toggle" data-active={lang}>

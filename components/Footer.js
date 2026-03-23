@@ -81,16 +81,15 @@ export default function Footer() {
 
                 {/* Bottom bar */}
                 <div className="footer-bottom">
-                    <p className="footer-copy">{t("footer.copy")}</p>
-                    <p className="footer-copy">{t("footer.rights") || "All Rights Reserved"}</p>
-                    <p className="footer-made-with">
-                        {t("footer.madeWith1") || "Made with "}
-                        <span className="footer-heart" aria-label="love">❤️</span>
-                        {t("footer.madeWith2") || " by "}
-                        <span className="footer-author">{t("footer.author") || "Kush Sharma & Lav Sharma"}</span>
-                    </p>
-                    <div className="footer-copy-info">
-                        <p className="footer-location">{t("footer.locationShort") || "Chittorgarh, Rajasthan"}</p>
+                    <div className="footer-bottom-divider" />
+                    <div className="footer-copyright-info">
+                        <span className="footer-copy">{t("footer.copy")}</span>
+                        <span className="footer-separator">|</span>
+                        <span className="footer-rights">{t("footer.rights") || "All Rights Reserved"}</span>
+                    </div>
+                    <div className="footer-meta-info">
+                        <span className="footer-location-icon">📍</span>
+                        <span className="footer-location-text">{t("footer.locationShort") || "Chittorgarh, Rajasthan"}</span>
                     </div>
                 </div>
             </div>

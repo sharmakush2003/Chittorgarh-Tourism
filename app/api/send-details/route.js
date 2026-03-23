@@ -252,7 +252,6 @@ export async function POST(request) {
                   &copy; ${year} Chittorgarh Tourism. All rights reserved.
                 </p>
                 <p style="margin:8px 0 0; font-size:12px; color:#D4AF37; font-weight:600; letter-spacing:0.5px;">
-                  Developed by Kush Sharma & Lav Sharma
                 </p>
                 <p style="margin:16px 0 0; font-size:11px; color:rgba(255,255,255,0.2); line-height:1.5; font-style:italic;">
                   ${footerTag}
