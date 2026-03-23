@@ -152,7 +152,7 @@ export default function DeveloperClient() {
                         viewport={{ once: true }}
                         className="section-header"
                     >
-                        <h2 className="section-title text-gold">Meet the Team</h2>
+                        <h2 className="section-title text-gold">{t("dev.meetTheTeam")}</h2>
                         <div className="title-divider"></div>
                     </motion.div>
 
