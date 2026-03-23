@@ -13,30 +13,7 @@ import { motion } from "framer-motion";
 import { triggerHaptic } from "@/lib/haptics";
 import QRScannerButton from "./QRScannerButton";
  
-const Waveform = () => (
-    <div style={{ display: 'flex', alignItems: 'center', gap: '2px', height: '18px', width: '24px', justifyContent: 'center' }}>
-        {[...Array(4)].map((_, i) => (
-            <motion.div
-                key={i}
-                animate={{
-                    height: ["4px", "14px", "8px", "16px", "4px"],
-                    opacity: [0.3, 1, 0.5, 1, 0.3]
-                }}
-                transition={{
-                    duration: 1.2,
-                    repeat: Infinity,
-                    delay: i * 0.15,
-                    ease: "easeInOut"
-                }}
-                style={{
-                    width: '2.5px',
-                    backgroundColor: 'currentColor',
-                    borderRadius: '4px',
-                }}
-            />
-        ))}
-    </div>
-);
+import { Waveform } from "./Waveform";
 
 export default function MenalClient() {
     const { t, lang } = useLanguage();
