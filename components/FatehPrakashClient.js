@@ -413,6 +413,13 @@ export default function FatehPrakashClient() {
                 }
 
                 @media (max-width: 768px) {
+                    .fort-hero {
+                        align-items: flex-start;
+                        padding-top: 110px;
+                    }
+                    .back-btn {
+                        margin-bottom: 2rem;
+                    }
                     .fort-section { padding: 8rem 1.25rem; }
                     .section-header { margin-bottom: 4rem; }
                     .hero-title { font-size: 3.5rem; }

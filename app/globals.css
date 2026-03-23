@@ -311,6 +311,13 @@ h1 {
   color: #fff;
 }
 
+@media (max-width: 768px) {
+  .hero {
+    padding-top: 100px;
+    align-items: flex-start;
+  }
+}
+
 .hero::before {
   content: "";
   position: absolute;

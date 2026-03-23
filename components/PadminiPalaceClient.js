@@ -668,7 +668,15 @@ export default function PadminiPalaceClient() {
                 }
 
                 @media (max-width: 768px) {
-                    .fort-hero { padding-top: 6rem; padding-bottom: 4rem; min-height: 100vh; }
+                    .fort-hero { 
+                        align-items: flex-start;
+                        padding-top: 110px; 
+                        padding-bottom: 4rem; 
+                        min-height: 100vh; 
+                    }
+                    .back-btn {
+                        margin-bottom: 2rem;
+                    }
                     .hero-title { font-size: 2.8rem; line-height: 1.15 !important; margin-bottom: 1.5rem; }
                     .hero-desc { font-size: 1rem; margin-bottom: 2rem; }
                     .hero-stats { flex-direction: column; gap: 1.5rem; border-top: none; padding-top: 1rem; }

@@ -542,7 +542,15 @@ export default function NagariClient() {
                 }
 
                 @media (max-width: 768px) {
-                    .fort-hero { padding-top: 6rem; padding-bottom: 4rem; min-height: 70vh; }
+                    .fort-hero { 
+                        align-items: flex-start;
+                        padding-top: 110px; 
+                        padding-bottom: 4rem; 
+                        min-height: 70vh; 
+                    }
+                    .back-btn {
+                        margin-bottom: 2rem;
+                    }
                     .hero-title { font-size: 2.8rem; line-height: 1.15 !important; }
                     .fort-section { padding: 4rem 1.25rem; }
                     .section-title { font-size: 2.4rem; }

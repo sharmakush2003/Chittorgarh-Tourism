@@ -517,6 +517,16 @@ export default function LightSoundShowClient() {
                     }
                 }
 
+                @media (max-width: 768px) {
+                    .fort-hero {
+                        align-items: flex-start;
+                        padding-top: 110px;
+                    }
+                    .back-btn {
+                        margin-bottom: 2rem;
+                    }
+                }
+
                 html {
                     scroll-behavior: smooth;
                 }

@@ -373,6 +373,16 @@ export default function GaumukhClient() {
                     .timeline-item { flex-direction: row; align-items: center; gap: 4rem; } 
                     .timeline-item:nth-child(even) { flex-direction: row-reverse; }
                 }
+
+                @media (max-width: 768px) {
+                    .fort-hero {
+                        align-items: flex-start;
+                        padding-top: 110px;
+                    }
+                    .back-btn {
+                        margin-bottom: 2rem;
+                    }
+                }
                 .timeline-img-wrapper { flex: 1; border-radius: 12px; overflow: hidden; aspect-ratio: 16/10; border: 1px solid rgba(212,175,55,0.2); }
                 .timeline-img { width: 100%; height: 100%; object-fit: cover; }
                 .timeline-content { flex: 1.2; }

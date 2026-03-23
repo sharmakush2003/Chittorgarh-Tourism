@@ -391,7 +391,13 @@ export default function KumbhaShyamClient() {
                 }
 
                 @media (max-width: 768px) {
-                    .fort-section { padding: 8rem 1.5rem; }
+                    .fort-hero {
+                        align-items: flex-start;
+                        padding-top: 110px;
+                    }
+                    .back-btn {
+                        margin-bottom: 2rem;
+                    }
                     .fort-section { padding: 8rem 1.5rem; }
                     .section-header { margin-bottom: 5rem; }
                     .hero-title { font-size: 4rem; }

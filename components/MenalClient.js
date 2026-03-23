@@ -383,13 +383,18 @@ export default function MenalClient() {
                 }
 
                 @media (max-width: 768px) {
-                    .fort-hero { padding-top: 8rem; padding-bottom: 0 !important; min-height: auto !important; }
+                    .fort-hero {
+                        align-items: flex-start;
+                        padding-top: 110px;
+                        padding-bottom: 0 !important;
+                        min-height: auto !important;
+                    }
                     .hero-title { font-size: 2.2rem; line-height: 1.2 !important; margin-bottom: 0.8rem; }
                     .hero-desc { font-size: 0.9rem; line-height: 1.5; margin-bottom: 1rem; padding: 0 1rem; }
                     .fort-section { padding: 1.5rem 1.25rem; }
                     .section-header { margin-bottom: 1rem; }
                     .section-title { font-size: 2rem; }
-                    .back-btn { margin-bottom: 1.2rem; font-size: 0.75rem; padding: 0.5rem 1rem; }
+                    .back-btn { margin-bottom: 2rem; font-size: 0.75rem; padding: 0.5rem 1rem; }
                     
                     :global([data-lang="hi"]) .hero-title { font-size: 2rem; line-height: 1.4 !important; }
                     :global([data-lang="hi"]) .section-title { font-size: 1.8rem; }
