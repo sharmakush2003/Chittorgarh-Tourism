@@ -61,11 +61,10 @@
     "footer.connect": "Connect",
     "footer.copy": "© 2026 Chittorgarh Tourism",
     "modal.welcome": "Welcome",
-    "modal.sub": "Select your country to personalize your experience.",
-    "modal.search": "Search countries...",
+    "modal.sub": "Please select your preferred language to begin your journey.",
     "modal.skip": "Skip — Continue in English",
     "modal.confirm": "Continue",
-    "modal.country": "Country",
+
     "modal.language": "Language",
     "modal.detected": "We detected you're in",
     "stays.title": "Royal Stays",

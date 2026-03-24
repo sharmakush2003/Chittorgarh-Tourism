@@ -4,12 +4,7 @@ import { useState, useEffect } from "react";
 import { useLanguage } from "@/context/LanguageContext";
 import { usePathname } from "next/navigation";
 
-const COUNTRIES = [
-    { code: "IN", name: "India (भारत)", lang: "hi" },
-    { code: "US", name: "United States", lang: "en" },
-    { code: "GB", name: "United Kingdom", lang: "en" },
-    { code: "OT", name: "Other / International", lang: "en" },
-];
+
 
 const LANGUAGES = [
     { code: "en", name: "English" },
@@ -18,7 +13,7 @@ const LANGUAGES = [
 
 export default function LanguagePrompt() {
     const [isVisible, setIsVisible] = useState(false);
-    const [country, setCountry] = useState("");
+
     const [language, setLanguage] = useState("en");
     const { t, changeLanguage } = useLanguage();
     const pathname = usePathname();
@@ -37,17 +32,10 @@ export default function LanguagePrompt() {
         }
     }, [pathname]);
 
-    const handleCountryChange = (e) => {
-        const cCode = e.target.value;
-        setCountry(cCode);
-        const found = COUNTRIES.find(c => c.code === cCode);
-        if (found) {
-            setLanguage(found.lang);
-        }
-    };
+
 
     const handleConfirm = () => {
-        if (!country) return; // Require country selection
+
         changeLanguage(language);
         setIsVisible(false);
     };
@@ -157,15 +145,7 @@ export default function LanguagePrompt() {
                     {t("modal.sub")}
                 </p>
 
-                <div className="form-group">
-                    <label>{t("modal.country") || "Country"}</label>
-                    <select value={country} onChange={handleCountryChange}>
-                        <option value="" disabled>{t("modal.search") || "Select Country"}</option>
-                        {COUNTRIES.map(c => (
-                            <option key={c.code} value={c.code}>{c.name}</option>
-                        ))}
-                    </select>
-                </div>
+
 
                 <div className="form-group">
                     <label>{t("modal.language") || "Language"}</label>
@@ -179,7 +159,7 @@ export default function LanguagePrompt() {
                 <button
                     className="confirm-btn"
                     onClick={handleConfirm}
-                    disabled={!country}
+                    disabled={false}
                 >
                     {t("modal.confirm") || "Continue"}
                 </button>

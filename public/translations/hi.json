@@ -61,11 +61,10 @@
     "footer.connect": "Connect",
     "footer.copy": "© 2026 Chittorgarh Tourism",
     "modal.welcome": "स्वागत है",
-    "modal.sub": "अपने अनुभव को निजीकृत करने के लिए अपना देश चुनें।",
-    "modal.search": "देश खोजें...",
+    "modal.sub": "अपनी यात्रा शुरू करने के लिए कृपया अपनी पसंदीदा भाषा चुनें।",
     "modal.skip": "छोड़ें — अंग्रेजी में जारी रखें",
     "modal.confirm": "जारी रखें",
-    "modal.country": "देश",
+
     "modal.language": "भाषा",
     "modal.detected": "हमने पाया कि आप यहाँ हैं",
     "stays.title": "राजसी ठहराव",
