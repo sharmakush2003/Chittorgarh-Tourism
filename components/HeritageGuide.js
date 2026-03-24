@@ -59,13 +59,13 @@ export default function HeritageGuide() {
         // 0. Language / Greeting Detection
         if (['hindi', 'हिंदी', 'हिन्दी'].includes(lowerQuery)) {
             return {
-                text: "निश्चित रूप से! अब मैं आपसे हिंदी में बात करूँगा। मैं आपकी कैसे मदद कर सकता हूँ? ✨ [रॉयल AI मार्गदर्शक]",
+                text: "निश्चित रूप से! अब मैं आपसे हिंदी में बात करूँगा। मैं आपकी कैसे मदद कर सकता हूँ? ✨ [AI मार्गदर्शक]",
                 isHindi: true
             };
         }
         if (['english', 'अंग्रेजी', 'अंग्रेज़ी'].includes(lowerQuery)) {
             return {
-                text: "Of course! I will now converse with you in English. How can I help you explore Chittorgarh? ✨ [Royal AI Guide]",
+                text: "Of course! I will now converse with you in English. How can I help you explore Chittorgarh? ✨ [AI Guide]",
                 isHindi: false
             };
         }
@@ -76,8 +76,8 @@ export default function HeritageGuide() {
         if (isGreetings) {
              return {
                 text: isHindi 
-                    ? "नमस्ते! मैं चित्तौड़गढ़ का रॉयल AI मार्गदर्शक हूँ। मैं इस महान विरासत को खोजने में आपकी सहायता कर सकता हूँ। आप क्या जानना चाहेंगे? ✨"
-                    : "Greetings! I am the Royal AI Guide of Chittorgarh. I can assist you in exploring this great heritage. What would you like to know? ✨",
+                    ? "नमस्ते! मैं चित्तौड़गढ़ का AI मार्गदर्शक हूँ। मैं इस महान विरासत को खोजने में आपकी सहायता कर सकता हूँ। आप क्या जानना चाहेंगे? ✨"
+                    : "Greetings! I am the AI Guide of Chittorgarh. I can assist you in exploring this great heritage. What would you like to know? ✨",
                 isHindi: isHindi
              };
         }
@@ -118,7 +118,7 @@ export default function HeritageGuide() {
         // 3. Authentic Response (Markdown links handled by renderMessage)
         const responseCtx = isHindi ? (bestMatch.hi || bestMatch.en) : bestMatch.en;
         return {
-            text: responseCtx + " ✨ [Royal AI Guide]",
+            text: responseCtx + " ✨ [AI Guide]",
             isHindi: isHindi
         };
     };
@@ -246,7 +246,7 @@ export default function HeritageGuide() {
                 ) : (
                     <img
                         src="/vijay_stambh.jpg"
-                        alt="Royal Guide"
+                        alt="Guide"
                         className="guide-image"
                     />
                 )}
