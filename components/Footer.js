@@ -10,6 +10,7 @@ const navLinks = [
     { key: "nav.explore", href: "/explore" },
     { key: "nav.stays", href: "/stays" },
     { key: "nav.planTrip", href: "/plan" },
+    { key: "nav.contactUs", href: "/contact-us" },
     { key: "footer.download", href: "/download" },
 ];
 
