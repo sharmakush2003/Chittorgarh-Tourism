@@ -149,11 +149,22 @@ export default function Navbar() {
 
 
                 <Link
+                    href="/panch-gaurav"
+                    className={`mobile-link ${isActive("/panch-gaurav")}`}
+                    onClick={() => setIsMenuOpen(false)}
+                    style={{ 
+                        transitionDelay: `${0.15 + (navLinks.length) * 0.08}s`
+                    }}
+                >
+                    {t("nav.panchGaurav") || "Panch Gaurav"}
+                </Link>
+
+                <Link
                     href="/emergency"
                     className={`mobile-link ${isActive("/emergency")} mobile-emergency-link`}
                     onClick={() => setIsMenuOpen(false)}
                     style={{ 
-                        transitionDelay: `${0.15 + (navLinks.length) * 0.08}s`
+                        transitionDelay: `${0.15 + (navLinks.length + 1) * 0.08}s`
                     }}
                 >
                     {t("nav.emergency") || "Emergency Info"}
@@ -164,7 +175,7 @@ export default function Navbar() {
                     className={`mobile-link ${isActive("/download")} mobile-install-link`}
                     onClick={() => setIsMenuOpen(false)}
                     style={{ 
-                        transitionDelay: `${0.15 + (navLinks.length + 1) * 0.08}s`
+                        transitionDelay: `${0.15 + (navLinks.length + 2) * 0.08}s`
                     }}
                 >
                     {t("nav.download") || "Download App"}
@@ -175,7 +186,7 @@ export default function Navbar() {
                     className={`mobile-link ${isActive("/contact-us")} mobile-contact-link`}
                     onClick={() => setIsMenuOpen(false)}
                     style={{ 
-                        transitionDelay: `${0.15 + (navLinks.length + 2) * 0.08}s`
+                        transitionDelay: `${0.15 + (navLinks.length + 3) * 0.08}s`
                     }}
                 >
                     {t("nav.contactUs") || "Contact Us"}
@@ -185,7 +196,7 @@ export default function Navbar() {
                 {/* Mobile Language Selection */}
                 <div 
                     className="mobile-lang-section" 
-                    style={{ transitionDelay: `${0.15 + (navLinks.length + 3) * 0.08}s` }}
+                    style={{ transitionDelay: `${0.15 + (navLinks.length + 4) * 0.08}s` }}
                 >
                     <span className="mobile-lang-label">{t("nav.selectLanguage")}</span>
                     <div className="mobile-lang-toggle" data-active={lang}>
