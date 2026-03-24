@@ -38,29 +38,11 @@ export default function ExploreClient() {
                             bookingLink="https://obms-tourist.rajasthan.gov.in/place-details/Chittorgarh-Fort"
                         />
                         <GlassCard
-                            title={t("attr.bassi.name")}
-                            desc={t("attr.bassi.desc")}
-                            time={t("attr.bassi.time")}
-                            dist={t("attr.bassi.dist")}
-                            delay={1}
-                            link="/bassi"
-                            image="/images/bassi_path.jpg"
-                        />
-                        <GlassCard
-                            title={t("attr.sanwaliya.name")}
-                            desc={t("attr.sanwaliya.desc")}
-                            time={t("attr.sanwaliya.time")}
-                            dist={t("attr.sanwaliya.dist")}
-                            delay={2}
-                            link="/sanwaliya"
-                            image="/images/sanwaliya_idol.jpg"
-                        />
-                        <GlassCard
                             title={t("attr.vijay.name")}
                             desc={t("attr.vijay.desc")}
                             time={t("attr.vijay.time")}
                             dist={t("attr.vijay.dist")}
-                            delay={3}
+                            delay={1}
                             link="/vijay-stambh"
                             image="/vijay_stambh.jpg"
                             imgPos="top"
@@ -70,53 +52,17 @@ export default function ExploreClient() {
                             desc={t("attr.kirti.desc")}
                             time={t("attr.kirti.time")}
                             dist={t("attr.kirti.dist")}
-                            delay={4}
+                            delay={2}
                             link="/kirti-stambh"
                             image="/kirti_stambha.jpg"
                             imgPos="top"
-                        />
-                        <GlassCard
-                            title={t("attr.kalika.name")}
-                            desc={t("attr.kalika.desc")}
-                            time={t("attr.kalika.time")}
-                            dist={t("attr.kalika.dist")}
-                            delay={5}
-                            link="/kalika-temple"
-                            image="/kalika_mata_temple.jpg"
-                        />
-                        <GlassCard
-                            title={t("attr.jain.name")}
-                            desc={t("attr.jain.desc")}
-                            time={t("attr.jain.time")}
-                            dist={t("attr.jain.dist")}
-                            delay={6}
-                            link="/jain-temples"
-                            image="/jain_temples.jpg"
-                        />
-                        <GlassCard
-                            title={t("attr.gaumukh.name")}
-                            desc={t("attr.gaumukh.desc")}
-                            time={t("attr.gaumukh.time")}
-                            dist={t("attr.gaumukh.dist")}
-                            delay={7}
-                            link="/gaumukh"
-                            image="/gaumukh_reservoir.jpg"
-                        />
-                        <GlassCard
-                            title={t("attr.fateh.name")}
-                            desc={t("attr.fateh.desc")}
-                            time={t("attr.fateh.time")}
-                            dist={t("attr.fateh.dist")}
-                            delay={8}
-                            link="/fateh-prakash"
-                            image="/fateh_prakash_palace.jpg"
                         />
                         <GlassCard
                             title={t("attr.kumbha_palace.name")}
                             desc={t("attr.kumbha_palace.desc")}
                             time={t("attr.kumbha_palace.time")}
                             dist={t("attr.kumbha_palace.dist")}
-                            delay={9}
+                            delay={3}
                             link="/kumbha-palace"
                             image="/rana_kumbha_palace.jpg"
                         />
@@ -125,54 +71,91 @@ export default function ExploreClient() {
                             desc={t("padmini.hero.desc")}
                             time="10:00 AM - 5:00 PM"
                             dist="Within Fort"
-                            delay={10}
+                            delay={4}
                             link="/padmini-palace"
                             image="/Each page Pics/Fort pics/Padmini Palace.jpg"
+                        />
+                        <GlassCard
+                            title={t("attr.fateh.name")}
+                            desc={t("attr.fateh.desc")}
+                            time={t("attr.fateh.time")}
+                            dist={t("attr.fateh.dist")}
+                            delay={5}
+                            link="/fateh-prakash"
+                            image="/fateh_prakash_palace.jpg"
+                        />
+                        <GlassCard
+                            title={t("attr.gaumukh.name")}
+                            desc={t("attr.gaumukh.desc")}
+                            time={t("attr.gaumukh.time")}
+                            dist={t("attr.gaumukh.dist")}
+                            delay={6}
+                            link="/gaumukh"
+                            image="/gaumukh_reservoir.jpg"
+                        />
+                        <GlassCard
+                            title={t("attr.kalika.name")}
+                            desc={t("attr.kalika.desc")}
+                            time={t("attr.kalika.time")}
+                            dist={t("attr.kalika.dist")}
+                            delay={7}
+                            link="/kalika-temple"
+                            image="/kalika_mata_temple.jpg"
                         />
                         <GlassCard
                             title={t("attr.meera.name")}
                             desc={t("attr.meera.desc")}
                             time={t("attr.meera.time")}
                             dist={t("attr.meera.dist")}
-                            delay={11}
+                            delay={8}
                             link="/meera-bai-temple"
                             image="/meerabai_temple.jpg"
-                        />
-                        <GlassCard
-                            title={t("attr.ratan.name")}
-                            desc={t("attr.ratan.desc")}
-                            time={t("attr.ratan.time")}
-                            dist={t("attr.ratan.dist")}
-                            delay={12}
-                            link="/ratan-palace"
-                            image="/ratan_singh_palace.jpg"
-                        />
-                        <GlassCard
-                            title={t("attr.nagari.name")}
-                            desc={t("attr.nagari.desc")}
-                            time={t("attr.nagari.time")}
-                            dist={t("attr.nagari.dist")}
-                            delay={13}
-                            link="/nagari"
-                            image="/images/Nagari.jpg"
-                        />
-                        <GlassCard
-                            title={t("attr.sitamata.name")}
-                            desc={t("attr.sitamata.desc")}
-                            time={t("attr.sitamata.time")}
-                            dist={t("attr.sitamata.dist")}
-                            delay={14}
-                            link="/sitamata"
-                            image="/images/sitamata_1.jpg"
                         />
                         <GlassCard
                             title={t("attr.kumbha_shyam.name")}
                             desc={t("attr.kumbha_shyam.desc")}
                             time={t("attr.kumbha_shyam.time")}
                             dist={t("attr.kumbha_shyam.dist")}
-                            delay={13}
+                            delay={9}
                             link="/kumbha-shyam"
                             image="/kumbha_shyam_temple.jpg"
+                        />
+                        <GlassCard
+                            title={t("attr.jain.name")}
+                            desc={t("attr.jain.desc")}
+                            time={t("attr.jain.time")}
+                            dist={t("attr.jain.dist")}
+                            delay={10}
+                            link="/jain-temples"
+                            image="/jain_temples.jpg"
+                        />
+                        <GlassCard
+                            title={t("attr.ratan.name")}
+                            desc={t("attr.ratan.desc")}
+                            time={t("attr.ratan.time")}
+                            dist={t("attr.ratan.dist")}
+                            delay={11}
+                            link="/ratan-palace"
+                            image="/ratan_singh_palace.jpg"
+                        />
+                        <GlassCard
+                            title={t("attr.light.name")}
+                            desc={t("attr.light.desc")}
+                            time={t("attr.light.time")}
+                            dist={t("attr.light.dist")}
+                            delay={12}
+                            link="/light-and-sound-show"
+                            image="/light_sound_show.jpg"
+                            bookingLink="https://obms-tourist.rajasthan.gov.in/place-details/Chittorgarh-Fort-light-and-sound-show"
+                        />
+                        <GlassCard
+                            title={t("attr.sanwaliya.name")}
+                            desc={t("attr.sanwaliya.desc")}
+                            time={t("attr.sanwaliya.time")}
+                            dist={t("attr.sanwaliya.dist")}
+                            delay={13}
+                            link="/sanwaliya"
+                            image="/images/sanwaliya_idol.jpg"
                         />
                         <GlassCard
                             title={t("attr.menal.name")}
@@ -184,14 +167,31 @@ export default function ExploreClient() {
                             image="/menal_waterfall.jpg"
                         />
                         <GlassCard
-                            title={t("attr.light.name")}
-                            desc={t("attr.light.desc")}
-                            time={t("attr.light.time")}
-                            dist={t("attr.light.dist")}
+                            title={t("attr.nagari.name")}
+                            desc={t("attr.nagari.desc")}
+                            time={t("attr.nagari.time")}
+                            dist={t("attr.nagari.dist")}
                             delay={15}
-                            link="/light-and-sound-show"
-                            image="/light_sound_show.jpg"
-                            bookingLink="https://obms-tourist.rajasthan.gov.in/place-details/Chittorgarh-Fort-light-and-sound-show"
+                            link="/nagari"
+                            image="/images/Nagari.jpg"
+                        />
+                        <GlassCard
+                            title={t("attr.bassi.name")}
+                            desc={t("attr.bassi.desc")}
+                            time={t("attr.bassi.time")}
+                            dist={t("attr.bassi.dist")}
+                            delay={16}
+                            link="/bassi"
+                            image="/images/bassi_path.jpg"
+                        />
+                        <GlassCard
+                            title={t("attr.sitamata.name")}
+                            desc={t("attr.sitamata.desc")}
+                            time={t("attr.sitamata.time")}
+                            dist={t("attr.sitamata.dist")}
+                            delay={17}
+                            link="/sitamata"
+                            image="/images/sitamata_1.jpg"
                         />
                     </div>
 
