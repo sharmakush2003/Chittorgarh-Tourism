@@ -35,7 +35,7 @@ const TRANSPORT = [
         icon: "/airport.jpg",
         mode: "By Air",
         badge: null,
-        bookUrl: "https://www.makemytrip.com/flights/",
+        bookUrl: "https://www.google.com/search?q=flight+booking+sites&oq=flight+booking+sites+&gs_lcrp=EgZjaHJvbWUyBggAEEUYOTIHCAEQABiABDIHCAIQABiABDIHCAMQABiABDIHCAQQABiABDIHCAUQABiABDIHCAYQABiABDIHCAcQABiABDIHCAgQABiABDIHCAkQABiABNIBCDgyMTRqMGo3qAIAsAIA&sourceid=chrome&ie=UTF-8",
     },
     {
         _key: "bus",
