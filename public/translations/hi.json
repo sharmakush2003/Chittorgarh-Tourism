@@ -108,7 +108,7 @@
     "btn.directions": "रास्ता देखें",
     "btn.readMore": "अधिक पढ़ें",
     "btn.shareInfo": "जानकारी साझा करें",
-    "btn.directionsToFort": "{{hotel}} से चित्तौड़गढ़ किले के लिए दिशा-निर्देश",
+    "btn.getDirections": "{{hotel}} के लिए रास्ता प्राप्त करें",
     "explore.hero.title": "प्रमुख पर्यटक आकर्षण",
     "explore.hero.subtitle": "चित्तौड़गढ़ की कालजयी विरासत की खोज करें",
     "exp.eyebrow": "स्मार्ट पर्यटन",

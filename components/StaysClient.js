@@ -19,7 +19,6 @@ export default function StaysClient() {
             driveKm: "9.9",
             distStation: "10.5 km",
             image: "/kesarbagh.webp",
-            mapsLink: "https://www.google.com/maps/dir/Kesar+Bagh+Palace,+VH5R%2BC9,+Barada,+Rajasthan+312025/Chittorgarh+Fort,+Chittorgarh,+Rajasthan+312001/@24.8709369,74.5981766,6321m",
             mmtUrl: "https://www.makemytrip.com/hotels/kesarbagh_palace-details-chittorgarh.html"
         },
         {
@@ -46,7 +45,6 @@ export default function StaysClient() {
             driveKm: "2.3",
             distStation: "2.0 km",
             image: "/pride_of_chittor.jpg",
-            mapsLink: "https://www.google.com/maps/dir/Hotel+Pride+of+Chittor,+58-59,+Radhe+Empire,+Gatiyawali+Road,+Gandhi+Nagar+Sec+5,+Chittorgarh,+Rajasthan+312001/Chittorgarh+Fort,+Chittorgarh,+Rajasthan+312001/@24.8849755,74.6353211,1580m",
             mmtUrl: "https://www.makemytrip.com/hotels/hotel_pride_of_chittor-details-chittorgarh.html"
         }
     ];
@@ -55,7 +53,7 @@ export default function StaysClient() {
         name: "RTDC Hotel Panna",
         walkKm: "6.3",
         driveKm: "4.0",
-        mapsLink: "https://www.google.com/maps/dir/R.T.D.C.+Hotel+Panna,+Road,+near+Railway+Station,+Pratap+Nagar,+Chittorgarh,+Rajasthan+312205/Chittorgarh+Fort,+Chittorgarh,+Rajasthan+312001/@24.8845396,74.6236077,3160m"
+        mapsLink: "https://www.google.com/maps/dir/?api=1&destination=RTDC+Hotel+Panna+Chittorgarh"
     };
 
     return (
@@ -197,7 +195,7 @@ export default function StaysClient() {
                                         className="btn-featured-booking secondary"
                                     >
                                         <Navigation size={18} />
-                                        <span>{t("btn.directionsToFort", { hotel: rtdcStats.name })}</span>
+                                        <span>{t("btn.getDirections", { hotel: rtdcStats.name })}</span>
                                     </a>
                                 </div>
                             </div>
@@ -532,7 +530,7 @@ function HotelGlassCard({ hotel, delay, t }) {
                     <div className="card-actions-row">
                         <button onClick={handleDirections} className="action-btn-directions">
                             <Navigation size={16} />
-                            <span>{t("btn.directionsToFort", { hotel: t(`hotel.${hotel.id}.name`) })}</span>
+                            <span>{t("btn.getDirections", { hotel: t(`hotel.${hotel.id}.name`) })}</span>
                         </button>
                     </div>
                     
