@@ -205,7 +205,44 @@ export default function ContactUsClient() {
                     </div>
                 </section>
 
+                {/* ═══ MEDIA CONTRIBUTION SECTION ══════════════════════════ */}
+                <section id="media" className="fort-section mesh-bg">
+                    <motion.div 
+                        initial={{ opacity: 0, y: 30 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        className="section-header"
+                    >
+                        <h2 className="section-title text-gold">{t("contact.media.title")}</h2>
+                        <div className="title-divider"></div>
+                    </motion.div>
 
+                    <div style={{ display: 'flex', justifyContent: 'center' }}>
+                        <motion.div 
+                            initial={{ opacity: 0, y: 40 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            className="monument-card premium-glass"
+                            style={{ maxWidth: '800px', width: '100%', textAlign: 'center' }}
+                        >
+                            <div className="mon-content" style={{ alignItems: 'center' }}>
+                                <Globe className="text-gold" size={48} style={{ marginBottom: '2rem', opacity: 0.8 }} />
+                                <h3 className="mon-name">{t("contact.media.title")}</h3>
+                                <p className="mon-desc" style={{ maxWidth: '600px', margin: '0 auto 2.5rem' }}>
+                                    {t("contact.media.sub")}
+                                </p>
+                                <a 
+                                    href={`mailto:Kushsharma.cor@gmail.com?subject=Media Contribution - Chittorgarh Tourism Portal`}
+                                    className="audio-btn"
+                                    style={{ maxWidth: '300px', textDecoration: 'none' }}
+                                    onClick={() => triggerHaptic('medium')}
+                                >
+                                    <Mail size={18} /> {t("contact.media.btn")}
+                                </a>
+                            </div>
+                        </motion.div>
+                    </div>
+                </section>
 
                 <div style={{ textAlign: 'center', padding: '4rem 0' }}>
                     <QRScannerButton />
