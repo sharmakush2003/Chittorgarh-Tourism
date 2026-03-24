@@ -9,6 +9,7 @@ import { Map, Zap, Headphones } from 'lucide-react';
 import RoyalLineage from "./RoyalLineage";
 import FAQ from "./FAQ";
 import QRScannerButton from "./QRScannerButton";
+import JourneySelector from "./JourneySelector";
 
 export default function HomeClient() {
     const { t } = useLanguage();
@@ -105,6 +106,8 @@ export default function HomeClient() {
                     </div>
                 </div>
             </section>
+
+            <JourneySelector />
 
             {/* ═══ DIGITAL COMPANION (FEATURE RICH MODERN TOURISM) ════ */}
             <section className="smart-features-section">

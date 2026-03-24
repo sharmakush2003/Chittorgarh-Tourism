@@ -951,5 +951,20 @@
     "dev.builtWithHeart": "Built with ❤️",
     "dev.tech.title": "Built With",
     "dev.localPride": "Made for Chittorgarh by the locals to support Chittorgarh Tourism ✨❤️",
-    "footer.devInfo": "Tap here for Developer Info"
+    "footer.devInfo": "Tap here for Developer Info",
+    "journey.invitation": "Suggest My Journey Flow",
+    "journey.title": "Your Royal Journey",
+    "journey.subtitle": "Tell us your interest, and we'll suggest the perfect flow.",
+    "journey.cat.historical": "Historical",
+    "journey.cat.historical.desc": "Relive the tales of valor and sacrifice.",
+    "journey.cat.religious": "Religious",
+    "journey.cat.religious.desc": "Find peace in the sacred shrines of the fort.",
+    "journey.cat.adventure": "Adventure",
+    "journey.cat.adventure.desc": "Explore nature, wildlife, and waterfalls.",
+    "journey.flow.title": "Suggested Flow",
+    "journey.btn.start": "Start This Journey",
+    "journey.historical.flow": "Kumbha Palace → Vijay Stambh → Padmini Palace",
+    "journey.religious.flow": "Meera Temple → Kumbha Shyam → Kalika Mata",
+    "journey.adventure.flow": "Gaumukh → Bassi Wildlife → Menal Fall",
+    "journey.tapToChange": "Tap icon to change domain"
 }
