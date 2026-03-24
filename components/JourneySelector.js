@@ -269,7 +269,7 @@ export default function JourneySelector() {
                     position: relative;
                     width: 100%;
                     max-width: 380px;
-                    margin: 0 auto 5rem;
+                    margin: 4rem auto 10rem;
                     z-index: 100;
                 }
 
@@ -367,6 +367,10 @@ export default function JourneySelector() {
                     position: relative;
                     padding: 4rem 1.5rem;
                     background: radial-gradient(circle at center, rgba(255,255,255,0.03) 0%, transparent 80%);
+                    text-align: center;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
                 }
 
                 .label-v3 {
@@ -382,19 +386,20 @@ export default function JourneySelector() {
 
                 .path-v3 {
                     font-family: var(--ff-display);
-                    font-size: clamp(1.8rem, 5vw, 3rem);
+                    font-size: clamp(1.8rem, 5vw, 3.5rem);
                     font-weight: 900;
                     color: #fff;
-                    margin-bottom: 1.5rem;
-                    line-height: 1.2;
+                    margin-bottom: 2rem;
+                    line-height: 1.1;
+                    max-width: 800px;
                 }
 
                 .desc-v3 {
-                    font-size: 1.4rem;
-                    color: rgba(255, 255, 255, 0.6);
+                    font-size: 1.25rem;
+                    color: rgba(255, 255, 255, 0.5);
                     font-style: italic;
-                    max-width: 700px;
-                    margin: 0 auto 5rem;
+                    max-width: 600px;
+                    margin: 0 auto 4rem;
                     line-height: 1.6;
                 }
 
@@ -402,27 +407,30 @@ export default function JourneySelector() {
                     display: flex;
                     flex-direction: column;
                     align-items: center;
-                    gap: 2rem;
+                    gap: 2.5rem;
+                    width: 100%;
                 }
 
                 .btn-gold-v3 {
-                    background: #fff;
+                    background: linear-gradient(135deg, var(--gold) 0%, #b8860b 100%);
                     color: #000;
-                    padding: 1.5rem 4.5rem;
+                    padding: 1rem 3rem;
                     border-radius: 100px;
-                    font-size: 1.25rem;
+                    font-size: 1rem;
                     font-weight: 900;
                     display: flex;
                     align-items: center;
-                    gap: 1.5rem;
-                    transition: 0.4s var(--liquid-easing);
-                    box-shadow: 0 20px 40px rgba(255,255,255,0.1);
+                    gap: 1rem;
+                    transition: all 0.4s var(--liquid-easing);
+                    box-shadow: 0 10px 25px rgba(212, 175, 55, 0.2);
+                    text-transform: uppercase;
+                    letter-spacing: 1.5px;
                 }
 
                 .btn-gold-v3:hover {
-                    background: var(--gold);
-                    transform: scale(1.05);
-                    box-shadow: 0 30px 60px rgba(212, 175, 55, 0.4);
+                    transform: translateY(-5px) scale(1.05);
+                    box-shadow: 0 25px 50px rgba(212, 175, 55, 0.5);
+                    filter: brightness(1.1);
                 }
 
                 .tap-to-change-v3 {
