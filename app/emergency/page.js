@@ -53,7 +53,7 @@ export default function EmergencyPage() {
             glow: "rgba(59,130,246,0.06)",
             contacts: [
                 { name: t('emg.contact.pcr'), number: "01472-240088", note: t('emg.note.247') },
-                { name: t('emg.contact.policeHelpline'), number: "100", note: t('emg.note.emergency') },
+                { name: t('emg.contact.policeHelpline'), number: "112", note: t('emg.note.emergency') },
                 { name: t('emg.contact.cyber'), number: "1930", note: t('emg.note.helpline') },
             ]
         },
@@ -78,7 +78,6 @@ export default function EmergencyPage() {
             border: "rgba(212,175,55,0.2)",
             glow: "rgba(212,175,55,0.06)",
             contacts: [
-                { name: t('emg.contact.rajHelpline'), number: "181", note: t('emg.note.govt') },
                 { name: t('emg.contact.trc'), number: "01472-241089", note: t('emg.note.reception') },
                 { name: t('emg.contact.guides'), link: "https://www.tourism.rajasthan.gov.in/content/dam/rajasthan-tourism/english/pdf/Guides-list-and-travel-agency/TRC-Chittorgarh-Guide-List.pdf", note: t('emg.note.pdf') },
             ]
@@ -92,7 +91,6 @@ export default function EmergencyPage() {
             glow: "rgba(249,115,22,0.06)",
             contacts: [
                 { name: t('emg.contact.fire'), number: "101", note: t('emg.note.fire') },
-                { name: t('emg.contact.women'), number: "181", note: t('emg.note.assist') },
                 { name: t('emg.contact.child'), number: "1098", note: t('emg.note.child') },
                 { name: t('emg.contact.disaster'), number: "0141-2227296", note: t('emg.note.state') },
             ]
@@ -626,9 +624,8 @@ export default function EmergencyPage() {
                 </div>
 
                 <div className="ep-quick">
-                    <a href="tel:100" className="ep-dial p">🚔 {t('emg.quick.police')}</a>
+                    <a href="tel:112" className="ep-dial p">🚔 {t('emg.quick.police')}</a>
                     <a href="tel:108" className="ep-dial a">🚑 {t('emg.quick.ambulance')}</a>
-                    <a href="tel:181" className="ep-dial t">📞 {t('emg.quick.tourist')}</a>
                 </div>
             </section>
 
