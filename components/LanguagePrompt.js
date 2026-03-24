@@ -73,9 +73,11 @@ export default function LanguagePrompt() {
         .modal-title {
             font-family: var(--font-cormorant);
             font-size: 2.5rem;
-            color: #2c1a0e;
+            color: #D4AF37;
             margin-bottom: 0.5rem;
             font-weight: 600;
+            text-shadow: none;
+            filter: none;
         }
         .modal-desc {
             color: #666;
