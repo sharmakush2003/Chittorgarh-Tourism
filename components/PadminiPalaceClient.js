@@ -123,10 +123,7 @@ export default function PadminiPalaceClient() {
 
 
             <main className="fort-main">
-                {/* ═══ QR SCANNER ═══════════════════════════ */}
-                <div style={{ textAlign: 'center', padding: '2rem 0' }}>
-                    <QRScannerButton />
-                </div>
+
 
                 {/* ═══ OVERVIEW ══════════════════════════════ */}
                 <motion.section 
@@ -217,6 +214,10 @@ export default function PadminiPalaceClient() {
                     </div>
                 </section>
 
+                {/* ═══ QR SCANNER ═══════════════════════════ */}
+                <div style={{ textAlign: 'center', padding: '4rem 0' }}>
+                    <QRScannerButton />
+                </div>
             </main>
 
             <style jsx global>{`
