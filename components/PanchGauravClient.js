@@ -2,11 +2,6 @@
 
 import { useLanguage } from "@/context/LanguageContext";
 import { 
-    Package, 
-    Sprout, 
-    Palmtree, 
-    Trophy, 
-    Flower, 
     ShieldCheck, 
     Megaphone, 
     Users, 
@@ -16,6 +11,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { useState, useEffect } from "react";
+import { motion } from "framer-motion";
 import { triggerHaptic } from "@/lib/haptics";
 
 export default function PanchGauravClient() {
@@ -28,11 +24,11 @@ export default function PanchGauravClient() {
     }, []);
 
     const pillars = [
-        { key: "1", icon: <Package className="card-icon" strokeWidth={1} /> },
-        { key: "2", icon: <Sprout className="card-icon" strokeWidth={1} /> },
-        { key: "3", icon: <Palmtree className="card-icon" strokeWidth={1} /> },
-        { key: "4", icon: <Trophy className="card-icon" strokeWidth={1} /> },
-        { key: "5", icon: <Flower className="card-icon" strokeWidth={1} /> }
+        { key: "1", image: "/panch-gaurav/odop.png" },
+        { key: "2", image: "/panch-gaurav/crop.png" },
+        { key: "3", image: "/panch-gaurav/destination.png" },
+        { key: "4", image: "/panch-gaurav/sport.png" },
+        { key: "5", image: "/panch-gaurav/plant.png" }
     ];
 
     return (
@@ -64,12 +60,24 @@ export default function PanchGauravClient() {
                 <div className="container">
                     <div className="attractions-grid">
                         {pillars.map((pillar, idx) => (
-                            <div key={pillar.key} className={`glass-card reveal reveal-delay-${idx} ${isVisible ? 'visible' : ''}`}>
-                                <div className="card-icon-wrapper">
-                                    {pillar.icon}
+                            <motion.div 
+                                key={pillar.key} 
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={isVisible ? { opacity: 1, y: 0 } : {}}
+                                transition={{ duration: 0.5, delay: idx * 0.1 }}
+                                className="glass-card group"
+                            >
+                                <div className="card-image-wrapper">
+                                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                                    <img 
+                                        src={pillar.image} 
+                                        alt={t(`pg.pillar.${pillar.key}.name`)} 
+                                        className="card-image" 
+                                    />
+                                    <div className="image-overlay"></div>
                                 </div>
                                 <div className="card-content">
-                                    <h3 className="card-title">{t(`pg.pillar.${pillar.key}.name`)}</h3>
+                                    <h3 className="card-title text-gold">{t(`pg.pillar.${pillar.key}.name`)}</h3>
                                     <p className="card-desc">{t(`pg.pillar.${pillar.key}.desc`)}</p>
                                     
                                     <div className="card-footer-accent">
@@ -77,23 +85,28 @@ export default function PanchGauravClient() {
                                         <span className="accent-text">Pillar {pillar.key}</span>
                                     </div>
                                 </div>
-                            </div>
+                            </motion.div>
                         ))}
 
                         {/* Special Budget Card */}
-                        <div className={`glass-card budget-card reveal reveal-delay-5 ${isVisible ? 'visible' : ''}`}>
-                            <div className="card-icon-wrapper">
-                                <Coins className="card-icon budget-icon" strokeWidth={1} />
-                            </div>
-                            <div className="card-content">
+                        <motion.div 
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={isVisible ? { opacity: 1, y: 0 } : {}}
+                            transition={{ duration: 0.5, delay: 0.6 }}
+                            className="glass-card budget-card group"
+                        >
+                            <div className="card-content" style={{ padding: '3.5rem' }}>
+                                <div className="card-icon-wrapper" style={{ marginBottom: '2rem' }}>
+                                    <Coins className="card-icon" style={{ width: '48px', height: '48px' }} />
+                                </div>
                                 <h3 className="card-title text-gold">{t("pg.budget.title")}</h3>
                                 <p className="card-desc font-medium text-white">{t("pg.budget.desc")}</p>
                             </div>
-                        </div>
+                        </motion.div>
                     </div>
 
                     {/* Objectives Section */}
-                    <section className={`objectives-section reveal reveal-delay-6 ${isVisible ? 'visible' : ''}`}>
+                    <section className="objectives-section">
                         <div className="objectives-inner">
                             <h2 className="obj-header">{t("pg.obj.title")}</h2>
                             <div className="obj-grid">
@@ -114,6 +127,9 @@ export default function PanchGauravClient() {
                     </section>
 
                     <div className="bottom-nav">
+                        <div className="ai-disclaimer">
+                            {t("pg.aiNote")}
+                        </div>
                         <Link href="/" className="read-more" onClick={() => triggerHaptic('light')}>
                             {t("nav.home")} <ArrowRight className="arrow" size={16} />
                         </Link>
@@ -122,9 +138,17 @@ export default function PanchGauravClient() {
             </main>
 
             <style jsx>{`
+                .ai-disclaimer {
+                    font-size: 0.75rem;
+                    color: rgba(255, 255, 255, 0.4);
+                    margin-bottom: 2rem;
+                    font-style: italic;
+                    text-align: center;
+                }
                 .explore-page {
                     min-height: 100vh;
                     color: #fff;
+                    position: relative;
                 }
 
                 .fixed-bg {
@@ -138,17 +162,19 @@ export default function PanchGauravClient() {
                     position: fixed;
                     inset: 0;
                     background: linear-gradient(to bottom, 
-                        rgba(15, 10, 6, 0.8) 0%, 
-                        rgba(15, 10, 6, 0.6) 50%,
-                        rgba(15, 10, 6, 0.9) 100%
+                        rgba(15, 10, 6, 0.85) 0%, 
+                        rgba(15, 10, 6, 0.65) 50%,
+                        rgba(15, 10, 6, 0.95) 100%
                     );
                     z-index: -1;
-                    backdrop-filter: blur(4px);
+                    backdrop-filter: blur(5px);
                 }
 
                 .main-content {
                     padding-top: 120px;
                     padding-bottom: 80px;
+                    position: relative;
+                    z-index: 1;
                 }
 
                 .header-section {
@@ -223,29 +249,60 @@ export default function PanchGauravClient() {
 
                 .attractions-grid {
                     display: grid;
-                    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-                    gap: 2rem;
+                    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+                    gap: 2.5rem;
                     margin-bottom: 4rem;
                 }
 
                 .glass-card {
-                    background: rgba(20, 15, 10, 0.7);
+                    background: rgba(20, 15, 10, 0.75);
                     border: 1px solid rgba(212, 175, 55, 0.2);
                     border-radius: 24px;
                     display: flex;
                     flex-direction: column;
-                    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+                    transition: all 0.4s ease;
                     backdrop-filter: blur(15px);
                     -webkit-backdrop-filter: blur(15px);
-                    padding: 2.5rem;
+                    overflow: hidden;
                     height: 100%;
                 }
 
                 .glass-card:hover {
-                    background: rgba(28, 20, 15, 0.85);
+                    background: rgba(28, 20, 15, 0.9);
                     border-color: rgba(212, 175, 55, 0.5);
-                    transform: translateY(-12px) scale(1.02);
-                    box-shadow: 0 25px 60px rgba(0,0,0,0.5);
+                    transform: translateY(-8px);
+                    box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+                }
+
+                .card-image-wrapper {
+                    position: relative;
+                    width: 100%;
+                    height: 220px;
+                    overflow: hidden;
+                }
+
+                .card-image {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                    transition: transform 0.6s ease;
+                }
+
+                .glass-card:hover .card-image {
+                    transform: scale(1.1);
+                }
+
+                .image-overlay {
+                    position: absolute;
+                    inset: 0;
+                    background: linear-gradient(to bottom, transparent, rgba(20, 15, 10, 0.8));
+                }
+
+                .card-content {
+                    padding: 2.5rem;
+                    flex: 1;
+                    display: flex;
+                    flex-direction: column;
                 }
 
                 .card-icon-wrapper {
@@ -253,8 +310,6 @@ export default function PanchGauravClient() {
                 }
 
                 :global(.card-icon) {
-                    width: 48px;
-                    height: 48px;
                     color: var(--gold);
                     opacity: 0.8;
                 }
@@ -300,14 +355,14 @@ export default function PanchGauravClient() {
                 }
 
                 .objectives-section {
-                    margin: 4rem 0;
+                    margin: 6rem 0;
                 }
 
                 .objectives-inner {
                     background: rgba(255, 255, 255, 0.03);
                     border: 1px solid rgba(255, 255, 255, 0.1);
                     border-radius: 32px;
-                    padding: 3rem;
+                    padding: 4rem;
                     backdrop-filter: blur(10px);
                 }
 
@@ -315,14 +370,14 @@ export default function PanchGauravClient() {
                     font-family: var(--ff-display);
                     font-size: 2rem;
                     text-align: center;
-                    margin-bottom: 3rem;
+                    margin-bottom: 3.5rem;
                     color: #fff;
                 }
 
                 .obj-grid {
                     display: grid;
                     grid-template-columns: repeat(3, 1fr);
-                    gap: 2rem;
+                    gap: 2.5rem;
                 }
 
                 .obj-item {
@@ -372,27 +427,7 @@ export default function PanchGauravClient() {
                     background: var(--gold);
                     color: #000;
                     transform: translateY(-3px);
-                    box-shadow: 0 10px 30px rgba(212, 175, 55, 0.3);
                 }
-
-                .reveal {
-                    opacity: 0;
-                    transform: translateY(30px);
-                    transition: all 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
-                }
-
-                .reveal.visible {
-                    opacity: 1;
-                    transform: translateY(0);
-                }
-
-                .reveal-delay-0 { transition-delay: 0.1s; }
-                .reveal-delay-1 { transition-delay: 0.2s; }
-                .reveal-delay-2 { transition-delay: 0.3s; }
-                .reveal-delay-3 { transition-delay: 0.4s; }
-                .reveal-delay-4 { transition-delay: 0.5s; }
-                .reveal-delay-5 { transition-delay: 0.6s; }
-                .reveal-delay-6 { transition-delay: 0.7s; }
 
                 @media (max-width: 768px) {
                     .obj-grid {
