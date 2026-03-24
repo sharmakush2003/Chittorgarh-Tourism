@@ -2,7 +2,6 @@
 
 import { useEffect, useState, useRef } from "react";
 import { useRouter } from "next/navigation";
-import { Ticket } from "lucide-react";
 import HeritageFacts from "@/components/HeritageFacts";
 import { useLanguage } from "@/context/LanguageContext";
 
@@ -409,31 +408,7 @@ export default function HowToReachClient() {
                     <button className="btn-gold htr-cta-btn" onClick={handleStartExploring}>
                         {t("htr.cta.btn")}
                     </button>
-                    <a
-                        href="https://obms-tourist.rajasthan.gov.in/place-details/Chittorgarh-Fort"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="book-tickets-btn"
-                        style={{
-                            display: 'inline-flex',
-                            alignItems: 'center',
-                            gap: '0.8rem',
-                            padding: '1rem 2rem',
-                            background: 'rgba(255, 215, 0, 0.1)',
-                            border: '1px solid var(--gold)',
-                            color: 'var(--gold)',
-                            borderRadius: '50px',
-                            fontWeight: '700',
-                            textDecoration: 'none',
-                            fontSize: '1rem',
-                            transition: 'all 0.3s ease'
-                        }}
-                    >
-                        <Ticket size={20} />
-                        {t("btn.bookTickets")}
-                    </a>
                 </div>
-                <p className="htr-cta-note">{t("htr.cta.note")}</p>
             </div>
             <HeritageFacts />
         </div>
