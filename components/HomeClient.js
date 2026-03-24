@@ -55,15 +55,6 @@ export default function HomeClient() {
                         <QRScannerButton />
                     </motion.div>
                 </div>
-                <motion.div 
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: 1.2, duration: 1 }}
-                    className="hero-scroll-hint"
-                >
-                    <span>{t("hero.scroll")}</span>
-                    <div className="scroll-line"></div>
-                </motion.div>
             </header>
 
             {/* ═══ SIGNATURE HIGHLIGHTS ═══════════════════ */}

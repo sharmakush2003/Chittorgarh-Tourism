@@ -10,12 +10,14 @@ export default function HeritageGuide() {
     const pathname = usePathname();
     const { t, lang } = useLanguage();
 
-    if (pathname?.startsWith("/admin")) return null;
     const [isOpen, setIsOpen] = useState(false);
     const [messages, setMessages] = useState([]);
     const [inputValue, setInputValue] = useState("");
     const [isTyping, setIsTyping] = useState(false);
+    const [chatLang, setChatLang] = useState(lang || 'en');
     const scrollRef = useRef(null);
+
+    if (pathname?.startsWith("/admin")) return null;
 
     // Initial message when opening
     useEffect(() => {
@@ -27,13 +29,14 @@ export default function HeritageGuide() {
                         id: 1,
                         text: t("bot.greeting"),
                         sender: "bot",
+                        isHindi: lang === 'hi',
                         timestamp: new Date()
                     }
                 ]);
                 setIsTyping(false);
             }, 800);
         }
-    }, [isOpen, messages.length, t]);
+    }, [isOpen, messages.length, t, lang]);
 
     // Auto-scroll to bottom
     useEffect(() => {
@@ -47,129 +50,191 @@ export default function HeritageGuide() {
         triggerHaptic("medium");
     };
 
+    // --- LOCAL ZERO-API SEARCH ENGINE ---
+    const getLocalAnswer = (query, effectiveLang) => {
+        const { KNOWLEDGE_BASE } = require("@/lib/chat-knowledge");
+        const lowerQuery = query.toLowerCase().trim();
+        const isHindi = effectiveLang === 'hi' || /[\u0900-\u097F]/.test(query);
+
+        // 0. Language / Greeting Detection
+        if (['hindi', 'हिंदी', 'हिन्दी'].includes(lowerQuery)) {
+            return {
+                text: "निश्चित रूप से! अब मैं आपसे हिंदी में बात करूँगा। मैं आपकी कैसे मदद कर सकता हूँ? ✨ [रॉयल AI मार्गदर्शक]",
+                isHindi: true
+            };
+        }
+        if (['english', 'अंग्रेजी', 'अंग्रेज़ी'].includes(lowerQuery)) {
+            return {
+                text: "Of course! I will now converse with you in English. How can I help you explore Chittorgarh? ✨ [Royal AI Guide]",
+                isHindi: false
+            };
+        }
+        
+        const isGreetings = /^(hi|hello|hey|नमस्ते|प्रणाम|hey|hi there)/i.test(lowerQuery) || 
+                          ['hello', 'hi', 'namaste', 'नमस्ते', 'hey'].includes(lowerQuery);
+        
+        if (isGreetings) {
+             return {
+                text: isHindi 
+                    ? "नमस्ते! मैं चित्तौड़गढ़ का रॉयल AI मार्गदर्शक हूँ। मैं इस महान विरासत को खोजने में आपकी सहायता कर सकता हूँ। आप क्या जानना चाहेंगे? ✨"
+                    : "Greetings! I am the Royal AI Guide of Chittorgarh. I can assist you in exploring this great heritage. What would you like to know? ✨",
+                isHindi: isHindi
+             };
+        }
+        
+        // 1. Precise Keyword Matching
+        let bestMatch = null;
+        let maxScore = 0;
+
+        KNOWLEDGE_BASE.forEach(item => {
+            let score = 0;
+            item.keywords.forEach(kw => {
+                if (lowerQuery.includes(kw.toLowerCase())) {
+                    score += 2; 
+                }
+            });
+
+            // Boost score if ID or English/Hindi name matches exactly
+            if (item.id && lowerQuery.includes(item.id.toLowerCase())) {
+                score += 3;
+            }
+
+            if (score > maxScore) {
+                maxScore = score;
+                bestMatch = item;
+            }
+        });
+
+        // 2. Refusal Logic (Strictly restricted)
+        if (!bestMatch || maxScore < 2) {
+            return {
+                text: isHindi 
+                    ? "मैं आपके प्रश्न का उत्तर देने में असमर्थ हूँ। यह चित्तौड़गढ़ के बारे में मेरे आधिकारिक डेटा से बाहर है। कृपया विरासत या स्मारकों के बारे में पूछें।"
+                    : "I am not able to answer your query. It is away from my official data about Chittorgarh heritage. Please ask about monuments or history.",
+                isHindi: isHindi
+            };
+        }
+
+        // 3. Authentic Response (Markdown links handled by renderMessage)
+        const responseCtx = isHindi ? (bestMatch.hi || bestMatch.en) : bestMatch.en;
+        return {
+            text: responseCtx + " ✨ [Royal AI Guide]",
+            isHindi: isHindi
+        };
+    };
+
     const handleSend = async (e) => {
         e?.preventDefault();
         const input = inputValue.trim();
-        if (!input) return;
+        if (!input || isTyping) return;
 
         const userMsg = {
             id: Date.now(),
             text: input,
             sender: "user",
+            isHindi: /[\u0900-\u097F]/.test(input),
             timestamp: new Date()
         };
 
         setMessages(prev => [...prev, userMsg]);
         setInputValue("");
-        triggerHaptic("light");
-
-        // Call the Real-Time AI API
         setIsTyping(true);
-        try {
-            const response = await fetch("/api/chat", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    message: input,
-                    history: messages.slice(-5), // Send last 5 messages for context
-                    lang: lang
-                })
-            });
+        triggerHaptic("medium");
 
-            if (!response.ok) {
-                const errData = await response.json().catch(() => ({}));
-                throw new Error(errData.details || "API Error");
+        // Artificial delay for "royal thinking"
+        setTimeout(() => {
+            const { KNOWLEDGE_BASE } = require("@/lib/chat-knowledge");
+            const lowerQuery = input.toLowerCase().trim();
+            const hasHindi = /[\u0900-\u097F]/.test(input);
+            
+            let effectiveLang = hasHindi ? 'hi' : chatLang;
+
+            // Handle explicit language switch
+            if (['hindi', 'हिंदी', 'हिन्दी'].includes(lowerQuery)) {
+                setChatLang('hi');
+                effectiveLang = 'hi';
+            } else if (['english', 'अंग्रेजी', 'अंग्रेज़ी'].includes(lowerQuery)) {
+                setChatLang('en');
+                effectiveLang = 'en';
             }
 
-            const data = await response.json();
-
-            if (data.text) {
-                const botMsg = {
-                    id: Date.now() + 1,
-                    text: data.text,
-                    sender: "bot",
-                    timestamp: new Date()
-                };
-                setMessages(prev => [...prev, botMsg]);
-            } else {
-                throw new Error("No text in response");
-            }
-        } catch (error) {
-            console.error("Bot Error:", error);
+            const botAnswer = getLocalAnswer(input, effectiveLang);
+            
             setMessages(prev => [...prev, {
                 id: Date.now() + 1,
-                text: t("bot.error") || "I am currently disconnected from the royal archives. Please try again in a moment.",
+                text: botAnswer.text,
                 sender: "bot",
-                timestamp: new Date(),
-                isError: true
+                isHindi: botAnswer.isHindi,
+                timestamp: new Date()
             }]);
-        } finally {
+            
             setIsTyping(false);
             triggerHaptic("soft");
-        }
+        }, 600);
     };
 
     const handleQuickAction = (actionKey) => {
         const actionText = t(actionKey);
         setInputValue(actionText);
-        // Trigger handleSend manually for quick actions
-        setTimeout(() => {
-            const mockEvent = { preventDefault: () => { } };
-            // Since we need the current input value which we just set, 
-            // but the state update might be async, we call handleSend logic directly
-            processQuickAction(actionText);
-        }, 100);
-    };
-
-    const processQuickAction = async (text) => {
+        // We set input but state might not update fast enough, so we pass text directly
         const userMsg = {
             id: Date.now(),
-            text: text,
+            text: actionText,
             sender: "user",
+            isHindi: /[\u0900-\u097F]/.test(actionText),
             timestamp: new Date()
         };
-
         setMessages(prev => [...prev, userMsg]);
         setInputValue("");
         setIsTyping(true);
+        triggerHaptic("medium");
 
-        try {
-            const response = await fetch("/api/chat", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    message: text,
-                    history: messages.slice(-5),
-                    lang: lang
-                })
-            });
-
-            if (!response.ok) {
-                const errData = await response.json().catch(() => ({}));
-                throw new Error(errData.details || "API Error");
-            }
-
-            const data = await response.json();
-
+        setTimeout(() => {
+            const hasHindi = /[\u0900-\u097F]/.test(actionText);
+            const effectiveLang = hasHindi ? 'hi' : chatLang;
+            const botAnswer = getLocalAnswer(actionText, effectiveLang);
+            
             setMessages(prev => [...prev, {
                 id: Date.now() + 1,
-                text: data.text || t("bot.error") || "I lost my connection. Please ask again.",
+                text: botAnswer.text,
                 sender: "bot",
+                isHindi: botAnswer.isHindi,
                 timestamp: new Date()
             }]);
-        } catch (error) {
-            console.error("Quick Action Bot Error:", error);
-            setMessages(prev => [...prev, {
-                id: Date.now() + 1,
-                text: t("bot.error") || "The royal library is currently out of reach. Please try again later.",
-                sender: "bot",
-                timestamp: new Date(),
-                isError: true
-            }]);
-        } finally {
             setIsTyping(false);
             triggerHaptic("soft");
-        }
+        }, 600);
+    };
+
+    const renderMessage = (msg) => {
+        const { text, isHindi } = msg;
+        if (!text) return null;
+        // Simple regex to match [Link Name](URL)
+        const parts = text.split(/(\[.*?\]\(.*?\))/g);
+        return parts.map((part, i) => {
+            const match = part && part.match(/\[(.*?)\]\((.*?)\)/);
+            if (match) {
+                // Make link relative to current origin and append language
+                let linkUrl = match[2].replace('https://chittorgarh-tourism.in', '');
+                linkUrl = `${linkUrl}${linkUrl.includes('?') ? '&' : '?'}lang=${isHindi ? 'hi' : 'en'}`;
+
+                return (
+                    <a 
+                        key={i} 
+                        href={linkUrl} 
+                        className="chat-link"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={(e) => {
+                            triggerHaptic('light');
+                        }}
+                    >
+                        {match[1]}
+                    </a>
+                );
+            }
+            return part;
+        });
     };
 
     return (
@@ -205,7 +270,7 @@ export default function HeritageGuide() {
                     <div className="chat-messages" ref={scrollRef}>
                         {messages.map((msg) => (
                             <div key={msg.id} className={`message ${msg.sender}`}>
-                                {msg.text}
+                                {renderMessage(msg)}
                             </div>
                         ))}
 

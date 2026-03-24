@@ -184,6 +184,20 @@
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
+.chat-link {
+    color: #FFD700;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    font-weight: 500;
+    transition: color 0.3s ease;
+    cursor: pointer;
+}
+
+.chat-link:hover {
+    color: #fff;
+    text-decoration: none;
+}
+
 .quick-actions {
     display: flex;
     flex-wrap: wrap;

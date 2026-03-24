@@ -9,6 +9,22 @@ const LanguageContext = createContext();
 // Read localStorage safely (SSR-safe) to get the initial language
 function getInitialLang() {
     if (typeof window === 'undefined') return 'en';
+    
+    // 1. Check URL for ?lang=hi or ?lang=en
+    try {
+        const search = window.location.search;
+        const urlParams = new URLSearchParams(search);
+        const urlLang = urlParams.get('lang');
+        console.log("LanguageContext: URL lang param =", urlLang, "from search =", search);
+        if (urlLang === 'hi' || urlLang === 'en') {
+            localStorage.setItem("ctt_locale", urlLang);
+            return urlLang;
+        }
+    } catch (e) {
+        console.warn("LanguageContext: Error reading URL params:", e);
+    }
+
+    // 2. Check localStorage
     try {
         const saved = localStorage.getItem("ctt_locale");
         if (!saved) return 'en';
@@ -29,17 +45,28 @@ export function LanguageProvider({ children }) {
     const [loading, setLoading] = useState(true);
     const [isMounted, setIsMounted] = useState(false);
 
-    // Run once on mount to get the actual saved language
+    // Run on mount and periodically check URL for language changes
     useEffect(() => {
-        const savedLang = getInitialLang();
-        setLang(savedLang);
-        setIsMounted(true);
-    }, []);
+        const syncLang = () => {
+            const savedLang = getInitialLang();
+            if (savedLang !== lang) {
+                setLang(savedLang);
+            }
+            setIsMounted(true);
+        };
+
+        syncLang();
+        
+        // Also listen for popstate (back/forward)
+        window.addEventListener('popstate', syncLang);
+        return () => window.removeEventListener('popstate', syncLang);
+    }, [lang]);
 
     useEffect(() => {
         if (!isMounted) return;
 
         const loadTranslations = async () => {
+            console.log("LanguageContext: Loading translations for", lang);
             setLoading(true);
             if (lang === 'en') {
                 setTranslations(enTranslations);
@@ -48,18 +75,19 @@ export function LanguageProvider({ children }) {
             }
 
             try {
-                // Restore cache-busting for strict freshness if that was part of original intent
-                const res = await fetch(`/translations/${lang}.json?v=${new Date().getTime()}`);
+                const url = `/translations/${lang}.json?v=${new Date().getTime()}`;
+                const res = await fetch(url);
 
                 if (!res.ok) {
-                    console.warn(`Translation file not found for ${lang}. Falling back to empty.`);
+                    console.warn(`LanguageContext: Translation file not found for ${lang} at ${url}`);
                     setTranslations({});
                 } else {
                     const data = await res.json();
+                    console.log("LanguageContext: Successfully loaded", Object.keys(data).length, "keys for", lang);
                     setTranslations(data);
                 }
             } catch (err) {
-                console.error("Language load failed:", err);
+                console.error("LanguageContext: Language load failed:", err);
                 setTranslations({});
             } finally {
                 setLoading(false);

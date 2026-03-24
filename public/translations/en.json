@@ -519,7 +519,7 @@
     "blog.readBtn": "Read Article",
     "blog.allArticles": "All Articles",
     "bot.name": "Royal Guide",
-    "bot.greeting": "Welcome to Chittorgarh! I am your Royal Guide. How can I help you explore the fort today?",
+    "bot.greeting": "Greetings! I am the Royal AI Guide of Chittorgarh. I answer queries based exclusively on the official data available on this website to ensure authenticity. Which language do you prefer: English or Hindi? ✨ [Royal AI Guide]",
     "bot.placeholder": "Ask about history, food, or planning...",
     "bot.action.plan": "Plan My Trip",
     "bot.action.history": "Tell Me History",
