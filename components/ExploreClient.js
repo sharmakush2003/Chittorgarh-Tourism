@@ -35,7 +35,7 @@ export default function ExploreClient() {
                             delay={0}
                             link="/chittorgarh-fort"
                             image="/hero_bg.png"
-                            bookingLink="https://asi.payumoney.com/quick/chf"
+                            bookingLink="https://obms-tourist.rajasthan.gov.in/place-details/Chittorgarh-Fort"
                         />
                         <GlassCard
                             title={t("attr.bassi.name")}

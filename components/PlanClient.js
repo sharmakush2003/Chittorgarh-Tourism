@@ -292,7 +292,7 @@ export default function PlanClient() {
                     </p>
                     <div className="hero-cta" style={{ marginTop: '2rem' }}>
                         <a
-                            href="https://asi.payumoney.com/quick/chf"
+                            href="https://obms-tourist.rajasthan.gov.in/place-details/Chittorgarh-Fort"
                             target="_blank"
                             rel="noopener noreferrer"
                             className="book-tickets-btn"

@@ -410,7 +410,7 @@ export default function HowToReachClient() {
                         {t("htr.cta.btn")}
                     </button>
                     <a
-                        href="https://asi.payumoney.com/quick/chf"
+                        href="https://obms-tourist.rajasthan.gov.in/place-details/Chittorgarh-Fort"
                         target="_blank"
                         rel="noopener noreferrer"
                         className="book-tickets-btn"
