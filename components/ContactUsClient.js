@@ -9,10 +9,10 @@ import {
     ChevronDown,
     ChevronUp,
     Code,
-    Terminal,
-    Ghost,
     Globe,
-    Cpu
+    Phone,
+    Mail,
+    User
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
@@ -20,7 +20,7 @@ import { triggerHaptic } from "@/lib/haptics";
 import { Waveform } from "./Waveform";
 import QRScannerButton from "./QRScannerButton";
 
-export default function DeveloperClient() {
+export default function ContactUsClient() {
     const { t, lang } = useLanguage();
     const router = useRouter();
     const [playingAudio, setPlayingAudio] = useState(null);
@@ -36,11 +36,12 @@ export default function DeveloperClient() {
             window.speechSynthesis.onvoiceschanged = null;
         };
     }, []);
-
+    
     const TEAM = [
-        { id: "card1", icon: <Terminal size={20} />, email: "Kushsharma.cor@gmail.com" },
-        { id: "card2", icon: <Ghost size={20} />, email: "lavsharma.cor@gmail.com" }
+        { id: "card1", email: "Kushsharma.cor@gmail.com" },
+        { id: "card2", email: "lavsharma.cor@gmail.com" }
     ];
+
 
     const handleAudioPlay = (sectionId, customText = null) => {
         const synth = window.speechSynthesis;
@@ -51,7 +52,7 @@ export default function DeveloperClient() {
             return;
         }
 
-        const textToSpeak = customText || `${t(`dev.${sectionId}.name`)}. ${t(`dev.${sectionId}.role`)}. ${t(`dev.${sectionId}.desc`)}`;
+        const textToSpeak = customText || `${t(`contact.${sectionId}.name`)}. ${t(`contact.${sectionId}.role`)}. ${t(`contact.${sectionId}.desc`)}`;
         const utterance = new SpeechSynthesisUtterance(textToSpeak);
         
         const langMap = {
@@ -103,139 +104,108 @@ export default function DeveloperClient() {
                     }}>
                         <ArrowLeft size={16} /> {t("btn.back") || "Back"}
                     </button>
-                    <span className="hero-eyebrow">{t("nav.developer") || "Developer Info"}</span>
-                    <h1 className="hero-title">{t("dev.hero.title")}</h1>
-                    <p className="hero-desc">{t("dev.hero.sub")}</p>
+                    <span className="hero-eyebrow">{t("nav.contactUs") || "Contact Us"}</span>
+                    <h1 className="hero-title">{t("contact.hero.title")}</h1>
+                    <p className="hero-desc">{t("contact.hero.sub")}</p>
                 </motion.div>
             </section>
 
             <main className="fort-main">
-                {/* ═══ VISION / OVERVIEW ══════════════════════════ */}
-                <motion.section 
-                    initial={{ opacity: 0, y: 40 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    id="overview" 
-                    className="fort-section mesh-bg"
-                >
-                    <div className="section-header">
-                        <h2 className="section-title text-gold">{t("dev.vision.title")}</h2>
-                        <div className="title-divider"></div>
-                    </div>
-                    <div className="overview-grid">
-                        <div className="overview-text" style={{ textAlign: 'center' }}>
-                            <p className="lead-para" style={{ fontStyle: 'italic' }}>
-                                {t("dev.vision.desc")}
-                            </p>
-                            
-                            <button 
-                                className={`audio-btn ${playingAudio === 'overview' ? 'playing' : ''}`}
-                                onClick={() => handleAudioPlay('overview', t("dev.vision.desc"))}
-                                style={{ marginTop: '2rem', maxWidth: '300px', margin: '2rem auto 0' }}
-                            >
-                                {playingAudio === 'overview' ? <Waveform /> : <Play size={18} fill="currentColor" />}
-                                <span>{playingAudio === 'overview' ? t("fort.audio.playing") : t("fort.audio.listen")}</span>
-                            </button>
-                        </div>
-                    </div>
-                </motion.section>
-
-                {/* ═══ TEAM SECTION ══════════════════════════ */}
-                <section id="team" className="fort-section">
+                {/* ═══ NODAL OFFICER SECTION ══════════════════════════ */}
+                <section id="nodal" className="fort-section">
                     <motion.div 
                         initial={{ opacity: 0, y: 30 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                         className="section-header"
                     >
-                        <h2 className="section-title text-gold">{t("dev.meetTheTeam")}</h2>
+                        <h2 className="section-title text-gold">{t("contact.nodal.title")}</h2>
                         <div className="title-divider"></div>
                     </motion.div>
 
-                    <div className="monuments-list">
+                    <div style={{ display: 'flex', justifyContent: 'center' }}>
+                        <motion.div 
+                            initial={{ opacity: 0, scale: 0.95 }}
+                            whileInView={{ opacity: 1, scale: 1 }}
+                            viewport={{ once: true }}
+                            className="monument-card premium-glass"
+                            style={{ maxWidth: '600px', width: '100%' }}
+                        >
+                            <div className="mon-content">
+                                <h3 className="mon-name" style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
+                                    <span style={{ color: 'var(--gold)' }}><User size={24} /></span> 
+                                    {t("contact.nodal.name")}
+                                </h3>
+                                <div className="role-badge">
+                                    {t("contact.nodal.role")}
+                                </div>
+                                <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', marginTop: '1rem' }}>
+                                    <div className="email-link">
+                                        <Mail size={16} color="var(--gold)" />
+                                        <a href={`mailto:${t("contact.nodal.email")}`}>{t("contact.nodal.email")}</a>
+                                    </div>
+                                    <div className="email-link">
+                                        <Phone size={16} color="var(--gold)" />
+                                        <a href={`tel:${t("contact.nodal.mobile")}`}>{t("contact.nodal.mobile")} (Mobile)</a>
+                                    </div>
+                                    <div className="email-link">
+                                        <Phone size={16} color="var(--gold)" />
+                                        <span>{t("contact.nodal.office")} (Office)</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </motion.div>
+                    </div>
+                </section>
+
+                {/* ═══ TECHNICAL ASSISTANCE SECTION ══════════════════════════ */}
+                <section id="assistance" className="fort-section">
+                    <motion.div 
+                        initial={{ opacity: 0, y: 30 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        className="section-header"
+                    >
+                        <h2 className="section-title text-gold">{t("contact.techAssistance.title")}</h2>
+                        <div className="title-divider"></div>
+                    </motion.div>
+
+                    <div className="monuments-list" style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '2.5rem' }}>
                         {TEAM.map((m, idx) => (
                             <motion.div 
                                 key={m.id} 
-                                initial={{ opacity: 0, y: 20 }}
-                                whileInView={{ opacity: 1, y: 0 }}
+                                initial={{ opacity: 0, scale: 0.95 }}
+                                whileInView={{ opacity: 1, scale: 1 }}
+                                viewport={{ once: true }}
                                 transition={{ delay: idx * 0.1 }}
                                 className="monument-card premium-glass"
+                                style={{ maxWidth: '600px', width: '100%' }}
                             >
                                 <div className="mon-content">
-                                    <h3 className="mon-name" style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                                        <span style={{ color: 'var(--gold)' }}>{m.icon}</span> 
-                                        {t(`dev.${m.id}.name`)}
+                                    <h3 className="mon-name" style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
+                                        <span style={{ color: 'var(--gold)' }}><User size={24} /></span> 
+                                        {t(`contact.${m.id}.name`)}
                                     </h3>
                                     <div className="role-badge">
-                                        {t(`dev.${m.id}.role`)}
+                                        {t(`contact.${m.id}.role`)}
                                     </div>
-                                    <p className="mon-desc">
-                                        {t(`dev.${m.id}.desc`)}
-                                    </p>
-
-                                    <div className="email-link">
-                                        <Globe size={14} color="var(--gold)" />
-                                        <a href={`mailto:${m.email}`}>{m.email}</a>
+                                    <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', marginTop: '1rem' }}>
+                                        <div className="email-link">
+                                            <Mail size={16} color="var(--gold)" />
+                                            <a href={`mailto:${m.email}`}>{m.email}</a>
+                                        </div>
+                                        <div className="email-link">
+                                            <Phone size={16} color="var(--gold)" />
+                                            <a href={`tel:${t(`contact.${m.id}.mobile`)}`}>{t(`contact.${m.id}.mobile`)} (Mobile)</a>
+                                        </div>
                                     </div>
-                                    
-                                    <button 
-                                        className={`audio-btn ${playingAudio === m.id ? 'playing' : ''}`}
-                                        onClick={() => handleAudioPlay(m.id)}
-                                    >
-                                        {playingAudio === m.id ? <Waveform /> : <Play size={18} fill="currentColor" />}
-                                        <span>{playingAudio === m.id ? t("fort.audio.playing") : t("fort.audio.listen")}</span>
-                                    </button>
                                 </div>
                             </motion.div>
                         ))}
                     </div>
                 </section>
 
-                {/* ═══ TECH INFO ══════════════════════════ */}
-                <motion.section 
-                    id="tech" 
-                    className="fort-section"
-                    initial={{ opacity: 0, y: 30 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                >
-                    <div className="section-header">
-                        <h2 className="section-title text-gold">{t("dev.builtWithHeart") || "Built with ❤️"}</h2>
-                        <div className="title-divider"></div>
-                    </div>
-                    <div className="premium-glass" style={{ padding: '2rem', borderRadius: '16px', textAlign: 'center' }}>
-                         <div style={{ display: 'flex', justifyContent: 'center', gap: '2rem', flexWrap: 'wrap', opacity: 0.6 }}>
-                            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                                <Cpu size={16} color="var(--gold)" />
-                                <span style={{ fontSize: '0.8rem', tracking: '2px' }}>NEXT.JS 14</span>
-                            </div>
-                            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                                <Globe size={16} color="var(--gold)" />
-                                <span style={{ fontSize: '0.8rem', tracking: '2px' }}>VERCEL</span>
-                            </div>
-                            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                                <Code size={16} color="var(--gold)" />
-                                <span style={{ fontSize: '0.8rem', tracking: '2px' }}>FRAMER MOTION</span>
-                            </div>
-                         </div>
-                    </div>
-                </motion.section>
 
-                <motion.section 
-                    className="fort-section"
-                    initial={{ opacity: 0 }}
-                    whileInView={{ opacity: 1 }}
-                    transition={{ duration: 2 }}
-                    style={{ padding: '4rem 2rem' }}
-                >
-                    <div className="local-pride-container">
-                        <div className="title-divider" style={{ width: '100px', opacity: 0.3, marginBottom: '2rem' }}></div>
-                        <p className="local-pride-text">
-                            {t("dev.localPride")}
-                        </p>
-                        <div className="title-divider" style={{ width: '100px', opacity: 0.3, marginTop: '2rem' }}></div>
-                    </div>
-                </motion.section>
 
                 <div style={{ textAlign: 'center', padding: '4rem 0' }}>
                     <QRScannerButton />
@@ -393,7 +363,7 @@ export default function DeveloperClient() {
                 }
 
                 .section-header {
-                    margin-bottom: 4rem;
+                    margin-bottom: 6rem;
                     text-align: center;
                 }
 
@@ -458,15 +428,15 @@ export default function DeveloperClient() {
                 }
 
                 .mon-content {
-                    padding: 3rem 2.5rem;
+                    padding: 4.5rem 3rem;
                     flex: 1;
                     display: flex;
                     flex-direction: column;
                 }
 
                 .mon-name {
-                    font-size: 2.2rem;
-                    margin-bottom: 0.75rem;
+                    font-size: 2.22rem;
+                    margin-bottom: 2rem;
                     letter-spacing: -0.01em;
                 }
 

@@ -57,7 +57,7 @@ export default function Navbar() {
         { href: "/how-to-reach", label: t("nav.howToReach") },
     ];
 
-    const isDeveloperPath = pathname === "/developer";
+    const isContactPath = pathname === "/contact-us";
 
     if (isHiddenPath) return null;
 
@@ -68,9 +68,9 @@ export default function Navbar() {
                     href="/" 
                     className="logo"
                     style={{ 
-                        opacity: isMenuOpen || isDeveloperPath ? 0 : 1, 
+                        opacity: isMenuOpen || isContactPath ? 0 : 1, 
                         transition: 'opacity 0.3s ease',
-                        pointerEvents: isMenuOpen || isDeveloperPath ? 'none' : 'auto'
+                        pointerEvents: isMenuOpen || isContactPath ? 'none' : 'auto'
                     }}
                 >
                     <div className="logo-name">
@@ -171,14 +171,14 @@ export default function Navbar() {
                 </Link>
 
                 <Link
-                    href="/developer"
-                    className={`mobile-link ${isActive("/developer")} mobile-developer-link`}
+                    href="/contact-us"
+                    className={`mobile-link ${isActive("/contact-us")} mobile-contact-link`}
                     onClick={() => setIsMenuOpen(false)}
                     style={{ 
                         transitionDelay: `${0.15 + (navLinks.length + 2) * 0.08}s`
                     }}
                 >
-                    {t("nav.developer") || "Developer Info"}
+                    {t("nav.contactUs") || "Contact Us"}
                 </Link>
 
 

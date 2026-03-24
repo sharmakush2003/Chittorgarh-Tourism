@@ -86,8 +86,8 @@ export default function Footer() {
                         <span className="footer-separator">|</span>
                         <span className="footer-rights">{t("footer.rights") || "All Rights Reserved"}</span>
                         <span className="footer-separator">|</span>
-                        <Link href="/developer" className="footer-dev-link">
-                            {t("footer.devInfo")}
+                        <Link href="/contact-us" className="footer-dev-link">
+                            {t("nav.contactUs") || "Contact Us"}
                         </Link>
                     </div>
                 </div>
