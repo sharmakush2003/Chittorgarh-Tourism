@@ -119,6 +119,13 @@ export default function StaysClient() {
             gap: 2.5rem;
             justify-content: center;
         }
+        :global(.reference-text) {
+            font-size: 0.65rem;
+            color: rgba(255, 255, 255, 0.5);
+            font-style: italic;
+            margin: 0;
+            line-height: 1;
+        }
       `}</style>
 
             {/* ═══ PAGE HEADER ═══════════════════════════ */}
@@ -166,6 +173,7 @@ export default function StaysClient() {
                                             <span>{rtdcStats.driveKm} km {t("lbl.driving")}</span>
                                         </div>
                                     </div>
+                                    <p className="reference-text" style={{ textAlign: 'left', marginTop: '0.25rem' }}>{t("lbl.fromFortApprox")}</p>
                                     <div className="meta-item">
                                         <MapPin size={16} />
                                         <span>{t("stays.rtdc.address")}</span>
@@ -510,6 +518,7 @@ function HotelGlassCard({ hotel, delay, t }) {
                                 <Navigation size={12} />
                                 <span>{hotel.driveKm} km {t("lbl.driving")}</span>
                             </div>
+                            <p className="reference-text" style={{ width: '100%', textAlign: 'center', marginTop: '0.25rem' }}>{t("lbl.fromFortApprox")}</p>
                         </div>
                         <div className="meta-row">
                             <Hotel className="meta-icon" />
