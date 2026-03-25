@@ -300,7 +300,7 @@ export default function HomeClient() {
                 .hero {
                     height: 100vh;
                     position: relative;
-                    background: url('/hero_bg.png') no-repeat center center / cover;
+                    background: url('/hero_new.jpg') no-repeat center center / cover;
                     display: flex;
                     align-items: center;
                     justify-content: center;
