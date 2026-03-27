@@ -23,70 +23,19 @@ import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { triggerHaptic } from "@/lib/haptics";
 import QRScannerButton from "./QRScannerButton";
+import { useAudioGuide } from "@/hooks/useAudioGuide";
 
 export default function PadminiPalaceClient() {
     const { t, lang } = useLanguage();
     const router = useRouter();
-    const [playingAudio, setPlayingAudio] = useState(null);
+    const { playingAudio, handleAudioPlay } = useAudioGuide();
     const [expandedSections, setExpandedSections] = useState({});
-    const voicesRef = useRef([]);
-
-    // Pre-load voices for better reliability
-    useEffect(() => {
-        const updateVoices = () => {
-            voicesRef.current = window.speechSynthesis.getVoices();
-        };
-        updateVoices();
-        window.speechSynthesis.onvoiceschanged = updateVoices;
-        return () => {
-            window.speechSynthesis.onvoiceschanged = null;
-        };
-    }, []);
-
-
 
     const ARCH_FEATURES = [
         { id: "padmini_arch.pool", icon: <Flower2 size={20} /> },
         { id: "padmini_arch.pavilion", icon: <Columns size={20} /> },
         { id: "padmini_arch.zenana", icon: <Crown size={20} /> }
     ];
-
-    const handleAudioPlay = (sectionId, customText = null) => {
-        const synth = window.speechSynthesis;
-        synth.cancel();
-
-        if (playingAudio === sectionId) {
-            setPlayingAudio(null);
-            return;
-        }
-
-        const textToSpeak = customText || `${t(`attr.${sectionId}.name`)}. ${t(`attr.${sectionId}.desc`)}`;
-        const utterance = new SpeechSynthesisUtterance(textToSpeak);
-        
-        const langMap = {
-            'en': 'en-US', 'hi': 'hi-IN'
-        };
-        const targetLang = langMap[lang] || 'en-US';
-        utterance.lang = targetLang;
-        
-        const voices = voicesRef.current.length > 0 ? voicesRef.current : synth.getVoices();
-        const bestVoice = voices.find(v => v.lang.includes(targetLang) && (v.name.includes("Natural") || v.name.includes("Online")))
-                       || voices.find(v => v.lang.includes(targetLang) && v.name.includes("Google"))
-                       || voices.find(v => v.lang === targetLang)
-                       || voices.find(v => v.lang.startsWith(targetLang.split('-')[0]));
-        
-        if (bestVoice) {
-            utterance.voice = bestVoice;
-        }
-        
-        utterance.rate = 0.85; 
-        
-        utterance.onstart = () => setPlayingAudio(sectionId);
-        utterance.onend = () => setPlayingAudio(null);
-        utterance.onerror = () => setPlayingAudio(null);
-
-        synth.speak(utterance);
-    };
 
     return (
         <motion.div 
@@ -144,7 +93,7 @@ export default function PadminiPalaceClient() {
                             
                             <button 
                                 className={`audio-btn ${playingAudio === 'overview' ? 'playing' : ''}`}
-                                onClick={() => handleAudioPlay('overview', `${t("padmini.overview.p1")} ${t("padmini.overview.p2")}`)}
+                                onClick={() => handleAudioPlay('overview', ['padmini.overview.p1', 'padmini.overview.p2'])}
                                 style={{ marginTop: '2rem' }}
                             >
                                 {playingAudio === 'overview' ? <Pause size={18} fill="currentColor" /> : <Play size={18} fill="currentColor" />}
@@ -203,7 +152,7 @@ export default function PadminiPalaceClient() {
                                     
                                     <button 
                                         className={`audio-btn ${playingAudio === m.id ? 'playing' : ''}`}
-                                        onClick={() => handleAudioPlay(m.id)}
+                                        onClick={() => handleAudioPlay(m.id, [`attr.${m.id}.name`, `attr.${m.id}.desc`])}
                                     >
                                         {playingAudio === m.id ? <Pause size={18} fill="currentColor" /> : <Play size={18} fill="currentColor" />}
                                         <span>{playingAudio === m.id ? t("fort.audio.playing") : t("fort.audio.listen")}</span>

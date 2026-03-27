@@ -11,6 +11,7 @@ import { useRouter } from "next/navigation";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { Waveform } from "./Waveform";
 import QRScannerButton from "./QRScannerButton";
+import { useAudioGuide } from "@/hooks/useAudioGuide";
 
 
 const KineticScroll = ({ progress }) => {
@@ -34,8 +35,7 @@ const KineticScroll = ({ progress }) => {
 export default function RatanPalaceClient() {
     const { t, lang } = useLanguage();
     const router = useRouter();
-    const [playingAudio, setPlayingAudio] = useState(null);
-    const voicesRef = useRef([]);
+    const { playingAudio, handleAudioPlay } = useAudioGuide();
     const containerRef = useRef(null);
 
     const { scrollYProgress } = useScroll({
@@ -81,55 +81,6 @@ export default function RatanPalaceClient() {
                 ease: [0.16, 1, 0.3, 1]
             }
         }
-    };
-
-    // Pre-load voices for better reliability
-    useEffect(() => {
-        const updateVoices = () => {
-            voicesRef.current = window.speechSynthesis.getVoices();
-        };
-        updateVoices();
-        window.speechSynthesis.onvoiceschanged = updateVoices;
-        return () => {
-            window.speechSynthesis.onvoiceschanged = null;
-        };
-    }, []);
-
-    const handleAudioPlay = (sectionId, textParts) => {
-        const synth = window.speechSynthesis;
-        synth.cancel();
-
-        if (playingAudio === sectionId) {
-            setPlayingAudio(null);
-            return;
-        }
-
-        const textToSpeak = textParts.map(key => t(key)).join(". ");
-        const utterance = new SpeechSynthesisUtterance(textToSpeak);
-        
-        const langMap = {
-            'en': 'en-US', 'hi': 'hi-IN'
-        };
-        const targetLang = langMap[lang] || 'en-US';
-        utterance.lang = targetLang;
-        
-        const voices = voicesRef.current.length > 0 ? voicesRef.current : synth.getVoices();
-        const bestVoice = voices.find(v => v.lang.includes(targetLang) && (v.name.includes("Natural") || v.name.includes("Online")))
-                       || voices.find(v => v.lang.includes(targetLang) && v.name.includes("Google"))
-                       || voices.find(v => v.lang === targetLang)
-                       || voices.find(v => v.lang.startsWith(targetLang.split('-')[0]));
-        
-        if (bestVoice) {
-            utterance.voice = bestVoice;
-        }
-        
-        utterance.rate = 0.85; 
-        
-        utterance.onstart = () => setPlayingAudio(sectionId);
-        utterance.onend = () => setPlayingAudio(null);
-        utterance.onerror = () => setPlayingAudio(null);
-
-        synth.speak(utterance);
     };
 
     return (

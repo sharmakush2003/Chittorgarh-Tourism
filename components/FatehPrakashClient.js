@@ -10,6 +10,7 @@ import {
 import { useRouter } from "next/navigation";
 import { motion, useScroll, useTransform } from "framer-motion";
 import QRScannerButton from "./QRScannerButton";
+import { useAudioGuide } from "@/hooks/useAudioGuide";
 
 import { Waveform } from "./Waveform";
 
@@ -34,8 +35,7 @@ const KineticScroll = ({ progress }) => {
 export default function FatehPrakashClient() {
     const { t, lang } = useLanguage();
     const router = useRouter();
-    const [playingAudio, setPlayingAudio] = useState(null);
-    const voicesRef = useRef([]);
+    const { playingAudio, handleAudioPlay } = useAudioGuide();
     const containerRef = useRef(null);
 
     const { scrollYProgress } = useScroll({
@@ -81,48 +81,6 @@ export default function FatehPrakashClient() {
                 ease: [0.16, 1, 0.3, 1]
             }
         }
-    };
-
-    useEffect(() => {
-        const updateVoices = () => {
-            voicesRef.current = window.speechSynthesis.getVoices();
-        };
-        updateVoices();
-        window.speechSynthesis.onvoiceschanged = updateVoices;
-        return () => {
-            window.speechSynthesis.onvoiceschanged = null;
-        };
-    }, []);
-
-    const handleAudioPlay = (sectionId, textKey) => {
-        const synth = window.speechSynthesis;
-        synth.cancel();
-
-        if (playingAudio === sectionId) {
-            setPlayingAudio(null);
-            return;
-        }
-
-        const textToSpeak = t(textKey);
-        const utterance = new SpeechSynthesisUtterance(textToSpeak);
-        
-        const langMap = { 'en': 'en-US', 'hi': 'hi-IN' };
-        const targetLang = langMap[lang] || 'en-US';
-        utterance.lang = targetLang;
-        
-        const voices = voicesRef.current.length > 0 ? voicesRef.current : synth.getVoices();
-        const bestVoice = voices.find(v => v.lang.includes(targetLang) && (v.name.includes("Natural") || v.name.includes("Online")))
-                       || voices.find(v => v.lang.includes(targetLang) && v.name.includes("Google"))
-                       || voices.find(v => v.lang === targetLang);
-        
-        if (bestVoice) utterance.voice = bestVoice;
-        utterance.rate = 0.85; 
-        
-        utterance.onstart = () => setPlayingAudio(sectionId);
-        utterance.onend = () => setPlayingAudio(null);
-        utterance.onerror = () => setPlayingAudio(null);
-
-        synth.speak(utterance);
     };
 
     return (
@@ -501,7 +459,7 @@ export default function FatehPrakashClient() {
                         <motion.div 
                             variants={itemVariants}
                             className={`audio-bar ${playingAudio === 'history' ? 'playing' : ''}`}
-                            onClick={() => handleAudioPlay('history', 'fateh.history.p1')}
+                            onClick={() => handleAudioPlay('history', ['fateh.history.p1'])}
                         >
                             {playingAudio === 'history' ? <Waveform /> : <Play size={28} fill="currentColor" />}
                             <span style={{ fontWeight: 800, letterSpacing: '3px', textTransform: 'uppercase', fontSize: '1rem' }}>
@@ -562,7 +520,7 @@ export default function FatehPrakashClient() {
                         <motion.div 
                             variants={itemVariants}
                             className={`audio-bar ${playingAudio === 'collection' ? 'playing' : ''}`}
-                            onClick={() => handleAudioPlay('collection', 'fateh.collection.p1')}
+                            onClick={() => handleAudioPlay('collection', ['fateh.collection.p1'])}
                         >
                             {playingAudio === 'collection' ? <Waveform /> : <Play size={28} fill="currentColor" />}
                             <span style={{ fontWeight: 800, letterSpacing: '3px', textTransform: 'uppercase', fontSize: '1rem' }}>
@@ -597,7 +555,7 @@ export default function FatehPrakashClient() {
                         <motion.div 
                             variants={itemVariants}
                             className={`audio-bar ${playingAudio === 'info' ? 'playing' : ''}`}
-                            onClick={() => handleAudioPlay('info', 'fateh.info.p1')}
+                            onClick={() => handleAudioPlay('info', ['fateh.info.p1'])}
                         >
                             {playingAudio === 'info' ? <Waveform /> : <Play size={28} fill="currentColor" />}
                             <span style={{ fontWeight: 800, letterSpacing: '3px', textTransform: 'uppercase', fontSize: '1rem' }}>

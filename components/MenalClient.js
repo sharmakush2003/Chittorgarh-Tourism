@@ -12,62 +12,14 @@ import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { triggerHaptic } from "@/lib/haptics";
 import QRScannerButton from "./QRScannerButton";
+import { useAudioGuide } from "@/hooks/useAudioGuide";
  
 import { Waveform } from "./Waveform";
 
 export default function MenalClient() {
     const { t, lang } = useLanguage();
     const router = useRouter();
-    const [playingAudio, setPlayingAudio] = useState(null);
-    const voicesRef = useRef([]);
-
-    useEffect(() => {
-        const updateVoices = () => {
-            voicesRef.current = window.speechSynthesis.getVoices();
-        };
-        updateVoices();
-        window.speechSynthesis.onvoiceschanged = updateVoices;
-        return () => {
-            window.speechSynthesis.onvoiceschanged = null;
-        };
-    }, []);
-
-    const handleAudioPlay = (sectionId, customText = null) => {
-        const synth = window.speechSynthesis;
-        synth.cancel();
-
-        if (playingAudio === sectionId) {
-            setPlayingAudio(null);
-            return;
-        }
-
-        const textToSpeak = customText || `${t(`menal.hero.title`)}. ${t(`menal.overview.p1`)} ${t(`menal.overview.p2`)}`;
-        const utterance = new SpeechSynthesisUtterance(textToSpeak);
-        
-        const langMap = {
-            'en': 'en-US', 'hi': 'hi-IN'
-        };
-        const targetLang = langMap[lang] || 'en-US';
-        utterance.lang = targetLang;
-        
-        const voices = voicesRef.current.length > 0 ? voicesRef.current : synth.getVoices();
-        const bestVoice = voices.find(v => v.lang.includes(targetLang) && (v.name.includes("Natural") || v.name.includes("Online")))
-                       || voices.find(v => v.lang.includes(targetLang) && v.name.includes("Google"))
-                       || voices.find(v => v.lang === targetLang)
-                       || voices.find(v => v.lang.startsWith(targetLang.split('-')[0]));
-        
-        if (bestVoice) {
-            utterance.voice = bestVoice;
-        }
-        
-        utterance.rate = 0.85; 
-        
-        utterance.onstart = () => setPlayingAudio(sectionId);
-        utterance.onend = () => setPlayingAudio(null);
-        utterance.onerror = () => setPlayingAudio(null);
-
-        synth.speak(utterance);
-    };
+    const { playingAudio, handleAudioPlay } = useAudioGuide();
 
     return (
         <motion.div 
@@ -119,7 +71,7 @@ export default function MenalClient() {
                             
                             <button 
                                 className={`audio-btn ${playingAudio === 'overview' ? 'playing' : ''}`}
-                                onClick={() => handleAudioPlay('overview')}
+                                onClick={() => handleAudioPlay('overview', ['menal.hero.title', 'menal.overview.p1', 'menal.overview.p2'])}
                                 style={{ marginTop: '2rem', marginLeft: 'auto', marginRight: 'auto' }}
                             >
                                 {playingAudio === 'overview' ? <Waveform /> : <Play size={18} fill="currentColor" />}

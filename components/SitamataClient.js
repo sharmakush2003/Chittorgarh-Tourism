@@ -18,68 +18,20 @@ import { motion } from "framer-motion";
 import { triggerHaptic } from "@/lib/haptics";
 import { Waveform } from "./Waveform";
 import QRScannerButton from "./QRScannerButton";
+import { useAudioGuide } from "@/hooks/useAudioGuide";
 
 
 export default function SitamataClient() {
     const { t, lang } = useLanguage();
     const router = useRouter();
-    const [playingAudio, setPlayingAudio] = useState(null);
+    const { playingAudio, handleAudioPlay } = useAudioGuide();
     const [expandedSections, setExpandedSections] = useState({});
-    const voicesRef = useRef([]);
-
-    useEffect(() => {
-        const updateVoices = () => {
-            voicesRef.current = window.speechSynthesis.getVoices();
-        };
-        updateVoices();
-        window.speechSynthesis.onvoiceschanged = updateVoices;
-        return () => {
-            window.speechSynthesis.onvoiceschanged = null;
-        };
-    }, []);
 
     const ATTRACTIONS = [
         { id: "flora", icon: <Trees size={20} /> },
         { id: "fauna", icon: <Bird size={20} /> },
         { id: "squirrel", icon: <Wind size={20} /> }
     ];
-
-    const handleAudioPlay = (sectionId, customText = null) => {
-        const synth = window.speechSynthesis;
-        synth.cancel();
-
-        if (playingAudio === sectionId) {
-            setPlayingAudio(null);
-            return;
-        }
-
-        const textToSpeak = customText || `${t(`sitamata.wildlife.${sectionId}.title`)}. ${t(`sitamata.wildlife.${sectionId}.desc`)}`;
-        const utterance = new SpeechSynthesisUtterance(textToSpeak);
-        
-        const langMap = {
-            'en': 'en-US', 'hi': 'hi-IN'
-        };
-        const targetLang = langMap[lang] || 'en-US';
-        utterance.lang = targetLang;
-        
-        const voices = voicesRef.current.length > 0 ? voicesRef.current : synth.getVoices();
-        const bestVoice = voices.find(v => v.lang.includes(targetLang) && (v.name.includes("Natural") || v.name.includes("Online")))
-                       || voices.find(v => v.lang.includes(targetLang) && v.name.includes("Google"))
-                       || voices.find(v => v.lang === targetLang)
-                       || voices.find(v => v.lang.startsWith(targetLang.split('-')[0]));
-        
-        if (bestVoice) {
-            utterance.voice = bestVoice;
-        }
-        
-        utterance.rate = 0.85; 
-        
-        utterance.onstart = () => setPlayingAudio(sectionId);
-        utterance.onend = () => setPlayingAudio(null);
-        utterance.onerror = () => setPlayingAudio(null);
-
-        synth.speak(utterance);
-    };
 
     return (
         <motion.div 
@@ -133,7 +85,7 @@ export default function SitamataClient() {
                             
                             <button 
                                 className={`audio-btn ${playingAudio === 'overview' ? 'playing' : ''}`}
-                                onClick={() => handleAudioPlay('overview', `${t("sitamata.overview.p1")} ${t("sitamata.overview.p2")}`)}
+                                onClick={() => handleAudioPlay('overview', ['sitamata.overview.p1', 'sitamata.overview.p2'])}
                                 style={{ marginTop: '2rem' }}
                             >
                                 {playingAudio === 'overview' ? <Waveform /> : <Play size={18} fill="currentColor" />}
@@ -209,7 +161,7 @@ export default function SitamataClient() {
                                     
                                     <button 
                                         className={`audio-btn ${playingAudio === m.id ? 'playing' : ''}`}
-                                        onClick={() => handleAudioPlay(m.id)}
+                                        onClick={() => handleAudioPlay(m.id, [`sitamata.wildlife.${m.id}.title`, `sitamata.wildlife.${m.id}.desc`])}
                                     >
                                         {playingAudio === m.id ? <Waveform /> : <Play size={18} fill="currentColor" />}
                                         <span>{playingAudio === m.id ? t("fort.audio.playing") : t("fort.audio.listen")}</span>

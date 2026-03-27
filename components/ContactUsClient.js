@@ -19,65 +19,20 @@ import { motion } from "framer-motion";
 import { triggerHaptic } from "@/lib/haptics";
 import { Waveform } from "./Waveform";
 import QRScannerButton from "./QRScannerButton";
+import { useAudioGuide } from "@/hooks/useAudioGuide";
 
 export default function ContactUsClient() {
     const { t, lang } = useLanguage();
     const router = useRouter();
-    const [playingAudio, setPlayingAudio] = useState(null);
-    const voicesRef = useRef([]);
+    const { playingAudio, handleAudioPlay: hookAudioPlay } = useAudioGuide();
 
-    useEffect(() => {
-        const updateVoices = () => {
-            voicesRef.current = window.speechSynthesis.getVoices();
-        };
-        updateVoices();
-        window.speechSynthesis.onvoiceschanged = updateVoices;
-        return () => {
-            window.speechSynthesis.onvoiceschanged = null;
-        };
-    }, []);
-    
     const TEAM = [
         { id: "card1", email: "Kushsharma.cor@gmail.com" },
         { id: "card2", email: "lavsharma.cor@gmail.com" }
     ];
 
-
-    const handleAudioPlay = (sectionId, customText = null) => {
-        const synth = window.speechSynthesis;
-        synth.cancel();
-
-        if (playingAudio === sectionId) {
-            setPlayingAudio(null);
-            return;
-        }
-
-        const textToSpeak = customText || `${t(`contact.${sectionId}.name`)}. ${t(`contact.${sectionId}.role`)}. ${t(`contact.${sectionId}.desc`)}`;
-        const utterance = new SpeechSynthesisUtterance(textToSpeak);
-        
-        const langMap = {
-            'en': 'en-US', 'hi': 'hi-IN'
-        };
-        const targetLang = langMap[lang] || 'en-US';
-        utterance.lang = targetLang;
-        
-        const voices = voicesRef.current.length > 0 ? voicesRef.current : synth.getVoices();
-        const bestVoice = voices.find(v => v.lang.includes(targetLang) && (v.name.includes("Natural") || v.name.includes("Online")))
-                       || voices.find(v => v.lang.includes(targetLang) && v.name.includes("Google"))
-                       || voices.find(v => v.lang === targetLang)
-                       || voices.find(v => v.lang.startsWith(targetLang.split('-')[0]));
-        
-        if (bestVoice) {
-            utterance.voice = bestVoice;
-        }
-        
-        utterance.rate = 0.85; 
-        
-        utterance.onstart = () => setPlayingAudio(sectionId);
-        utterance.onend = () => setPlayingAudio(null);
-        utterance.onerror = () => setPlayingAudio(null);
-
-        synth.speak(utterance);
+    const handleAudioPlay = (sectionId) => {
+        hookAudioPlay(sectionId, [`contact.${sectionId}.name`, `contact.${sectionId}.role`, `contact.${sectionId}.desc`]);
     };
 
     return (

@@ -19,67 +19,19 @@ import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { triggerHaptic } from "@/lib/haptics";
 import QRScannerButton from "./QRScannerButton";
+import { useAudioGuide } from "@/hooks/useAudioGuide";
 
 export default function BassiClient() {
     const { t, lang: locale } = useLanguage();
     const router = useRouter();
-    const [playingAudio, setPlayingAudio] = useState(null);
+    const { playingAudio, handleAudioPlay } = useAudioGuide();
     const [expandedSections, setExpandedSections] = useState({});
-    const voicesRef = useRef([]);
-
-    useEffect(() => {
-        const updateVoices = () => {
-            voicesRef.current = window.speechSynthesis.getVoices();
-        };
-        updateVoices();
-        window.speechSynthesis.onvoiceschanged = updateVoices;
-        return () => {
-            window.speechSynthesis.onvoiceschanged = null;
-        };
-    }, []);
 
     const ATTRACTIONS = [
         { id: "habitats", icon: <Trees size={20} /> },
         { id: "fauna", icon: <ShieldCheck size={20} /> },
         { id: "birds", icon: <Bird size={20} /> }
     ];
-
-    const handleAudioPlay = (sectionId, customText = null) => {
-        const synth = window.speechSynthesis;
-        synth.cancel();
-
-        if (playingAudio === sectionId) {
-            setPlayingAudio(null);
-            return;
-        }
-
-        const textToSpeak = customText || `${t(`bassi.highlights.${sectionId}.title`)}. ${t(`bassi.highlights.${sectionId}.desc`)}`;
-        const utterance = new SpeechSynthesisUtterance(textToSpeak);
-        
-        const langMap = {
-            'en': 'en-US', 'hi': 'hi-IN'
-        };
-        const targetLang = langMap[locale] || 'en-US';
-        utterance.lang = targetLang;
-        
-        const voices = voicesRef.current.length > 0 ? voicesRef.current : synth.getVoices();
-        const bestVoice = voices.find(v => v.lang.includes(targetLang) && (v.name.includes("Natural") || v.name.includes("Online")))
-                       || voices.find(v => v.lang.includes(targetLang) && v.name.includes("Google"))
-                       || voices.find(v => v.lang === targetLang)
-                       || voices.find(v => v.lang.startsWith(targetLang.split('-')[0]));
-        
-        if (bestVoice) {
-            utterance.voice = bestVoice;
-        }
-        
-        utterance.rate = 0.85; 
-        
-        utterance.onstart = () => setPlayingAudio(sectionId);
-        utterance.onend = () => setPlayingAudio(null);
-        utterance.onerror = () => setPlayingAudio(null);
-
-        synth.speak(utterance);
-    };
 
     return (
         <motion.div 
@@ -131,7 +83,7 @@ export default function BassiClient() {
                             
                             <button 
                                 className={`audio-btn ${playingAudio === 'overview' ? 'playing' : ''}`}
-                                onClick={() => handleAudioPlay('overview', `${t("bassi.overview.p1")} ${t("bassi.overview.p2")}`)}
+                                onClick={() => handleAudioPlay('overview', ['bassi.overview.p1', 'bassi.overview.p2'])}
                                 style={{ marginTop: '2rem' }}
                             >
                                 {playingAudio === 'overview' ? <Pause size={18} fill="currentColor" /> : <Play size={18} fill="currentColor" />}
@@ -207,7 +159,7 @@ export default function BassiClient() {
                                     
                                     <button 
                                         className={`audio-btn ${playingAudio === m.id ? 'playing' : ''}`}
-                                        onClick={() => handleAudioPlay(m.id)}
+                                        onClick={() => handleAudioPlay(m.id, [`bassi.highlights.${m.id}.title`, `bassi.highlights.${m.id}.desc`])}
                                     >
                                         {playingAudio === m.id ? <Pause size={18} fill="currentColor" /> : <Play size={18} fill="currentColor" />}
                                         <span>{playingAudio === m.id ? t("fort.audio.playing") : t("fort.audio.listen")}</span>

@@ -22,26 +22,13 @@ import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { triggerHaptic } from "@/lib/haptics";
 import QRScannerButton from "./QRScannerButton";
+import { useAudioGuide } from "@/hooks/useAudioGuide";
 
 export default function FortDetailsClient() {
     const { t, lang } = useLanguage();
     const router = useRouter();
-    const [playingAudio, setPlayingAudio] = useState(null);
+    const { playingAudio, handleAudioPlay } = useAudioGuide();
     const [expandedMonuments, setExpandedMonuments] = useState({});
-    const voicesRef = useRef([]);
-
-    // Pre-load voices for better reliability
-    useEffect(() => {
-        const updateVoices = () => {
-            voicesRef.current = window.speechSynthesis.getVoices();
-        };
-        updateVoices();
-        window.speechSynthesis.onvoiceschanged = updateVoices;
-        return () => {
-            window.speechSynthesis.onvoiceschanged = null;
-        };
-    }, []);
-
 
     const MONUMENTS = [
         { id: "vijay", icon: <Columns size={20} />, image: "/Each page Pics/Fort pics/Vijay Stambh.jpg" },
@@ -51,50 +38,6 @@ export default function FortDetailsClient() {
         { id: "kumbha_palace", icon: <Castle size={20} />, image: "/Each page Pics/Fort pics/Rana Kumbha Palace.jpg" },
         { id: "meera", icon: <Heart size={20} />, image: "/Each page Pics/Fort pics/Meera Bai Temple.jpg" }
     ];
-
-
-
-    const handleAudioPlay = (monId) => {
-        const synth = window.speechSynthesis;
-        synth.cancel();
-
-        if (playingAudio === monId) {
-            setPlayingAudio(null);
-            return;
-        }
-
-        const textToSpeak = `${t(`attr.${monId}.name`)}. ${t(`attr.${monId}.desc`)}`;
-        const utterance = new SpeechSynthesisUtterance(textToSpeak);
-        
-        const langMap = {
-            'en': 'en-US', 'hi': 'hi-IN', 'fr': 'fr-FR', 'nl': 'nl-NL', 'ja': 'ja-JP'
-        };
-        const targetLang = langMap[lang] || 'en-US';
-        utterance.lang = targetLang;
-        
-        // Find best quality voice
-        const voices = voicesRef.current.length > 0 ? voicesRef.current : synth.getVoices();
-        
-        // Priority: Natural/Online -> Google -> Specific Lang Match -> Any Match
-        const bestVoice = voices.find(v => v.lang.includes(targetLang) && (v.name.includes("Natural") || v.name.includes("Online")))
-                       || voices.find(v => v.lang.includes(targetLang) && v.name.includes("Google"))
-                       || voices.find(v => v.lang === targetLang)
-                       || voices.find(v => v.lang.startsWith(targetLang.split('-')[0]));
-        
-        if (bestVoice) {
-            utterance.voice = bestVoice;
-        }
-        
-        // Clarity adjustments
-        utterance.rate = 0.8; // Slower for clear narration
-        utterance.pitch = 1.05; // Slightly higher for friendly tone
-        
-        utterance.onstart = () => setPlayingAudio(monId);
-        utterance.onend = () => setPlayingAudio(null);
-        utterance.onerror = () => setPlayingAudio(null);
-
-        synth.speak(utterance);
-    };
 
 
     return (
@@ -203,7 +146,7 @@ export default function FortDetailsClient() {
                                     
                                     <button 
                                         className={`audio-btn ${playingAudio === m.id ? 'playing' : ''}`}
-                                        onClick={() => handleAudioPlay(m.id)}
+                                        onClick={() => handleAudioPlay(m.id, [`attr.${m.id}.name`, `attr.${m.id}.desc`])}
                                     >
                                         {playingAudio === m.id ? <Pause size={18} fill="currentColor" /> : <Play size={18} fill="currentColor" />}
                                         <span>{playingAudio === m.id ? t("fort.audio.playing") : t("fort.audio.listen")}</span>
