@@ -6,7 +6,6 @@ import ScrollReveal from "@/components/ScrollReveal";
 import LanguagePrompt from "@/components/LanguagePrompt";
 import Background3D from "@/components/Background3D";
 import HeritageGuide from "@/components/HeritageGuide";
-import InstallBanner from "@/components/InstallBanner";
 import { LanguageProvider } from "@/context/LanguageContext";
 import { AuthProvider } from "@/context/AuthContext";
 import "./globals.css";
@@ -235,7 +234,6 @@ export default function RootLayout({ children }) {
             <Navbar />
             <LanguagePrompt />
             {children}
-            <InstallBanner />
             <HeritageGuide />
             <Footer />
             <ScrollReveal />

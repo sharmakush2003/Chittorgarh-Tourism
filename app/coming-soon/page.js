@@ -17,9 +17,6 @@ export default function ComingSoonPage() {
                 transition={{ duration: 0.8 }}
                 className="content"
             >
-                <Link href="/" className="back-link" onClick={() => triggerHaptic('light')}>
-                    <ArrowLeft size={18} /> {t("btn.back") || "Back to Home"}
-                </Link>
 
                 <div className="icon-wrapper">
                     <Clock size={48} className="icon" />

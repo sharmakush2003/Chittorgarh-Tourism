@@ -65,10 +65,6 @@ export default function DownloadPage() {
                     animate={{ opacity: 1, y: 0 }}
                     className="container"
                 >
-                    <Link href="/" className="back-btn" onClick={() => triggerHaptic('light')}>
-                        <ArrowLeft size={18} /> {t("btn.back") || "Back"}
-                    </Link>
-                    
                     <div className="badge">
                         <Smartphone size={16} /> {t("dl.hero.official")}
                     </div>
@@ -121,13 +117,6 @@ export default function DownloadPage() {
                                 <AlertCircle size={16} /> {t("dl.android.menuInstall")}
                             </div>
                         ) }
-
-                        <div className="divider"><span>{t("dl.android.or")}</span></div>
-
-                        <a href="/chittorgarh-tourism.apk" download className="secondary-btn">
-                            <Download size={20} /> {t("dl.android.directApk")}
-                        </a>
-                        <p className="note">{t("dl.android.note")}</p>
                     </div>
 
                     <div className="platform-card premium-glass">

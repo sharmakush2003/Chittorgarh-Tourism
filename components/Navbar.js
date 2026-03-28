@@ -13,7 +13,7 @@ export default function Navbar() {
     const pathname = usePathname();
     const { lang, changeLanguage, t } = useLanguage();
 
-    const isHiddenPath = pathname === "/chittorgarh-fort";
+    const isHiddenPath = false;
     const langRef = useRef(null);
 
     useEffect(() => {
@@ -57,7 +57,7 @@ export default function Navbar() {
         { href: "/how-to-reach", label: t("nav.howToReach") },
     ];
 
-    const isContactPath = pathname === "/contact-us";
+    const isContactPath = false;
 
     if (isHiddenPath) return null;
 

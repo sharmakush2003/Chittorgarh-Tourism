@@ -53,6 +53,9 @@ export default function HomeClient() {
                         <Link href="/plan" className="btn-gold" onClick={() => triggerHaptic('light')}>
                             {t("hero.cta1")}
                         </Link>
+                        <Link href="/panch-gaurav" className="btn-outline-gold" onClick={() => triggerHaptic('medium')}>
+                            {t("hero.cta_gaurav")}
+                        </Link>
                         <QRScannerButton />
                     </motion.div>
                 </div>
@@ -317,6 +320,46 @@ export default function HomeClient() {
                         align-items: flex-start;
                         overflow: visible;
                     }
+                }
+                .btn-outline-gold {
+                    display: inline-flex;
+                    align-items: center;
+                    justify-content: center;
+                    padding: 0.9rem 2rem;
+                    background: transparent;
+                    color: #D4AF37;
+                    border: 2px solid #D4AF37;
+                    border-radius: 8px;
+                    font-weight: 800;
+                    text-transform: uppercase;
+                    letter-spacing: 2px;
+                    font-size: 0.9rem;
+                    transition: all 0.3s ease;
+                    text-decoration: none;
+                    position: relative;
+                    overflow: hidden;
+                    text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+                }
+
+                .btn-outline-gold:hover {
+                    background: rgba(212, 175, 55, 0.1);
+                    transform: translateY(-2px);
+                    box-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
+                    color: #fff;
+                    border-color: #fff;
+                }
+
+                .btn-outline-gold::after {
+                    content: '';
+                    position: absolute;
+                    top: 0; left: -100%;
+                    width: 100%; height: 100%;
+                    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+                    transition: 0.5s;
+                }
+
+                .btn-outline-gold:hover::after {
+                    left: 100%;
                 }
 
                 .hero-overlay {
