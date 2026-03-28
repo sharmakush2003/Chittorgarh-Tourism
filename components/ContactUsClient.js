@@ -2,9 +2,9 @@
 
 import { useLanguage } from "@/context/LanguageContext";
 import React, { useState, useEffect, useRef } from "react";
-import { 
-    Play, 
-    Pause, 
+import {
+    Play,
+    Pause,
     ArrowLeft,
     ChevronDown,
     ChevronUp,
@@ -36,7 +36,7 @@ export default function ContactUsClient() {
     };
 
     return (
-        <motion.div 
+        <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 1 }}
@@ -46,8 +46,8 @@ export default function ContactUsClient() {
             <section className="fort-hero">
                 <div className="hero-bg" style={{ backgroundColor: "#0F0A06", backgroundPosition: 'center center' }}></div>
                 <div className="hero-overlay"></div>
-                
-                <motion.div 
+
+                <motion.div
                     initial={{ y: 30, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
                     transition={{ delay: 0.2, duration: 0.8 }}
@@ -68,7 +68,7 @@ export default function ContactUsClient() {
             <main className="fort-main">
                 {/* ═══ NODAL OFFICER SECTION ══════════════════════════ */}
                 <section id="nodal" className="fort-section">
-                    <motion.div 
+                    <motion.div
                         initial={{ opacity: 0, y: 30 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
@@ -79,7 +79,7 @@ export default function ContactUsClient() {
                     </motion.div>
 
                     <div style={{ display: 'flex', justifyContent: 'center' }}>
-                        <motion.div 
+                        <motion.div
                             initial={{ opacity: 0, scale: 0.95 }}
                             whileInView={{ opacity: 1, scale: 1 }}
                             viewport={{ once: true }}
@@ -88,7 +88,7 @@ export default function ContactUsClient() {
                         >
                             <div className="mon-content">
                                 <h3 className="mon-name" style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
-                                    <span style={{ color: 'var(--gold)' }}><User size={24} /></span> 
+                                    <span style={{ color: 'var(--gold)' }}><User size={24} /></span>
                                     {t("contact.nodal.name")}
                                 </h3>
                                 <div className="role-badge">
@@ -99,10 +99,12 @@ export default function ContactUsClient() {
                                         <Mail size={16} color="var(--gold)" />
                                         <a href={`mailto:${t("contact.nodal.email")}`}>{t("contact.nodal.email")}</a>
                                     </div>
-                                    <div className="email-link">
-                                        <Phone size={16} color="var(--gold)" />
-                                        <a href={`tel:${t("contact.nodal.mobile")}`}>{t("contact.nodal.mobile")} (Mobile)</a>
-                                    </div>
+                                    {t("contact.nodal.mobile") && t("contact.nodal.mobile") !== "contact.nodal.mobile" && (
+                                        <div className="email-link">
+                                            <Phone size={16} color="var(--gold)" />
+                                            <a href={`tel:${t("contact.nodal.mobile")}`}>{t("contact.nodal.mobile")} (Mobile)</a>
+                                        </div>
+                                    )}
                                     <div className="email-link">
                                         <Phone size={16} color="var(--gold)" />
                                         <span>{t("contact.nodal.office")} (Office)</span>
@@ -115,7 +117,7 @@ export default function ContactUsClient() {
 
                 {/* ═══ TECHNICAL ASSISTANCE SECTION ══════════════════════════ */}
                 <section id="assistance" className="fort-section">
-                    <motion.div 
+                    <motion.div
                         initial={{ opacity: 0, y: 30 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
@@ -127,8 +129,8 @@ export default function ContactUsClient() {
 
                     <div className="monuments-list" style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '2.5rem' }}>
                         {TEAM.map((m, idx) => (
-                            <motion.div 
-                                key={m.id} 
+                            <motion.div
+                                key={m.id}
                                 initial={{ opacity: 0, scale: 0.95 }}
                                 whileInView={{ opacity: 1, scale: 1 }}
                                 viewport={{ once: true }}
@@ -138,7 +140,7 @@ export default function ContactUsClient() {
                             >
                                 <div className="mon-content">
                                     <h3 className="mon-name" style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
-                                        <span style={{ color: 'var(--gold)' }}><User size={24} /></span> 
+                                        <span style={{ color: 'var(--gold)' }}><User size={24} /></span>
                                         {t(`contact.${m.id}.name`)}
                                     </h3>
                                     <div className="role-badge">
@@ -149,10 +151,12 @@ export default function ContactUsClient() {
                                             <Mail size={16} color="var(--gold)" />
                                             <a href={`mailto:${m.email}`}>{m.email}</a>
                                         </div>
-                                        <div className="email-link">
-                                            <Phone size={16} color="var(--gold)" />
-                                            <a href={`tel:${t(`contact.${m.id}.mobile`)}`}>{t(`contact.${m.id}.mobile`)} (Mobile)</a>
-                                        </div>
+                                        {t(`contact.${m.id}.mobile`) && t(`contact.${m.id}.mobile`) !== `contact.${m.id}.mobile` && (
+                                            <div className="email-link">
+                                                <Phone size={16} color="var(--gold)" />
+                                                <a href={`tel:${t(`contact.${m.id}.mobile`)}`}>{t(`contact.${m.id}.mobile`)} (Mobile)</a>
+                                            </div>
+                                        )}
                                     </div>
                                 </div>
                             </motion.div>
@@ -162,7 +166,7 @@ export default function ContactUsClient() {
 
                 {/* ═══ MEDIA CONTRIBUTION SECTION ══════════════════════════ */}
                 <section id="media" className="fort-section mesh-bg">
-                    <motion.div 
+                    <motion.div
                         initial={{ opacity: 0, y: 30 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
@@ -173,7 +177,7 @@ export default function ContactUsClient() {
                     </motion.div>
 
                     <div style={{ display: 'flex', justifyContent: 'center' }}>
-                        <motion.div 
+                        <motion.div
                             initial={{ opacity: 0, y: 40 }}
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
@@ -186,7 +190,7 @@ export default function ContactUsClient() {
                                 <p className="mon-desc" style={{ maxWidth: '600px', margin: '0 auto 2.5rem' }}>
                                     {t("contact.media.sub")}
                                 </p>
-                                <a 
+                                <a
                                     href={`mailto:Kushsharma.cor@gmail.com?subject=Media Contribution - Chittorgarh Tourism Portal`}
                                     className="audio-btn"
                                     style={{ maxWidth: '300px', textDecoration: 'none' }}
