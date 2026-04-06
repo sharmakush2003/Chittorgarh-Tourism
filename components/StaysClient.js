@@ -386,7 +386,7 @@ export default function StaysClient() {
                             
                             <div className="featured-actions">
                                 <a 
-                                    href="https://rtdc.tourism.rajasthan.gov.in/" 
+                                    href="https://rtdc.tourism.rajasthan.gov.in/Client/HotelDetails.aspx?HotelID=CHITTORGARHPanna" 
                                     target="_blank" 
                                     rel="noopener noreferrer" 
                                     className="btn-featured-booking"
