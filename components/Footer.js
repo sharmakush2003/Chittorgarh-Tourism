@@ -64,8 +64,8 @@ export default function Footer() {
                             </li>
                             <li className="footer-info-item">
                                 <span className="footer-info-icon">✉️</span>
-                                <a href="mailto:chittorgarh.rj09.tourism@gmail.com" className="footer-email-link">
-                                    chittorgarh.rj09.tourism@gmail.com
+                                <a href="mailto:trcchittorgarh-dot@rajasthan.gov.in" className="footer-email-link">
+                                    trcchittorgarh-dot@rajasthan.gov.in
                                 </a>
                             </li>
                         </ul>
