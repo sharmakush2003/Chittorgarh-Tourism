@@ -1,4 +1,5 @@
 "use client";
+import Image from 'next/image';
 
 import { useLanguage } from "@/context/LanguageContext";
 import React, { useState, useEffect, useRef } from "react";
@@ -502,11 +503,11 @@ export default function MeeraBaiTempleClient() {
                             variants={itemVariants}
                             className="architecture-image-container"
                         >
-                            <img 
+                            <Image 
                                 src="/images/meera-bai-architecture.jpg" 
                                 alt="Meera Bai Temple Architecture" 
                                 className="architecture-image"
-                            />
+                             width={1200} height={800} style={{ objectFit: "cover" }}/>
                             <div className="image-caption">
                                 {lang === 'hi' ? 'मीरा बाई मंदिर की उत्कृष्ट वास्तुकला' : 'Exquisite Architecture of Meera Bai Temple'}
                             </div>

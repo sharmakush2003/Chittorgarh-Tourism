@@ -1,4 +1,5 @@
 "use client";
+import Image from 'next/image';
 
 import { useLanguage } from "@/context/LanguageContext";
 import React, { useState, useEffect, useRef } from "react";
@@ -106,10 +107,10 @@ export default function BassiClient() {
                     </div>
                     <div className="gallery-grid">
                         <div className="gallery-item-large premium-glass">
-                            <img src="/images/bassi_welcome.jpg" alt="Bassi 1" />
+                            <Image src="/images/bassi_welcome.jpg" alt="Bassi 1"  width={1200} height={800} style={{ objectFit: "cover" }}/>
                         </div>
                         <div className="gallery-item-large premium-glass">
-                            <img src="/images/bassi_waterfall.jpg" alt="Bassi 2" />
+                            <Image src="/images/bassi_waterfall.jpg" alt="Bassi 2"  width={1200} height={800} style={{ objectFit: "cover" }}/>
                         </div>
                     </div>
                 </motion.section>

@@ -1,4 +1,5 @@
 "use client";
+import Image from 'next/image';
 
 import { useEffect, useState, useRef } from "react";
 import { useRouter } from "next/navigation";
@@ -299,7 +300,7 @@ export default function HowToReachClient() {
                             return (
                                 <div className={`htr-card ${showCardAtTop ? "htr-card-featured" : ""}`} key={item._key}>
                                     {item.badge && <span className="htr-badge">{t(item.badge)}</span>}
-                                    <img src={item.icon} alt={t(`htr.mode.${item._key}`)} className="htr-card-img" />
+                                    <Image src={item.icon} alt={t(`htr.mode.${item._key}`)} className="htr-card-img"  width={1200} height={800} style={{ objectFit: "cover" }}/>
                                     <div className="htr-card-body">
                                         <div className="htr-card-mode">{t(`htr.mode.${item._key}`)}</div>
                                         <h3 className="htr-card-heading">{t(`htr.head.${item._key}`)}</h3>

@@ -1,4 +1,5 @@
 "use client";
+import Image from 'next/image';
 
 import { useLanguage } from "@/context/LanguageContext";
 import React, { useState, useEffect, useRef } from "react";
@@ -553,13 +554,13 @@ export default function JainTemplesClient() {
                         
                         <motion.div variants={itemVariants} className="architecture-grid">
                             <div className="architecture-image-container">
-                                <img src="/images/jain-temple-1.jpg" alt="Jain Temple Architecture Details" className="architecture-image" />
+                                <Image src="/images/jain-temple-1.jpg" alt="Jain Temple Architecture Details" className="architecture-image"  width={1200} height={800} style={{ objectFit: "cover" }}/>
                                 <div className="image-caption">
                                     {lang === 'hi' ? 'जैन मंदिर की वास्तुकला' : 'Jain Temple Architecture Details'}
                                 </div>
                             </div>
                             <div className="architecture-image-container">
-                                <img src="/images/jain-temple-2.jpg" alt="Exquisite Carvings of Jain Temple" className="architecture-image" />
+                                <Image src="/images/jain-temple-2.jpg" alt="Exquisite Carvings of Jain Temple" className="architecture-image"  width={1200} height={800} style={{ objectFit: "cover" }}/>
                                 <div className="image-caption">
                                     {lang === 'hi' ? 'उत्कृष्ट नक्काशी' : 'Exquisite Carvings'}
                                 </div>

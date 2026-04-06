@@ -1,4 +1,5 @@
 "use client";
+import Image from 'next/image';
 
 import { useLanguage } from "@/context/LanguageContext";
 import { Flower, Calendar, MapPin, ArrowRight, Sun, Wind, Cloud, Ticket } from 'lucide-react';
@@ -340,12 +341,12 @@ function GlassCard({ title, desc, time, dist, delay, link, image, imgPos = 'cent
                 {image ? (
                     <div className="card-image-wrapper">
                         {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img
+                        <Image
                             src={image}
                             alt={title}
                             className="card-image"
-                            style={{ objectPosition: imgPos }}
-                        />
+                            style={{ objectFit: "cover",  objectPosition: imgPos }}
+                         width={1200} height={800}/>
                     </div>
                 ) : (
                     <div className="card-icon-wrapper">

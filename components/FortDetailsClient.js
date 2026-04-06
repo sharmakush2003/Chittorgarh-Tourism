@@ -1,4 +1,5 @@
 "use client";
+import Image from 'next/image';
 
 import { useLanguage } from "@/context/LanguageContext";
 import React, { useState, useEffect, useRef } from "react";
@@ -118,7 +119,7 @@ export default function FortDetailsClient() {
                                 className="monument-card premium-glass"
                             >
                                 <div className="mon-image-wrapper">
-                                    <img src={m.image} alt={t(`attr.${m.id}.name`)} className="mon-card-img" />
+                                    <Image src={m.image} alt={t(`attr.${m.id}.name`)} className="mon-card-img"  width={1200} height={800} style={{ objectFit: "cover" }}/>
 
                                 </div>
 

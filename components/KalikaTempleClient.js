@@ -1,4 +1,5 @@
 "use client";
+import Image from 'next/image';
 
 import { useLanguage } from "@/context/LanguageContext";
 import React, { useState, useEffect, useRef } from "react";
@@ -107,11 +108,11 @@ export default function KalikaTempleClient() {
                             className="monument-card premium-glass"
                         >
                             <div className="mon-image-wrapper" style={{ height: '300px' }}>
-                                <img 
+                                <Image 
                                     src="/images/kalika/exterior.jpg" 
                                     alt="Kalika Mata Temple Exterior" 
                                     className="mon-card-img"
-                                />
+                                 width={1200} height={800} style={{ objectFit: "cover" }}/>
                             </div>
                             <div className="mon-content">
                                 <h3 className="mon-name">{t("kalika.visuals.exterior.title") || "Temple Architecture"}</h3>
@@ -127,11 +128,11 @@ export default function KalikaTempleClient() {
                             className="monument-card premium-glass"
                         >
                             <div className="mon-image-wrapper" style={{ height: '300px' }}>
-                                <img 
+                                <Image 
                                     src="/images/kalika/idols.jpg" 
                                     alt="Kalika Mata Idols" 
                                     className="mon-card-img"
-                                />
+                                 width={1200} height={800} style={{ objectFit: "cover" }}/>
                             </div>
                             <div className="mon-content">
                                 <h3 className="mon-name">{t("kalika.visuals.idols.title") || "Goddess Kalika"}</h3>

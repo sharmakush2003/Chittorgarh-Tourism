@@ -1,4 +1,5 @@
 "use client";
+import Image from 'next/image';
 
 import { useLanguage } from "@/context/LanguageContext";
 import React, { useState, useEffect, useRef } from "react";
@@ -108,10 +109,10 @@ export default function SitamataClient() {
                     </div>
                     <div className="gallery-grid">
                         <div className="gallery-item-large premium-glass">
-                            <img src="/images/sitamata_1.jpg" alt="Sitamata 1" />
+                            <Image src="/images/sitamata_1.jpg" alt="Sitamata 1"  width={1200} height={800} style={{ objectFit: "cover" }}/>
                         </div>
                         <div className="gallery-item-large premium-glass">
-                            <img src="/images/sitamata_2.jpg" alt="Sitamata 2" />
+                            <Image src="/images/sitamata_2.jpg" alt="Sitamata 2"  width={1200} height={800} style={{ objectFit: "cover" }}/>
                         </div>
                     </div>
                 </motion.section>

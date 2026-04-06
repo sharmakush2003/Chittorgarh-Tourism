@@ -1,4 +1,5 @@
 "use client";
+import Image from 'next/image';
 
 import { useLanguage } from "@/context/LanguageContext";
 import React, { useState, useEffect, useRef } from "react";
@@ -494,13 +495,13 @@ export default function RatanPalaceClient() {
                             variants={itemVariants}
                             className="gallery-item"
                         >
-                            <img src="/ratan_singh_palace.jpg" alt="Ratan Singh Palace" className="gallery-img" />
+                            <Image src="/ratan_singh_palace.jpg" alt="Ratan Singh Palace" className="gallery-img"  width={1200} height={800} style={{ objectFit: "cover" }}/>
                         </motion.div>
                         <motion.div 
                             variants={itemVariants}
                             className="gallery-item"
                         >
-                            <img src="/images/Ratan singh palace new.jpg" alt="Ratan Singh Palace New" className="gallery-img" />
+                            <Image src="/images/Ratan singh palace new.jpg" alt="Ratan Singh Palace New" className="gallery-img"  width={1200} height={800} style={{ objectFit: "cover" }}/>
                         </motion.div>
                     </div>
                 </motion.section>

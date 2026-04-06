@@ -1,4 +1,5 @@
 "use client";
+import Image from 'next/image';
 
 import Link from "next/link";
 import { useLanguage } from "@/context/LanguageContext";
@@ -539,7 +540,7 @@ function HighlightCard({ image, title, desc, delay, href = "/explore" }) {
     return (
         <div className="highlight-card premium-glass">
             <div className="card-image-wrapper">
-                <img src={image} alt={title} className="card-img" />
+                <Image src={image} alt={title} className="card-img"  width={1200} height={800} style={{ objectFit: "cover" }}/>
                 <div className="card-overlay"></div>
             </div>
             <div className="card-content">

@@ -1,4 +1,5 @@
 "use client";
+import Image from 'next/image';
 
 import { useLanguage } from "@/context/LanguageContext";
 import { Flower, ArrowRight, MapPin, Navigation, Hotel } from 'lucide-react';
@@ -346,7 +347,7 @@ export default function StaysClient() {
                     
                     <div className="featured-card">
                         <div className="featured-image-container">
-                            <img src="/panna.png" alt="Hotel Panna" className="featured-image" />
+                            <Image src="/panna.png" alt="Hotel Panna" className="featured-image"  width={1200} height={800} style={{ objectFit: "cover" }}/>
                             <div className="gov-badge">
                                 <Hotel size={14} />
                                 <span>{t("stays.featured.badge")}</span>

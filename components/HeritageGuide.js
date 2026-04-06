@@ -1,4 +1,5 @@
 "use client";
+import Image from 'next/image';
 
 import { useState, useRef, useEffect } from "react";
 import { usePathname } from "next/navigation";
@@ -244,11 +245,11 @@ export default function HeritageGuide() {
                 {isOpen ? (
                     <span className="guide-icon">✕</span>
                 ) : (
-                    <img
+                    <Image
                         src="/vijay_stambh.jpg"
                         alt="Guide"
                         className="guide-image"
-                    />
+                     width={1200} height={800} style={{ objectFit: "cover" }}/>
                 )}
             </div>
 

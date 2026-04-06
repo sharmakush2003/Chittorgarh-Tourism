@@ -1,4 +1,5 @@
 "use client";
+import Image from 'next/image';
 
 import { useLanguage } from "@/context/LanguageContext";
 import React, { useState, useEffect, useRef } from "react";
@@ -489,22 +490,22 @@ export default function FatehPrakashClient() {
                             whileHover={{ scale: 1.02 }}
                             className="glass-panel gallery-item"
                         >
-                            <img 
+                            <Image 
                                 src="/images/fateh-prakash-arch.jpg" 
                                 alt="Fateh Prakash Palace Architecture 1"
-                                style={{ width: '100%', height: '100%', objectFit: 'cover', opacity: 0.9 }}
-                            />
+                                style={{ objectFit: "cover",  width: '100%', height: '100%', objectFit: 'cover', opacity: 0.9 }}
+                             width={1200} height={800}/>
                         </motion.div>
                         <motion.div 
                             variants={itemVariants}
                             whileHover={{ scale: 1.02 }}
                             className="glass-panel gallery-item"
                         >
-                            <img 
+                            <Image 
                                 src="/images/fateh-prakash-arch2.jpg" 
                                 alt="Fateh Prakash Palace Architecture 2"
-                                style={{ width: '100%', height: '100%', objectFit: 'cover', opacity: 0.9 }}
-                            />
+                                style={{ objectFit: "cover",  width: '100%', height: '100%', objectFit: 'cover', opacity: 0.9 }}
+                             width={1200} height={800}/>
                         </motion.div>
                     </div>
 

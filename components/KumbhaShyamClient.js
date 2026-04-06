@@ -1,4 +1,5 @@
 "use client";
+import Image from 'next/image';
 
 import { useLanguage } from "@/context/LanguageContext";
 import React, { useState, useEffect, useRef } from "react";
@@ -475,11 +476,11 @@ export default function KumbhaShyamClient() {
                                 className="glass-panel"
                                 style={{ padding: '0', overflow: 'hidden', height: 'auto', border: '1px solid rgba(212, 175, 55, 0.4)', boxShadow: '0 40px 80px rgba(0,0,0,0.8)', aspectRatio: '16/10' }}
                             >
-                                <img 
+                                <Image 
                                     src="/images/Kumbha Shyam 1.jpg" 
                                     alt="Kumbha Shyam Temple Architecture"
-                                    style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block', opacity: 1 }}
-                                />
+                                    style={{ objectFit: "cover",  width: '100%', height: '100%', objectFit: 'cover', display: 'block', opacity: 1 }}
+                                 width={1200} height={800}/>
                             </motion.div>
                         </div>
 

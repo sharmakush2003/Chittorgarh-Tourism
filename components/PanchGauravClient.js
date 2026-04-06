@@ -1,4 +1,5 @@
 "use client";
+import Image from 'next/image';
 
 import { useLanguage } from "@/context/LanguageContext";
 import { 
@@ -69,11 +70,11 @@ export default function PanchGauravClient() {
                             >
                                 <div className="card-image-wrapper">
                                     {/* eslint-disable-next-line @next/next/no-img-element */}
-                                    <img 
+                                    <Image 
                                         src={pillar.image} 
                                         alt={t(`pg.pillar.${pillar.key}.name`)} 
                                         className="card-image" 
-                                    />
+                                     width={1200} height={800} style={{ objectFit: "cover" }}/>
                                     <div className="image-overlay"></div>
                                 </div>
                                 <div className="card-content">
