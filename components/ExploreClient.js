@@ -36,7 +36,7 @@ export default function ExploreClient() {
                             delay={0}
                             link="/chittorgarh-fort"
                             image="/hero_bg.png"
-                            bookingLink="https://obms-tourist.rajasthan.gov.in/place-details/Chittorgarh-Fort"
+                            bookingLink="https://eticket.webfront.in/asi/quick/chf"
                         />
                         <GlassCard
                             title={t("attr.vijay.name")}
