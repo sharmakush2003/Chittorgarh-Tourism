@@ -136,12 +136,7 @@ export default function HomeClient() {
                     </header>
 
                     <div className="grid">
-                        <FeatureCard 
-                            icon={<Map size={32} />}
-                            title={t("feat.c1.title")}
-                            desc={t("feat.c1.desc")}
-                            delay={0.1}
-                        />
+
                         <FeatureCard 
                             icon={<Zap size={32} />}
                             title={t("feat.c2.title")}
