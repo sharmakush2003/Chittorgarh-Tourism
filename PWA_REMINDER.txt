@@ -1,0 +1,18 @@
+# PWA CACHE REMINDER
+
+**DATE WRITTEN:** April 2026
+**STATUS:** PWA Caching left on Default (Instant Updates)
+
+**Notes:**
+- We discussed changing the PWA Service Worker to ping Vercel only once every 3 days.
+- **Why we DID NOT do it entirely:** A PWA Service Worker doesn't just apply to the "mobile app." It installs inside the browser of ANYONE visiting your regular website (`chittorgarhtourism.com`). 
+- If we forcefully cache the website's code for 3 days, regular website visitors will NOT see your fast daily edits. They would be forced to look at a 3-day old version of your site.
+- Because we already solved 95% of the Vercel Edge Requests issue by turning off `<Link prefetch>`, we decided it was much safer to let the PWA check for code updates normally. This guarantees users always see your fresh code!
+
+**Current Cache Rules (in next.config.mjs):**
+- Images: Cached for 30 days
+- Fonts: Cached for 1 year
+- Translations: StaleWhileRevalidate (30 days)
+- HTML/Code: Default (Checks for updates so you don't trap users on old code)
+
+If you ever want to forcefully cache HTML/Code and make the site entirely offline for 3 days without checking for updates, you will need to add a 'CacheFirst' rule for HTML/JS routing in `next.config.mjs`.

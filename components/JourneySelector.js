@@ -151,8 +151,7 @@ export default function JourneySelector() {
                                 <p className="desc-v3">{t(`journey.cat.${selectedDomain.id}.desc`)}</p>
                                 
                                 <div className="cta-wrapper-v3">
-                                    <Link 
-                                        href={selectedDomain.link} 
+                                    <Link prefetch={false} href={selectedDomain.link} 
                                         className="btn-gold-v3"
                                         onClick={() => triggerHaptic('success')}
                                     >

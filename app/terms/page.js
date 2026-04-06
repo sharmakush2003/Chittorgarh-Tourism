@@ -27,7 +27,7 @@ export default function TermsAndConditions() {
                 padding: "0 1.5rem",
             }}>
                 <div style={{ marginBottom: "2rem" }}>
-                    <Link href="/" style={{
+                    <Link prefetch={false} href="/" style={{
                         display: "inline-flex",
                         alignItems: "center",
                         gap: "0.5rem",

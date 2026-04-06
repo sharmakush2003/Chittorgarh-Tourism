@@ -31,7 +31,7 @@ export default function ComingSoonPage() {
 
                 <div className="gold-divider"></div>
 
-                <Link href="/explore" className="btn-gold" onClick={() => triggerHaptic('light')}>
+                <Link prefetch={false} href="/explore" className="btn-gold" onClick={() => triggerHaptic('light')}>
                     Explore Other Landmarks
                 </Link>
             </motion.div>

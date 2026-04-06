@@ -397,7 +397,7 @@ function GlassCard({ title, desc, time, dist, delay, link, image, imgPos = 'cent
 
                     <div className="card-actions" style={{ display: 'flex', gap: '0.5rem', alignItems: 'center', marginTop: 'auto', width: '100%' }}>
                         {link && (link.startsWith('/') ? (
-                            <Link href={link} className="read-more">
+                            <Link prefetch={false} href={link} className="read-more">
                                 {t("btn.readMore")} <ArrowRight className="arrow" size={16} />
                             </Link>
                         ) : (

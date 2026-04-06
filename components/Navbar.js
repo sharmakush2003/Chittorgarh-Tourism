@@ -64,8 +64,7 @@ export default function Navbar() {
     return (
         <>
             <nav className={`navbar ${scrolled ? "scrolled" : ""}`} id="navbar">
-                <Link 
-                    href="/" 
+                <Link prefetch={false} href="/" 
                     className="logo"
                     style={{ 
                         opacity: isMenuOpen || isContactPath ? 0 : 1, 
@@ -82,7 +81,7 @@ export default function Navbar() {
                 <ul className="nav-links">
                     {navLinks.map((link) => (
                         <li key={link.href}>
-                            <Link href={link.href} className={isActive(link.href)}>
+                            <Link prefetch={false} href={link.href} className={isActive(link.href)}>
                                 {link.label}
                             </Link>
                         </li>
@@ -136,8 +135,7 @@ export default function Navbar() {
                 </div>
 
                 {navLinks.map((link, idx) => (
-                    <Link
-                        key={link.href}
+                    <Link prefetch={false} key={link.href}
                         href={link.href}
                         className={`mobile-link ${isActive(link.href)}`}
                         onClick={() => setIsMenuOpen(false)}
@@ -148,8 +146,7 @@ export default function Navbar() {
                 ))}
 
 
-                <Link
-                    href="/panch-gaurav"
+                <Link prefetch={false} href="/panch-gaurav"
                     className={`mobile-link ${isActive("/panch-gaurav")}`}
                     onClick={() => setIsMenuOpen(false)}
                     style={{ 
@@ -159,8 +156,7 @@ export default function Navbar() {
                     {t("nav.panchGaurav") || "Panch Gaurav"}
                 </Link>
 
-                <Link
-                    href="/emergency"
+                <Link prefetch={false} href="/emergency"
                     className={`mobile-link ${isActive("/emergency")} mobile-emergency-link`}
                     onClick={() => setIsMenuOpen(false)}
                     style={{ 
@@ -170,8 +166,7 @@ export default function Navbar() {
                     {t("nav.emergency") || "Emergency Info"}
                 </Link>
 
-                <Link
-                    href="/download"
+                <Link prefetch={false} href="/download"
                     className={`mobile-link ${isActive("/download")} mobile-install-link`}
                     onClick={() => setIsMenuOpen(false)}
                     style={{ 
@@ -181,8 +176,7 @@ export default function Navbar() {
                     {t("nav.download") || "Download App"}
                 </Link>
 
-                <Link
-                    href="/contact-us"
+                <Link prefetch={false} href="/contact-us"
                     className={`mobile-link ${isActive("/contact-us")} mobile-contact-link`}
                     onClick={() => setIsMenuOpen(false)}
                     style={{ 

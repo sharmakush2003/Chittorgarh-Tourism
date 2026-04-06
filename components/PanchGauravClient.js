@@ -115,7 +115,7 @@ export default function PanchGauravClient() {
                         <div className="ai-disclaimer">
                             {t("pg.aiNote")}
                         </div>
-                        <Link href="/" className="read-more" onClick={() => triggerHaptic('light')}>
+                        <Link prefetch={false} href="/" className="read-more" onClick={() => triggerHaptic('light')}>
                             {t("nav.home")} <ArrowRight className="arrow" size={16} />
                         </Link>
                     </div>

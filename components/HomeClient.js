@@ -50,10 +50,10 @@ export default function HomeClient() {
                         transition={{ duration: 0.8, delay: 0.6 }}
                         className="hero-actions"
                     >
-                        <Link href="/plan" className="btn-gold" onClick={() => triggerHaptic('light')}>
+                        <Link prefetch={false} href="/plan" className="btn-gold" onClick={() => triggerHaptic('light')}>
                             {t("hero.cta1")}
                         </Link>
-                        <Link href="/panch-gaurav" className="btn-outline-gold" onClick={() => triggerHaptic('medium')}>
+                        <Link prefetch={false} href="/panch-gaurav" className="btn-outline-gold" onClick={() => triggerHaptic('medium')}>
                             {t("hero.cta_gaurav")}
                         </Link>
                         <QRScannerButton />
@@ -210,7 +210,7 @@ export default function HomeClient() {
                         viewport={{ once: true }}
                         transition={{ delay: 0.4 }}
                     >
-                        <Link href="/plan" className="btn-gold" onClick={() => triggerHaptic('light')}>
+                        <Link prefetch={false} href="/plan" className="btn-gold" onClick={() => triggerHaptic('light')}>
                             {t("cta.btn")}
                         </Link>
                     </motion.div>
@@ -545,7 +545,7 @@ function HighlightCard({ image, title, desc, delay, href = "/explore" }) {
             <div className="card-content">
                 <h3>{title}</h3>
                 <p>{desc}</p>
-                <Link href={href} className="explore-btn" style={{ color: 'var(--gold)', textDecoration: 'none', fontSize: '0.8rem', letterSpacing: '2px', textTransform: 'uppercase', marginTop: '1.5rem', display: 'inline-block' }}>
+                <Link prefetch={false} href={href} className="explore-btn" style={{ color: 'var(--gold)', textDecoration: 'none', fontSize: '0.8rem', letterSpacing: '2px', textTransform: 'uppercase', marginTop: '1.5rem', display: 'inline-block' }}>
                     {t("highlights.explore")}
                 </Link>
             </div>
