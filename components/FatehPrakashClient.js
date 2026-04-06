@@ -6,7 +6,8 @@ import React, { useState, useEffect, useRef } from "react";
 import { 
     Play, 
     Pause, 
-    ArrowLeft
+    ArrowLeft,
+    Ticket
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { motion, useScroll, useTransform } from "framer-motion";
@@ -276,6 +277,30 @@ export default function FatehPrakashClient() {
                     text-shadow: 0 2px 15px rgba(0,0,0,0.9);
                 }
 
+                .cta-btn {
+                    display: inline-flex;
+                    align-items: center;
+                    gap: 0.75rem;
+                    color: #000;
+                    font-size: 1rem;
+                    letter-spacing: 2px;
+                    text-transform: uppercase;
+                    font-weight: 800;
+                    background: var(--gold);
+                    padding: 1.2rem 3rem;
+                    border: none;
+                    border-radius: 50px;
+                    cursor: pointer;
+                    transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+                    margin-top: 2rem;
+                    box-shadow: 0 10px 30px var(--gold-glow);
+                }
+                .cta-btn:hover {
+                    background: #fff;
+                    transform: translateY(-5px) scale(1.05);
+                    box-shadow: 0 20px 40px rgba(255,255,255,0.3);
+                }
+
 
 
                 /* --- Sections --- */
@@ -427,6 +452,17 @@ export default function FatehPrakashClient() {
                             </motion.span>
                         ))}
                     </motion.p>
+
+                    <motion.div variants={itemVariants} style={{ marginTop: '2rem' }}>
+                        <a 
+                            href="https://obms-tourist.rajasthan.gov.in/place-details/Government-Museum-Chittorgarh" 
+                            target="_blank" 
+                            rel="noopener noreferrer"
+                            className="cta-btn"
+                        >
+                            <Ticket size={22} /> {t("btn.bookTickets")}
+                        </a>
+                    </motion.div>
                 </motion.div>
                 
                 {/* NO SCROLL INDICATOR */}

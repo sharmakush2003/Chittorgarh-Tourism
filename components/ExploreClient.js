@@ -84,6 +84,7 @@ export default function ExploreClient() {
                             delay={5}
                             link="/fateh-prakash"
                             image="/fateh_prakash_palace.jpg"
+                            bookingLink="https://obms-tourist.rajasthan.gov.in/place-details/Government-Museum-Chittorgarh"
                         />
                         <GlassCard
                             title={t("attr.gaumukh.name")}
