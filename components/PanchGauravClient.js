@@ -88,21 +88,6 @@ export default function PanchGauravClient() {
                             </motion.div>
                         ))}
 
-                        {/* Special Budget Card */}
-                        <motion.div 
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={isVisible ? { opacity: 1, y: 0 } : {}}
-                            transition={{ duration: 0.5, delay: 0.6 }}
-                            className="glass-card budget-card group"
-                        >
-                            <div className="card-content" style={{ padding: '3.5rem' }}>
-                                <div className="card-icon-wrapper" style={{ marginBottom: '2rem' }}>
-                                    <Coins className="card-icon" style={{ width: '48px', height: '48px' }} />
-                                </div>
-                                <h3 className="card-title text-gold">{t("pg.budget.title")}</h3>
-                                <p className="card-desc font-medium text-white">{t("pg.budget.desc")}</p>
-                            </div>
-                        </motion.div>
                     </div>
 
                     {/* Objectives Section */}
