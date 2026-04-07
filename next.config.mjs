@@ -6,12 +6,12 @@ const withPWA = withPWAInit({
   register: false,
   skipWaiting: true,
   publicExcludes: [
-    '!Each page Pics/**/*',
-    '!Linage pics/**/*',
-    '!Cuisines/**/*',
-    '!QR_codes/**/*',
-    '!fort_map.jpg',
-    '!poster.png',
+    'Each page Pics/**/*',
+    'Linage pics/**/*',
+    'Cuisines/**/*',
+    'QR_codes/**/*',
+    'fort_map.jpg',
+    'poster.png',
   ],
   workboxOptions: {
     runtimeCaching: [
