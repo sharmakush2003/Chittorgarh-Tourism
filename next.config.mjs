@@ -5,8 +5,8 @@ const withPWA = withPWAInit({
   disable: false, // Enabled for local PWA+ testing
   register: false,
   skipWaiting: true,
-  publicExcludes: ['**/*'],
   workboxOptions: {
+    globIgnores: ['**/*'],
     runtimeCaching: [
       {
         urlPattern: /^https:\/\/fonts\.(?:gstatic)\.com\/.*/i,
