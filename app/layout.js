@@ -57,6 +57,19 @@ export const metadata = {
   authors: [{ name: "Chittorgarh Tourism" }],
   creator: "Chittorgarh Tourism",
   manifest: "/manifest.json",
+  robots: {
+    index: false,
+    follow: false,
+    nocache: true,
+    googleBot: {
+      index: false,
+      follow: false,
+      noimageindex: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
   icons: {
     apple: [
       { url: "/icon-192.png", sizes: "192x192", type: "image/png" },
