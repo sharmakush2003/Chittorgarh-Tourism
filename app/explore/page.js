@@ -1,4 +1,4 @@
-import ExploreClient from "@/components/ExploreClient";
+import ExploreLoader from "@/components/ExploreLoader";
 
 export const metadata = {
     title: "Best Historical Places to Visit in Chittorgarh Fort",
@@ -15,6 +15,6 @@ export const metadata = {
     },
 };
 
-export default function Explore() {
-    return <ExploreClient />;
+export default function ExplorePage() {
+    return <ExploreLoader />;
 }

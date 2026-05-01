@@ -320,6 +320,12 @@ export default function VisitorInfoClient() {
                     color: #fff;
                     font-family: var(--ff-body);
                     min-height: 100vh;
+                    animation: fadeIn 0.8s ease-out forwards;
+                }
+
+                @keyframes fadeIn {
+                    from { opacity: 0; }
+                    to { opacity: 1; }
                 }
 
                 .v-container {
@@ -750,7 +756,7 @@ export default function VisitorInfoClient() {
                             </div>
                             <div className="v-smart-note">
                                 <Info size={14} />
-                                <span>Estimates via Google API · Use Maps for real-time traffic</span>
+                                <span>{t("map.note")}</span>
                             </div>
                         </div>
                     )}
@@ -765,8 +771,8 @@ export default function VisitorInfoClient() {
                             <div className="v-map-header">
                                 <div className="v-map-icon"><Navigation size={24} /></div>
                                 <div className="v-map-text">
-                                    <span className="v-map-eyebrow">Personalized Travel Guide</span>
-                                    <h3 className="v-map-title">Route from {fromCity}</h3>
+                                    <span className="v-map-eyebrow">{t("map.eyebrow")}</span>
+                                    <h3 className="v-map-title">{t("map.title").replace("{city}", fromCity)}</h3>
                                 </div>
                             </div>
                             <div className="v-map-iframe-wrapper">
@@ -820,19 +826,19 @@ export default function VisitorInfoClient() {
             <section className="v-section emg-bg">
                 <div className="v-container">
                     <div className="v-section-header">
-                        <span className="v-hero-eyebrow" style={{ color: 'var(--accent-red)' }}>Security & Support</span>
-                        <h2 className="v-sec-title" style={{ color: '#fff' }}>Emergency Hub</h2>
+                        <span className="v-hero-eyebrow" style={{ color: 'var(--accent-red)' }}>{t("emg.hub.eyebrow")}</span>
+                        <h2 className="v-sec-title" style={{ color: '#fff' }}>{t("emg.hub.title")}</h2>
                     </div>
 
                     <div className="emg-grid">
                         {/* SOS SHARING CARD */}
                         <div className="emg-card sos-highlight">
                             <div className="emg-icon-box"><ShieldAlert size={32} /></div>
-                            <h3>SOS Location</h3>
-                            <p>Instantly share your exact coordinates with authorities or family.</p>
+                            <h3>{t("emg.sos.title")}</h3>
+                            <p>{t("emg.sos.sub")}</p>
                             <div className="sos-btns">
                                 <button className="v-btn-sos" onClick={() => sendSOS('whatsapp')} disabled={sosState === "locating"}>
-                                    <MessageSquare size={18} /> {sosState === "locating" ? "Locating..." : "WhatsApp"}
+                                    <MessageSquare size={18} /> {sosState === "locating" ? t("emg.sos.locating") : "WhatsApp"}
                                 </button>
                                 <button className="v-btn-outline emg-btn-red" onClick={() => sendSOS('sms')} disabled={sosState === "locating"}>
                                     <Phone size={18} /> SMS
@@ -843,14 +849,14 @@ export default function VisitorInfoClient() {
                         {/* POLICE */}
                         <div className="emg-card">
                             <div className="emg-icon-box" style={{ color: '#f87171' }}><ShieldAlert size={28} /></div>
-                            <h3>Police</h3>
+                            <h3>{t("emg.group.police")}</h3>
                             <div className="emg-contact-list">
                                 <div className="emg-item">
-                                    <div className="emg-label">Control Room <small>24/7</small></div>
+                                    <div className="emg-label">{t("emg.contact.pcr")} <small>{t("emg.note.247")}</small></div>
                                     <a href="tel:01472240088" className="emg-val">01472-240088</a>
                                 </div>
                                 <div className="emg-item">
-                                    <div className="emg-label">Helpline <small>Emergency</small></div>
+                                    <div className="emg-label">{t("emg.contact.policeHelpline")} <small>{t("emg.note.emergency")}</small></div>
                                     <a href="tel:112" className="emg-val">112</a>
                                 </div>
                             </div>
@@ -859,14 +865,14 @@ export default function VisitorInfoClient() {
                         {/* MEDICAL */}
                         <div className="emg-card">
                             <div className="emg-icon-box" style={{ color: '#f87171' }}><Hospital size={28} /></div>
-                            <h3>Medical</h3>
+                            <h3>{t("emg.group.medical")}</h3>
                             <div className="emg-contact-list">
                                 <div className="emg-item">
-                                    <div className="emg-label">Ambulance <small>ERS</small></div>
+                                    <div className="emg-label">{t("emg.contact.ambulanceErs")} <small>{t("emg.note.emergency")}</small></div>
                                     <a href="tel:108" className="emg-val">108</a>
                                 </div>
                                 <div className="emg-item">
-                                    <div className="emg-label">Birla Hospital <small>24/7</small></div>
+                                    <div className="emg-label">{t("emg.contact.birla")} <small>{t("emg.note.247")}</small></div>
                                     <a href="tel:09530388881" className="emg-val">09530388881</a>
                                 </div>
                             </div>
@@ -875,14 +881,14 @@ export default function VisitorInfoClient() {
                         {/* TOURIST */}
                         <div className="emg-card">
                             <div className="emg-icon-box" style={{ color: 'var(--accent-gold)' }}><Info size={28} /></div>
-                            <h3>Tourist</h3>
+                            <h3>{t("emg.group.helpline")}</h3>
                             <div className="emg-contact-list">
                                 <div className="emg-item">
-                                    <div className="emg-label">TRC Reception <small>Info</small></div>
+                                    <div className="emg-label">{t("emg.contact.trc")} <small>{t("emg.note.reception")}</small></div>
                                     <a href="tel:01472241089" className="emg-val">01472-241089</a>
                                 </div>
                                 <button className="v-btn-gold emg-dl-btn" onClick={downloadPDF}>
-                                    <Download size={16} /> Offline Guide
+                                    <Download size={16} /> {t("emg.pdf.btn")}
                                 </button>
                             </div>
                         </div>

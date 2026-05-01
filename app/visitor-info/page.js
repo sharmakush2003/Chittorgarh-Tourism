@@ -1,4 +1,4 @@
-import VisitorInfoClient from "@/components/VisitorInfoClient";
+import VisitorInfoLoader from "@/components/VisitorInfoLoader";
 
 export const metadata = {
     title: "Visitor Information Hub | Chittorgarh Tourism",
@@ -9,5 +9,5 @@ export const metadata = {
 };
 
 export default function VisitorInfoPage() {
-    return <VisitorInfoClient />;
+    return <VisitorInfoLoader />;
 }

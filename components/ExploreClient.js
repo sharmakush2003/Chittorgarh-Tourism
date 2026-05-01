@@ -2,9 +2,9 @@
 import Image from 'next/image';
 
 import { useLanguage } from "@/context/LanguageContext";
-import { 
-    Flower, Calendar, MapPin, ArrowRight, Sun, Wind, 
-    Cloud, Ticket, Share2, Navigation, X, Send, Hotel 
+import {
+    Flower, Calendar, MapPin, ArrowRight, Sun, Wind,
+    Cloud, Ticket, Share2, Navigation, X, Send, Hotel
 } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { triggerHaptic } from "@/lib/haptics";
@@ -217,23 +217,23 @@ export default function ExploreClient() {
                                 <Flower size={14} className="badge-icon" />
                                 <span>{t("stays.featured.label")}</span>
                             </div>
-                            
+
                             <div className="featured-card">
                                 <div className="featured-image-container">
-                                    <Image src="/panna.png" alt="Hotel Panna" className="featured-image"  width={1200} height={800} style={{ objectFit: "cover" }}/>
+                                    <Image src="/panna.png" alt="Hotel Panna" className="featured-image" width={1200} height={800} style={{ objectFit: "cover" }} />
                                     <div className="gov-badge">
                                         <Hotel size={14} />
                                         <span>{t("stays.featured.badge")}</span>
                                     </div>
                                 </div>
-                                
+
                                 <div className="featured-info">
                                     <div className="info-header">
                                         <span className="tagline">{t("stays.rtdc.tagline")}</span>
                                         <h2 className="featured-title">{t("stays.rtdc.title")}</h2>
                                     </div>
                                     <p className="featured-desc">{t("stays.rtdc.desc")}</p>
-                                    
+
                                     <div className="featured-meta">
                                         <div className="smart-badges">
                                             <div className="smart-pill walk">
@@ -257,21 +257,21 @@ export default function ExploreClient() {
                                             <span>{t("lbl.government")}</span>
                                         </div>
                                     </div>
-                                    
+
                                     <div className="featured-actions">
-                                        <a 
-                                            href="https://rtdc.tourism.rajasthan.gov.in/Client/HotelDetails.aspx?HotelID=CHITTORGARHPanna" 
-                                            target="_blank" 
-                                            rel="noopener noreferrer" 
+                                        <a
+                                            href="https://rtdc.tourism.rajasthan.gov.in/Client/HotelDetails.aspx?HotelID=CHITTORGARHPanna"
+                                            target="_blank"
+                                            rel="noopener noreferrer"
                                             className="btn-featured-booking"
                                         >
                                             <span>{t("stays.featured.booking")}</span>
                                             <ArrowRight size={18} />
                                         </a>
-                                        <a 
-                                            href={rtdcStats.mapsLink} 
-                                            target="_blank" 
-                                            rel="noopener noreferrer" 
+                                        <a
+                                            href={rtdcStats.mapsLink}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
                                             className="btn-featured-booking secondary"
                                         >
                                             <Navigation size={18} />
@@ -283,10 +283,10 @@ export default function ExploreClient() {
                         </div>
 
                         <div className="search-other-container">
-                            <a 
-                                href="https://www.google.com/search?q=Chittorgarh+Hotels" 
-                                target="_blank" 
-                                rel="noopener noreferrer" 
+                            <a
+                                href="https://www.google.com/search?q=Chittorgarh+Hotels"
+                                target="_blank"
+                                rel="noopener noreferrer"
                                 className="search-other-link"
                             >
                                 <span>{t("stays.searchOther")}</span>
@@ -657,8 +657,8 @@ function GlassCard({ title, desc, time, dist, delay, link, image, imgPos = 'cent
                             src={image}
                             alt={title}
                             className="card-image"
-                            style={{ objectFit: "cover",  objectPosition: imgPos }}
-                         width={1200} height={800}/>
+                            style={{ objectFit: "cover", objectPosition: imgPos }}
+                            width={1200} height={800} />
                     </div>
                 ) : (
                     <div className="card-icon-wrapper">
