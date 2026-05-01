@@ -52,9 +52,8 @@ export default function Navbar() {
     const navLinks = [
         { href: "/", label: t("nav.home") },
         { href: "/explore", label: t("nav.explore") },
-        { href: "/stays", label: t("nav.stays") },
         { href: "/plan", label: t("nav.planTrip") },
-        { href: "/how-to-reach", label: t("nav.howToReach") },
+        { href: "/visitor-info", label: t("nav.visitorInfo") || "Visitor Info" },
     ];
 
     const isContactPath = false;
@@ -156,15 +155,7 @@ export default function Navbar() {
                     {t("nav.panchGaurav") || "Panch Gaurav"}
                 </Link>
 
-                <Link prefetch={false} href="/emergency"
-                    className={`mobile-link ${isActive("/emergency")} mobile-emergency-link`}
-                    onClick={() => setIsMenuOpen(false)}
-                    style={{ 
-                        transitionDelay: `${0.15 + (navLinks.length + 1) * 0.08}s`
-                    }}
-                >
-                    {t("nav.emergency") || "Emergency Info"}
-                </Link>
+
 
                 <Link prefetch={false} href="/download"
                     className={`mobile-link ${isActive("/download")} mobile-install-link`}

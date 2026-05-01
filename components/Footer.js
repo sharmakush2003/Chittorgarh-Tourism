@@ -8,10 +8,9 @@ import { useLanguage } from "@/context/LanguageContext";
 const navLinks = [
     { key: "nav.home", href: "/" },
     { key: "nav.explore", href: "/explore" },
-    { key: "nav.stays", href: "/stays" },
     { key: "nav.planTrip", href: "/plan" },
+    { key: "nav.visitorInfo", href: "/visitor-info" },
     { key: "nav.contactUs", href: "/contact-us" },
-    { key: "footer.download", href: "/download" },
 ];
 
 export default function Footer() {
