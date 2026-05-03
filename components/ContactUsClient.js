@@ -203,6 +203,43 @@ export default function ContactUsClient() {
                     </div>
                 </section>
 
+                {/* ═══ FEEDBACK CTA SECTION ══════════════════════════ */}
+                <section id="feedback-cta" className="fort-section">
+                    <div style={{ display: 'flex', justifyContent: 'center' }}>
+                        <motion.div
+                            initial={{ opacity: 0, y: 40 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            className="monument-card premium-glass"
+                            style={{ 
+                                maxWidth: '800px', 
+                                width: '100%', 
+                                textAlign: 'center',
+                                border: '1px solid rgba(212, 175, 55, 0.3)',
+                                background: 'linear-gradient(135deg, rgba(212, 175, 55, 0.05) 0%, rgba(10, 8, 4, 0.8) 100%)'
+                            }}
+                        >
+                            <div className="mon-content" style={{ alignItems: 'center' }}>
+                                <Globe className="text-gold" size={48} style={{ marginBottom: '2rem', opacity: 0.8 }} />
+                                <h3 className="mon-name">{t("contact.feedback.title")}</h3>
+                                <p className="mon-desc" style={{ maxWidth: '600px', margin: '0 auto 2.5rem' }}>
+                                    {t("contact.feedback.sub")}
+                                </p>
+                                <button
+                                    className="audio-btn"
+                                    style={{ maxWidth: '300px' }}
+                                    onClick={() => {
+                                        triggerHaptic('medium');
+                                        router.push('/feedback');
+                                    }}
+                                >
+                                    <Globe size={18} /> {t("contact.feedback.btn")}
+                                </button>
+                            </div>
+                        </motion.div>
+                    </div>
+                </section>
+
                 <div style={{ textAlign: 'center', padding: '4rem 0' }}>
                     <QRScannerButton />
                 </div>
