@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import { useLanguage } from "@/context/LanguageContext";
-import { Star, Send, CheckCircle2, User, MapPin, Globe, Users, Calendar, Phone, CheckSquare, Coffee, Home, DollarSign, MessageSquare, ThumbsUp, Heart, Search, ChevronDown, Camera, Check, Utensils, BedDouble, Wallet, Shield, Info, Ticket, HelpCircle, Sparkles } from "lucide-react";
+import { Star, Send, CheckCircle2, User, MapPin, Globe, Users, Calendar, Phone, Mail, CheckSquare, Coffee, Home, DollarSign, MessageSquare, ThumbsUp, Heart, Search, ChevronDown, Camera, Check, Utensils, BedDouble, Wallet, Shield, Info, Ticket, HelpCircle, Sparkles } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { triggerHaptic } from "@/lib/haptics";
 import { db } from "@/lib/firebase";
@@ -82,7 +82,7 @@ export default function FeedbackClient() {
     const listRef = useRef(null);
 
     const [formData, setFormData] = useState({
-        fullName: "", nationality: "", state: "", city: "", groupSize: "solo", dateOfVisit: "", contact: "",
+        fullName: "", nationality: "", state: "", city: "", groupSize: "solo", dateOfVisit: "", contact: "", email: "",
         sitesVisited: [],
         ratings: { s1: "", s2: "", s3: "", s4: "", s5: "", s6: "", s7: "", s8: "", s9: "", s10: "" },
         ratingTags: {},
@@ -262,7 +262,8 @@ export default function FeedbackClient() {
                 city: formData.city || "",
                 groupSize: formData.groupSize || "",
                 dateOfVisit: formData.dateOfVisit || "",
-                contact: formData.contact || "Not Provided"
+                contact: formData.contact || "Not Provided",
+                email: formData.email || "Not Provided"
             },
             sitesVisited: readableSites,
             experienceRatings: readableRatings,
@@ -292,6 +293,7 @@ export default function FeedbackClient() {
                     Nationality: submissionData.visitorInfo.nationality,
                     City_State: `${submissionData.visitorInfo.city}, ${submissionData.visitorInfo.state}`,
                     Contact: submissionData.visitorInfo.contact,
+                    Email: submissionData.visitorInfo.email,
                     DateOfVisit: submissionData.visitorInfo.dateOfVisit,
                     GroupSize: submissionData.visitorInfo.groupSize,
                     SitesVisited: submissionData.sitesVisited.join(", "),
@@ -427,14 +429,30 @@ export default function FeedbackClient() {
                                 </div>
                                 <div className="v-input-group">
                                     <label><Phone size={12} /> {t("feed.section1.contact")}</label>
-                                    <input type="text" name="contact" value={formData.contact} onChange={handleInputChange} />
+                                    <input type="text" name="contact" value={formData.contact} onChange={handleInputChange} placeholder="Phone Number" />
+                                </div>
+                                <div className="v-input-group">
+                                    <label><Mail size={12} /> {t("feed.section1.email")}</label>
+                                    <input type="email" name="email" value={formData.email} onChange={handleInputChange} placeholder="email@example.com" />
+                                </div>
+                                <div className="full-width">
+                                    <motion.div 
+                                        animate={{ 
+                                            opacity: (formData.contact || formData.email) ? 0.6 : 1,
+                                            scale: (formData.contact || formData.email) ? 0.98 : 1
+                                        }}
+                                        className={`v-contact-notice ${(formData.contact || formData.email) ? 'valid' : 'needed'}`}
+                                    >
+                                        <Sparkles size={14} className="v-sparkle-icon" />
+                                        <span>{t("feed.section1.contactRequired")}</span>
+                                    </motion.div>
                                 </div>
                             </div>
                         </section>
 
                         {/* Section 2: Sites Visited (Visual Gallery) */}
                         <section className="v-form-section">
-                            <h2 className="v-section-title"><Camera size={18} /> {t("feed.section2.title")}</h2>
+                            <h2 className="v-section-title"><Camera size={18} /> {t("feed.section2.title")} *</h2>
                             <p className="v-desc">{t("feed.section2.label")}</p>
                             <div className="v-site-gallery-grid">
                                 {sites.map(site => (
@@ -624,7 +642,18 @@ export default function FeedbackClient() {
                             <span>{t("feed.section5.vibe")}</span>
                         </div>
 
-                        <button className="v-submit-btn-mini" disabled={isSubmitting || submitted}>
+                        <button 
+                            className="v-submit-btn-mini" 
+                            disabled={
+                                isSubmitting || 
+                                submitted || 
+                                !formData.fullName || 
+                                !formData.nationality || 
+                                !formData.dateOfVisit || 
+                                !(formData.contact || formData.email) || 
+                                formData.sitesVisited.length === 0
+                            }
+                        >
                             {isSubmitting ? <div className="v-loader-mini"></div> : submitted ? <Check size={16} /> : <Send size={16} />}
                             <span>{isSubmitting ? "" : submitted ? "Dhanyawad!" : t("feed.btn")}</span>
                         </button>
@@ -753,7 +782,39 @@ export default function FeedbackClient() {
                 .v-submit-btn-mini:disabled { opacity: 0.6; cursor: not-allowed; background: rgba(212, 175, 55, 0.4); color: rgba(0,0,0,0.5); }
                 .v-inline-success { margin-top: 1.5rem; background: rgba(212, 175, 55, 0.1); border: 1px solid rgba(212, 175, 55, 0.3); padding: 1rem; border-radius: 12px; display: flex; align-items: center; justify-content: center; gap: 0.75rem; color: var(--accent-gold); font-family: var(--ff-display); font-style: italic; font-size: 0.9rem; animation: slideUp 0.4s ease-out; }
                 .v-loader-mini { width: 14px; height: 14px; border: 2px solid rgba(0,0,0,0.1); border-top-color: #000; border-radius: 50%; animation: spin 0.8s linear infinite; }
-                .text-center { text-align: center !important; }
+
+                .v-contact-notice {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 0.75rem;
+                    padding: 0.8rem 1rem;
+                    border-radius: 12px;
+                    margin: 0.5rem 0 1.5rem;
+                    font-size: 0.75rem;
+                    font-family: var(--ff-display);
+                    font-style: italic;
+                    transition: all 0.5s ease;
+                    border: 1px solid rgba(212, 175, 55, 0.1);
+                    background: rgba(212, 175, 55, 0.03);
+                    color: rgba(255, 255, 255, 0.7);
+                }
+                .v-contact-notice.needed {
+                    border-color: rgba(212, 175, 55, 0.3);
+                    background: rgba(212, 175, 55, 0.08);
+                    color: var(--accent-gold);
+                    box-shadow: 0 0 15px rgba(212, 175, 55, 0.05);
+                }
+                .v-contact-notice.valid {
+                    border-color: rgba(107, 203, 119, 0.2);
+                    background: rgba(107, 203, 119, 0.05);
+                    color: #6BCB77;
+                }
+                .v-sparkle-icon {
+                    filter: drop-shadow(0 0 5px var(--accent-gold));
+                    opacity: 0.8;
+                }
+
                 @keyframes spin { to { transform: rotate(360deg); } }
                 @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
                 @media (max-width: 600px) { .v-royal-form { padding: 1rem; } .v-input-grid { grid-template-columns: 1fr; } .full-width { grid-column: span 1; } .v-site-gallery-grid { grid-template-columns: 1fr 1fr; } .v-emoji-rating-wrapper { max-width: 100%; } }
