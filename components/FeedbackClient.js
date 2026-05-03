@@ -206,8 +206,8 @@ export default function FeedbackClient() {
     };
 
     const foodLabels = {
-        food1: "Dal Baati Churma", food2: "Ker Sangri", food3: "Gatte ki Sabzi",
-        food4: "Laal Maas (Non-Veg)", food5: "Mirchi Bada / Pyaaz Kachori", food6: "Ghevar / Sweet Dishes"
+        food1: "Dal Baati Churma", food2: "Ker Sangri / Gatte ki Sabzi", food3: "Bajra Khichdi / Roti",
+        food5: "Mirchi Bada / Pyaaz Kachori", food6: "Ghevar / Sweet Dishes"
     };
 
     const accLabels = {
@@ -525,7 +525,7 @@ export default function FeedbackClient() {
                                 <div className="v-input-group">
                                     <label><Utensils size={12} /> {t("feed.section4.favFood")}</label>
                                     <div className="v-mini-options">
-                                        {[1, 2, 3, 4, 5, 6].map(num => {
+                                        {[1, 2, 3, 5, 6].map(num => {
                                             const key = `food${num}`;
                                             return (
                                                 <button
