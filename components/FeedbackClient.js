@@ -190,8 +190,8 @@ export default function FeedbackClient() {
     };
 
     const handleRatingChange = (serviceKey, value) => {
-        setFormData(prev => ({ 
-            ...prev, 
+        setFormData(prev => ({
+            ...prev,
             ratings: { ...prev.ratings, [serviceKey]: value },
             ratingTags: value !== 'poor' ? { ...prev.ratingTags, [serviceKey]: "" } : prev.ratingTags
         }));
@@ -201,8 +201,17 @@ export default function FeedbackClient() {
     // Precise mapping based on latest form screenshots
     const serviceLabels = {
         s1: "Local Restaurant / Food", s2: "Hotel / Heritage Stay", s3: "Taxi / Local Transport",
-        s4: "Safety & Security", s5: "Information Boards", s6: "Guide Knowledge",
-        s7: "Photography Spots", s8: "Fort Cleanliness", s9: "Overall Vibe"
+        s4: "Guide Knowledge", s5: "Photography Spots", s6: "Fort Cleanliness",
+        s7: "Ticket & Entry Flow", s8: "Safety & Security", s9: "Information Boards", s10: "Overall Vibe"
+    };
+
+    const siteLabels = {
+        fort: "Chittorgarh Fort", vijay: "Vijay Stambha", kirti: "Kirti Stambha",
+        kumbha_palace: "Rana Kumbha Palace", padmini: "Padmini Palace", fateh: "Fateh Prakash Palace",
+        gaumukh: "Gaumukh Reservoir", kalika: "Kalika Mata Temple", meera: "Meera Bai Temple",
+        kumbha_shyam: "Kumbha Shyam Temple", jain_temples: "Jain Temples", ratan: "Ratan Singh Palace",
+        light_sound: "Light & Sound Show", sanwaliya: "Sanwaliya ji Temple", menal: "Menal Waterfall",
+        nagari: "Nagari", bassi: "Bassi Sanctuary", sitamata: "Sitamata Sanctuary"
     };
 
     const foodLabels = {
@@ -238,10 +247,7 @@ export default function FeedbackClient() {
 
         const readableImprovements = formData.areasToImprove.map(id => improveLabels[id] || id);
         const readableFood = formData.favoriteFood.map(id => foodLabels[id] || id);
-        const readableSites = formData.sitesVisited.map(id => {
-            const site = sites.find(s => s.id === id);
-            return site ? site.name || id : id;
-        });
+        const readableSites = formData.sitesVisited.map(id => siteLabels[id] || id);
 
         const readableComments = {};
         Object.entries(formData.ratingTags).forEach(([key, val]) => {
@@ -275,11 +281,11 @@ export default function FeedbackClient() {
             },
             finalThoughts: {
                 improvementAreas: readableImprovements,
-                memoryText: formData.suggestions || "",
+                memoryText: formData.likedMost || "",
                 recommendation: recommendLabels[formData.recommend] || formData.recommend
             }
         };
-        
+
         try {
             // 1. Save to Firestore (Structured for analysis)
             addDoc(collection(db, "feedbacks"), submissionData).catch(err => console.error("Firestore Error (Silent):", err));
@@ -302,7 +308,8 @@ export default function FeedbackClient() {
                     Accommodation: submissionData.foodAndAcc.accommodationType,
                     ImprovementAreas: submissionData.finalThoughts.improvementAreas.join(", "),
                     Memory: submissionData.finalThoughts.memoryText,
-                    Recommendation: submissionData.finalThoughts.recommendation
+                    Recommendation: submissionData.finalThoughts.recommendation,
+                    RatingComments: JSON.stringify(submissionData.ratingComments)
                 };
 
                 fetch(GOOGLE_SHEET_URL, {
@@ -436,8 +443,8 @@ export default function FeedbackClient() {
                                     <input type="email" name="email" value={formData.email} onChange={handleInputChange} placeholder="email@example.com" />
                                 </div>
                                 <div className="full-width">
-                                    <motion.div 
-                                        animate={{ 
+                                    <motion.div
+                                        animate={{
                                             opacity: (formData.contact || formData.email) ? 0.6 : 1,
                                             scale: (formData.contact || formData.email) ? 0.98 : 1
                                         }}
@@ -642,25 +649,25 @@ export default function FeedbackClient() {
                             <span>{t("feed.section5.vibe")}</span>
                         </div>
 
-                        <button 
-                            className="v-submit-btn-mini" 
+                        <button
+                            className="v-submit-btn-mini"
                             disabled={
-                                isSubmitting || 
-                                submitted || 
-                                !formData.fullName || 
-                                !formData.nationality || 
-                                !formData.dateOfVisit || 
-                                !(formData.contact || formData.email) || 
+                                isSubmitting ||
+                                submitted ||
+                                !formData.fullName ||
+                                !formData.nationality ||
+                                !formData.dateOfVisit ||
+                                !(formData.contact || formData.email) ||
                                 formData.sitesVisited.length === 0
                             }
                         >
                             {isSubmitting ? <div className="v-loader-mini"></div> : submitted ? <Check size={16} /> : <Send size={16} />}
                             <span>{isSubmitting ? "" : submitted ? "Dhanyawad!" : t("feed.btn")}</span>
                         </button>
-                        
+
                         <AnimatePresence>
                             {submitted && (
-                                <motion.div 
+                                <motion.div
                                     className="v-inline-success"
                                     initial={{ opacity: 0, y: 10 }}
                                     animate={{ opacity: 1, y: 0 }}
