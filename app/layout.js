@@ -212,7 +212,7 @@ export default function RootLayout({ children }) {
                 console.log('PWA: beforeinstallprompt intercepted');
                 window.__pwaPrompt = e;
               });
-              if ('serviceWorker' in navigator) {
+              if ('serviceWorker' in navigator && ${process.env.NODE_ENV === 'production'}) {
                 window.addEventListener('load', () => {
                   navigator.serviceWorker.register('/sw.js').then((reg) => {
                     console.log('PWA: ServiceWorker registered with scope:', reg.scope);

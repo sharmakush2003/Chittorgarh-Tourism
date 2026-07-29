@@ -38,11 +38,13 @@ export default function PlanClient() {
         }, 5000);
 
         // 2. Try to save to Firebase (NON-BLOCKING BACKGROUND TASK)
-        addDoc(collection(db, "itinerary_requests"), {
-            ...formData,
-            createdAt: serverTimestamp(),
-            itineraryType: `${activeTab} Day Itinerary`
-        }).catch(err => console.warn("Background Firestore write failed:", err));
+        if (db) {
+            addDoc(collection(db, "itinerary_requests"), {
+                ...formData,
+                createdAt: serverTimestamp(),
+                itineraryType: `${activeTab} Day Itinerary`
+            }).catch(err => console.warn("Background Firestore write failed:", err));
+        }
 
         try {
             const response = await fetch('/api/send-itinerary', {

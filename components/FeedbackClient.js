@@ -288,7 +288,9 @@ export default function FeedbackClient() {
 
         try {
             // 1. Save to Firestore (Structured for analysis)
-            addDoc(collection(db, "feedbacks"), submissionData).catch(err => console.error("Firestore Error (Silent):", err));
+            if (db) {
+                addDoc(collection(db, "feedbacks"), submissionData).catch(err => console.error("Firestore Error (Silent):", err));
+            }
 
             // 2. Sync to Google Sheets (Flattened for a clean row)
             const GOOGLE_SHEET_URL = process.env.NEXT_PUBLIC_FEEDBACK_SHEETS_URL;
