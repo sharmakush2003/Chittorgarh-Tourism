@@ -1,437 +1,527 @@
 "use client";
 import Image from 'next/image';
-
+import Link from "next/link";
+import { useState, useEffect } from "react";
 import { useLanguage } from "@/context/LanguageContext";
 import { 
     ShieldCheck, 
     Megaphone, 
     Users, 
-    Coins,
     Calendar,
-    ArrowRight
+    ArrowRight,
+    Sparkles,
+    CheckCircle2,
+    Award,
+    Sprout,
+    Dumbbell,
+    Landmark,
+    Gem,
+    Building2
 } from "lucide-react";
-import Link from "next/link";
-import { useState, useEffect } from "react";
-import { motion } from "framer-motion";
 import { triggerHaptic } from "@/lib/haptics";
 
 export default function PanchGauravClient() {
     const { t } = useLanguage();
-    const [isVisible, setIsVisible] = useState(false);
-
-    useEffect(() => {
-        const timer = setTimeout(() => setIsVisible(true), 100);
-        return () => clearTimeout(timer);
-    }, []);
 
     const pillars = [
-        { key: "1", image: "/panch-gaurav/odop.png" },
-        { key: "2", image: "/panch-gaurav/crop.png" },
-        { key: "3", image: "/panch-gaurav/destination.png" },
-        { key: "4", image: "/panch-gaurav/sport.png" },
-        { key: "5", image: "/panch-gaurav/plant.png" }
+        { 
+            key: "1", 
+            pillarNo: "01",
+            icon: Gem,
+            tag: "ODOP PRODUCT",
+            image: "/panch-gaurav/odop.png" 
+        },
+        { 
+            key: "2", 
+            pillarNo: "02",
+            icon: Sprout,
+            tag: "AGRICULTURE",
+            image: "/panch-gaurav/crop.png" 
+        },
+        { 
+            key: "3", 
+            pillarNo: "03",
+            icon: Landmark,
+            tag: "DESTINATION",
+            image: "/hero_bg.png" 
+        },
+        { 
+            key: "4", 
+            pillarNo: "04",
+            icon: Dumbbell,
+            tag: "TRADITIONAL SPORT",
+            image: "/panch-gaurav/sport.png" 
+        },
+        { 
+            key: "5", 
+            pillarNo: "05",
+            icon: Sprout,
+            tag: "FLORA & HERB",
+            image: "/panch-gaurav/plant.png" 
+        }
+    ];
+
+    const objectives = [
+        { icon: ShieldCheck, titleKey: "pg.obj.1", desc: "Building local industrial self-sufficiency and empowering traditional Mewar stone artisans." },
+        { icon: Megaphone, titleKey: "pg.obj.2", desc: "Promoting homegrown crops, sacred plants, and authentic products to national & international markets." },
+        { icon: Users, titleKey: "pg.obj.3", desc: "Nurturing grassroots sports talent and fostering rural employment for farmers and youth." }
     ];
 
     return (
-        <div className="explore-page">
+        <div className="pg-page">
             {/* ═══ FIXED BACKGROUND ══════════════════════ */}
             <div className="fixed-bg"></div>
             <div className="bg-overlay"></div>
 
-            {/* ═══ CONTENT ═══════════════════════════════ */}
-            <main className="main-content">
-                <header className="header-section text-center">
-                    <span className="eyebrow">{t("pg.eyebrow")}</span>
-                    <h1 className="title text-gold">{t("pg.title")}</h1>
-                    <div className="divider"></div>
-                    <p className="subtitle">{t("pg.subtitle")}</p>
-                    
-                    <div className="program-meta">
-                        <div className="meta-badge">
-                            <Calendar size={14} />
-                            <span>{t("pg.launchDate")}</span>
-                        </div>
-                        <div className="meta-badge govt">
-                            <ShieldCheck size={14} />
-                            <span>{t("pg.gov")}</span>
-                        </div>
-                    </div>
-                </header>
-
-                <div className="container">
-                    <div className="attractions-grid">
-                        {pillars.map((pillar, idx) => (
-                            <motion.div 
-                                key={pillar.key} 
-                                initial={{ opacity: 0, y: 20 }}
-                                animate={isVisible ? { opacity: 1, y: 0 } : {}}
-                                transition={{ duration: 0.5, delay: idx * 0.1 }}
-                                className="glass-card group"
-                            >
-                                <div className="card-image-wrapper">
-                                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                                    <Image 
-                                        src={pillar.image} 
-                                        alt={t(`pg.pillar.${pillar.key}.name`)} 
-                                        className="card-image" 
-                                     width={1200} height={800} style={{ objectFit: "cover" }}/>
-                                    <div className="image-overlay"></div>
-                                </div>
-                                <div className="card-content">
-                                    <h3 className="card-title text-gold">{t(`pg.pillar.${pillar.key}.name`)}</h3>
-                                    <p className="card-desc">{t(`pg.pillar.${pillar.key}.desc`)}</p>
-                                    
-                                    <div className="card-footer-accent">
-                                        <div className="accent-line"></div>
-                                        <span className="accent-text">Pillar {pillar.key}</span>
-                                    </div>
-                                </div>
-                            </motion.div>
-                        ))}
-
-                    </div>
-
-                    {/* Objectives Section */}
-                    <section className="objectives-section">
-                        <div className="objectives-inner">
-                            <h2 className="obj-header">{t("pg.obj.title")}</h2>
-                            <div className="obj-grid">
-                                <div className="obj-item">
-                                    <ShieldCheck className="obj-icon" />
-                                    <span>{t("pg.obj.1")}</span>
-                                </div>
-                                <div className="obj-item">
-                                    <Megaphone className="obj-icon" />
-                                    <span>{t("pg.obj.2")}</span>
-                                </div>
-                                <div className="obj-item">
-                                    <Users className="obj-icon" />
-                                    <span>{t("pg.obj.3")}</span>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
-
-                    <div className="bottom-nav">
-                        <div className="ai-disclaimer">
-                            {t("pg.aiNote")}
-                        </div>
-                        <Link prefetch={false} href="/" className="read-more" onClick={() => triggerHaptic('light')}>
-                            {t("nav.home")} <ArrowRight className="arrow" size={16} />
-                        </Link>
-                    </div>
-                </div>
-            </main>
-
-            <style jsx>{`
-                .ai-disclaimer {
-                    font-size: 0.75rem;
-                    color: rgba(255, 255, 255, 0.4);
-                    margin-bottom: 2rem;
-                    font-style: italic;
-                    text-align: center;
-                }
-                .explore-page {
-                    min-height: 100vh;
-                    color: #fff;
+            <style jsx global>{`
+                .pg-page {
                     position: relative;
+                    min-height: 100vh;
+                    background: transparent;
+                    color: #FFFFFF;
+                    font-family: var(--ff-body), sans-serif;
                 }
 
                 .fixed-bg {
                     position: fixed;
-                    inset: 0;
+                    top: 0;
+                    left: 0;
+                    width: 100vw;
+                    height: 100vh;
                     background: url('/hero_bg.png') no-repeat center center / cover;
-                    z-index: -2;
+                    z-index: 0;
+                    pointer-events: none;
                 }
 
                 .bg-overlay {
                     position: fixed;
-                    inset: 0;
+                    top: 0;
+                    left: 0;
+                    width: 100vw;
+                    height: 100vh;
                     background: linear-gradient(to bottom, 
-                        rgba(15, 10, 6, 0.85) 0%, 
-                        rgba(15, 10, 6, 0.65) 50%,
-                        rgba(15, 10, 6, 0.95) 100%
+                        rgba(15, 10, 6, 0.35) 0%, 
+                        rgba(15, 10, 6, 0.25) 40%,
+                        rgba(15, 10, 6, 0.65) 100%
                     );
-                    z-index: -1;
-                    backdrop-filter: blur(5px);
+                    z-index: 1;
+                    pointer-events: none;
                 }
 
                 .main-content {
-                    padding-top: 120px;
-                    padding-bottom: 80px;
                     position: relative;
-                    z-index: 1;
+                    z-index: 10;
+                    padding-top: 155px;
+                    padding-bottom: 5rem;
                 }
 
+                .container {
+                    max-width: 1100px;
+                    margin: 0 auto;
+                    padding: 0 1.25rem;
+                }
+
+                /* HEADER SECTION */
                 .header-section {
-                    margin-bottom: 5rem;
-                    padding: 0 1rem;
+                    text-align: center;
+                    margin-bottom: 3rem;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
                 }
 
-                .eyebrow {
-                    display: block;
-                    font-family: var(--ff-body);
-                    font-size: 0.75rem;
-                    letter-spacing: 4px;
+                .royal-badge-pill {
+                    display: inline-flex;
+                    align-items: center;
+                    gap: 0.4rem;
+                    font-size: 0.7rem;
+                    letter-spacing: 0.18em;
                     text-transform: uppercase;
-                    color: rgba(255, 255, 255, 0.6);
+                    color: #F5E6AB;
+                    padding: 0.4rem 1.1rem;
+                    background: rgba(15, 10, 6, 0.85);
+                    backdrop-filter: blur(10px);
+                    border: 1px solid rgba(212, 175, 55, 0.45);
+                    border-radius: 999px;
                     margin-bottom: 1rem;
+                    font-weight: 700;
+                    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
                 }
 
-                .title {
-                    font-size: clamp(2.5rem, 6vw, 4.5rem);
-                    font-family: var(--ff-display);
-                    margin-bottom: 1.5rem;
-                    text-shadow: 0 4px 30px rgba(0,0,0,0.5);
+                .sparkle-gold {
+                    color: #D4AF37;
                 }
 
-                .divider {
-                    width: 80px;
-                    height: 3px;
-                    background: var(--gold);
-                    margin: 0 auto 2rem;
-                    border-radius: 2px;
+                .title-hero-royal {
+                    font-size: clamp(2.2rem, 5vw, 3.8rem);
+                    font-family: var(--ff-display), serif;
+                    font-weight: 800;
+                    margin-bottom: 0.6rem;
+                    background: linear-gradient(135deg, #FFFFFF 0%, #F5E6AB 50%, #D4AF37 100%);
+                    -webkit-background-clip: text;
+                    -webkit-text-fill-color: transparent;
+                    line-height: 1.15;
+                    filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.9));
                 }
 
-                .subtitle {
-                    font-size: 1.1rem;
-                    color: rgba(255, 255, 255, 0.7);
-                    max-width: 700px;
-                    margin: 0 auto 2.5rem;
+                .subtitle-hero-royal {
+                    max-width: 640px;
+                    margin: 0 auto 1.5rem;
+                    color: #FFFFFF;
+                    font-size: 0.98rem;
                     line-height: 1.6;
+                    font-weight: 400;
+                    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.95);
                 }
 
                 .program-meta {
                     display: flex;
+                    gap: 0.85rem;
                     justify-content: center;
-                    gap: 1.5rem;
                     flex-wrap: wrap;
                 }
 
-                .meta-badge {
-                    display: flex;
+                .meta-pill {
+                    display: inline-flex;
                     align-items: center;
-                    gap: 0.75rem;
-                    padding: 0.6rem 1.2rem;
-                    background: rgba(255, 255, 255, 0.05);
-                    border: 1px solid rgba(255, 255, 255, 0.1);
-                    border-radius: 50px;
-                    font-size: 0.8rem;
-                    font-weight: 500;
-                    color: rgba(255, 255, 255, 0.8);
+                    gap: 0.45rem;
+                    padding: 0.4rem 1rem;
+                    background: rgba(15, 10, 6, 0.82);
+                    border: 1px solid rgba(212, 175, 55, 0.35);
+                    border-radius: 999px;
+                    color: #F5E6AB;
+                    font-size: 0.78rem;
+                    font-weight: 700;
+                    backdrop-filter: blur(8px);
                 }
 
-                .meta-badge.govt {
-                    border-color: rgba(212, 175, 55, 0.3);
-                    background: rgba(212, 175, 55, 0.1);
-                    color: var(--gold);
-                }
-
-                .container {
-                    max-width: 1200px;
-                    margin: 0 auto;
-                    padding: 0 1.5rem;
-                }
-
-                .attractions-grid {
+                /* PILLARS GRID */
+                .pillars-grid {
                     display: grid;
-                    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-                    gap: 2.5rem;
-                    margin-bottom: 4rem;
+                    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+                    gap: 1.75rem;
+                    margin-bottom: 4.5rem;
                 }
 
-                .glass-card {
-                    background: rgba(20, 15, 10, 0.75);
-                    border: 1px solid rgba(212, 175, 55, 0.2);
-                    border-radius: 24px;
+                .pillar-glass-card {
+                    background: rgba(20, 15, 10, 0.88);
+                    border: 1px solid rgba(212, 175, 55, 0.38);
+                    border-radius: 22px;
+                    overflow: hidden;
+                    backdrop-filter: blur(20px);
+                    -webkit-backdrop-filter: blur(20px);
+                    box-shadow: 0 15px 45px rgba(0, 0, 0, 0.65);
                     display: flex;
                     flex-direction: column;
-                    transition: all 0.4s ease;
-                    backdrop-filter: blur(15px);
-                    -webkit-backdrop-filter: blur(15px);
-                    overflow: hidden;
-                    height: 100%;
+                    transition: all 0.35s ease;
                 }
 
-                .glass-card:hover {
-                    background: rgba(28, 20, 15, 0.9);
-                    border-color: rgba(212, 175, 55, 0.5);
-                    transform: translateY(-8px);
-                    box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+                .pillar-glass-card:hover {
+                    transform: translateY(-6px);
+                    border-color: rgba(212, 175, 55, 0.7);
+                    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8);
                 }
 
-                .card-image-wrapper {
+                .pillar-image-wrapper {
                     position: relative;
+                    height: 200px;
                     width: 100%;
-                    height: 220px;
                     overflow: hidden;
                 }
 
-                .card-image {
+                .pillar-image {
                     width: 100%;
                     height: 100%;
                     object-fit: cover;
-                    transition: transform 0.6s ease;
+                    transition: transform 0.5s ease;
                 }
 
-                .glass-card:hover .card-image {
-                    transform: scale(1.1);
+                .pillar-glass-card:hover .pillar-image {
+                    transform: scale(1.05);
                 }
 
-                .image-overlay {
+                .pillar-img-overlay {
                     position: absolute;
                     inset: 0;
-                    background: linear-gradient(to bottom, transparent, rgba(20, 15, 10, 0.8));
+                    background: linear-gradient(to top, rgba(20, 15, 10, 0.95) 0%, transparent 60%);
                 }
 
-                .card-content {
-                    padding: 2.5rem;
-                    flex: 1;
-                    display: flex;
-                    flex-direction: column;
-                }
-
-                .card-icon-wrapper {
-                    margin-bottom: 2rem;
-                }
-
-                :global(.card-icon) {
-                    color: var(--gold);
-                    opacity: 0.8;
-                }
-
-                .card-title {
-                    font-family: var(--ff-display);
-                    font-size: 1.6rem;
-                    color: var(--gold);
-                    margin-bottom: 1.2rem;
-                    line-height: 1.3;
-                }
-
-                .card-desc {
-                    font-size: 0.95rem;
-                    color: rgba(255, 255, 255, 0.7);
-                    line-height: 1.7;
-                    margin-bottom: 2rem;
-                }
-
-                .card-footer-accent {
-                    margin-top: auto;
-                    display: flex;
+                .pillar-badge-floating {
+                    position: absolute;
+                    top: 1rem;
+                    left: 1rem;
+                    display: inline-flex;
                     align-items: center;
-                    gap: 1rem;
-                }
-
-                .accent-line {
-                    height: 1px;
-                    width: 30px;
-                    background: rgba(212, 175, 55, 0.3);
-                }
-
-                .accent-text {
-                    font-size: 0.7rem;
-                    text-transform: uppercase;
-                    letter-spacing: 2px;
-                    color: rgba(212, 175, 55, 0.5);
-                }
-
-                .budget-card {
-                    background: rgba(212, 175, 55, 0.1);
-                    border-color: rgba(212, 175, 55, 0.4);
-                }
-
-                .objectives-section {
-                    margin: 6rem 0;
-                }
-
-                .objectives-inner {
-                    background: rgba(255, 255, 255, 0.03);
-                    border: 1px solid rgba(255, 255, 255, 0.1);
-                    border-radius: 32px;
-                    padding: 4rem;
+                    gap: 0.4rem;
+                    padding: 0.35rem 0.85rem;
+                    background: rgba(15, 10, 6, 0.88);
+                    border: 1px solid rgba(212, 175, 55, 0.45);
+                    border-radius: 999px;
+                    color: #D4AF37;
+                    font-size: 0.68rem;
+                    font-weight: 800;
+                    letter-spacing: 0.1em;
                     backdrop-filter: blur(10px);
                 }
 
-                .obj-header {
-                    font-family: var(--ff-display);
-                    font-size: 2rem;
-                    text-align: center;
+                .pillar-body {
+                    padding: 1.75rem 1.6rem 1.8rem;
+                    display: flex;
+                    flex-direction: column;
+                    flex: 1;
+                }
+
+                .pillar-no-tag {
+                    color: #D4AF37;
+                    font-size: 0.7rem;
+                    font-weight: 800;
+                    letter-spacing: 0.14em;
+                    text-transform: uppercase;
+                    margin-bottom: 0.3rem;
+                }
+
+                .pillar-title {
+                    font-family: var(--ff-display), serif;
+                    font-size: 1.35rem;
+                    font-weight: 800;
+                    color: #FFFFFF;
+                    line-height: 1.3;
+                    margin-bottom: 0.75rem;
+                }
+
+                .pillar-desc {
+                    font-size: 0.88rem;
+                    color: rgba(255, 255, 255, 0.85);
+                    line-height: 1.55;
+                    font-weight: 300;
+                    flex: 1;
+                    margin-bottom: 1.25rem;
+                }
+
+                .pillar-footer {
+                    display: flex;
+                    align-items: center;
+                    gap: 0.5rem;
+                    padding-top: 0.85rem;
+                    border-top: 1px solid rgba(212, 175, 55, 0.2);
+                    color: #F3E5AB;
+                    font-size: 0.75rem;
+                    font-weight: 700;
+                }
+
+                /* OBJECTIVES SECTION */
+                .objectives-section {
+                    background: rgba(20, 15, 10, 0.88);
+                    border: 1px solid rgba(212, 175, 55, 0.38);
+                    border-radius: 24px;
+                    padding: 3rem 2.2rem;
+                    backdrop-filter: blur(20px);
+                    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.65);
                     margin-bottom: 3.5rem;
-                    color: #fff;
                 }
 
-                .obj-grid {
+                .sec-title-center {
+                    text-align: center;
+                    font-family: var(--ff-display), serif;
+                    font-size: clamp(1.8rem, 4vw, 2.4rem);
+                    font-weight: 800;
+                    color: #FFF;
+                    margin-bottom: 2.2rem;
+                }
+
+                .obj-cards-grid {
                     display: grid;
-                    grid-template-columns: repeat(3, 1fr);
-                    gap: 2.5rem;
+                    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+                    gap: 1.5rem;
                 }
 
-                .obj-item {
+                .obj-glass-card {
+                    background: rgba(26, 20, 14, 0.75);
+                    border: 1px solid rgba(212, 175, 55, 0.25);
+                    border-radius: 16px;
+                    padding: 1.75rem 1.4rem;
+                    text-align: center;
                     display: flex;
                     flex-direction: column;
                     align-items: center;
-                    gap: 1.2rem;
-                    text-align: center;
                 }
 
-                :global(.obj-icon) {
-                    width: 32px;
-                    height: 32px;
-                    color: var(--gold);
-                }
-
-                .obj-item span {
-                    font-size: 1rem;
-                    font-weight: 600;
-                    color: rgba(255, 255, 255, 0.9);
-                }
-
-                .bottom-nav {
+                .obj-icon-box {
+                    width: 52px;
+                    height: 52px;
+                    background: rgba(212, 175, 55, 0.15);
+                    border: 1px solid rgba(212, 175, 55, 0.35);
+                    border-radius: 14px;
                     display: flex;
-                    flex-direction: column;
                     align-items: center;
                     justify-content: center;
-                    margin-top: 4rem;
+                    color: #D4AF37;
+                    margin-bottom: 1rem;
                 }
 
-                :global(.read-more) {
-                    display: flex;
-                    align-items: center;
-                    gap: 0.75rem;
-                    background: rgba(212, 175, 55, 0.1);
-                    border: 1px solid var(--gold);
-                    color: var(--gold);
-                    padding: 1rem 2.5rem;
-                    border-radius: 50px;
-                    text-transform: uppercase;
-                    letter-spacing: 2px;
-                    font-weight: 700;
+                .obj-card-title {
+                    font-family: var(--ff-display), serif;
+                    font-size: 1.2rem;
+                    font-weight: 800;
+                    color: #FFF;
+                    margin-bottom: 0.5rem;
+                }
+
+                .obj-card-desc {
                     font-size: 0.85rem;
-                    transition: all 0.3s ease;
+                    color: rgba(255, 255, 255, 0.8);
+                    line-height: 1.5;
+                }
+
+                /* FOOTER NAVIGATION BAR */
+                .bottom-nav-box {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    gap: 1rem;
+                    text-align: center;
+                }
+
+                .ai-note-text {
+                    font-size: 0.78rem;
+                    color: rgba(255, 255, 255, 0.6);
+                    font-style: italic;
+                }
+
+                .btn-home-cta {
+                    display: inline-flex;
+                    align-items: center;
+                    gap: 0.6rem;
+                    padding: 0.75rem 1.8rem;
+                    background: linear-gradient(135deg, #D4AF37 0%, #B8860B 100%);
+                    border-radius: 999px;
+                    color: #0A0806;
+                    font-size: 0.85rem;
+                    font-weight: 800;
+                    letter-spacing: 0.04em;
+                    text-transform: uppercase;
                     text-decoration: none;
+                    box-shadow: 0 4px 15px rgba(212, 175, 55, 0.35);
+                    transition: all 0.3s ease;
                 }
 
-                :global(.read-more:hover) {
-                    background: var(--gold);
-                    color: #000;
-                    transform: translateY(-3px);
+                .btn-home-cta:hover {
+                    background: #FFF;
+                    color: #0A0806;
+                    transform: translateY(-2px);
                 }
 
-                @media (max-width: 768px) {
-                    .obj-grid {
-                        grid-template-columns: 1fr;
-                        gap: 3rem;
+                @media (max-width: 640px) {
+                    .main-content {
+                        padding-top: 85px;
                     }
-                    
-                    .title {
-                        font-size: 3rem;
+                    .objectives-section {
+                        padding: 2rem 1.25rem;
                     }
-                    
-                    .attractions-grid {
-                        grid-template-columns: 1fr;
+                    .pillar-body {
+                        padding: 1.4rem 1.25rem;
                     }
                 }
             `}</style>
+
+            <main className="main-content">
+                <div className="container">
+                    {/* ═══ PAGE HEADER ═══════════════════════════ */}
+                    <header className="header-section">
+                        <div className="royal-badge-pill">
+                            <Sparkles size={13} className="sparkle-gold" />
+                            <span>{t("pg.eyebrow")}</span>
+                        </div>
+                        <h1 className="title-hero-royal">
+                            {t("pg.title")}
+                        </h1>
+                        <p className="subtitle-hero-royal">
+                            {t("pg.subtitle")}
+                        </p>
+
+                        <div className="program-meta">
+                            <div className="meta-pill">
+                                <Calendar size={14} />
+                                <span>{t("pg.launchDate")}</span>
+                            </div>
+                            <div className="meta-pill">
+                                <ShieldCheck size={14} />
+                                <span>{t("pg.gov")}</span>
+                            </div>
+                        </div>
+                    </header>
+
+                    {/* ═══ 5 CORE PILLARS GRID ═══════════════════ */}
+                    <div className="pillars-grid">
+                        {pillars.map((pillar) => {
+                            const IconComp = pillar.icon;
+                            return (
+                                <div key={pillar.key} className="pillar-glass-card">
+                                    <div className="pillar-image-wrapper">
+                                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                                        <img
+                                            src={pillar.image}
+                                            alt={t(`pg.pillar.${pillar.key}.name`)}
+                                            className="pillar-image"
+                                            onError={(e) => {
+                                                e.currentTarget.onerror = null;
+                                                e.currentTarget.src = "/hero_bg.png";
+                                            }}
+                                        />
+                                        <div className="pillar-img-overlay"></div>
+                                        <div className="pillar-badge-floating">
+                                            <IconComp size={12} />
+                                            <span>{pillar.tag}</span>
+                                        </div>
+                                    </div>
+                                    <div className="pillar-body">
+                                        <span className="pillar-no-tag">PILLAR {pillar.pillarNo}</span>
+                                        <h3 className="pillar-title">{t(`pg.pillar.${pillar.key}.name`)}</h3>
+                                        <p className="pillar-desc">{t(`pg.pillar.${pillar.key}.desc`)}</p>
+                                        <div className="pillar-footer">
+                                            <CheckCircle2 size={14} style={{ color: '#D4AF37' }} />
+                                            <span>Chittorgarh Special Initiative</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            );
+                        })}
+                    </div>
+
+                    {/* ═══ OBJECTIVES SECTION ════════════════════ */}
+                    <section className="objectives-section">
+                        <h2 className="sec-title-center">{t("pg.obj.title")}</h2>
+                        <div className="obj-cards-grid">
+                            {objectives.map((obj, idx) => {
+                                const IconComp = obj.icon;
+                                return (
+                                    <div key={idx} className="obj-glass-card">
+                                        <div className="obj-icon-box">
+                                            <IconComp size={24} />
+                                        </div>
+                                        <h3 className="obj-card-title">{t(obj.titleKey)}</h3>
+                                        <p className="obj-card-desc">{obj.desc}</p>
+                                    </div>
+                                );
+                            })}
+                        </div>
+                    </section>
+
+                    {/* ═══ BOTTOM NAV ═══════════════════════════ */}
+                    <div className="bottom-nav-box">
+                        <p className="ai-note-text">{t("pg.aiNote")}</p>
+                        <Link 
+                            prefetch={false} 
+                            href="/" 
+                            className="btn-home-cta" 
+                            onClick={() => triggerHaptic('light')}
+                        >
+                            <span>Return to Home</span>
+                            <ArrowRight size={16} />
+                        </Link>
+                    </div>
+                </div>
+            </main>
         </div>
     );
 }

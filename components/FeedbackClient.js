@@ -685,19 +685,19 @@ export default function FeedbackClient() {
 
             <style jsx global>{`
                 :root { --accent-gold: #D4AF37; --ff-display: 'Playfair Display', serif; --ff-body: 'Inter', sans-serif; }
-                .v-feed-wrapper { min-height: 100vh; position: relative; color: #fff; background: #000; overflow-x: hidden; }
-                .v-feed-bg { position: fixed; inset: 0; background: url('/hero_bg.png') no-repeat center center/cover; z-index: -2; filter: brightness(0.2) contrast(1.1); }
-                .v-feed-overlay { position: fixed; inset: 0; background: linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(0,0,0,0.9)); z-index: -1; }
-                .v-feed-content { padding: 9rem 0 5rem; position: relative; z-index: 10; }
+                .v-feed-wrapper { position: relative; min-height: 100vh; color: #fff; background: transparent; overflow-x: hidden; }
+                .v-feed-bg { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: url('/hero_bg.png') no-repeat center center/cover; z-index: 0; pointer-events: none; }
+                .v-feed-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: linear-gradient(to bottom, rgba(15, 10, 6, 0.35) 0%, rgba(15, 10, 6, 0.25) 40%, rgba(15, 10, 6, 0.65) 100%); z-index: 1; pointer-events: none; }
+                .v-feed-content { padding: 155px 0 5rem; position: relative; z-index: 10; }
                 .v-container { max-width: 750px; margin: 0 auto; padding: 0 1rem; }
-                .v-feed-head { text-align: center; margin-bottom: 4rem; }
-                .v-eyebrow { display: block; font-size: 0.7rem; letter-spacing: 4px; text-transform: uppercase; color: var(--accent-gold); margin-bottom: 0.5rem; font-weight: 800; }
-                .v-title { font-family: var(--ff-display); font-size: clamp(1.6rem, 4vw, 2.4rem); line-height: 1.1; margin-bottom: 0.5rem; }
-                .v-subtitle { color: rgba(255,255,255,0.6); font-size: 0.85rem; line-height: 1.4; max-width: 400px; margin: 0 auto; }
-                .v-royal-form { background: rgba(10, 10, 10, 0.75); backdrop-filter: blur(40px); border: 1px solid rgba(212, 175, 55, 0.15); border-radius: 16px; padding: 0 1.5rem 2rem; box-shadow: 0 30px 60px rgba(0,0,0,0.8); animation: slideUp 0.6s ease-out; position: relative; overflow: hidden; }
+                .v-feed-head { text-align: center; margin-bottom: 3rem; }
+                .v-eyebrow { display: block; font-size: 0.75rem; letter-spacing: 4px; text-transform: uppercase; color: var(--accent-gold); margin-bottom: 0.6rem; font-weight: 800; filter: drop-shadow(0 2px 8px rgba(0,0,0,0.8)); }
+                .v-title { font-family: var(--ff-display); font-size: clamp(2rem, 5vw, 3rem); line-height: 1.1; margin-bottom: 0.75rem; filter: drop-shadow(0 4px 15px rgba(0,0,0,0.9)); }
+                .v-subtitle { color: #FFFFFF; font-size: 0.95rem; line-height: 1.5; max-width: 460px; margin: 0 auto; opacity: 0.95; text-shadow: 0 2px 10px rgba(0,0,0,0.9); }
+                .v-royal-form { background: rgba(20, 15, 10, 0.88); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(212, 175, 55, 0.38); border-radius: 22px; padding: 0 1.5rem 2rem; box-shadow: 0 25px 60px rgba(0,0,0,0.7); animation: slideUp 0.6s ease-out; position: relative; overflow: hidden; }
                 
-                .v-greeting-bar { width: 100%; display: block; background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.15), transparent); padding: 1rem 0.6rem; text-align: center; border-bottom: 1px solid rgba(212, 175, 55, 0.1); margin-bottom: 1.5rem; }
-                .v-greeting-text { font-family: var(--ff-display); font-style: italic; font-size: 0.75rem; color: var(--accent-gold); letter-spacing: 0.5px; opacity: 0.7; }
+                .v-greeting-bar { width: 100%; display: block; background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.15), transparent); padding: 1rem 0.6rem; text-align: center; border-bottom: 1px solid rgba(212, 175, 55, 0.2); margin-bottom: 1.5rem; }
+                .v-greeting-text { font-family: var(--ff-display); font-style: italic; font-size: 0.85rem; color: #F5E6AB; letter-spacing: 0.5px; opacity: 0.9; font-weight: 600; }
 
                 .v-form-section { margin-top: 1rem; margin-bottom: 1.5rem; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 1.5rem; }
                 .v-form-section:last-of-type { border-bottom: none; margin-bottom: 0.5rem; }

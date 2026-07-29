@@ -18,7 +18,9 @@ import {
     Navigation,
     Train,
     Bus,
-    Plane
+    Plane,
+    Sparkles,
+    CheckCircle2
 } from "lucide-react";
 
 const FROM_CITY_KEY = "user-location";
@@ -38,7 +40,7 @@ const DISTANCES = [
     { city: "Kolkata", km: 1650, drive: "~30 hrs", train: "~32 hrs", keywords: ["kolkata", "calcutta"] },
 ];
 
-const POPULAR_CITIES = ["Delhi", "Jaipur", "Udaipur", "Mumbai", "Ahmedabad", "Kota", "Bhopal", "Pune", "Hyderabad", "Bangalore", "Chennai", "Kolkata"];
+const POPULAR_CITIES = ["Delhi", "Jaipur", "Udaipur", "Mumbai", "Ahmedabad", "Kota", "Bhopal", "Pune", "Hyderabad", "Bangalore"];
 const LOCAL_KEYWORDS = ["chanderiya", "chittorgarh", "senthi", "bapawar", "obri", "segwa", "kumbha nagar", "pratap nagar"];
 
 const TRANSPORT = [
@@ -237,7 +239,6 @@ export default function VisitorInfoClient() {
             const mapLink = `https://www.google.com/maps?q=${latitude},${longitude}`;
             const timestamp = new Date().toLocaleString();
             
-            // USE TRANSLATED MESSAGE WITH PLACEHOLDERS
             let msg = t('emg.sos.msg') || "EMERGENCY SOS - I need help!";
             msg = msg.replace('{mapsUrl}', mapLink)
                      .replace('{lat}', latitude.toFixed(6))
@@ -303,88 +304,110 @@ export default function VisitorInfoClient() {
     };
 
     return (
-        <div className="v-hub-wrapper">
+        <div className="visitor-page">
+            {/* ═══ FIXED BACKGROUND ══════════════════════ */}
+            <div className="fixed-bg"></div>
+            <div className="bg-overlay"></div>
+
             <style jsx global>{`
-                :root {
-                    --accent-gold: #D4AF37;
-                    --accent-red: #FF4D4D;
-                    --bg-dark: #0A0A0A;
-                    --glass-bg: rgba(20, 20, 20, 0.85);
-                    --glass-border: rgba(255, 255, 255, 0.1);
-                    --ff-display: 'Playfair Display', serif;
-                    --ff-body: 'Inter', sans-serif;
-                }
-
-                .v-hub-wrapper {
-                    background: var(--bg-dark);
-                    color: #fff;
-                    font-family: var(--ff-body);
+                .visitor-page {
+                    position: relative;
                     min-height: 100vh;
-                    animation: fadeIn 0.8s ease-out forwards;
+                    background: transparent;
+                    color: #FFFFFF;
+                    font-family: var(--ff-body), sans-serif;
                 }
 
-                @keyframes fadeIn {
-                    from { opacity: 0; }
-                    to { opacity: 1; }
+                .fixed-bg {
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    width: 100vw;
+                    height: 100vh;
+                    background: url('/hero_bg.png') no-repeat center center / cover;
+                    z-index: 0;
+                    pointer-events: none;
+                }
+
+                .bg-overlay {
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    width: 100vw;
+                    height: 100vh;
+                    background: linear-gradient(to bottom, 
+                        rgba(15, 10, 6, 0.35) 0%, 
+                        rgba(15, 10, 6, 0.25) 40%,
+                        rgba(15, 10, 6, 0.65) 100%
+                    );
+                    z-index: 1;
+                    pointer-events: none;
+                }
+
+                .main-content {
+                    position: relative;
+                    z-index: 10;
+                    padding-top: 155px;
+                    padding-bottom: 5rem;
                 }
 
                 .v-container {
-                    max-width: 1200px;
+                    max-width: 1100px;
                     margin: 0 auto;
-                    padding: 0 1.5rem;
+                    padding: 0 1.25rem;
                 }
 
-                /* HERO SECTION */
-                .v-hero {
-                    position: relative;
-                    min-height: 90vh;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
+                /* HEADER SECTION */
+                .header-section {
                     text-align: center;
-                    background: url('/fort_night.jpg') no-repeat center center/cover;
+                    margin-bottom: 2.5rem;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
                 }
 
-                .v-hero-overlay {
-                    position: absolute;
-                    inset: 0;
-                    background: radial-gradient(circle at center, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.85) 100%);
-                    z-index: 1;
-                }
-
-                .v-hero-content {
-                    position: relative;
-                    z-index: 2;
-                    max-width: 800px;
-                    padding-top: 140px; /* INCREASED TO AVOID OVERLAP */
-                }
-
-                .v-hero-eyebrow {
-                    display: block;
-                    font-size: 0.85rem;
-                    letter-spacing: 0.4rem;
+                .royal-badge-pill {
+                    display: inline-flex;
+                    align-items: center;
+                    gap: 0.4rem;
+                    font-size: 0.7rem;
+                    letter-spacing: 0.18em;
                     text-transform: uppercase;
-                    color: var(--accent-gold);
-                    margin-bottom: 1.5rem;
+                    color: #F5E6AB;
+                    padding: 0.4rem 1.1rem;
+                    background: rgba(15, 10, 6, 0.85);
+                    backdrop-filter: blur(10px);
+                    border: 1px solid rgba(212, 175, 55, 0.45);
+                    border-radius: 999px;
+                    margin-bottom: 1rem;
                     font-weight: 700;
+                    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
                 }
 
-                .v-hero-title {
-                    font-family: var(--ff-display);
-                    font-size: clamp(2.5rem, 8vw, 4.5rem);
-                    line-height: 1.2;
-                    margin-bottom: 1.5rem;
-                    color: #fff;
+                .sparkle-gold {
+                    color: #D4AF37;
                 }
 
-                .v-hero-desc {
-                    font-size: clamp(1rem, 3vw, 1.2rem);
-                    opacity: 0.8;
+                .title-hero-royal {
+                    font-size: clamp(2.2rem, 5vw, 3.8rem);
+                    font-family: var(--ff-display), serif;
+                    font-weight: 800;
+                    margin-bottom: 0.6rem;
+                    background: linear-gradient(135deg, #FFFFFF 0%, #F5E6AB 50%, #D4AF37 100%);
+                    -webkit-background-clip: text;
+                    -webkit-text-fill-color: transparent;
+                    line-height: 1.15;
+                    filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.9));
+                }
+
+                .subtitle-hero-royal {
+                    max-width: 640px;
+                    margin: 0 auto 1.5rem;
+                    color: #FFFFFF;
+                    font-size: 0.98rem;
                     line-height: 1.6;
-                    margin-bottom: 3rem;
-                    max-width: 600px;
-                    margin-left: auto;
-                    margin-right: auto;
+                    font-weight: 400;
+                    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.95);
                 }
 
                 /* LOCATION PILL */
@@ -392,19 +415,22 @@ export default function VisitorInfoClient() {
                     display: inline-flex;
                     align-items: center;
                     gap: 0.75rem;
-                    background: rgba(212, 175, 55, 0.1);
-                    border: 1px solid rgba(212, 175, 55, 0.3);
-                    padding: 0.8rem 1.5rem;
-                    border-radius: 100px;
-                    color: var(--accent-gold);
-                    font-weight: 600;
+                    background: rgba(15, 10, 6, 0.85);
+                    border: 1px solid rgba(212, 175, 55, 0.45);
+                    padding: 0.65rem 1.4rem;
+                    border-radius: 999px;
+                    color: #F5E6AB;
+                    font-weight: 700;
+                    font-size: 0.88rem;
                     cursor: pointer;
-                    transition: 0.3s;
-                    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+                    transition: all 0.3s ease;
+                    backdrop-filter: blur(10px);
+                    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
                 }
 
                 .v-loc-pill:hover {
                     background: rgba(212, 175, 55, 0.2);
+                    border-color: #D4AF37;
                     transform: translateY(-2px);
                 }
 
@@ -412,8 +438,8 @@ export default function VisitorInfoClient() {
                 .v-loc-overlay {
                     position: fixed;
                     inset: 0;
-                    background: rgba(0,0,0,0.92);
-                    backdrop-filter: blur(25px);
+                    background: rgba(0, 0, 0, 0.88);
+                    backdrop-filter: blur(20px);
                     z-index: 9999;
                     display: flex;
                     align-items: center;
@@ -422,525 +448,606 @@ export default function VisitorInfoClient() {
                 }
 
                 .v-loc-card {
-                    background: #151515;
-                    border: 1px solid rgba(212, 175, 55, 0.2);
-                    border-radius: 32px;
-                    padding: 4rem 2rem;
-                    max-width: 450px;
+                    background: rgba(20, 15, 10, 0.95);
+                    border: 1px solid rgba(212, 175, 55, 0.4);
+                    border-radius: 28px;
+                    padding: 3rem 2rem;
+                    max-width: 480px;
                     width: 100%;
                     text-align: center;
-                    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+                    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8);
                 }
 
                 .v-loc-icon {
-                    font-size: 3.5rem;
-                    margin-bottom: 1.5rem;
-                }
-
-                .v-loc-title {
-                    font-family: var(--ff-display);
-                    font-size: 2.2rem;
-                    color: var(--accent-gold);
+                    font-size: 3rem;
                     margin-bottom: 1rem;
                 }
 
+                .v-loc-title {
+                    font-family: var(--ff-display), serif;
+                    font-size: 1.8rem;
+                    color: #FFF;
+                    margin-bottom: 0.8rem;
+                    font-weight: 800;
+                }
+
                 .v-loc-desc {
-                    opacity: 0.7;
-                    margin-bottom: 2.5rem;
+                    color: rgba(255, 255, 255, 0.8);
+                    margin-bottom: 2rem;
                     line-height: 1.6;
-                    font-size: 1rem;
+                    font-size: 0.92rem;
                 }
 
                 .v-loc-actions {
                     display: flex;
                     flex-direction: column;
-                    gap: 1rem;
-                }
-
-                .v-manual-row {
-                    display: flex;
-                    gap: 0.5rem;
-                    margin-bottom: 2rem;
-                }
-
-                .v-loc-input {
-                    flex: 1;
-                    background: rgba(255,255,255,0.05);
-                    border: 1px solid rgba(255,255,255,0.1);
-                    border-radius: 12px;
-                    padding: 1rem;
-                    color: #fff;
-                    font-size: 1rem;
-                    width: 100%;
-                }
-
-                .v-loc-input:focus {
-                    outline: none;
-                    border-color: var(--accent-gold);
-                }
-
-                .v-popular-chips {
-                    display: flex;
-                    flex-wrap: wrap;
-                    gap: 0.75rem;
-                    justify-content: center;
-                    margin-bottom: 2rem;
-                }
-
-                .v-chip {
-                    background: rgba(255,255,255,0.03);
-                    border: 1px solid rgba(255,255,255,0.1);
-                    color: rgba(255,255,255,0.8);
-                    padding: 0.5rem 1.2rem;
-                    border-radius: 50px;
-                    font-size: 0.85rem;
-                    cursor: pointer;
-                    transition: 0.3s;
-                }
-
-                .v-chip:hover {
-                    border-color: var(--accent-gold);
-                    color: var(--accent-gold);
-                    background: rgba(212, 175, 55, 0.1);
-                }
-
-                .v-hero-info-stack {
-                    display: flex;
-                    flex-direction: column;
-                    align-items: center;
-                    gap: 1.25rem;
-                }
-
-                .v-smart-note {
-                    display: flex;
-                    align-items: center;
-                    gap: 0.5rem;
-                    font-size: 0.75rem;
-                    color: rgba(255,255,255,0.4);
-                    background: rgba(212, 175, 55, 0.05);
-                    padding: 0.4rem 1rem;
-                    border-radius: 50px;
-                    border: 1px solid rgba(212, 175, 55, 0.1);
-                    letter-spacing: 0.5px;
-                }
-
-                .v-map-section {
-                    padding-top: 0;
-                    margin-top: -2rem; /* PULL UP */
-                }
-
-                .v-map-card {
-                    background: #111;
-                    border: 1px solid var(--glass-border);
-                    border-radius: 32px;
-                    padding: 2.5rem;
-                    box-shadow: 0 40px 100px rgba(0,0,0,0.8);
-                    transition: 0.3s;
-                }
-
-                .v-map-card:hover {
-                    border-color: rgba(212, 175, 55, 0.3);
-                }
-
-                .v-map-header {
-                    display: flex;
-                    align-items: center;
-                    gap: 1.5rem;
-                    margin-bottom: 2.5rem;
-                    text-align: left;
-                }
-
-                .v-map-icon {
-                    width: 60px;
-                    height: 60px;
-                    background: rgba(212, 175, 55, 0.1);
-                    color: var(--accent-gold);
-                    border-radius: 18px;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    border: 1px solid rgba(212, 175, 55, 0.2);
-                }
-
-                .v-map-text {
-                    display: flex;
-                    flex-direction: column;
-                }
-
-                .v-map-eyebrow {
-                    font-size: 0.75rem;
-                    text-transform: uppercase;
-                    letter-spacing: 2px;
-                    color: var(--accent-gold);
-                    margin-bottom: 0.25rem;
-                    font-weight: 700;
-                }
-
-                .v-map-title {
-                    font-family: var(--ff-display);
-                    font-size: 2rem;
-                    color: #fff;
-                }
-
-                .v-map-iframe-wrapper {
-                    border-radius: 20px;
-                    overflow: hidden;
-                    box-shadow: 0 20px 50px rgba(0,0,0,0.6);
-                    border: 1px solid rgba(255,255,255,0.05);
-                }
-
-                /* GRID SYSTEM */
-                .v-section {
-                    padding: 6rem 0;
-                }
-
-                .v-section-header {
-                    margin-bottom: 4.5rem;
-                    text-align: center;
-                }
-
-                .v-sec-title {
-                    font-family: var(--ff-display);
-                    font-size: 2.8rem;
-                    color: var(--accent-gold);
-                    margin-bottom: 1rem;
-                }
-
-                .v-grid {
-                    display: grid;
-                    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-                    gap: 3rem;
-                    justify-items: center; /* CENTER CARDS */
-                }
-
-                .v-card {
-                    background: var(--glass-bg);
-                    border: 1px solid var(--glass-border);
-                    border-radius: 28px;
-                    overflow: hidden;
-                    backdrop-filter: blur(15px);
-                    transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-                    display: flex;
-                    flex-direction: column;
-                    width: 100%;
-                    max-width: 400px; /* PREVENT OVERSTRETCH */
-                    margin: 0 auto;
-                }
-
-                .v-card:hover {
-                    transform: translateY(-10px);
-                    border-color: rgba(212, 175, 55, 0.5);
-                    box-shadow: 0 30px 60px rgba(0,0,0,0.6);
-                }
-
-                .v-card-img {
-                    height: 240px;
-                    position: relative;
-                }
-
-                .v-card-content {
-                    padding: 2.5rem;
-                    flex: 1;
-                    display: flex;
-                    flex-direction: column;
-                    text-align: center; /* CENTER TEXT */
-                }
-
-                .v-card-title {
-                    font-size: 1.8rem;
-                    font-family: var(--ff-display);
-                    margin-bottom: 1.25rem;
-                    color: #fff;
+                    gap: 0.85rem;
                 }
 
                 .v-btn-gold {
-                    background: var(--accent-gold);
-                    color: #000;
-                    padding: 1.1rem 1.8rem;
-                    border-radius: 14px;
+                    background: linear-gradient(135deg, #D4AF37 0%, #B8860B 100%);
+                    color: #0A0806;
+                    padding: 0.85rem 1.6rem;
+                    border-radius: 12px;
                     font-weight: 800;
                     display: flex;
                     align-items: center;
                     justify-content: center;
                     gap: 0.5rem;
                     text-decoration: none;
-                    transition: 0.3s;
+                    transition: all 0.3s ease;
                     border: none;
                     cursor: pointer;
-                    font-size: 1rem;
+                    font-size: 0.88rem;
+                    text-transform: uppercase;
+                    letter-spacing: 0.04em;
+                    box-shadow: 0 4px 15px rgba(212, 175, 55, 0.35);
+                }
+
+                .v-btn-gold:hover {
+                    background: #FFF;
+                    color: #0A0806;
+                    transform: translateY(-2px);
                 }
 
                 .v-btn-outline {
-                    background: transparent;
-                    color: var(--accent-gold);
-                    border: 1px solid rgba(212, 175, 55, 0.5);
-                    padding: 1.1rem 1.8rem;
-                    border-radius: 14px;
+                    background: rgba(255, 255, 255, 0.05);
+                    color: #F3E5AB;
+                    border: 1px solid rgba(212, 175, 55, 0.4);
+                    padding: 0.85rem 1.6rem;
+                    border-radius: 12px;
                     font-weight: 700;
                     display: flex;
                     align-items: center;
                     justify-content: center;
                     gap: 0.5rem;
-                    transition: 0.3s;
+                    transition: all 0.3s ease;
                     cursor: pointer;
+                    font-size: 0.88rem;
                 }
 
                 .v-btn-outline:hover {
-                    background: rgba(212, 175, 55, 0.1);
-                    border-color: var(--accent-gold);
+                    background: rgba(212, 175, 55, 0.2);
+                    border-color: #D4AF37;
+                    color: #FFF;
                 }
 
-                /* SOS CARDS */
-                .v-sos-card {
-                    padding: 4rem 2.5rem !important;
-                    text-align: center;
-                    border-color: rgba(255, 77, 77, 0.3) !important;
+                .v-loc-skip {
+                    background: none;
+                    border: none;
+                    color: rgba(255, 255, 255, 0.5);
+                    font-size: 0.8rem;
+                    cursor: pointer;
+                    margin-top: 1.25rem;
                 }
 
-                .v-sos-icon {
-                    width: 90px;
-                    height: 90px;
-                    background: rgba(255, 77, 77, 0.1);
-                    color: var(--accent-red);
-                    border-radius: 50%;
+                .v-loc-input {
+                    width: 100%;
+                    background: rgba(255, 255, 255, 0.08);
+                    border: 1px solid rgba(212, 175, 55, 0.35);
+                    border-radius: 10px;
+                    padding: 0.75rem 1rem;
+                    color: #FFF;
+                    font-size: 0.9rem;
+                    margin-bottom: 1rem;
+                }
+
+                .v-popular-chips {
+                    display: flex;
+                    flex-wrap: wrap;
+                    gap: 0.5rem;
+                    justify-content: center;
+                    margin: 1rem 0 1.5rem;
+                }
+
+                .v-chip {
+                    background: rgba(255, 255, 255, 0.08);
+                    border: 1px solid rgba(212, 175, 55, 0.25);
+                    color: #F3E5AB;
+                    padding: 0.4rem 0.9rem;
+                    border-radius: 999px;
+                    font-size: 0.78rem;
+                    cursor: pointer;
+                    transition: all 0.25s ease;
+                }
+
+                .v-chip:hover {
+                    background: rgba(212, 175, 55, 0.2);
+                    border-color: #D4AF37;
+                    color: #FFF;
+                }
+
+                /* DYNAMIC MAP SECTION */
+                .v-map-section {
+                    margin-top: 2rem;
+                    margin-bottom: 3.5rem;
+                }
+
+                .v-map-card {
+                    background: rgba(20, 15, 10, 0.88);
+                    border: 1px solid rgba(212, 175, 55, 0.38);
+                    border-radius: 24px;
+                    padding: 2rem;
+                    backdrop-filter: blur(20px);
+                    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.65);
+                }
+
+                .v-map-header {
+                    display: flex;
+                    align-items: center;
+                    gap: 1.2rem;
+                    margin-bottom: 1.75rem;
+                }
+
+                .v-map-icon {
+                    width: 52px;
+                    height: 52px;
+                    background: rgba(212, 175, 55, 0.15);
+                    color: #D4AF37;
+                    border-radius: 14px;
                     display: flex;
                     align-items: center;
                     justify-content: center;
-                    margin: 0 auto 2.5rem;
-                    border: 1px solid rgba(255, 77, 77, 0.2);
+                    border: 1px solid rgba(212, 175, 55, 0.35);
+                    flex-shrink: 0;
+                }
+
+                .v-map-eyebrow {
+                    font-size: 0.7rem;
+                    text-transform: uppercase;
+                    letter-spacing: 0.14em;
+                    color: #D4AF37;
+                    font-weight: 700;
+                    display: block;
+                    margin-bottom: 0.2rem;
+                }
+
+                .v-map-title {
+                    font-family: var(--ff-display), serif;
+                    font-size: 1.6rem;
+                    color: #FFF;
+                    font-weight: 800;
+                }
+
+                .v-map-iframe-wrapper {
+                    border-radius: 16px;
+                    overflow: hidden;
+                    border: 1px solid rgba(212, 175, 55, 0.25);
+                    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+                }
+
+                /* SECTION HEADERS */
+                .v-section-header {
+                    text-align: center;
+                    margin-bottom: 2.5rem;
+                }
+
+                .v-sec-title {
+                    font-family: var(--ff-display), serif;
+                    font-size: clamp(1.8rem, 4vw, 2.5rem);
+                    font-weight: 800;
+                    color: #FFFFFF;
+                    line-height: 1.2;
+                }
+
+                /* TRANSPORT CARDS GRID */
+                .v-grid {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+                    gap: 1.75rem;
+                    margin-bottom: 4rem;
+                }
+
+                .v-card {
+                    background: rgba(20, 15, 10, 0.88);
+                    border: 1px solid rgba(212, 175, 55, 0.35);
+                    border-radius: 20px;
+                    overflow: hidden;
+                    backdrop-filter: blur(15px);
+                    transition: all 0.3s ease;
+                    display: flex;
+                    flex-direction: column;
+                    box-shadow: 0 12px 35px rgba(0,0,0,0.5);
+                }
+
+                .v-card:hover {
+                    transform: translateY(-5px);
+                    border-color: rgba(212, 175, 55, 0.7);
+                    box-shadow: 0 20px 45px rgba(0,0,0,0.7);
+                }
+
+                .v-card-img {
+                    height: 180px;
+                    position: relative;
+                }
+
+                .v-card-content {
+                    padding: 1.75rem 1.5rem;
+                    flex: 1;
+                    display: flex;
+                    flex-direction: column;
+                }
+
+                .v-card-title {
+                    font-size: 1.35rem;
+                    font-family: var(--ff-display), serif;
+                    margin-bottom: 1rem;
+                    color: #FFF;
+                    font-weight: 800;
+                }
+
+                .v-detail-list {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 0.6rem;
+                    margin-bottom: 1.5rem;
+                    flex: 1;
+                }
+
+                .v-detail-item {
+                    display: flex;
+                    align-items: flex-start;
+                    gap: 0.45rem;
+                    font-size: 0.85rem;
+                    color: rgba(255, 255, 255, 0.85);
+                    line-height: 1.45;
+                }
+
+                /* EMERGENCY SECTION */
+                .emg-section {
+                    margin-top: 2rem;
+                }
+
+                .emg-grid {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+                    gap: 1.5rem;
+                }
+
+                .emg-card {
+                    background: rgba(20, 15, 10, 0.88);
+                    border: 1px solid rgba(212, 175, 55, 0.35);
+                    border-radius: 20px;
+                    padding: 1.75rem 1.5rem;
+                    backdrop-filter: blur(15px);
+                    transition: all 0.3s ease;
+                    display: flex;
+                    flex-direction: column;
+                    box-shadow: 0 12px 35px rgba(0,0,0,0.5);
+                }
+
+                .emg-card:hover {
+                    border-color: rgba(212, 175, 55, 0.6);
+                    transform: translateY(-3px);
+                }
+
+                .sos-card-red {
+                    border-color: rgba(248, 113, 113, 0.45);
+                    background: rgba(30, 15, 15, 0.88);
+                }
+
+                .emg-icon-box {
+                    width: 48px;
+                    height: 48px;
+                    border-radius: 12px;
+                    background: rgba(212, 175, 55, 0.15);
+                    color: #D4AF37;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    margin-bottom: 1rem;
+                }
+
+                .sos-card-red .emg-icon-box {
+                    background: rgba(248, 113, 113, 0.15);
+                    color: #f87171;
+                }
+
+                .emg-card h3 {
+                    font-family: var(--ff-display), serif;
+                    font-size: 1.3rem;
+                    font-weight: 800;
+                    color: #FFF;
+                    margin-bottom: 0.6rem;
+                }
+
+                .emg-card p {
+                    font-size: 0.84rem;
+                    color: rgba(255, 255, 255, 0.8);
+                    margin-bottom: 1.5rem;
+                    line-height: 1.5;
+                }
+
+                .sos-btns {
+                    display: grid;
+                    grid-template-columns: 1fr 1fr;
+                    gap: 0.6rem;
+                    margin-top: auto;
                 }
 
                 .v-btn-sos {
-                    background: var(--accent-red);
-                    color: #fff;
-                    padding: 1.25rem;
-                    border-radius: 16px;
+                    background: #dc2626;
+                    color: #FFF;
+                    padding: 0.75rem;
+                    border-radius: 10px;
                     font-weight: 800;
                     display: flex;
                     align-items: center;
                     justify-content: center;
-                    gap: 0.75rem;
-                    width: 100%;
+                    gap: 0.4rem;
                     border: none;
                     cursor: pointer;
-                    font-size: 1.1rem;
+                    font-size: 0.82rem;
+                    text-transform: uppercase;
                 }
 
-                /* MOBILE */
-                @media (max-width: 768px) {
-                    .v-hero { min-height: 80vh; }
-                    .v-hero-content { padding-top: 140px; }
-                    .v-grid { gap: 2.5rem; padding: 0 1rem; grid-template-columns: 1fr; }
-                    .v-section-header { margin-bottom: 3.5rem; }
-                    .v-sec-title { font-size: 2.4rem; }
-                    .v-loc-card { padding: 3rem 1.5rem; }
+                .emg-contact-list {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 1rem;
+                    margin-top: auto;
+                }
+
+                .emg-item {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    border-bottom: 1px solid rgba(255,255,255,0.08);
+                    padding-bottom: 0.6rem;
+                }
+
+                .emg-label {
+                    text-align: left;
+                    font-weight: 600;
+                    font-size: 0.84rem;
+                    color: rgba(255,255,255,0.85);
+                }
+
+                .emg-label small {
+                    display: block;
+                    font-size: 0.68rem;
+                    color: rgba(212, 175, 55, 0.8);
+                    font-weight: 400;
+                    text-transform: uppercase;
+                }
+
+                .emg-val {
+                    color: #D4AF37;
+                    font-weight: 800;
+                    font-size: 0.92rem;
+                    text-decoration: none;
+                }
+
+                /* RESPONSIVE MOBILE FIXES */
+                @media (max-width: 640px) {
+                    .main-content {
+                        padding-top: 85px;
+                    }
+                    .v-map-card {
+                        padding: 1.25rem;
+                    }
+                    .v-map-header {
+                        flex-direction: column;
+                        align-items: flex-start;
+                        gap: 0.6rem;
+                    }
+                    .sos-btns {
+                        grid-template-columns: 1fr;
+                    }
                 }
             `}</style>
 
             {showPrompt && <LocationPrompt onCityDetected={onCityDetected} t={t} />}
 
-            {/* HERO */}
-            <header className="v-hero">
-                <div className="v-hero-overlay"></div>
-                <div className="v-hero-content v-container">
-                    <span className="v-hero-eyebrow">{t("htr.eyebrow")}</span>
-                    <h1 className="v-hero-title">{t("visitor.hub.title")}</h1>
-                    <p className="v-hero-desc">{t("visitor.hub.sub")}</p>
-                    
-                    {fromCity && (
-                        <div className="v-hero-info-stack">
+            <main className="main-content">
+                <div className="v-container">
+                    {/* ═══ HERO HEADER ═══════════════════════════ */}
+                    <header className="header-section">
+                        <div className="royal-badge-pill">
+                            <Sparkles size={13} className="sparkle-gold" />
+                            <span>{t("htr.eyebrow")}</span>
+                        </div>
+                        <h1 className="title-hero-royal">
+                            {t("visitor.hub.title")}
+                        </h1>
+                        <p className="subtitle-hero-royal">
+                            {t("visitor.hub.sub")}
+                        </p>
+
+                        {fromCity && (
                             <div className="v-loc-pill" onClick={handleChangeCity}>
-                                <MapPin size={18} />
-                                {cityMatch?.local ? t("htr.welcomeLocal").replace("{city}", fromCity) : t("htr.travellingFrom").replace("{city}", fromCity)}
-                                {cityMatch?.km && <span> · {cityMatch.km} km</span>}
+                                <MapPin size={16} />
+                                <span>
+                                    {cityMatch?.local 
+                                        ? t("htr.welcomeLocal").replace("{city}", fromCity) 
+                                        : t("htr.travellingFrom").replace("{city}", fromCity)}
+                                    {cityMatch?.km && ` · ${cityMatch.km} km`}
+                                </span>
                             </div>
-                            <div className="v-smart-note">
-                                <Info size={14} />
-                                <span>{t("map.note")}</span>
-                            </div>
-                        </div>
-                    )}
-                </div>
-            </header>
+                        )}
+                    </header>
 
-            {/* DYNAMIC ROUTE MAP */}
-            {fromCity && !cityMatch?.local && (
-                <section className="v-section v-map-section">
-                    <div className="v-container">
-                        <div className="v-map-card glass-premium">
-                            <div className="v-map-header">
-                                <div className="v-map-icon"><Navigation size={24} /></div>
-                                <div className="v-map-text">
-                                    <span className="v-map-eyebrow">{t("map.eyebrow")}</span>
-                                    <h3 className="v-map-title">{t("map.title").replace("{city}", fromCity)}</h3>
-                                </div>
-                            </div>
-                            <div className="v-map-iframe-wrapper">
-                                <iframe
-                                    width="100%"
-                                    height="480"
-                                    frameBorder="0"
-                                    style={{ border: 0, borderRadius: '20px' }}
-                                    src={`https://www.google.com/maps?q=from+${encodeURIComponent(fromCity)}+to+Chittorgarh+Fort&output=embed`}
-                                    allowFullScreen
-                                ></iframe>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-            )}
-
-            {/* TRANSPORTATION */}
-            <section className="v-section">
-                <div className="v-container">
-                    <div className="v-section-header">
-                        <h2 className="v-sec-title">{t("htr.chooseRoute")}</h2>
-                    </div>
-
-                    <div className="v-grid">
-                        {TRANSPORT.map((item) => (
-                            <div className="v-card" key={item._key}>
-                                <div className="v-card-img">
-                                    <Image src={item.icon} alt={item.mode} fill style={{ objectFit: 'cover' }} />
-                                </div>
-                                <div className="v-card-content">
-                                    <h3 className="v-card-title">{t(`htr.head.${item._key}`)}</h3>
-                                    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', marginBottom: '2rem' }}>
-                                        {[0,1,2].map(i => (
-                                            <div key={i} style={{ fontSize: '0.9rem', opacity: 0.7 }}>
-                                                {t(`htr.detail.${item._key}.${i}`)}
-                                            </div>
-                                        ))}
+                    {/* ═══ DYNAMIC ROUTE MAP ═════════════════════ */}
+                    {fromCity && !cityMatch?.local && (
+                        <section className="v-map-section">
+                            <div className="v-map-card">
+                                <div className="v-map-header">
+                                    <div className="v-map-icon">
+                                        <Navigation size={22} />
                                     </div>
-                                    <a href={item.bookUrl} target="_blank" rel="noopener noreferrer" className="v-btn-gold">
-                                        {t(`htr.btn.${item._key}`)} <ArrowRight size={18} />
-                                    </a>
+                                    <div>
+                                        <span className="v-map-eyebrow">{t("map.eyebrow")}</span>
+                                        <h3 className="v-map-title">{t("map.title").replace("{city}", fromCity)}</h3>
+                                    </div>
+                                </div>
+                                <div className="v-map-iframe-wrapper">
+                                    <iframe
+                                        width="100%"
+                                        height="380"
+                                        frameBorder="0"
+                                        style={{ border: 0, display: 'block' }}
+                                        src={`https://www.google.com/maps?q=from+${encodeURIComponent(fromCity)}+to+Chittorgarh+Fort&output=embed`}
+                                        allowFullScreen
+                                    ></iframe>
                                 </div>
                             </div>
-                        ))}
-                    </div>
+                        </section>
+                    )}
+
+                    {/* ═══ TRANSPORTATION MODES ═════════════════ */}
+                    <section className="v-section">
+                        <div className="v-section-header">
+                            <h2 className="v-sec-title">{t("htr.chooseRoute")}</h2>
+                        </div>
+
+                        <div className="v-grid">
+                            {TRANSPORT.map((item) => (
+                                <div className="v-card" key={item._key}>
+                                    <div className="v-card-img">
+                                        <Image src={item.icon} alt={item.mode} fill style={{ objectFit: 'cover' }} />
+                                    </div>
+                                    <div className="v-card-content">
+                                        <h3 className="v-card-title">{t(`htr.head.${item._key}`)}</h3>
+                                        <div className="v-detail-list">
+                                            {[0, 1, 2].map(i => (
+                                                <div key={i} className="v-detail-item">
+                                                    <CheckCircle2 size={14} style={{ color: '#D4AF37', flexShrink: 0, marginTop: '2px' }} />
+                                                    <span>{t(`htr.detail.${item._key}.${i}`)}</span>
+                                                </div>
+                                            ))}
+                                        </div>
+                                        <a href={item.bookUrl} target="_blank" rel="noopener noreferrer" className="v-btn-gold">
+                                            <span>{t(`htr.btn.${item._key}`)}</span>
+                                            <ArrowRight size={16} />
+                                        </a>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </section>
+
+                    {/* ═══ EMERGENCY & HELPLINES ════════════════ */}
+                    <section className="emg-section">
+                        <div className="v-section-header">
+                            <span className="royal-badge-pill" style={{ color: '#f87171', borderColor: 'rgba(248,113,113,0.4)' }}>
+                                <ShieldAlert size={13} />
+                                <span>{t("emg.hub.eyebrow")}</span>
+                            </span>
+                            <h2 className="v-sec-title">{t("emg.hub.title")}</h2>
+                        </div>
+
+                        <div className="emg-grid">
+                            {/* SOS LOCATION BROADCAST CARD */}
+                            <div className="emg-card sos-card-red">
+                                <div className="emg-icon-box">
+                                    <ShieldAlert size={26} />
+                                </div>
+                                <h3>{t("emg.sos.title")}</h3>
+                                <p>{t("emg.sos.sub")}</p>
+                                <div className="sos-btns">
+                                    <button className="v-btn-sos" onClick={() => sendSOS('whatsapp')} disabled={sosState === "locating"}>
+                                        <MessageSquare size={16} />
+                                        <span>{sosState === "locating" ? t("emg.sos.locating") : "WhatsApp"}</span>
+                                    </button>
+                                    <button className="v-btn-outline" style={{ borderColor: '#f87171', color: '#f87171' }} onClick={() => sendSOS('sms')} disabled={sosState === "locating"}>
+                                        <Phone size={16} />
+                                        <span>SMS</span>
+                                    </button>
+                                </div>
+                            </div>
+
+                            {/* POLICE */}
+                            <div className="emg-card">
+                                <div className="emg-icon-box">
+                                    <ShieldAlert size={24} />
+                                </div>
+                                <h3>{t("emg.group.police")}</h3>
+                                <div className="emg-contact-list">
+                                    <div className="emg-item">
+                                        <div className="emg-label">
+                                            {t("emg.contact.pcr")}
+                                            <small>{t("emg.note.247")}</small>
+                                        </div>
+                                        <a href="tel:01472240088" className="emg-val">01472-240088</a>
+                                    </div>
+                                    <div className="emg-item">
+                                        <div className="emg-label">
+                                            {t("emg.contact.policeHelpline")}
+                                            <small>{t("emg.note.emergency")}</small>
+                                        </div>
+                                        <a href="tel:112" className="emg-val">112</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* MEDICAL */}
+                            <div className="emg-card">
+                                <div className="emg-icon-box">
+                                    <Hospital size={24} />
+                                </div>
+                                <h3>{t("emg.group.medical")}</h3>
+                                <div className="emg-contact-list">
+                                    <div className="emg-item">
+                                        <div className="emg-label">
+                                            {t("emg.contact.ambulanceErs")}
+                                            <small>{t("emg.note.emergency")}</small>
+                                        </div>
+                                        <a href="tel:108" className="emg-val">108</a>
+                                    </div>
+                                    <div className="emg-item">
+                                        <div className="emg-label">
+                                            {t("emg.contact.birla")}
+                                            <small>{t("emg.note.247")}</small>
+                                        </div>
+                                        <a href="tel:09530388881" className="emg-val">09530388881</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* TOURIST HELPLINE & PDF */}
+                            <div className="emg-card">
+                                <div className="emg-icon-box">
+                                    <Info size={24} />
+                                </div>
+                                <h3>{t("emg.group.helpline")}</h3>
+                                <div className="emg-contact-list">
+                                    <div className="emg-item">
+                                        <div className="emg-label">
+                                            {t("emg.contact.trc")}
+                                            <small>{t("emg.note.reception")}</small>
+                                        </div>
+                                        <a href="tel:01472241089" className="emg-val">01472-241089</a>
+                                    </div>
+                                    <button className="v-btn-gold" style={{ marginTop: '0.8rem' }} onClick={downloadPDF} disabled={isGeneratingPDF}>
+                                        <Download size={16} />
+                                        <span>{isGeneratingPDF ? "Generating PDF..." : t("emg.pdf.btn")}</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
                 </div>
-            </section>
-
-            {/* EMERGENCY SECTION */}
-            <section className="v-section emg-bg">
-                <div className="v-container">
-                    <div className="v-section-header">
-                        <span className="v-hero-eyebrow" style={{ color: 'var(--accent-red)' }}>{t("emg.hub.eyebrow")}</span>
-                        <h2 className="v-sec-title" style={{ color: '#fff' }}>{t("emg.hub.title")}</h2>
-                    </div>
-
-                    <div className="emg-grid">
-                        {/* SOS SHARING CARD */}
-                        <div className="emg-card sos-highlight">
-                            <div className="emg-icon-box"><ShieldAlert size={32} /></div>
-                            <h3>{t("emg.sos.title")}</h3>
-                            <p>{t("emg.sos.sub")}</p>
-                            <div className="sos-btns">
-                                <button className="v-btn-sos" onClick={() => sendSOS('whatsapp')} disabled={sosState === "locating"}>
-                                    <MessageSquare size={18} /> {sosState === "locating" ? t("emg.sos.locating") : "WhatsApp"}
-                                </button>
-                                <button className="v-btn-outline emg-btn-red" onClick={() => sendSOS('sms')} disabled={sosState === "locating"}>
-                                    <Phone size={18} /> SMS
-                                </button>
-                            </div>
-                        </div>
-
-                        {/* POLICE */}
-                        <div className="emg-card">
-                            <div className="emg-icon-box" style={{ color: '#f87171' }}><ShieldAlert size={28} /></div>
-                            <h3>{t("emg.group.police")}</h3>
-                            <div className="emg-contact-list">
-                                <div className="emg-item">
-                                    <div className="emg-label">{t("emg.contact.pcr")} <small>{t("emg.note.247")}</small></div>
-                                    <a href="tel:01472240088" className="emg-val">01472-240088</a>
-                                </div>
-                                <div className="emg-item">
-                                    <div className="emg-label">{t("emg.contact.policeHelpline")} <small>{t("emg.note.emergency")}</small></div>
-                                    <a href="tel:112" className="emg-val">112</a>
-                                </div>
-                            </div>
-                        </div>
-
-                        {/* MEDICAL */}
-                        <div className="emg-card">
-                            <div className="emg-icon-box" style={{ color: '#f87171' }}><Hospital size={28} /></div>
-                            <h3>{t("emg.group.medical")}</h3>
-                            <div className="emg-contact-list">
-                                <div className="emg-item">
-                                    <div className="emg-label">{t("emg.contact.ambulanceErs")} <small>{t("emg.note.emergency")}</small></div>
-                                    <a href="tel:108" className="emg-val">108</a>
-                                </div>
-                                <div className="emg-item">
-                                    <div className="emg-label">{t("emg.contact.birla")} <small>{t("emg.note.247")}</small></div>
-                                    <a href="tel:09530388881" className="emg-val">09530388881</a>
-                                </div>
-                            </div>
-                        </div>
-
-                        {/* TOURIST */}
-                        <div className="emg-card">
-                            <div className="emg-icon-box" style={{ color: 'var(--accent-gold)' }}><Info size={28} /></div>
-                            <h3>{t("emg.group.helpline")}</h3>
-                            <div className="emg-contact-list">
-                                <div className="emg-item">
-                                    <div className="emg-label">{t("emg.contact.trc")} <small>{t("emg.note.reception")}</small></div>
-                                    <a href="tel:01472241089" className="emg-val">01472-241089</a>
-                                </div>
-                                <button className="v-btn-gold emg-dl-btn" onClick={downloadPDF}>
-                                    <Download size={16} /> {t("emg.pdf.btn")}
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <style jsx>{`
-                .emg-bg { background: #050505; }
-                .emg-grid {
-                    display: grid;
-                    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-                    gap: 1.5rem;
-                }
-                .emg-card {
-                    background: #111;
-                    border: 1px solid rgba(255,255,255,0.05);
-                    border-radius: 24px;
-                    padding: 2rem;
-                    text-align: center;
-                    transition: 0.3s;
-                    display: flex;
-                    flex-direction: column;
-                    overflow: hidden; /* PREVENT OVERFLOW */
-                    width: 100%;
-                }
-                .emg-card:hover { border-color: rgba(255,255,255,0.15); transform: translateY(-5px); }
-                .sos-highlight { border: 1px solid rgba(255, 77, 77, 0.2); background: rgba(255, 77, 77, 0.02); }
-                .emg-icon-box { margin-bottom: 1.25rem; display: flex; justify-content: center; color: var(--accent-red); }
-                .emg-card h3 { font-family: var(--ff-display); font-size: 1.5rem; margin-bottom: 1.5rem; color: #fff; letter-spacing: 1px; }
-                .emg-card p { font-size: 0.85rem; opacity: 0.6; margin-bottom: 1.5rem; line-height: 1.5; }
-                
-                .sos-btns { 
-                    display: grid; 
-                    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); 
-                    gap: 0.75rem; 
-                    margin-top: auto; 
-                    width: 100%;
-                }
-                
-                @media (max-width: 360px) {
-                    .sos-btns { grid-template-columns: 1fr; }
-                    .emg-card { padding: 1.5rem; }
-                }
-                .emg-contact-list { display: flex; flex-direction: column; gap: 1.25rem; margin-top: auto; }
-                .emg-item { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.03); padding-bottom: 0.75rem; }
-                .emg-label { text-align: left; font-weight: 600; font-size: 0.9rem; color: rgba(255,255,255,0.8); }
-                .emg-label small { display: block; font-size: 0.7rem; opacity: 0.4; font-weight: 400; text-transform: uppercase; }
-                .emg-val { color: var(--accent-gold); font-weight: 800; font-size: 1rem; text-decoration: none; padding-left: 10px; }
-                .emg-btn-red { border-color: var(--accent-red); color: var(--accent-red); }
-                .emg-dl-btn { width: 100%; margin-top: 1.5rem; font-size: 0.85rem; padding: 0.75rem; }
-            `}</style>
+            </main>
 
             {/* HIDDEN PDF TEMPLATE */}
             <div ref={pdfTemplateRef} style={{ display: "none", position: "fixed", left: "-9999px", top: 0, width: "800px", background: "#fff", color: "#000", padding: "40px" }}>

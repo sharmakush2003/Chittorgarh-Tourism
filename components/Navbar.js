@@ -49,12 +49,22 @@ export default function Navbar() {
 
     const isActive = (path) => pathname === path ? "active" : "";
 
+    const getNavLabel = (key, fallback) => {
+        const val = t(key);
+        if (!val || val.toUpperCase().startsWith("NAV.") || val === key) return fallback;
+        return val;
+    };
+
     const navLinks = [
-        { href: "/", label: t("nav.home") },
-        { href: "/explore", label: t("nav.explore") },
-        { href: "/plan", label: t("nav.planTrip") },
-        { href: "/visitor-info", label: t("nav.visitorInfo") || "Visitor Info" },
-        { href: "/feedback", label: t("nav.feedback") || "Feedback Hub" },
+        { href: "/", label: getNavLabel("nav.home", "Home") },
+        { href: "/explore", label: getNavLabel("nav.explore", "Explore") },
+        { href: "/stays", label: getNavLabel("nav.stays", "Stays") },
+        { href: "/plan", label: getNavLabel("nav.planTrip", "Plan Trip") },
+        { href: "/visitor-info", label: getNavLabel("nav.visitorInfo", "Visitor Info") },
+        { href: "/panch-gaurav", label: getNavLabel("nav.panchGaurav", "Panch Gaurav") },
+        { href: "/emergency", label: getNavLabel("nav.emergency", "Emergency") },
+        { href: "/download", label: getNavLabel("nav.download", "Downloads") },
+        { href: "/feedback", label: getNavLabel("nav.feedback", "Feedback") },
     ];
 
     const isContactPath = false;
@@ -134,59 +144,16 @@ export default function Navbar() {
                     <div className="mobile-menu-divider"></div>
                 </div>
 
-                {navLinks.filter(link => link.href !== "/feedback").map((link, idx) => (
+                {navLinks.map((link, idx) => (
                     <Link prefetch={false} key={link.href}
                         href={link.href}
                         className={`mobile-link ${isActive(link.href)}`}
                         onClick={() => setIsMenuOpen(false)}
-                        style={{ transitionDelay: `${0.15 + idx * 0.08}s` }}
+                        style={{ transitionDelay: `${0.1 + idx * 0.05}s` }}
                     >
                         {link.label}
                     </Link>
                 ))}
-
-
-                <Link prefetch={false} href="/panch-gaurav"
-                    className={`mobile-link ${isActive("/panch-gaurav")}`}
-                    onClick={() => setIsMenuOpen(false)}
-                    style={{ 
-                        transitionDelay: `${0.15 + (navLinks.length - 1) * 0.08}s`
-                    }}
-                >
-                    {t("nav.panchGaurav") || "Panch Gaurav"}
-                </Link>
-
-
-
-                <Link prefetch={false} href="/download"
-                    className={`mobile-link ${isActive("/download")} mobile-install-link`}
-                    onClick={() => setIsMenuOpen(false)}
-                    style={{ 
-                        transitionDelay: `${0.15 + (navLinks.length + 1) * 0.08}s`
-                    }}
-                >
-                    {t("nav.download") || "Download App"}
-                </Link>
-
-                <Link prefetch={false} href="/contact-us"
-                    className={`mobile-link ${isActive("/contact-us")} mobile-contact-link`}
-                    onClick={() => setIsMenuOpen(false)}
-                    style={{ 
-                        transitionDelay: `${0.15 + (navLinks.length + 2) * 0.08}s`
-                    }}
-                >
-                    {t("nav.contactUs") || "Contact Us"}
-                </Link>
-
-                <Link prefetch={false} href="/feedback"
-                    className={`mobile-link ${isActive("/feedback")}`}
-                    onClick={() => setIsMenuOpen(false)}
-                    style={{ 
-                        transitionDelay: `${0.15 + (navLinks.length + 3) * 0.08}s`
-                    }}
-                >
-                    {t("nav.feedback") || "Feedback Hub"}
-                </Link>
 
 
                 {/* Mobile Language Selection */}

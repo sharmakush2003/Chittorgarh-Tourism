@@ -6,6 +6,7 @@ import ScrollReveal from "@/components/ScrollReveal";
 import LanguagePrompt from "@/components/LanguagePrompt";
 import Background3D from "@/components/Background3D";
 import HeritageGuide from "@/components/HeritageGuide";
+import RoyalPreloader from "@/components/RoyalPreloader";
 import { LanguageProvider } from "@/context/LanguageContext";
 import { AuthProvider } from "@/context/AuthContext";
 import "./globals.css";
@@ -226,6 +227,7 @@ export default function RootLayout({ children }) {
         />
       </head>
       <body className={`${playfair.variable} ${inter.variable} ${martel.variable}`}>
+        <RoyalPreloader />
         <Script
           id="attraction-schema"
           type="application/ld+json"

@@ -7,7 +7,7 @@ import { triggerHaptic } from "@/lib/haptics";
 import QRWebScanner from "./QRWebScanner";
 
 export default function QRScannerButton({ 
-    className = "btn-outline-gold", 
+    className = "btn-outline-luxury", 
     labelKey = "hero.ctaScan",
     showIcon = true 
 }) {
@@ -37,7 +37,7 @@ export default function QRScannerButton({
     return (
         <>
             <button className={className} onClick={handleScanQR}>
-                {showIcon && <Camera size={20} style={{ marginRight: '8px', verticalAlign: 'middle' }} />}
+                {showIcon && <Camera size={18} style={{ marginRight: '8px', verticalAlign: 'middle' }} />}
                 {t(labelKey)}
             </button>
 
@@ -49,27 +49,8 @@ export default function QRScannerButton({
             )}
 
             <style jsx>{`
-                .btn-outline-gold {
-                    padding: 1rem 2.5rem;
-                    background: transparent;
-                    border: 2px solid var(--gold);
-                    color: var(--gold);
-                    font-family: var(--ff-display);
-                    font-weight: 700;
-                    font-size: 1.1rem;
-                    cursor: pointer;
-                    transition: all 0.3s;
-                    border-radius: 4px;
-                    display: inline-flex;
-                    align-items: center;
-                    justify-content: center;
-                    margin: 2rem 0;
-                }
-                .btn-outline-gold:hover {
-                    background: var(--gold);
-                    color: #fff;
-                    transform: translateY(-2px);
-                    box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+                .btn-outline-gold, .btn-outline-luxury {
+                    margin: 0;
                 }
             `}</style>
         </>

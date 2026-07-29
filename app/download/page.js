@@ -59,6 +59,10 @@ export default function DownloadPage() {
 
     return (
         <div className="download-page">
+            {/* ═══ FIXED BACKGROUND ══════════════════════ */}
+            <div className="fixed-bg"></div>
+            <div className="bg-overlay"></div>
+
             <div className="download-hero">
                 <motion.div 
                     initial={{ opacity: 0, y: 30 }}
@@ -175,30 +179,60 @@ export default function DownloadPage() {
 
             <style jsx>{`
                 .download-page {
-                    background: #0a0804;
-                    color: #fff;
+                    position: relative;
                     min-height: 100vh;
+                    background: transparent;
+                    color: #fff;
                     padding-bottom: 5rem;
                 }
+
+                .fixed-bg {
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    width: 100vw;
+                    height: 100vh;
+                    background: url('/hero_bg.png') no-repeat center center / cover;
+                    z-index: 0;
+                    pointer-events: none;
+                }
+
+                .bg-overlay {
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    width: 100vw;
+                    height: 100vh;
+                    background: linear-gradient(to bottom, 
+                        rgba(15, 10, 6, 0.35) 0%, 
+                        rgba(15, 10, 6, 0.25) 40%,
+                        rgba(15, 10, 6, 0.65) 100%
+                    );
+                    z-index: 1;
+                    pointer-events: none;
+                }
+
                 :global([data-lang="hi"]) .download-page {
                     font-family: var(--font-martel), serif;
                 }
+
                 .container {
                     max-width: 1000px;
                     margin: 0 auto;
                     padding: 0 1.5rem;
                 }
+
                 .download-hero {
-                    padding: 7rem 0 3rem;
+                    padding: 155px 0 3rem;
                     text-align: center;
-                    background: linear-gradient(to bottom, rgba(212, 175, 55, 0.05), transparent);
                     position: relative;
                 }
+
                 .back-btn {
                     display: inline-flex;
                     align-items: center;
                     gap: 0.5rem;
-                    color: rgba(255,255,255,0.6);
+                    color: rgba(255,255,255,0.85);
                     text-decoration: none;
                     font-weight: 600;
                     font-size: 0.8rem;
@@ -208,21 +242,25 @@ export default function DownloadPage() {
                     transition: color 0.3s ease;
                 }
                 .back-btn:hover { color: #D4AF37; }
+
                 .badge {
                     display: flex;
                     align-items: center;
                     justify-content: center;
                     gap: 0.5rem;
-                    background: rgba(212, 175, 55, 0.1);
-                    color: #D4AF37;
-                    padding: 0.5rem 1rem;
+                    background: rgba(15, 10, 6, 0.85);
+                    color: #F5E6AB;
+                    padding: 0.5rem 1.2rem;
                     border-radius: 50px;
                     font-size: 0.75rem;
                     font-weight: 800;
                     margin: 0 auto 2rem;
-                    border: 1px solid rgba(212, 175, 55, 0.3);
+                    border: 1px solid rgba(212, 175, 55, 0.45);
                     width: fit-content;
+                    backdrop-filter: blur(10px);
+                    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
                 }
+
                 .title {
                     font-family: var(--ff-display, serif);
                     font-size: clamp(2.5rem, 8vw, 4rem);
@@ -232,34 +270,44 @@ export default function DownloadPage() {
                     -webkit-text-fill-color: transparent;
                     padding: 0.1em 0; /* Prevents clipping of Hindi matras */
                     line-height: 1.2;
+                    filter: drop-shadow(0 4px 15px rgba(0,0,0,0.9));
                 }
                 :global([data-lang="hi"]) .title {
                     font-family: var(--font-martel), serif;
                     line-height: 1.4;
                 }
+
                 .subtitle {
                     font-size: 1.2rem;
-                    color: rgba(255,255,255,0.7);
+                    color: #FFFFFF;
+                    opacity: 0.95;
                     max-width: 700px;
                     margin: 0 auto;
                     line-height: 1.6;
+                    text-shadow: 0 2px 10px rgba(0,0,0,0.9);
                 }
+
                 .install-grid {
                     display: grid;
                     grid-template-columns: 1fr;
                     gap: 2rem;
-                    margin-top: -2rem;
+                    margin-top: 1rem;
                 }
+
                 @media (min-width: 768px) {
                     .install-grid { grid-template-columns: 1fr 1fr; }
                 }
+
                 .platform-card {
                     padding: 2.5rem;
-                    background: rgba(255,255,255,0.02);
-                    border: 1px solid rgba(212, 175, 55, 0.2);
-                    border-radius: 20px;
+                    background: rgba(20, 15, 10, 0.88);
+                    border: 1px solid rgba(212, 175, 55, 0.38);
+                    backdrop-filter: blur(20px);
+                    -webkit-backdrop-filter: blur(20px);
+                    border-radius: 22px;
                     display: flex;
                     flex-direction: column;
+                    box-shadow: 0 15px 45px rgba(0, 0, 0, 0.65);
                 }
                 .card-header {
                     display: flex;
@@ -374,11 +422,22 @@ export default function DownloadPage() {
                 
                 .note { font-size: 0.75rem; color: rgba(255,255,255,0.4); margin-top: 0.75rem; text-align: center; }
                 
-                .features-section { margin-top: 6rem; text-align: center; }
-                .section-title { font-family: var(--ff-display, serif); color: #D4AF37; margin-bottom: 3rem; font-size: 2rem; }
-                .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 3rem; }
-                .feat-item h4 { color: #fff; margin: 1rem 0 0.5rem; font-size: 1.1rem; }
-                .feat-item p { font-size: 0.9rem; color: rgba(255,255,255,0.6); line-height: 1.5; }
+                .features-section { margin-top: 5rem; text-align: center; }
+                .section-title { font-family: var(--ff-display, serif); color: #D4AF37; margin-bottom: 2.5rem; font-size: 2.2rem; font-weight: 800; filter: drop-shadow(0 4px 15px rgba(0,0,0,0.9)); }
+                .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.75rem; }
+                .feat-item {
+                    background: rgba(20, 15, 10, 0.88);
+                    border: 1px solid rgba(212, 175, 55, 0.38);
+                    backdrop-filter: blur(20px);
+                    -webkit-backdrop-filter: blur(20px);
+                    border-radius: 20px;
+                    padding: 2.2rem 1.6rem;
+                    box-shadow: 0 15px 45px rgba(0,0,0,0.65);
+                    transition: transform 0.3s ease;
+                }
+                .feat-item:hover { transform: translateY(-4px); border-color: rgba(212, 175, 55, 0.7); }
+                .feat-item h4 { color: #FFFFFF; margin: 1rem 0 0.6rem; font-size: 1.2rem; font-weight: 800; font-family: var(--ff-display), serif; }
+                .feat-item p { font-size: 0.92rem; color: #FFFFFF; line-height: 1.65; opacity: 0.95; font-weight: 400; text-shadow: 0 1px 4px rgba(0,0,0,0.9); }
                 .feat-icon { font-size: 2rem; }
             `}</style>
         </div>
