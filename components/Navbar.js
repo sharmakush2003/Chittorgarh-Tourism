@@ -65,9 +65,10 @@ export default function Navbar() {
         { href: "/emergency", label: getNavLabel("nav.emergency", "Emergency") },
         { href: "/download", label: getNavLabel("nav.download", "Downloads") },
         { href: "/feedback", label: getNavLabel("nav.feedback", "Feedback") },
+        { href: "/contact-us", label: getNavLabel("nav.contactUs", "Contact Us") },
     ];
 
-    const isContactPath = false;
+    const isContactPath = pathname === "/contact-us";
 
     if (isHiddenPath) return null;
 

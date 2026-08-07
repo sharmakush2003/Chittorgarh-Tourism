@@ -1,114 +1,197 @@
 "use client";
 
 import { useLanguage } from "@/context/LanguageContext";
-import React, { useState, useEffect, useRef } from "react";
+import React, { useRef } from "react";
 import {
-    Play,
-    Pause,
     ArrowLeft,
-    ChevronDown,
-    ChevronUp,
-    Code,
     Globe,
     Phone,
     Mail,
-    User
+    User,
+    Shield,
+    Terminal,
+    Compass
 } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { motion } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { triggerHaptic } from "@/lib/haptics";
-import { Waveform } from "./Waveform";
 import QRScannerButton from "./QRScannerButton";
-import { useAudioGuide } from "@/hooks/useAudioGuide";
+
+const KineticScroll = ({ progress }) => {
+    const width = useTransform(progress, [0, 1], ["0%", "100%"]);
+    return (
+        <motion.div 
+            style={{ 
+                position: 'fixed',
+                bottom: 0,
+                left: 0,
+                height: '4px',
+                background: 'linear-gradient(90deg, transparent, var(--gold), #fff)',
+                zIndex: 1000,
+                width,
+                boxShadow: '0 -2px 15px rgba(212, 175, 55, 0.5)'
+            }} 
+        />
+    );
+};
 
 export default function ContactUsClient() {
-    const { t, lang } = useLanguage();
+    const { t } = useLanguage();
     const router = useRouter();
-    const { playingAudio, handleAudioPlay: hookAudioPlay } = useAudioGuide();
+    const containerRef = useRef(null);
+
+    const { scrollYProgress } = useScroll({
+        target: containerRef,
+        offset: ["start start", "end end"]
+    });
+
+    const heroScale = useTransform(scrollYProgress, [0, 0.3], [1, 1.08]);
+    const heroOpacity = useTransform(scrollYProgress, [0, 0.3], [1, 0]);
+    const heroTranslateY = useTransform(scrollYProgress, [0, 0.3], [0, 50]);
 
     const TEAM = [
-        { id: "card1", email: "Kushsharma.cor@gmail.com" },
-        { id: "card2", email: "lavsharma.cor@gmail.com" }
+        { id: "card1", email: "Kushsharma.cor@gmail.com", icon: <Terminal size={36} /> },
+        { id: "card2", email: "lavsharma.cor@gmail.com", icon: <Compass size={36} /> }
     ];
 
-    const handleAudioPlay = (sectionId) => {
-        hookAudioPlay(sectionId, [`contact.${sectionId}.name`, `contact.${sectionId}.role`, `contact.${sectionId}.desc`]);
+    const containerVariants = {
+        hidden: { opacity: 0 },
+        visible: {
+            opacity: 1,
+            transition: {
+                staggerChildren: 0.15,
+                delayChildren: 0.2
+            }
+        }
+    };
+
+    const cardVariants = {
+        hidden: { y: 40, opacity: 0, scale: 0.95 },
+        visible: {
+            y: 0,
+            opacity: 1,
+            scale: 1,
+            transition: {
+                type: "spring",
+                stiffness: 100,
+                damping: 15
+            }
+        }
     };
 
     return (
-        <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 1 }}
+        <motion.div 
+            ref={containerRef}
+            initial="hidden"
+            animate="visible"
+            variants={containerVariants}
             className="fort-page"
         >
-            {/* ═══ HERO SECTION ═══════════════════════════ */}
+            <div className="fixed-bg"></div>
+            <div className="bg-overlay"></div>
+            <KineticScroll progress={scrollYProgress} />
+
+            {/* ═══ PARALLAX HERO SECTION ═══════════════════════════ */}
             <section className="fort-hero">
-                <div className="hero-bg" style={{ backgroundColor: "#0F0A06", backgroundPosition: 'center center' }}></div>
+                <motion.div 
+                    style={{ 
+                        scale: heroScale, 
+                        opacity: heroOpacity,
+                        y: heroTranslateY,
+                        backgroundImage: "url('/hero_bg.jpg')"
+                    }} 
+                    className="hero-bg"
+                />
                 <div className="hero-overlay"></div>
 
-                <motion.div
-                    initial={{ y: 30, opacity: 0 }}
-                    animate={{ y: 0, opacity: 1 }}
-                    transition={{ delay: 0.2, duration: 0.8 }}
-                    className="hero-content"
-                >
-                    <button className="back-btn" onClick={() => {
-                        triggerHaptic('light');
-                        router.push('/');
-                    }}>
+                <div className="hero-content">
+                    <motion.button 
+                        initial={{ opacity: 0, x: -20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: 0.2 }}
+                        className="back-btn" 
+                        onClick={() => {
+                            triggerHaptic('light');
+                            router.push('/');
+                        }}
+                    >
                         <ArrowLeft size={16} /> {t("btn.back") || "Back"}
-                    </button>
-                    <span className="hero-eyebrow">{t("nav.contactUs") || "Contact Us"}</span>
-                    <h1 className="hero-title">{t("contact.hero.title")}</h1>
-                    <p className="hero-desc">{t("contact.hero.sub")}</p>
-                </motion.div>
+                    </motion.button>
+                    
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.3 }}
+                    >
+                        <span className="hero-eyebrow">{t("nav.contactUs") || "Contact Us"}</span>
+                        <h1 className="hero-title">{t("contact.hero.title")}</h1>
+                        <p className="hero-desc">{t("contact.hero.sub")}</p>
+                    </motion.div>
+                </div>
+                
+                <div className="hero-bottom-fade"></div>
             </section>
 
             <main className="fort-main">
                 {/* ═══ NODAL OFFICER SECTION ══════════════════════════ */}
-                <section id="nodal" className="fort-section">
+                <section id="nodal" className="fort-section relative">
+                    <div className="ambient-glow-circle absolute pointer-events-none" style={{ top: '10%', left: '50%', transform: 'translate(-50%, -50%)' }}></div>
                     <motion.div
-                        initial={{ opacity: 0, y: 30 }}
+                        initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                         className="section-header"
                     >
-                        <h2 className="section-title text-gold">{t("contact.nodal.title")}</h2>
+                        <h2 className="section-title text-gold aura-heading">{t("contact.nodal.title")}</h2>
                         <div className="title-divider"></div>
                     </motion.div>
 
-                    <div style={{ display: 'flex', justifyContent: 'center' }}>
+                    <div className="card-container flex justify-center">
                         <motion.div
-                            initial={{ opacity: 0, scale: 0.95 }}
-                            whileInView={{ opacity: 1, scale: 1 }}
-                            viewport={{ once: true }}
-                            className="monument-card premium-glass"
-                            style={{ maxWidth: '600px', width: '100%' }}
+                            variants={cardVariants}
+                            whileHover={{ y: -8, scale: 1.02 }}
+                            className="monument-card premium-glass nodal-card-featured"
                         >
+                            <div className="badge-shield">
+                                <Shield size={28} className="text-gold" />
+                            </div>
+                            
                             <div className="mon-content">
-                                <h3 className="mon-name" style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
-                                    <span style={{ color: 'var(--gold)' }}><User size={24} /></span>
-                                    {t("contact.nodal.name")}
-                                </h3>
+                                <div className="user-icon-ring">
+                                    <User size={36} className="text-gold" />
+                                </div>
+                                <h3 className="mon-name">{t("contact.nodal.name")}</h3>
                                 <div className="role-badge">
                                     {t("contact.nodal.role")}
                                 </div>
-                                <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', marginTop: '1rem' }}>
-                                    <div className="email-link">
-                                        <Mail size={16} color="var(--gold)" />
-                                        <a href={`mailto:${t("contact.nodal.email")}`}>{t("contact.nodal.email")}</a>
-                                    </div>
-                                    {t("contact.nodal.mobile") && t("contact.nodal.mobile") !== "contact.nodal.mobile" && (
-                                        <div className="email-link">
-                                            <Phone size={16} color="var(--gold)" />
-                                            <a href={`tel:${t("contact.nodal.mobile")}`}>{t("contact.nodal.mobile")} (Mobile)</a>
+                                <div className="info-links-grid">
+                                    <motion.a 
+                                        whileHover={{ scale: 1.02 }} 
+                                        href={`mailto:${t("contact.nodal.email")}`} 
+                                        className="info-item-link"
+                                    >
+                                        <div className="icon-wrapper">
+                                            <Mail size={18} />
                                         </div>
-                                    )}
-                                    <div className="email-link">
-                                        <Phone size={16} color="var(--gold)" />
-                                        <span>{t("contact.nodal.office")} (Office)</span>
-                                    </div>
+                                        <div className="info-text">
+                                            <span className="info-label">Email Support</span>
+                                            <span className="info-val">{t("contact.nodal.email")}</span>
+                                        </div>
+                                    </motion.a>
+                                    
+                                    <motion.a 
+                                        whileHover={{ scale: 1.02 }} 
+                                        href={`tel:${t("contact.nodal.office")}`} 
+                                        className="info-item-link"
+                                    >
+                                        <div className="icon-wrapper">
+                                            <Phone size={18} />
+                                        </div>
+                                        <div className="info-text">
+                                            <span className="info-label">Office Phone</span>
+                                            <span className="info-val">{t("contact.nodal.office")}</span>
+                                        </div>
+                                    </motion.a>
                                 </div>
                             </div>
                         </motion.div>
@@ -116,47 +199,43 @@ export default function ContactUsClient() {
                 </section>
 
                 {/* ═══ TECHNICAL ASSISTANCE SECTION ══════════════════════════ */}
-                <section id="assistance" className="fort-section">
+                <section id="assistance" className="fort-section relative">
+                    <div className="ambient-glow-circle absolute pointer-events-none" style={{ bottom: '10%', right: '5%' }}></div>
                     <motion.div
-                        initial={{ opacity: 0, y: 30 }}
+                        initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                         className="section-header"
                     >
-                        <h2 className="section-title text-gold">{t("contact.techAssistance.title")}</h2>
+                        <h2 className="section-title text-gold aura-heading">{t("contact.techAssistance.title")}</h2>
                         <div className="title-divider"></div>
                     </motion.div>
 
-                    <div className="monuments-list" style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '2.5rem' }}>
+                    <div className="tech-team-grid">
                         {TEAM.map((m, idx) => (
                             <motion.div
                                 key={m.id}
-                                initial={{ opacity: 0, scale: 0.95 }}
-                                whileInView={{ opacity: 1, scale: 1 }}
-                                viewport={{ once: true }}
-                                transition={{ delay: idx * 0.1 }}
-                                className="monument-card premium-glass"
-                                style={{ maxWidth: '600px', width: '100%' }}
+                                variants={cardVariants}
+                                whileHover={{ y: -8, scale: 1.03 }}
+                                className="monument-card premium-glass tech-card"
                             >
                                 <div className="mon-content">
-                                    <h3 className="mon-name" style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
-                                        <span style={{ color: 'var(--gold)' }}><User size={24} /></span>
-                                        {t(`contact.${m.id}.name`)}
-                                    </h3>
-                                    <div className="role-badge">
+                                    <div className="user-icon-ring ring-tech">
+                                        {m.icon}
+                                    </div>
+                                    <h3 className="mon-name">{t(`contact.${m.id}.name`)}</h3>
+                                    <div className="role-badge badge-tech">
                                         {t(`contact.${m.id}.role`)}
                                     </div>
-                                    <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', marginTop: '1rem' }}>
-                                        <div className="email-link">
-                                            <Mail size={16} color="var(--gold)" />
-                                            <a href={`mailto:${m.email}`}>{m.email}</a>
-                                        </div>
-                                        {t(`contact.${m.id}.mobile`) && t(`contact.${m.id}.mobile`) !== `contact.${m.id}.mobile` && (
-                                            <div className="email-link">
-                                                <Phone size={16} color="var(--gold)" />
-                                                <a href={`tel:${t(`contact.${m.id}.mobile`)}`}>{t(`contact.${m.id}.mobile`)} (Mobile)</a>
-                                            </div>
-                                        )}
+                                    <p className="tech-desc">{t(`contact.${m.id}.desc`)}</p>
+                                    <div className="tech-links">
+                                        <motion.a 
+                                            whileHover={{ y: -2 }} 
+                                            href={`mailto:${m.email}`} 
+                                            className="tech-action-btn email-btn"
+                                        >
+                                            <Mail size={16} /> <span>{m.email}</span>
+                                        </motion.a>
                                     </div>
                                 </div>
                             </motion.div>
@@ -164,83 +243,66 @@ export default function ContactUsClient() {
                     </div>
                 </section>
 
-                {/* ═══ MEDIA CONTRIBUTION SECTION ══════════════════════════ */}
-                <section id="media" className="fort-section mesh-bg">
-                    <motion.div
-                        initial={{ opacity: 0, y: 30 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        className="section-header"
-                    >
-                        <h2 className="section-title text-gold">{t("contact.media.title")}</h2>
-                        <div className="title-divider"></div>
-                    </motion.div>
-
-                    <div style={{ display: 'flex', justifyContent: 'center' }}>
+                {/* ═══ MEDIA & FEEDBACK CTA SECTION ══════════════════════════ */}
+                <section id="ctas" className="fort-section grid-ctas-section mesh-bg">
+                    <div className="ctas-grid">
+                        {/* Media Card */}
                         <motion.div
-                            initial={{ opacity: 0, y: 40 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
-                            className="monument-card premium-glass"
-                            style={{ maxWidth: '800px', width: '100%', textAlign: 'center' }}
+                            variants={cardVariants}
+                            whileHover={{ y: -5 }}
+                            className="monument-card premium-glass cta-card"
                         >
-                            <div className="mon-content" style={{ alignItems: 'center' }}>
-                                <Globe className="text-gold" size={48} style={{ marginBottom: '2rem', opacity: 0.8 }} />
-                                <h3 className="mon-name">{t("contact.media.title")}</h3>
-                                <p className="mon-desc" style={{ maxWidth: '600px', margin: '0 auto 2.5rem' }}>
+                            <div className="mon-content flex-center">
+                                <div className="cta-icon-outer">
+                                    <Globe className="text-gold" size={28} />
+                                </div>
+                                <h3 className="mon-name cta-card-title">{t("contact.media.title")}</h3>
+                                <p className="mon-desc text-center">
                                     {t("contact.media.sub")}
                                 </p>
-                                <a
+                                <motion.a
+                                    whileHover={{ scale: 1.05 }}
+                                    whileTap={{ scale: 0.98 }}
                                     href={`mailto:Kushsharma.cor@gmail.com?subject=Media Contribution - Chittorgarh Tourism Portal`}
-                                    className="audio-btn"
-                                    style={{ maxWidth: '300px', textDecoration: 'none' }}
+                                    className="audio-btn action-cta-btn"
                                     onClick={() => triggerHaptic('medium')}
                                 >
-                                    <Mail size={18} /> {t("contact.media.btn")}
-                                </a>
+                                    <Mail size={16} /> {t("contact.media.btn")}
+                                </motion.a>
                             </div>
                         </motion.div>
-                    </div>
-                </section>
 
-                {/* ═══ FEEDBACK CTA SECTION ══════════════════════════ */}
-                <section id="feedback-cta" className="fort-section">
-                    <div style={{ display: 'flex', justifyContent: 'center' }}>
+                        {/* Feedback Card */}
                         <motion.div
-                            initial={{ opacity: 0, y: 40 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
-                            className="monument-card premium-glass"
-                            style={{ 
-                                maxWidth: '800px', 
-                                width: '100%', 
-                                textAlign: 'center',
-                                border: '1px solid rgba(212, 175, 55, 0.3)',
-                                background: 'linear-gradient(135deg, rgba(212, 175, 55, 0.05) 0%, rgba(10, 8, 4, 0.8) 100%)'
-                            }}
+                            variants={cardVariants}
+                            whileHover={{ y: -5 }}
+                            className="monument-card premium-glass cta-card feedback-highlight-card"
                         >
-                            <div className="mon-content" style={{ alignItems: 'center' }}>
-                                <Globe className="text-gold" size={48} style={{ marginBottom: '2rem', opacity: 0.8 }} />
-                                <h3 className="mon-name">{t("contact.feedback.title")}</h3>
-                                <p className="mon-desc" style={{ maxWidth: '600px', margin: '0 auto 2.5rem' }}>
+                            <div className="mon-content flex-center">
+                                <div className="cta-icon-outer">
+                                    <Globe className="text-gold" size={28} />
+                                </div>
+                                <h3 className="mon-name cta-card-title">{t("contact.feedback.title")}</h3>
+                                <p className="mon-desc text-center">
                                     {t("contact.feedback.sub")}
                                 </p>
-                                <button
-                                    className="audio-btn"
-                                    style={{ maxWidth: '300px' }}
+                                <motion.button
+                                    whileHover={{ scale: 1.05 }}
+                                    whileTap={{ scale: 0.98 }}
+                                    className="audio-btn action-cta-btn feedback-btn-gold"
                                     onClick={() => {
                                         triggerHaptic('medium');
                                         router.push('/feedback');
                                     }}
                                 >
-                                    <Globe size={18} /> {t("contact.feedback.btn")}
-                                </button>
+                                    <Globe size={16} /> {t("contact.feedback.btn")}
+                                </motion.button>
                             </div>
                         </motion.div>
                     </div>
                 </section>
 
-                <div style={{ textAlign: 'center', padding: '4rem 0' }}>
+                <div style={{ textAlign: 'center', padding: '6rem 0 4rem' }}>
                     <QRScannerButton />
                 </div>
             </main>
@@ -250,45 +312,56 @@ export default function ContactUsClient() {
                     --ff-serif: 'Playfair Display', serif;
                     --ff-sans: 'Inter', sans-serif;
                     --gold: #d4af37;
+                    --gold-glow: rgba(212, 175, 55, 0.2);
+                    --glass-bg: rgba(20, 16, 12, 0.6);
+                    --glass-border: rgba(212, 175, 55, 0.15);
+                    --bg-dark: #070503;
                 }
 
                 .fort-page {
-                    background: #0a0804 !important;
+                    background: transparent !important;
                     color: #fff;
                     min-height: 100vh;
                     font-family: var(--ff-sans);
                     overflow-x: hidden;
                     display: block;
                     position: relative;
+                    z-index: 10;
                 }
 
+                /* UTILITIES */
+                .flex { display: flex; }
+                .justify-center { justify-content: center; }
+                .relative { position: relative; }
+                .absolute { position: absolute; }
+                .pointer-events-none { pointer-events: none; }
+
+                /* TYPOGRAPHY RULES */
                 h1, h2, h3, h4 {
                     font-family: var(--ff-serif);
                     font-weight: 700;
-                    letter-spacing: -0.02em;
-                    background: linear-gradient(135deg, #fff 0%, var(--gold) 50%, #d4af37 100%);
+                    letter-spacing: -0.01em;
+                    background: linear-gradient(135deg, #fff 30%, var(--gold) 70%, #fff 100%);
                     -webkit-background-clip: text;
                     -webkit-text-fill-color: transparent;
-                    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+                    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.4));
                 }
 
                 .fort-page h1, .fort-page h2, .fort-page h3, .fort-page h4 {
-                    line-height: 1.3 !important;
+                    line-height: 1.25 !important;
                     margin: 0;
-                    padding: 0;
                 }
 
                 .fort-page p {
-                    color: #fff !important;
+                    color: rgba(255, 255, 255, 0.8) !important;
                     line-height: 1.8;
-                    font-size: 1.15rem;
-                    margin-bottom: 2rem;
+                    font-size: 1.05rem;
                 }
 
+                /* HINDI TYPOGRAPHY FIXED */
                 :global([data-lang="hi"]) .fort-page {
                     --ff-serif: 'Martel', serif;
                 }
-
                 :global([data-lang="hi"]) h1, 
                 :global([data-lang="hi"]) h2, 
                 :global([data-lang="hi"]) h3 {
@@ -296,16 +369,37 @@ export default function ContactUsClient() {
                     font-weight: 900 !important;
                     line-height: 1.5 !important;
                 }
-
                 :global([data-lang="hi"]) .fort-page p {
                     font-family: 'Martel', serif !important;
                     font-weight: 500 !important;
-                    line-height: 1.8 !important;
                 }
 
+                /* GOLDEN AURA HEADING */
+                .aura-heading {
+                    position: relative;
+                    display: inline-block;
+                }
+                .aura-heading::before {
+                    content: '';
+                    position: absolute;
+                    inset: -15px -30px;
+                    background: radial-gradient(circle, rgba(212, 175, 55, 0.12) 0%, transparent 70%);
+                    z-index: -1;
+                    filter: blur(15px);
+                }
+
+                /* AMBIENT GLOW CIRCLE */
+                .ambient-glow-circle {
+                    width: 350px;
+                    height: 350px;
+                    background: radial-gradient(circle, rgba(212, 175, 55, 0.05) 0%, transparent 70%);
+                    filter: blur(40px);
+                    z-index: 1;
+                }
+
+                /* HERO SECTION */
                 .fort-hero {
-                    min-height: 80vh; 
-                    height: auto;
+                    height: 85vh; 
                     position: relative;
                     display: flex;
                     align-items: center;
@@ -313,26 +407,38 @@ export default function ContactUsClient() {
                     text-align: center;
                     padding: 8rem 1.5rem 4rem;
                     z-index: 2;
+                    overflow: hidden;
                 }
 
                 .hero-bg {
                     position: absolute;
                     inset: 0;
+                    background-size: cover;
+                    background-position: center 35%;
+                    background-repeat: no-repeat;
                     z-index: -2;
+                    will-change: transform;
                 }
 
                 .hero-overlay {
                     position: absolute;
                     inset: 0;
-                    background: linear-gradient(to bottom, 
-                        rgba(10, 8, 4, 0.6) 0%, 
-                        rgba(10, 8, 4, 0.98) 100%
-                    ) !important;
+                    background: radial-gradient(circle at center, rgba(7, 5, 3, 0.4) 0%, rgba(7, 5, 3, 0.95) 100%) !important;
                     z-index: -1;
                 }
 
+                .hero-bottom-fade {
+                    position: absolute;
+                    bottom: 0;
+                    left: 0;
+                    right: 0;
+                    height: 120px;
+                    background: linear-gradient(to bottom, transparent, var(--bg-dark));
+                    z-index: 1;
+                }
+
                 .hero-content {
-                    max-width: 900px;
+                    max-width: 800px;
                     width: 100%;
                     z-index: 10;
                 }
@@ -340,45 +446,49 @@ export default function ContactUsClient() {
                 .back-btn {
                     display: inline-flex;
                     align-items: center;
-                    gap: 0.5rem;
+                    gap: 0.6rem;
                     color: #fff;
-                    font-size: 0.8rem;
-                    margin-bottom: 3rem;
+                    font-size: 0.78rem;
+                    margin-bottom: 2.5rem;
                     text-transform: uppercase;
                     font-weight: 800;
-                    background: rgba(212, 175, 55, 0.2);
+                    letter-spacing: 2px;
+                    background: rgba(212, 175, 55, 0.08);
                     padding: 0.75rem 1.5rem;
-                    border: 1px solid rgba(212, 175, 55, 0.4);
-                    border-radius: 4px;
+                    border: 1px solid rgba(212, 175, 55, 0.35);
+                    border-radius: 6px;
                     cursor: pointer;
-                    transition: background 0.2s, transform 0.2s;
+                    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
                 }
                 .back-btn:hover {
-                    background: rgba(212, 175, 55, 0.35);
+                    background: var(--gold);
+                    color: #000;
                     transform: translateX(-4px);
+                    box-shadow: 0 8px 20px var(--gold-glow);
                 }
 
                 .hero-eyebrow {
                     display: block;
-                    letter-spacing: 4px;
+                    letter-spacing: 5px;
                     text-transform: uppercase;
-                    font-size: 0.9rem;
+                    font-size: 0.85rem;
                     color: var(--gold);
-                    margin-bottom: 2rem;
+                    margin-bottom: 1.5rem;
                     font-weight: 800;
                 }
 
                 .hero-title {
-                    font-size: clamp(2.5rem, 8vw, 5rem);
+                    font-size: clamp(2.5rem, 7vw, 4.5rem);
                     color: #fff;
-                    margin-bottom: 2rem;
-                    text-shadow: 0 4px 20px rgba(0,0,0,0.8);
+                    margin-bottom: 1.5rem;
+                    text-shadow: 0 4px 15px rgba(0,0,0,0.6);
                 }
 
                 .hero-desc {
-                    font-size: clamp(1rem, 2.5vw, 1.2rem);
-                    max-width: 700px;
-                    margin: 0 auto 3rem;
+                    font-size: clamp(1rem, 2.2vw, 1.15rem);
+                    max-width: 600px;
+                    margin: 0 auto;
+                    color: rgba(255,255,255,0.7) !important;
                 }
 
                 .fort-main {
@@ -387,185 +497,382 @@ export default function ContactUsClient() {
                 }
 
                 .fort-section {
-                    display: block;
                     position: relative;
-                    padding: 5rem 1.5rem;
+                    padding: 6rem 1.5rem;
                     max-width: 1200px;
                     margin: 0 auto;
-                    background: #0a0804 !important;
+                    z-index: 2;
                 }
 
                 .section-header {
-                    margin-bottom: 6rem;
+                    margin-bottom: 4.5rem;
                     text-align: center;
                 }
 
                 .section-title {
-                    font-size: clamp(1.8rem, 6vw, 3rem);
-                    margin-bottom: 1.5rem;
+                    font-size: clamp(1.8rem, 5vw, 2.6rem);
+                    margin-bottom: 1.2rem;
                     color: var(--gold) !important;
                 }
 
                 .title-divider {
-                    width: 60px;
-                    height: 3px;
+                    width: 50px;
+                    height: 2px;
                     background: var(--gold);
                     margin: 0 auto;
                 }
 
-                .overview-grid {
-                    display: grid;
-                    grid-template-columns: 1fr;
-                    gap: 3rem;
-                }
-                
-                .monuments-list {
-                    display: grid;
-                    grid-template-columns: 1fr;
-                    gap: 2.5rem;
-                }
-
-                @media (min-width: 768px) {
-                    .monuments-list { grid-template-columns: repeat(auto-fill, minmax(400px, 1fr)); gap: 3rem; }
-                }
-
+                /* GLASSMORPHISM CARD DESIGN */
                 .monument-card {
-                    background: rgba(255, 255, 255, 0.02);
-                    backdrop-filter: blur(20px);
-                    -webkit-backdrop-filter: blur(20px);
-                    border: 1px solid rgba(212, 175, 55, 0.15);
-                    border-radius: 24px;
+                    background: var(--glass-bg);
+                    backdrop-filter: blur(25px);
+                    -webkit-backdrop-filter: blur(25px);
+                    border: 1px solid var(--glass-border);
+                    border-radius: 20px;
                     overflow: hidden;
-                    display: flex;
-                    flex-direction: column;
-                    transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
                     position: relative;
+                    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+                    transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
                 }
 
-                .monument-card::before {
+                .monument-card::after {
                     content: '';
                     position: absolute;
                     inset: 0;
-                    background: radial-gradient(circle at top left, rgba(212, 175, 55, 0.05) 0%, transparent 40%);
+                    border-radius: 20px;
+                    padding: 1px;
+                    background: linear-gradient(to bottom, rgba(212, 175, 55, 0.25), transparent);
+                    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+                    -webkit-mask-composite: xor;
+                    mask-composite: exclude;
                     pointer-events: none;
                 }
 
                 .monument-card:hover {
-                    background: rgba(255, 255, 255, 0.04);
-                    border-color: rgba(212, 175, 55, 0.5);
-                    transform: translateY(-12px);
+                    border-color: rgba(212, 175, 55, 0.4);
                     box-shadow: 
-                        0 20px 60px rgba(0, 0, 0, 0.5), 
-                        0 0 30px rgba(212, 175, 55, 0.08),
-                        inset 0 0 20px rgba(212, 175, 55, 0.02);
+                        0 20px 50px rgba(0, 0, 0, 0.6), 
+                        0 0 35px rgba(212, 175, 55, 0.08);
                 }
 
                 .mon-content {
-                    padding: 4.5rem 3rem;
-                    flex: 1;
+                    padding: 3rem 2.5rem;
                     display: flex;
                     flex-direction: column;
+                    align-items: center;
+                }
+
+                /* FEATURED NODAL CARD */
+                .nodal-card-featured {
+                    max-width: 650px;
+                    width: 100%;
+                    background: linear-gradient(145deg, rgba(25, 20, 15, 0.7) 0%, rgba(10, 8, 6, 0.8) 100%);
+                    border: 1px solid rgba(212, 175, 55, 0.2);
+                }
+
+                .badge-shield {
+                    position: absolute;
+                    top: 20px;
+                    right: 20px;
+                    opacity: 0.5;
+                }
+
+                .user-icon-ring {
+                    width: 80px;
+                    height: 80px;
+                    border-radius: 50%;
+                    border: 2px solid rgba(212, 175, 55, 0.3);
+                    background: rgba(212, 175, 55, 0.05);
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    margin-bottom: 1.5rem;
+                    box-shadow: 0 0 20px rgba(212, 175, 55, 0.1);
+                    transition: all 0.4s ease;
+                }
+                .monument-card:hover .user-icon-ring {
+                    border-color: var(--gold);
+                    transform: scale(1.05);
+                    box-shadow: 0 0 25px rgba(212, 175, 55, 0.25);
                 }
 
                 .mon-name {
-                    font-size: 2.22rem;
-                    margin-bottom: 2rem;
+                    font-size: clamp(1.4rem, 4vw, 1.8rem);
+                    margin-bottom: 0.8rem;
+                    text-align: center;
                     letter-spacing: -0.01em;
                 }
 
                 .role-badge {
                     display: inline-block;
                     color: var(--gold);
-                    font-size: 0.75rem;
+                    font-size: 0.7rem;
                     text-transform: uppercase;
-                    letter-spacing: 3px;
+                    letter-spacing: 2px;
                     font-weight: 800;
-                    margin-bottom: 1.5rem;
-                    padding: 0.4rem 1rem;
-                    background: rgba(212, 175, 55, 0.1);
-                    border-radius: 20px;
-                    width: fit-content;
+                    margin-bottom: 2.2rem;
+                    padding: 0.45rem 1.1rem;
+                    background: rgba(212, 175, 55, 0.08);
+                    border: 1px solid rgba(212, 175, 55, 0.2);
+                    border-radius: 30px;
+                    text-align: center;
                 }
 
-                .email-link {
+                .info-links-grid {
+                    display: grid;
+                    grid-template-columns: 1fr;
+                    gap: 1.2rem;
+                    width: 100%;
+                }
+                
+                @media (min-width: 580px) {
+                    .info-links-grid { grid-template-columns: 1fr 1fr; }
+                }
+
+                .info-item-link {
                     display: flex;
                     align-items: center;
-                    gap: 0.6rem;
-                    margin-bottom: 2rem;
-                    color: rgba(255, 255, 255, 0.5);
-                    font-size: 0.9rem;
+                    gap: 1rem;
+                    padding: 1.1rem 1.3rem;
+                    background: rgba(255, 255, 255, 0.02);
+                    border: 1px solid rgba(255, 255, 255, 0.05);
+                    border-radius: 12px;
+                    color: rgba(255, 255, 255, 0.8);
+                    text-decoration: none;
                     transition: all 0.3s ease;
                 }
-                .email-link:hover {
+                .info-item-link:hover {
+                    border-color: rgba(212, 175, 55, 0.3);
+                    background: rgba(212, 175, 55, 0.04);
+                    color: #fff;
+                    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+                }
+
+                .icon-wrapper {
+                    color: var(--gold);
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    width: 36px;
+                    height: 36px;
+                    border-radius: 8px;
+                    background: rgba(212, 175, 55, 0.1);
+                    transition: transform 0.3s ease;
+                }
+                .info-item-link:hover .icon-wrapper {
+                    transform: scale(1.1);
+                }
+
+                .info-text {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 0.2rem;
+                    min-width: 0; /* truncate fix */
+                }
+
+                .info-label {
+                    font-size: 0.65rem;
+                    text-transform: uppercase;
+                    letter-spacing: 1px;
+                    color: rgba(255, 255, 255, 0.4);
+                }
+
+                .info-val {
+                    font-size: 0.82rem;
+                    font-weight: 500;
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                }
+
+                /* TECHNICAL TEAM SECTION */
+                .tech-team-grid {
+                    display: grid;
+                    grid-template-columns: 1fr;
+                    gap: 2.5rem;
+                    max-width: 1000px;
+                    margin: 0 auto;
+                }
+
+                @media (min-width: 768px) {
+                    .tech-team-grid { grid-template-columns: 1fr 1fr; }
+                }
+
+                .tech-card .mon-content {
+                    align-items: center;
+                    padding: 2.8rem 2rem;
+                }
+
+                .ring-tech {
+                    border-color: rgba(255, 255, 255, 0.15);
+                    background: rgba(255, 255, 255, 0.02);
+                    color: rgba(255, 255, 255, 0.7);
+                }
+                .tech-card:hover .ring-tech {
+                    border-color: var(--gold);
                     color: var(--gold);
                 }
 
-                .mon-desc {
-                    font-size: 1.15rem;
-                    line-height: 1.8;
+                .badge-tech {
                     color: rgba(255,255,255,0.7);
-                    margin-bottom: 2rem;
-                    font-weight: 300;
+                    background: rgba(255, 255, 255, 0.04);
+                    border-color: rgba(255, 255, 255, 0.08);
+                    font-size: 0.62rem;
+                    margin-bottom: 1.5rem;
+                }
+                .tech-card:hover .badge-tech {
+                    color: var(--gold);
+                    border-color: rgba(212, 175, 55, 0.2);
+                    background: rgba(212, 175, 55, 0.06);
                 }
 
-                .audio-btn {
-                    background: rgba(212, 175, 15, 0.1);
-                    border: 1px solid rgba(212, 175, 55, 0.3);
+                .tech-desc {
+                    font-size: 0.92rem !important;
+                    text-align: center;
+                    color: rgba(255, 255, 255, 0.6) !important;
+                    margin-bottom: 2rem !important;
+                    line-height: 1.6;
+                    max-width: 320px;
+                    height: 50px;
+                }
+
+                .tech-links {
+                    width: 100%;
+                }
+
+                .tech-action-btn {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 0.6rem;
+                    padding: 0.8rem 1.2rem;
+                    border-radius: 8px;
+                    font-size: 0.8rem;
+                    font-weight: 600;
+                    text-decoration: none;
+                    transition: all 0.3s ease;
+                    width: 100%;
+                }
+
+                .email-btn {
+                    background: rgba(255, 255, 255, 0.03);
+                    border: 1px solid rgba(255, 255, 255, 0.08);
+                    color: rgba(255, 255, 255, 0.8);
+                }
+                .tech-card:hover .email-btn {
+                    border-color: rgba(212, 175, 55, 0.3);
+                    background: rgba(212, 175, 55, 0.05);
+                    color: var(--gold);
+                }
+                .email-btn:hover {
+                    background: var(--gold) !important;
+                    color: #000 !important;
+                    box-shadow: 0 5px 15px var(--gold-glow);
+                }
+
+                /* GRID CTAS SECTION */
+                .ctas-grid {
+                    display: grid;
+                    grid-template-columns: 1fr;
+                    gap: 2.5rem;
+                    max-width: 1000px;
+                    margin: 0 auto;
+                }
+
+                @media (min-width: 768px) {
+                    .ctas-grid { grid-template-columns: 1fr 1fr; }
+                }
+
+                .cta-card {
+                    background: linear-gradient(135deg, rgba(20, 16, 12, 0.7) 0%, rgba(10, 8, 6, 0.85) 100%);
+                    border: 1px solid rgba(212, 175, 55, 0.1);
+                }
+
+                .cta-card:hover {
+                    border-color: rgba(212, 175, 55, 0.35);
+                }
+
+                .flex-center {
+                    align-items: center;
+                    text-align: center;
+                    padding: 3rem 2rem;
+                }
+
+                .cta-icon-outer {
+                    width: 56px;
+                    height: 56px;
+                    border-radius: 12px;
+                    background: rgba(212, 175, 55, 0.08);
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    margin-bottom: 1.5rem;
+                    border: 1px solid rgba(212, 175, 55, 0.2);
+                }
+
+                .cta-card-title {
+                    font-size: 1.4rem;
+                    margin-bottom: 1rem;
+                }
+
+                .cta-card .mon-desc {
+                    font-size: 0.95rem;
+                    color: rgba(255, 255, 255, 0.6) !important;
+                    line-height: 1.6;
+                    margin-bottom: 2.2rem;
+                    height: 70px;
+                }
+
+                .action-cta-btn {
+                    background: rgba(212, 175, 55, 0.08);
+                    border: 1px solid rgba(212, 175, 55, 0.35);
                     color: var(--gold) !important;
-                    padding: 0.8rem 1.5rem;
-                    font-size: 0.85rem;
+                    padding: 0.85rem 1.6rem;
+                    font-size: 0.8rem;
                     font-weight: 700;
                     display: flex;
                     align-items: center;
                     justify-content: center;
-                    gap: 0.8rem;
+                    gap: 0.7rem;
                     border-radius: 8px;
                     cursor: pointer;
-                    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
-                    width: 100%;
-                    margin-top: auto;
+                    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+                    text-decoration: none;
                     text-transform: uppercase;
                     letter-spacing: 1px;
+                    width: auto;
+                    min-width: 200px;
                 }
 
-                .audio-btn:hover {
+                .action-cta-btn:hover {
                     background: var(--gold);
                     color: #000 !important;
-                    transform: translateY(-3px);
-                    box-shadow: 0 10px 25px rgba(212, 175, 55, 0.4);
+                    box-shadow: 0 8px 20px var(--gold-glow);
                 }
 
-                @media (max-width: 768px) {
-                    .fort-hero { padding-top: 6rem; padding-bottom: 4rem; min-height: 70vh; }
-                    .hero-title { font-size: 2.8rem; line-height: 1.15 !important; }
-                    .fort-section { padding: 4rem 1.25rem; }
-                    .section-title { font-size: 2.22rem; }
+                .feedback-highlight-card {
+                    background: linear-gradient(135deg, rgba(212, 175, 55, 0.05) 0%, rgba(10, 8, 6, 0.85) 100%);
+                    border-color: rgba(212, 175, 55, 0.2);
+                }
+
+                .feedback-btn-gold {
+                    background: rgba(212, 175, 55, 0.15);
                 }
 
                 .mesh-bg {
                     background-image: 
-                        radial-gradient(circle at 0% 0%, rgba(212, 175, 55, 0.05) 0%, transparent 50%),
-                        radial-gradient(circle at 100% 100%, rgba(212, 175, 55, 0.05) 0%, transparent 50%) !important;
+                        radial-gradient(circle at 0% 0%, rgba(212, 175, 55, 0.03) 0%, transparent 40%),
+                        radial-gradient(circle at 100% 100%, rgba(212, 175, 55, 0.03) 0%, transparent 40%) !important;
                 }
 
-                .local-pride-container {
-                    text-align: center;
-                    display: flex;
-                    flex-direction: column;
-                    align-items: center;
-                    justify-content: center;
-                }
-
-                .local-pride-text {
-                    font-family: var(--ff-serif);
-                    font-size: clamp(1.2rem, 4vw, 1.8rem) !important;
-                    font-style: italic;
-                    color: #d4af37 !important;
-                    line-height: 1.6 !important;
-                    max-width: 800px;
-                    letter-spacing: 1px;
-                    opacity: 0.9;
-                    text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+                /* RESPONSIVE LAYOUT HACKS */
+                @media (max-width: 768px) {
+                    .fort-hero { height: 75vh; padding-top: 7rem; }
+                    .hero-title { font-size: 2.6rem; }
+                    .fort-section { padding: 4.5rem 1.25rem; }
+                    .mon-content { padding: 2.2rem 1.5rem; }
+                    .tech-desc { height: auto; }
+                    .cta-card .mon-desc { height: auto; }
                 }
             `}</style>
         </motion.div>
