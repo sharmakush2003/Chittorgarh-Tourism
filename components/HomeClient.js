@@ -74,8 +74,8 @@ export default function HomeClient() {
                                 <Castle size={22} />
                             </div>
                             <div className="stat-info">
-                                <div className="stat-val">700+ Acres</div>
-                                <div className="stat-lbl">Largest Fort Citadel</div>
+                                <div className="stat-val">{t("stats.n2") || "700+ Acres"}</div>
+                                <div className="stat-lbl">{t("home.stat.acres") || "Largest Fort Citadel"}</div>
                             </div>
                         </div>
 
@@ -84,8 +84,8 @@ export default function HomeClient() {
                                 <Shield size={22} />
                             </div>
                             <div className="stat-info">
-                                <div className="stat-val">7 Fort Pols</div>
-                                <div className="stat-lbl">Grand Victory Gates</div>
+                                <div className="stat-val">{t("home.stat.polsVal") || "7 Fort Pols"}</div>
+                                <div className="stat-lbl">{t("home.stat.polsLbl") || "Grand Victory Gates"}</div>
                             </div>
                         </div>
 
@@ -94,8 +94,8 @@ export default function HomeClient() {
                                 <Droplets size={22} />
                             </div>
                             <div className="stat-info">
-                                <div className="stat-val">84 Bodies</div>
-                                <div className="stat-lbl">Ancient Water Springs</div>
+                                <div className="stat-val">{t("home.stat.waterVal") || "84 Bodies"}</div>
+                                <div className="stat-lbl">{t("home.stat.waterLbl") || "Ancient Water Springs"}</div>
                             </div>
                         </div>
 
@@ -105,7 +105,7 @@ export default function HomeClient() {
                             </div>
                             <div className="stat-info">
                                 <div className="stat-val">UNESCO</div>
-                                <div className="stat-lbl">World Heritage Site</div>
+                                <div className="stat-lbl">{t("home.stat.unescoLbl") || "World Heritage Site"}</div>
                             </div>
                         </div>
                     </div>
@@ -305,13 +305,15 @@ export default function HomeClient() {
                 .section-header {
                     text-align: center;
                     margin-bottom: 3.5rem;
+                    width: 100%;
+                    padding: 0 0.5rem;
                 }
 
                 .eyebrow {
                     display: inline-block;
                     font-size: 0.75rem;
                     text-transform: uppercase;
-                    letter-spacing: 0.3em;
+                    letter-spacing: 0.25em;
                     font-weight: 700;
                     color: #D4AF37;
                     margin-bottom: 0.85rem;
@@ -319,16 +321,21 @@ export default function HomeClient() {
                     background: rgba(212, 175, 55, 0.1);
                     border: 1px solid rgba(212, 175, 55, 0.3);
                     border-radius: 999px;
+                    max-width: 100%;
                 }
 
                 .section-title {
                     font-family: var(--ff-display), serif;
-                    font-size: clamp(2rem, 5vw, 3.5rem);
+                    font-size: clamp(1.65rem, 5vw, 3.4rem);
                     font-weight: 800;
                     margin-bottom: 1rem;
                     background: linear-gradient(135deg, #FFFFFF 0%, #F3E5AB 50%, #D4AF37 100%);
                     -webkit-background-clip: text;
                     -webkit-text-fill-color: transparent;
+                    line-height: 1.35;
+                    word-break: break-word;
+                    overflow-wrap: break-word;
+                    padding: 0.1em 0.2em;
                 }
 
                 .gold-divider {
@@ -755,6 +762,9 @@ export default function HomeClient() {
 
                 /* RESPONSIVE MOBILE FIXES */
                 @media (max-width: 640px) {
+                    section {
+                        padding: 3rem 0;
+                    }
                     .hero-redesigned {
                         padding-top: 7rem;
                         padding-bottom: 3.5rem;
@@ -769,25 +779,88 @@ export default function HomeClient() {
                     }
                     .stats-grid {
                         grid-template-columns: repeat(2, 1fr);
-                        gap: 0.75rem;
-                    }
-                    .stat-card {
-                        padding: 1rem 0.75rem;
                         gap: 0.6rem;
                     }
+                    .stat-card {
+                        flex-direction: column;
+                        text-align: center;
+                        justify-content: center;
+                        padding: 0.85rem 0.5rem;
+                        gap: 0.35rem;
+                    }
                     .stat-icon-wrapper {
-                        width: 38px;
-                        height: 38px;
+                        width: 32px;
+                        height: 32px;
+                        margin: 0 auto;
                     }
                     .stat-val {
-                        font-size: 1.05rem;
+                        font-size: 0.95rem;
+                        line-height: 1.25;
                     }
                     .stat-lbl {
-                        font-size: 0.65rem;
+                        font-size: 0.68rem;
+                        line-height: 1.3;
                     }
                     .highlights-grid, .features-grid {
                         grid-template-columns: 1fr;
                     }
+                    .section-header {
+                        margin-bottom: 2.2rem;
+                    }
+                    .section-title {
+                        font-size: clamp(1.4rem, 6.2vw, 1.85rem) !important;
+                        line-height: 1.35 !important;
+                    }
+                    .eyebrow {
+                        font-size: 0.7rem;
+                        padding: 0.3rem 0.8rem;
+                    }
+                }
+
+                /* ════ HINDI SPECIFIC REFINEMENTS ════ */
+                :global([data-lang="hi"]) .hero-eyebrow-badge {
+                    letter-spacing: normal !important;
+                    font-size: 0.82rem;
+                    font-weight: 600;
+                }
+
+                :global([data-lang="hi"]) .hero-line1 {
+                    font-family: var(--font-martel), 'Martel', serif !important;
+                    line-height: 1.38 !important;
+                    letter-spacing: normal !important;
+                    padding-top: 0.12em;
+                    padding-bottom: 0.08em;
+                }
+
+                :global([data-lang="hi"]) .hero-line2 {
+                    font-family: var(--font-martel), 'Martel', serif !important;
+                    font-style: normal !important;
+                    line-height: 1.38 !important;
+                    letter-spacing: normal !important;
+                    padding-bottom: 0.08em;
+                }
+
+                :global([data-lang="hi"]) .hero-sub {
+                    font-family: var(--font-martel), 'Martel', sans-serif !important;
+                    font-weight: 500 !important;
+                    line-height: 1.85 !important;
+                    font-size: clamp(0.95rem, 2vw, 1.15rem);
+                }
+
+                :global([data-lang="hi"]) .btn-gold-luxury,
+                :global([data-lang="hi"]) .btn-outline-luxury {
+                    letter-spacing: normal !important;
+                    text-transform: none !important;
+                    font-family: var(--font-martel), 'Martel', sans-serif !important;
+                    font-weight: 700 !important;
+                    font-size: 0.92rem !important;
+                }
+
+                :global([data-lang="hi"]) .eyebrow,
+                :global([data-lang="hi"]) .section-title {
+                    letter-spacing: normal !important;
+                    font-family: var(--font-martel), 'Martel', serif !important;
+                    line-height: 1.4 !important;
                 }
             `}</style>
         </div>

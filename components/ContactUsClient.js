@@ -50,8 +50,8 @@ export default function ContactUsClient() {
     const heroTranslateY = useTransform(scrollYProgress, [0, 0.3], [0, 50]);
 
     const TEAM = [
-        { id: "card1", email: "Kushsharma.cor@gmail.com", icon: <Terminal size={36} /> },
-        { id: "card2", email: "lavsharma.cor@gmail.com", icon: <Compass size={36} /> }
+        { id: "card1", email: "Kushsharma.cor@gmail.com", icon: <Terminal size={32} /> },
+        { id: "card2", email: "lavsharma.cor@gmail.com", icon: <Compass size={32} /> }
     ];
 
     const containerVariants = {
@@ -87,8 +87,6 @@ export default function ContactUsClient() {
             variants={containerVariants}
             className="fort-page"
         >
-            <div className="fixed-bg"></div>
-            <div className="bg-overlay"></div>
             <KineticScroll progress={scrollYProgress} />
 
             {/* ═══ PARALLAX HERO SECTION ═══════════════════════════ */}
@@ -153,12 +151,12 @@ export default function ContactUsClient() {
                             className="monument-card premium-glass nodal-card-featured"
                         >
                             <div className="badge-shield">
-                                <Shield size={28} className="text-gold" />
+                                <Shield size={26} className="text-gold" />
                             </div>
                             
                             <div className="mon-content">
                                 <div className="user-icon-ring">
-                                    <User size={36} className="text-gold" />
+                                    <User size={34} className="text-gold" />
                                 </div>
                                 <h3 className="mon-name">{t("contact.nodal.name")}</h3>
                                 <div className="role-badge">
@@ -254,7 +252,7 @@ export default function ContactUsClient() {
                         >
                             <div className="mon-content flex-center">
                                 <div className="cta-icon-outer">
-                                    <Globe className="text-gold" size={28} />
+                                    <Globe className="text-gold" size={26} />
                                 </div>
                                 <h3 className="mon-name cta-card-title">{t("contact.media.title")}</h3>
                                 <p className="mon-desc text-center">
@@ -280,7 +278,7 @@ export default function ContactUsClient() {
                         >
                             <div className="mon-content flex-center">
                                 <div className="cta-icon-outer">
-                                    <Globe className="text-gold" size={28} />
+                                    <Globe className="text-gold" size={26} />
                                 </div>
                                 <h3 className="mon-name cta-card-title">{t("contact.feedback.title")}</h3>
                                 <p className="mon-desc text-center">
@@ -302,7 +300,7 @@ export default function ContactUsClient() {
                     </div>
                 </section>
 
-                <div style={{ textAlign: 'center', padding: '6rem 0 4rem' }}>
+                <div style={{ textAlign: 'center', padding: '5rem 1rem 4rem' }}>
                     <QRScannerButton />
                 </div>
             </main>
@@ -312,14 +310,14 @@ export default function ContactUsClient() {
                     --ff-serif: 'Playfair Display', serif;
                     --ff-sans: 'Inter', sans-serif;
                     --gold: #d4af37;
-                    --gold-glow: rgba(212, 175, 55, 0.2);
-                    --glass-bg: rgba(20, 16, 12, 0.6);
-                    --glass-border: rgba(212, 175, 55, 0.15);
-                    --bg-dark: #070503;
+                    --gold-glow: rgba(212, 175, 55, 0.25);
+                    --glass-bg: rgba(20, 16, 12, 0.75);
+                    --glass-border: rgba(212, 175, 55, 0.2);
+                    --bg-dark: #080604;
                 }
 
                 .fort-page {
-                    background: transparent !important;
+                    background: #080604 !important;
                     color: #fff;
                     min-height: 100vh;
                     font-family: var(--ff-sans);
@@ -383,7 +381,7 @@ export default function ContactUsClient() {
                     content: '';
                     position: absolute;
                     inset: -15px -30px;
-                    background: radial-gradient(circle, rgba(212, 175, 55, 0.12) 0%, transparent 70%);
+                    background: radial-gradient(circle, rgba(212, 175, 55, 0.15) 0%, transparent 70%);
                     z-index: -1;
                     filter: blur(15px);
                 }
@@ -392,14 +390,15 @@ export default function ContactUsClient() {
                 .ambient-glow-circle {
                     width: 350px;
                     height: 350px;
-                    background: radial-gradient(circle, rgba(212, 175, 55, 0.05) 0%, transparent 70%);
+                    background: radial-gradient(circle, rgba(212, 175, 55, 0.06) 0%, transparent 70%);
                     filter: blur(40px);
                     z-index: 1;
                 }
 
                 /* HERO SECTION */
                 .fort-hero {
-                    height: 85vh; 
+                    height: 75vh;
+                    min-height: 520px;
                     position: relative;
                     display: flex;
                     align-items: center;
@@ -423,7 +422,7 @@ export default function ContactUsClient() {
                 .hero-overlay {
                     position: absolute;
                     inset: 0;
-                    background: radial-gradient(circle at center, rgba(7, 5, 3, 0.4) 0%, rgba(7, 5, 3, 0.95) 100%) !important;
+                    background: radial-gradient(circle at center, rgba(8, 6, 4, 0.45) 0%, rgba(8, 6, 4, 0.95) 100%) !important;
                     z-index: -1;
                 }
 
@@ -432,7 +431,7 @@ export default function ContactUsClient() {
                     bottom: 0;
                     left: 0;
                     right: 0;
-                    height: 120px;
+                    height: 140px;
                     background: linear-gradient(to bottom, transparent, var(--bg-dark));
                     z-index: 1;
                 }
@@ -449,7 +448,7 @@ export default function ContactUsClient() {
                     gap: 0.6rem;
                     color: #fff;
                     font-size: 0.78rem;
-                    margin-bottom: 2.5rem;
+                    margin-bottom: 2.2rem;
                     text-transform: uppercase;
                     font-weight: 800;
                     letter-spacing: 2px;
@@ -473,39 +472,40 @@ export default function ContactUsClient() {
                     text-transform: uppercase;
                     font-size: 0.85rem;
                     color: var(--gold);
-                    margin-bottom: 1.5rem;
+                    margin-bottom: 1.2rem;
                     font-weight: 800;
                 }
 
                 .hero-title {
-                    font-size: clamp(2.5rem, 7vw, 4.5rem);
+                    font-size: clamp(2.2rem, 6vw, 4.2rem);
                     color: #fff;
-                    margin-bottom: 1.5rem;
+                    margin-bottom: 1.2rem;
                     text-shadow: 0 4px 15px rgba(0,0,0,0.6);
                 }
 
                 .hero-desc {
-                    font-size: clamp(1rem, 2.2vw, 1.15rem);
+                    font-size: clamp(0.95rem, 2vw, 1.15rem);
                     max-width: 600px;
                     margin: 0 auto;
-                    color: rgba(255,255,255,0.7) !important;
+                    color: rgba(255,255,255,0.75) !important;
                 }
 
                 .fort-main {
                     display: block;
                     width: 100%;
+                    background: #080604;
                 }
 
                 .fort-section {
                     position: relative;
-                    padding: 6rem 1.5rem;
+                    padding: 5rem 1.5rem;
                     max-width: 1200px;
                     margin: 0 auto;
                     z-index: 2;
                 }
 
                 .section-header {
-                    margin-bottom: 4.5rem;
+                    margin-bottom: 3.5rem;
                     text-align: center;
                 }
 
@@ -531,7 +531,7 @@ export default function ContactUsClient() {
                     border-radius: 20px;
                     overflow: hidden;
                     position: relative;
-                    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+                    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
                     transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
                 }
 
@@ -541,7 +541,7 @@ export default function ContactUsClient() {
                     inset: 0;
                     border-radius: 20px;
                     padding: 1px;
-                    background: linear-gradient(to bottom, rgba(212, 175, 55, 0.25), transparent);
+                    background: linear-gradient(to bottom, rgba(212, 175, 55, 0.3), transparent);
                     -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
                     -webkit-mask-composite: xor;
                     mask-composite: exclude;
@@ -549,10 +549,10 @@ export default function ContactUsClient() {
                 }
 
                 .monument-card:hover {
-                    border-color: rgba(212, 175, 55, 0.4);
+                    border-color: rgba(212, 175, 55, 0.45);
                     box-shadow: 
-                        0 20px 50px rgba(0, 0, 0, 0.6), 
-                        0 0 35px rgba(212, 175, 55, 0.08);
+                        0 20px 50px rgba(0, 0, 0, 0.7), 
+                        0 0 35px rgba(212, 175, 55, 0.12);
                 }
 
                 .mon-content {
@@ -566,34 +566,34 @@ export default function ContactUsClient() {
                 .nodal-card-featured {
                     max-width: 650px;
                     width: 100%;
-                    background: linear-gradient(145deg, rgba(25, 20, 15, 0.7) 0%, rgba(10, 8, 6, 0.8) 100%);
-                    border: 1px solid rgba(212, 175, 55, 0.2);
+                    background: linear-gradient(145deg, rgba(26, 20, 14, 0.85) 0%, rgba(12, 9, 6, 0.95) 100%);
+                    border: 1px solid rgba(212, 175, 55, 0.25);
                 }
 
                 .badge-shield {
                     position: absolute;
                     top: 20px;
                     right: 20px;
-                    opacity: 0.5;
+                    opacity: 0.6;
                 }
 
                 .user-icon-ring {
-                    width: 80px;
-                    height: 80px;
+                    width: 76px;
+                    height: 76px;
                     border-radius: 50%;
-                    border: 2px solid rgba(212, 175, 55, 0.3);
-                    background: rgba(212, 175, 55, 0.05);
+                    border: 2px solid rgba(212, 175, 55, 0.35);
+                    background: rgba(212, 175, 55, 0.06);
                     display: flex;
                     align-items: center;
                     justify-content: center;
-                    margin-bottom: 1.5rem;
-                    box-shadow: 0 0 20px rgba(212, 175, 55, 0.1);
+                    margin-bottom: 1.4rem;
+                    box-shadow: 0 0 20px rgba(212, 175, 55, 0.15);
                     transition: all 0.4s ease;
                 }
                 .monument-card:hover .user-icon-ring {
                     border-color: var(--gold);
                     transform: scale(1.05);
-                    box-shadow: 0 0 25px rgba(212, 175, 55, 0.25);
+                    box-shadow: 0 0 25px rgba(212, 175, 55, 0.3);
                 }
 
                 .mon-name {
@@ -606,16 +606,18 @@ export default function ContactUsClient() {
                 .role-badge {
                     display: inline-block;
                     color: var(--gold);
-                    font-size: 0.7rem;
+                    font-size: 0.72rem;
                     text-transform: uppercase;
-                    letter-spacing: 2px;
-                    font-weight: 800;
+                    letter-spacing: 1.5px;
+                    font-weight: 700;
                     margin-bottom: 2.2rem;
                     padding: 0.45rem 1.1rem;
                     background: rgba(212, 175, 55, 0.08);
-                    border: 1px solid rgba(212, 175, 55, 0.2);
+                    border: 1px solid rgba(212, 175, 55, 0.22);
                     border-radius: 30px;
                     text-align: center;
+                    max-width: 100%;
+                    line-height: 1.5;
                 }
 
                 .info-links-grid {
@@ -633,19 +635,20 @@ export default function ContactUsClient() {
                     display: flex;
                     align-items: center;
                     gap: 1rem;
-                    padding: 1.1rem 1.3rem;
-                    background: rgba(255, 255, 255, 0.02);
-                    border: 1px solid rgba(255, 255, 255, 0.05);
+                    padding: 1.1rem 1.2rem;
+                    background: rgba(255, 255, 255, 0.03);
+                    border: 1px solid rgba(212, 175, 55, 0.12);
                     border-radius: 12px;
-                    color: rgba(255, 255, 255, 0.8);
+                    color: rgba(255, 255, 255, 0.85);
                     text-decoration: none;
                     transition: all 0.3s ease;
+                    min-width: 0;
                 }
                 .info-item-link:hover {
-                    border-color: rgba(212, 175, 55, 0.3);
-                    background: rgba(212, 175, 55, 0.04);
+                    border-color: rgba(212, 175, 55, 0.4);
+                    background: rgba(212, 175, 55, 0.06);
                     color: #fff;
-                    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+                    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
                 }
 
                 .icon-wrapper {
@@ -653,36 +656,41 @@ export default function ContactUsClient() {
                     display: flex;
                     align-items: center;
                     justify-content: center;
-                    width: 36px;
-                    height: 36px;
+                    width: 38px;
+                    height: 38px;
+                    min-width: 38px;
                     border-radius: 8px;
-                    background: rgba(212, 175, 55, 0.1);
+                    background: rgba(212, 175, 55, 0.12);
                     transition: transform 0.3s ease;
                 }
                 .info-item-link:hover .icon-wrapper {
-                    transform: scale(1.1);
+                    transform: scale(1.08);
                 }
 
                 .info-text {
                     display: flex;
                     flex-direction: column;
-                    gap: 0.2rem;
-                    min-width: 0; /* truncate fix */
+                    gap: 0.25rem;
+                    min-width: 0;
+                    width: 100%;
+                    overflow: hidden;
                 }
 
                 .info-label {
                     font-size: 0.65rem;
                     text-transform: uppercase;
                     letter-spacing: 1px;
-                    color: rgba(255, 255, 255, 0.4);
+                    color: rgba(212, 175, 55, 0.85);
+                    font-weight: 600;
                 }
 
                 .info-val {
                     font-size: 0.82rem;
                     font-weight: 500;
-                    white-space: nowrap;
-                    overflow: hidden;
-                    text-overflow: ellipsis;
+                    color: #fff;
+                    word-break: break-all;
+                    overflow-wrap: anywhere;
+                    line-height: 1.4;
                 }
 
                 /* TECHNICAL TEAM SECTION */
@@ -717,19 +725,19 @@ export default function ContactUsClient() {
                     color: rgba(255,255,255,0.7);
                     background: rgba(255, 255, 255, 0.04);
                     border-color: rgba(255, 255, 255, 0.08);
-                    font-size: 0.62rem;
+                    font-size: 0.65rem;
                     margin-bottom: 1.5rem;
                 }
                 .tech-card:hover .badge-tech {
                     color: var(--gold);
-                    border-color: rgba(212, 175, 55, 0.2);
+                    border-color: rgba(212, 175, 55, 0.25);
                     background: rgba(212, 175, 55, 0.06);
                 }
 
                 .tech-desc {
                     font-size: 0.92rem !important;
                     text-align: center;
-                    color: rgba(255, 255, 255, 0.6) !important;
+                    color: rgba(255, 255, 255, 0.65) !important;
                     margin-bottom: 2rem !important;
                     line-height: 1.6;
                     max-width: 320px;
@@ -745,19 +753,20 @@ export default function ContactUsClient() {
                     align-items: center;
                     justify-content: center;
                     gap: 0.6rem;
-                    padding: 0.8rem 1.2rem;
+                    padding: 0.85rem 1.2rem;
                     border-radius: 8px;
                     font-size: 0.8rem;
                     font-weight: 600;
                     text-decoration: none;
                     transition: all 0.3s ease;
                     width: 100%;
+                    min-width: 0;
                 }
 
                 .email-btn {
                     background: rgba(255, 255, 255, 0.03);
                     border: 1px solid rgba(255, 255, 255, 0.08);
-                    color: rgba(255, 255, 255, 0.8);
+                    color: rgba(255, 255, 255, 0.85);
                 }
                 .tech-card:hover .email-btn {
                     border-color: rgba(212, 175, 55, 0.3);
@@ -768,6 +777,9 @@ export default function ContactUsClient() {
                     background: var(--gold) !important;
                     color: #000 !important;
                     box-shadow: 0 5px 15px var(--gold-glow);
+                }
+                .email-btn span {
+                    word-break: break-all;
                 }
 
                 /* GRID CTAS SECTION */
@@ -785,7 +797,7 @@ export default function ContactUsClient() {
 
                 .cta-card {
                     background: linear-gradient(135deg, rgba(20, 16, 12, 0.7) 0%, rgba(10, 8, 6, 0.85) 100%);
-                    border: 1px solid rgba(212, 175, 55, 0.1);
+                    border: 1px solid rgba(212, 175, 55, 0.15);
                 }
 
                 .cta-card:hover {
@@ -817,7 +829,7 @@ export default function ContactUsClient() {
 
                 .cta-card .mon-desc {
                     font-size: 0.95rem;
-                    color: rgba(255, 255, 255, 0.6) !important;
+                    color: rgba(255, 255, 255, 0.65) !important;
                     line-height: 1.6;
                     margin-bottom: 2.2rem;
                     height: 70px;
@@ -865,14 +877,36 @@ export default function ContactUsClient() {
                         radial-gradient(circle at 100% 100%, rgba(212, 175, 55, 0.03) 0%, transparent 40%) !important;
                 }
 
-                /* RESPONSIVE LAYOUT HACKS */
+                /* RESPONSIVE LAYOUT */
                 @media (max-width: 768px) {
-                    .fort-hero { height: 75vh; padding-top: 7rem; }
-                    .hero-title { font-size: 2.6rem; }
-                    .fort-section { padding: 4.5rem 1.25rem; }
-                    .mon-content { padding: 2.2rem 1.5rem; }
-                    .tech-desc { height: auto; }
-                    .cta-card .mon-desc { height: auto; }
+                    .fort-hero { height: 65vh; min-height: 480px; padding-top: 6.5rem; }
+                    .hero-title { font-size: 2.4rem; }
+                    .fort-section { padding: 3.5rem 1.2rem; }
+                    .mon-content { padding: 2.2rem 1.4rem; }
+                    .tech-desc { height: auto; margin-bottom: 1.5rem !important; }
+                    .cta-card .mon-desc { height: auto; margin-bottom: 1.5rem; }
+                }
+
+                @media (max-width: 480px) {
+                    .fort-hero { height: auto; min-height: 400px; padding: 5.5rem 1rem 3rem; }
+                    .hero-eyebrow { font-size: 0.75rem; letter-spacing: 3px; margin-bottom: 1rem; }
+                    .hero-title { font-size: 1.95rem; margin-bottom: 1rem; }
+                    .hero-desc { font-size: 0.95rem; }
+                    .fort-section { padding: 2.5rem 0.85rem; }
+                    .section-header { margin-bottom: 2.2rem; }
+                    .section-title { font-size: 1.55rem; }
+                    .mon-content { padding: 1.8rem 1rem; }
+                    .user-icon-ring { width: 66px; height: 66px; margin-bottom: 1.2rem; }
+                    .mon-name { font-size: 1.35rem; }
+                    .role-badge { font-size: 0.65rem; padding: 0.35rem 0.8rem; margin-bottom: 1.5rem; letter-spacing: 1px; }
+                    .info-links-grid { gap: 0.8rem; }
+                    .info-item-link { padding: 0.85rem 0.85rem; gap: 0.75rem; }
+                    .icon-wrapper { width: 34px; height: 34px; min-width: 34px; }
+                    .info-val { font-size: 0.78rem; }
+                    .tech-team-grid, .ctas-grid { gap: 1.5rem; }
+                    .tech-card .mon-content, .flex-center { padding: 1.8rem 1rem; }
+                    .tech-action-btn { padding: 0.75rem 0.8rem; font-size: 0.75rem; }
+                    .action-cta-btn { min-width: 0; width: 100%; padding: 0.75rem 1rem; }
                 }
             `}</style>
         </motion.div>

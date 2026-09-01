@@ -5,6 +5,21 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useLanguage } from "@/context/LanguageContext";
 import { triggerHaptic } from "@/lib/haptics";
+import {
+    Home,
+    Compass,
+    BedDouble,
+    MapPin,
+    Info,
+    Award,
+    ShieldAlert,
+    Download,
+    MessageSquareQuote,
+    Mail,
+    X,
+    ChevronRight,
+    PhoneCall
+} from "lucide-react";
 
 export default function Navbar() {
     const [scrolled, setScrolled] = useState(false);
@@ -42,6 +57,18 @@ export default function Navbar() {
         return () => window.removeEventListener("scroll", handleScroll);
     }, []);
 
+    // Prevent body scroll when mobile menu is open
+    useEffect(() => {
+        if (isMenuOpen) {
+            document.body.style.overflow = "hidden";
+        } else {
+            document.body.style.overflow = "";
+        }
+        return () => {
+            document.body.style.overflow = "";
+        };
+    }, [isMenuOpen]);
+
     // Close menu when route changes
     useEffect(() => {
         setIsMenuOpen(false);
@@ -56,16 +83,16 @@ export default function Navbar() {
     };
 
     const navLinks = [
-        { href: "/", label: getNavLabel("nav.home", "Home") },
-        { href: "/explore", label: getNavLabel("nav.explore", "Explore") },
-        { href: "/stays", label: getNavLabel("nav.stays", "Stays") },
-        { href: "/plan", label: getNavLabel("nav.planTrip", "Plan Trip") },
-        { href: "/visitor-info", label: getNavLabel("nav.visitorInfo", "Visitor Info") },
-        { href: "/panch-gaurav", label: getNavLabel("nav.panchGaurav", "Panch Gaurav") },
-        { href: "/emergency", label: getNavLabel("nav.emergency", "Emergency") },
-        { href: "/download", label: getNavLabel("nav.download", "Downloads") },
-        { href: "/feedback", label: getNavLabel("nav.feedback", "Feedback") },
-        { href: "/contact-us", label: getNavLabel("nav.contactUs", "Contact Us") },
+        { href: "/", label: getNavLabel("nav.home", "Home"), icon: <Home size={18} /> },
+        { href: "/explore", label: getNavLabel("nav.explore", "Explore"), icon: <Compass size={18} /> },
+        { href: "/stays", label: getNavLabel("nav.stays", "Stays"), icon: <BedDouble size={18} /> },
+        { href: "/plan", label: getNavLabel("nav.planTrip", "Plan Trip"), icon: <MapPin size={18} /> },
+        { href: "/visitor-info", label: getNavLabel("nav.visitorInfo", "Visitor Info"), icon: <Info size={18} /> },
+        { href: "/panch-gaurav", label: getNavLabel("nav.panchGaurav", "Panch Gaurav"), icon: <Award size={18} /> },
+        { href: "/emergency", label: getNavLabel("nav.emergency", "Emergency"), icon: <ShieldAlert size={18} /> },
+        { href: "/download", label: getNavLabel("nav.download", "Downloads"), icon: <Download size={18} /> },
+        { href: "/feedback", label: getNavLabel("nav.feedback", "Feedback"), icon: <MessageSquareQuote size={18} /> },
+        { href: "/contact-us", label: getNavLabel("nav.contactUs", "Contact Us"), icon: <Mail size={18} /> },
     ];
 
     const isContactPath = pathname === "/contact-us";
@@ -78,9 +105,9 @@ export default function Navbar() {
                 <Link prefetch={false} href="/" 
                     className="logo"
                     style={{ 
-                        opacity: isMenuOpen || isContactPath ? 0 : 1, 
+                        opacity: isContactPath ? 0 : 1, 
                         transition: 'opacity 0.3s ease',
-                        pointerEvents: isMenuOpen || isContactPath ? 'none' : 'auto'
+                        pointerEvents: isContactPath ? 'none' : 'auto'
                     }}
                 >
                     <div className="logo-name">
@@ -135,50 +162,81 @@ export default function Navbar() {
                 </button>
             </nav>
 
-            {/* Mobile Navigation Overlay */}
-            <div className={`mobile-nav ${isMenuOpen ? "open" : ""}`}>
-                {/* Brand Header inside Menu */}
-                <div className="mobile-menu-header" style={{ transitionDelay: '0.05s' }}>
-                    <div className="logo-name">
-                        {t("nav.logoPart1") || "Chittorgarh"}<span> {t("nav.logoPart2") || "Tourism"}</span>
+            {/* Mobile Navigation Drawer & Backdrop */}
+            <div 
+                className={`mobile-nav-backdrop ${isMenuOpen ? "open" : ""}`}
+                onClick={() => setIsMenuOpen(false)}
+            />
+
+            <div className={`mobile-nav-drawer ${isMenuOpen ? "open" : ""}`}>
+                {/* Header inside Drawer */}
+                <div className="drawer-header">
+                    <div className="drawer-logo">
+                        <div className="drawer-logo-icon">🏛️</div>
+                        <div className="drawer-logo-text">
+                            <span className="part1">{t("nav.logoPart1") || "Chittorgarh"}</span>
+                            <span className="part2"> {t("nav.logoPart2") || "Tourism"}</span>
+                        </div>
                     </div>
-                    <div className="mobile-menu-divider"></div>
+                    <button 
+                        className="drawer-close-btn"
+                        onClick={() => { setIsMenuOpen(false); triggerHaptic('light'); }}
+                        aria-label="Close Menu"
+                    >
+                        <X size={20} />
+                    </button>
                 </div>
 
-                {navLinks.map((link, idx) => (
-                    <Link prefetch={false} key={link.href}
-                        href={link.href}
-                        className={`mobile-link ${isActive(link.href)}`}
-                        onClick={() => setIsMenuOpen(false)}
-                        style={{ transitionDelay: `${0.1 + idx * 0.05}s` }}
-                    >
-                        {link.label}
-                    </Link>
-                ))}
+                {/* Scrollable Links Area */}
+                <div className="drawer-links-scroll">
+                    <div className="drawer-links-list">
+                        {navLinks.map((link, idx) => (
+                            <Link 
+                                prefetch={false} 
+                                key={link.href}
+                                href={link.href}
+                                className={`drawer-nav-item ${isActive(link.href)}`}
+                                onClick={() => setIsMenuOpen(false)}
+                            >
+                                <div className="item-icon-wrap">
+                                    {link.icon}
+                                </div>
+                                <span className="item-label">{link.label}</span>
+                                <ChevronRight size={16} className="item-arrow" />
+                            </Link>
+                        ))}
+                    </div>
+                </div>
 
-
-                {/* Mobile Language Selection */}
-                <div 
-                    className="mobile-lang-section" 
-                    style={{ transitionDelay: `${0.15 + (navLinks.length + 4) * 0.08}s` }}
-                >
-                    <span className="mobile-lang-label">{t("nav.selectLanguage")}</span>
-                    <div className="mobile-lang-toggle" data-active={lang}>
+                {/* Drawer Footer */}
+                <div className="drawer-footer">
+                    {/* Language Switcher Toggle */}
+                    <div className="drawer-lang-toggle">
                         <button 
-                            className={lang === 'en' ? 'active' : ''}
-                            onClick={() => { changeLanguage("en"); setIsMenuOpen(false); }}
+                            className={`lang-btn ${lang === 'en' ? 'active' : ''}`}
+                            onClick={() => { changeLanguage("en"); triggerHaptic('light'); }}
                         >
-                            Eng
+                            <span>🇺🇸</span> English
                         </button>
                         <button 
-                            className={lang === 'hi' ? 'active' : ''}
-                            onClick={() => { changeLanguage("hi"); setIsMenuOpen(false); }}
+                            className={`lang-btn ${lang === 'hi' ? 'active' : ''}`}
+                            onClick={() => { changeLanguage("hi"); triggerHaptic('light'); }}
                         >
-                            हिंदी
+                            <span>🇮🇳</span> हिंदी
                         </button>
                     </div>
+
+                    <Link 
+                        href="/emergency" 
+                        className="drawer-emergency-pill"
+                        onClick={() => setIsMenuOpen(false)}
+                    >
+                        <PhoneCall size={14} className="text-red-400" />
+                        <span>Helpline: 112 / Emergency</span>
+                    </Link>
                 </div>
             </div>
         </>
     );
 }
+
