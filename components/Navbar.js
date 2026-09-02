@@ -13,7 +13,6 @@ import {
     Info,
     Award,
     ShieldAlert,
-    Download,
     MessageSquareQuote,
     Mail,
     X,
@@ -90,7 +89,6 @@ export default function Navbar() {
         { href: "/visitor-info", label: getNavLabel("nav.visitorInfo", "Visitor Info"), icon: <Info size={18} /> },
         { href: "/panch-gaurav", label: getNavLabel("nav.panchGaurav", "Panch Gaurav"), icon: <Award size={18} /> },
         { href: "/emergency", label: getNavLabel("nav.emergency", "Emergency"), icon: <ShieldAlert size={18} /> },
-        { href: "/download", label: getNavLabel("nav.download", "Downloads"), icon: <Download size={18} /> },
         { href: "/feedback", label: getNavLabel("nav.feedback", "Feedback"), icon: <MessageSquareQuote size={18} /> },
         { href: "/contact-us", label: getNavLabel("nav.contactUs", "Contact Us"), icon: <Mail size={18} /> },
     ];

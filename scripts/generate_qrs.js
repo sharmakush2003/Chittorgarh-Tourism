@@ -22,7 +22,6 @@ const monuments = [
     "plan",
     "stays",
     "how-to-reach",
-    "download",
     "menal"
 ];
 
