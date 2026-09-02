@@ -1336,11 +1336,150 @@ html[lang="hi"] a,
 }
 
 /* ── Grid layout ── */
+.footer-cols-wrapper {
+  display: contents;
+}
+
 .footer-grid {
   display: grid;
   grid-template-columns: 1fr;
   gap: 2rem;
   margin-bottom: 2rem;
+}
+
+@media (max-width: 767px) {
+  .site-footer {
+    background: linear-gradient(180deg, #100B07 0%, #050403 100%) !important;
+    border-top: 1px solid rgba(212, 175, 55, 0.25) !important;
+    padding-bottom: 4rem !important;
+  }
+
+  .site-footer .container {
+    padding-top: 1.25rem !important;
+    padding-bottom: 0.5rem !important;
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+  }
+
+  /* Compact Glassmorphic Footer Card */
+  .footer-grid {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    text-align: center !important;
+    background: linear-gradient(135deg, rgba(30, 22, 14, 0.6) 0%, rgba(15, 10, 6, 0.8) 100%) !important;
+    border: 1px solid rgba(212, 175, 55, 0.2) !important;
+    border-radius: 16px !important;
+    padding: 1.25rem 1rem !important;
+    margin-bottom: 0.75rem !important;
+    gap: 1rem !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5) !important;
+  }
+
+  .footer-brand {
+    text-align: center !important;
+    width: 100% !important;
+  }
+
+  .footer-logo {
+    font-size: 1.35rem !important;
+    margin-bottom: 0.25rem !important;
+  }
+
+  .footer-tagline {
+    font-size: 0.75rem !important;
+    line-height: 1.35 !important;
+    color: rgba(255, 255, 255, 0.55) !important;
+    margin-bottom: 0 !important;
+    max-width: 100% !important;
+  }
+
+  .footer-cols-wrapper {
+    display: flex !important;
+    flex-direction: column !important;
+    width: 100% !important;
+    gap: 0.75rem !important;
+    align-items: center !important;
+  }
+
+  .footer-col-title {
+    display: none !important;
+  }
+
+  /* Horizontal Pill Links */
+  .footer-nav-list {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    justify-content: center !important;
+    gap: 0.4rem !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  .footer-nav-list li {
+    margin: 0 !important;
+  }
+
+  .footer-nav-arrow {
+    display: none !important;
+  }
+
+  .footer-nav-link {
+    font-size: 0.75rem !important;
+    padding: 0.3rem 0.75rem !important;
+    background: rgba(255, 255, 255, 0.04) !important;
+    border: 1px solid rgba(212, 175, 55, 0.2) !important;
+    border-radius: 50px !important;
+    color: rgba(255, 255, 255, 0.85) !important;
+    text-decoration: none !important;
+    transition: all 0.25s ease !important;
+  }
+
+  .footer-nav-link:hover {
+    background: rgba(212, 175, 55, 0.15) !important;
+    border-color: var(--gold) !important;
+    color: #FFF !important;
+  }
+
+  .footer-info-item {
+    font-size: 0.72rem !important;
+    color: rgba(255, 255, 255, 0.55) !important;
+    margin-bottom: 0.2rem !important;
+    justify-content: center !important;
+    line-height: 1.3 !important;
+  }
+
+  .footer-email-link {
+    font-size: 0.72rem !important;
+    color: var(--gold) !important;
+    word-break: break-all !important;
+  }
+
+  .footer-ornament {
+    display: none !important;
+  }
+
+  .footer-bottom {
+    padding: 0.25rem 0 0.5rem !important;
+    text-align: center !important;
+  }
+
+  .footer-bottom-divider {
+    display: none !important;
+  }
+
+  .footer-copyright-info {
+    font-size: 0.7rem !important;
+    flex-direction: row !important;
+    flex-wrap: wrap !important;
+    justify-content: center !important;
+    gap: 0.3rem !important;
+    color: rgba(255, 255, 255, 0.45) !important;
+  }
+
+  .footer-separator {
+    opacity: 0.3 !important;
+  }
 }
 
 @media (min-width: 768px) {

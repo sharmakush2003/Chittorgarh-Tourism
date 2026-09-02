@@ -3,8 +3,6 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useLanguage } from "@/context/LanguageContext";
-import VisitorCounter from "@/components/VisitorCounter";
-
 
 const navLinks = [
     { key: "nav.home", href: "/" },
@@ -17,7 +15,6 @@ const navLinks = [
 export default function Footer() {
     const { t } = useLanguage();
     const pathname = usePathname();
-
 
     return (
         <footer className="site-footer">
@@ -33,42 +30,24 @@ export default function Footer() {
                             {t("nav.logoPart1") || "Chittorgarh"}<span> {t("nav.logoPart2") || "Tourism"}</span>
                         </div>
                         <p className="footer-tagline">{t("footer.desc")}</p>
-                        <VisitorCounter />
                     </div>
 
-                    {/* Navigation column */}
-                    <div className="footer-col">
-                        <h4 className="footer-col-title">{t("footer.nav")}</h4>
-                        <ul className="footer-nav-list">
-                            {navLinks.map((l) => (
-                                <li key={l.href}>
-                                    <Link prefetch={false} href={l.href} className="footer-nav-link">
-                                        <span className="footer-nav-arrow">›</span>
-                                        {t(l.key) || l.fallback}
-                                    </Link>
-                                </li>
-                            ))}
-                        </ul>
-                    </div>
-
-                    {/* Contact / Info column */}
-                    <div className="footer-col">
-                        <h4 className="footer-col-title">{t("footer.connect")}</h4>
-                        <ul className="footer-nav-list">
-                            <li className="footer-info-item">
-                                <span>{t("footer.locationFull") || "Chittorgarh, Rajasthan, India"}</span>
-                            </li>
-                            <li className="footer-info-item">
-                                <span className="footer-info-icon">🌐</span>
-                                <span>{t("footer.unesco") || "UNESCO Heritage Site"}</span>
-                            </li>
-                            <li className="footer-info-item">
-                                <span className="footer-info-icon">✉️</span>
-                                <a href="mailto:trcchittorgarh-dot@rajasthan.gov.in" className="footer-email-link">
-                                    trcchittorgarh-dot@rajasthan.gov.in
-                                </a>
-                            </li>
-                        </ul>
+                    {/* Columns Wrapper */}
+                    <div className="footer-cols-wrapper">
+                        {/* Navigation column */}
+                        <div className="footer-col">
+                            <h4 className="footer-col-title">{t("footer.nav")}</h4>
+                            <ul className="footer-nav-list">
+                                {navLinks.map((l) => (
+                                    <li key={l.href}>
+                                        <Link prefetch={false} href={l.href} className="footer-nav-link">
+                                            <span className="footer-nav-arrow">›</span>
+                                            {t(l.key) || l.fallback}
+                                        </Link>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
                     </div>
                 </div>
 

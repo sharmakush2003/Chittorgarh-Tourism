@@ -658,81 +658,81 @@ export default function HomeClient() {
                 /* FEATURES GRID */
                 .features-grid {
                     display: grid;
-                    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-                    gap: 2rem;
+                    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+                    gap: 1.25rem;
                 }
 
                 .feature-card {
                     background: rgba(24, 18, 12, 0.95) !important;
                     backdrop-filter: blur(20px);
                     border: 1px solid rgba(212, 175, 55, 0.3);
-                    border-radius: 20px;
-                    padding: 3.5rem 2rem;
+                    border-radius: 16px;
+                    padding: 1.75rem 1.5rem;
                     text-align: center;
                     display: flex;
                     flex-direction: column;
                     align-items: center;
                     transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
-                    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
+                    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
                 }
 
                 .feature-card:hover {
-                    transform: translateY(-8px);
+                    transform: translateY(-5px);
                     border-color: rgba(212, 175, 55, 0.7);
-                    box-shadow: 0 25px 50px -15px rgba(0, 0, 0, 0.8);
+                    box-shadow: 0 18px 40px -10px rgba(0, 0, 0, 0.8);
                 }
 
                 .feature-icon {
                     color: #D4AF37;
-                    margin-bottom: 2rem;
-                    width: 68px;
-                    height: 68px;
-                    border-radius: 20px;
+                    margin-bottom: 1rem;
+                    width: 48px;
+                    height: 48px;
+                    border-radius: 14px;
                     background: rgba(212, 175, 55, 0.15);
                     border: 1px solid rgba(212, 175, 55, 0.4);
                     display: flex;
                     align-items: center;
                     justify-content: center;
-                    box-shadow: 0 8px 24px rgba(212, 175, 55, 0.2);
+                    box-shadow: 0 6px 16px rgba(212, 175, 55, 0.2);
                 }
 
                 .feature-card h3 {
                     font-family: var(--ff-display), serif;
-                    font-size: 1.4rem !important;
+                    font-size: 1.2rem !important;
                     font-weight: 800;
                     color: #FFF;
-                    margin-bottom: 1rem;
+                    margin-bottom: 0.5rem;
                 }
 
                 .feature-card p {
                     color: rgba(255, 255, 255, 0.82);
-                    font-size: 0.95rem;
-                    line-height: 1.65;
+                    font-size: 0.88rem;
+                    line-height: 1.5;
                 }
 
                 /* QUOTE BAND */
                 .quote-band {
                     background: linear-gradient(180deg, rgba(15, 12, 8, 0.9) 0%, rgba(28, 21, 14, 0.95) 50%, rgba(15, 12, 8, 0.9) 100%);
                     text-align: center;
-                    padding: 6rem 0;
+                    padding: 3rem 0;
                     border-top: 1px solid rgba(212, 175, 55, 0.25);
                     border-bottom: 1px solid rgba(212, 175, 55, 0.25);
                 }
 
                 .quote-text {
                     font-family: var(--ff-display), serif;
-                    font-size: clamp(1.5rem, 4vw, 2.75rem);
+                    font-size: clamp(1.15rem, 2.8vw, 1.85rem);
                     font-style: italic;
                     color: #F3E5AB;
-                    max-width: 900px;
-                    margin: 0 auto 2rem;
+                    max-width: 850px;
+                    margin: 0 auto 1rem;
                     font-weight: 600;
                     line-height: 1.4;
                 }
 
                 cite {
-                    font-size: 1rem;
-                    letter-spacing: 0.2em;
+                    font-size: 0.85rem;
+                    letter-spacing: 0.15em;
                     text-transform: uppercase;
                     color: rgba(212, 175, 55, 0.9);
                     font-weight: 600;
@@ -744,17 +744,18 @@ export default function HomeClient() {
                     background: linear-gradient(135deg, rgba(30, 23, 15, 0.95) 0%, rgba(20, 15, 9, 0.98) 100%);
                     backdrop-filter: blur(20px);
                     border: 1px solid rgba(212, 175, 55, 0.4);
-                    border-radius: 28px;
-                    padding: 4.5rem 2rem;
+                    border-radius: 20px;
+                    padding: 2.25rem 2rem;
                     text-align: center;
-                    box-shadow: 0 30px 70px -20px rgba(0, 0, 0, 0.9), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+                    box-shadow: 0 20px 50px -15px rgba(0, 0, 0, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.1);
                 }
 
                 .cta-title {
                     font-family: var(--ff-display), serif;
-                    font-size: clamp(2rem, 5vw, 3.25rem);
+                    font-size: clamp(1.5rem, 3.5vw, 2.35rem);
                     font-weight: 900;
-                    margin-top: 1rem;
+                    margin-top: 0.5rem;
+                    margin-bottom: 0.5rem;
                     background: linear-gradient(135deg, #FFF 0%, #F3E5AB 100%);
                     -webkit-background-clip: text;
                     -webkit-text-fill-color: transparent;
@@ -763,7 +764,7 @@ export default function HomeClient() {
                 /* RESPONSIVE MOBILE FIXES */
                 @media (max-width: 640px) {
                     section {
-                        padding: 3rem 0;
+                        padding: 2rem 0;
                     }
                     .hero-redesigned {
                         padding-top: 7rem;
@@ -801,19 +802,62 @@ export default function HomeClient() {
                         font-size: 0.68rem;
                         line-height: 1.3;
                     }
-                    .highlights-grid, .features-grid {
+                    .features-grid {
+                        grid-template-columns: 1fr;
+                        gap: 0.75rem;
+                    }
+                    .feature-card {
+                        padding: 1.25rem 1rem !important;
+                    }
+                    .feature-icon {
+                        width: 40px;
+                        height: 40px;
+                        margin-bottom: 0.6rem;
+                    }
+                    .feature-card h3 {
+                        font-size: 1.05rem !important;
+                    }
+                    .quote-band {
+                        padding: 2rem 0;
+                    }
+                    .quote-text {
+                        font-size: 1.1rem;
+                        margin-bottom: 0.75rem;
+                    }
+                    .highlights-grid {
                         grid-template-columns: 1fr;
                     }
                     .section-header {
-                        margin-bottom: 2.2rem;
+                        margin-bottom: 1.5rem;
                     }
                     .section-title {
-                        font-size: clamp(1.4rem, 6.2vw, 1.85rem) !important;
-                        line-height: 1.35 !important;
+                        font-size: clamp(1.3rem, 5.5vw, 1.7rem) !important;
+                        line-height: 1.3 !important;
                     }
                     .eyebrow {
                         font-size: 0.7rem;
                         padding: 0.3rem 0.8rem;
+                    }
+                    .cta-section {
+                        padding: 1.25rem 0 !important;
+                    }
+                    .cta-card-luxury {
+                        padding: 1.75rem 1rem !important;
+                        border-radius: 16px !important;
+                    }
+                    .cta-title {
+                        font-size: clamp(1.25rem, 5vw, 1.65rem) !important;
+                        margin-top: 0.4rem !important;
+                        margin-bottom: 0.4rem !important;
+                        line-height: 1.25 !important;
+                    }
+                    .cta-card-luxury .section-desc {
+                        font-size: 0.82rem !important;
+                        line-height: 1.4 !important;
+                        margin-bottom: 0.6rem !important;
+                    }
+                    .cta-card-luxury .mt-6 {
+                        margin-top: 0.85rem !important;
                     }
                 }
 

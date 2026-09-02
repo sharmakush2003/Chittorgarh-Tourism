@@ -86,8 +86,12 @@ export default function FAQ() {
 
             <style jsx>{`
                 .faq-section {
-                    padding: 6rem 0;
+                    padding: 3rem 0;
                     background: var(--dark-bg);
+                }
+
+                .section-header {
+                    margin-bottom: 1.5rem;
                 }
 
                 .faq-list {
@@ -95,37 +99,39 @@ export default function FAQ() {
                     margin: 0 auto;
                     display: flex;
                     flex-direction: column;
-                    gap: 1rem;
+                    gap: 0.6rem;
                 }
 
                 .faq-item {
                     background: var(--dark-soft);
-                    border: 1px solid rgba(212, 175, 55, 0.1);
-                    border-radius: 8px;
+                    border: 1px solid rgba(212, 175, 55, 0.15);
+                    border-radius: 10px;
                     overflow: hidden;
                     cursor: pointer;
                     transition: all 0.3s ease;
                 }
 
                 .faq-item:hover, .faq-item.open {
-                    border-color: rgba(212, 175, 55, 0.4);
+                    border-color: rgba(212, 175, 55, 0.45);
+                    background: rgba(28, 21, 15, 0.95);
                 }
 
                 .faq-question {
-                    padding: 1.5rem 2rem;
+                    padding: 0.9rem 1.25rem;
                     display: flex;
                     justify-content: space-between;
                     align-items: center;
-                    gap: 1rem;
+                    gap: 0.75rem;
                 }
 
                 .faq-question h3 {
                     margin: 0;
-                    font-size: 1.1rem;
-                    font-family: var(--font-jost);
+                    font-size: 0.98rem;
+                    font-family: var(--ff-body, sans-serif);
                     font-weight: 500;
                     color: #fff;
                     transition: color 0.3s ease;
+                    line-height: 1.35;
                 }
 
                 .faq-item.open .faq-question h3 {
@@ -134,14 +140,15 @@ export default function FAQ() {
 
                 .faq-icon {
                     color: var(--gold);
-                    font-size: 1.5rem;
+                    font-size: 1.2rem;
                     font-weight: 300;
-                    width: 24px;
-                    height: 24px;
+                    width: 20px;
+                    height: 20px;
                     display: flex;
                     align-items: center;
                     justify-content: center;
                     transition: transform 0.3s ease;
+                    flex-shrink: 0;
                 }
 
                 .faq-answer-wrapper {
@@ -150,11 +157,30 @@ export default function FAQ() {
                 }
 
                 .faq-answer {
-                    padding: 0 2rem 1.5rem 2rem;
+                    padding: 0 1.25rem 1rem 1.25rem;
                     margin: 0;
-                    color: rgba(255, 255, 255, 0.7);
-                    line-height: 1.6;
-                    font-size: 0.95rem;
+                    color: rgba(255, 255, 255, 0.75);
+                    line-height: 1.5;
+                    font-size: 0.88rem;
+                }
+
+                @media (max-width: 640px) {
+                    .faq-section {
+                        padding: 2rem 0;
+                    }
+                    .faq-question {
+                        padding: 0.75rem 1rem;
+                    }
+                    .faq-question h3 {
+                        font-size: 0.88rem;
+                    }
+                    .faq-answer {
+                        padding: 0 1rem 0.75rem 1rem;
+                        font-size: 0.82rem;
+                    }
+                    .faq-list {
+                        gap: 0.5rem;
+                    }
                 }
             `}</style>
         </section>
