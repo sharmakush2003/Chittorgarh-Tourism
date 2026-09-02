@@ -1,4 +1,6 @@
-import FeedbackLoader from "@/components/FeedbackLoader";
+import { redirect } from "next/navigation";
+
+export const GOOGLE_FORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLSeBDx8SK9Rm-S0QBO6wCFV5v-pfE6uCYTYU6ubMR5jNDOkpOA/viewform";
 
 export const metadata = {
     title: "Feedback Hub | Chittorgarh Tourism",
@@ -9,5 +11,6 @@ export const metadata = {
 };
 
 export default function FeedbackPage() {
-    return <FeedbackLoader />;
+    redirect(GOOGLE_FORM_URL);
 }
+

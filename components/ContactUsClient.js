@@ -290,7 +290,7 @@ export default function ContactUsClient() {
                                     className="audio-btn action-cta-btn feedback-btn-gold"
                                     onClick={() => {
                                         triggerHaptic('medium');
-                                        router.push('/feedback');
+                                        window.open('https://docs.google.com/forms/d/e/1FAIpQLSeBDx8SK9Rm-S0QBO6wCFV5v-pfE6uCYTYU6ubMR5jNDOkpOA/viewform', '_blank', 'noopener,noreferrer');
                                     }}
                                 >
                                     <Globe size={16} /> {t("contact.feedback.btn")}

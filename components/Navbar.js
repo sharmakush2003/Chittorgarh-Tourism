@@ -89,7 +89,7 @@ export default function Navbar() {
         { href: "/visitor-info", label: getNavLabel("nav.visitorInfo", "Visitor Info"), icon: <Info size={18} /> },
         { href: "/panch-gaurav", label: getNavLabel("nav.panchGaurav", "Panch Gaurav"), icon: <Award size={18} /> },
         { href: "/emergency", label: getNavLabel("nav.emergency", "Emergency"), icon: <ShieldAlert size={18} /> },
-        { href: "/feedback", label: getNavLabel("nav.feedback", "Feedback"), icon: <MessageSquareQuote size={18} /> },
+        { href: "https://docs.google.com/forms/d/e/1FAIpQLSeBDx8SK9Rm-S0QBO6wCFV5v-pfE6uCYTYU6ubMR5jNDOkpOA/viewform", label: getNavLabel("nav.feedback", "Feedback"), icon: <MessageSquareQuote size={18} />, isExternal: true },
         { href: "/contact-us", label: getNavLabel("nav.contactUs", "Contact Us"), icon: <Mail size={18} /> },
     ];
 
@@ -117,9 +117,15 @@ export default function Navbar() {
                 <ul className="nav-links">
                     {navLinks.map((link) => (
                         <li key={link.href}>
-                            <Link prefetch={false} href={link.href} className={isActive(link.href)}>
-                                {link.label}
-                            </Link>
+                            {link.isExternal ? (
+                                <a href={link.href} target="_blank" rel="noopener noreferrer" className="nav-item-link">
+                                    {link.label}
+                                </a>
+                            ) : (
+                                <Link prefetch={false} href={link.href} className={isActive(link.href)}>
+                                    {link.label}
+                                </Link>
+                            )}
                         </li>
                     ))}
                     {/* Premium Language Selector */}
@@ -189,19 +195,36 @@ export default function Navbar() {
                 <div className="drawer-links-scroll">
                     <div className="drawer-links-list">
                         {navLinks.map((link, idx) => (
-                            <Link 
-                                prefetch={false} 
-                                key={link.href}
-                                href={link.href}
-                                className={`drawer-nav-item ${isActive(link.href)}`}
-                                onClick={() => setIsMenuOpen(false)}
-                            >
-                                <div className="item-icon-wrap">
-                                    {link.icon}
-                                </div>
-                                <span className="item-label">{link.label}</span>
-                                <ChevronRight size={16} className="item-arrow" />
-                            </Link>
+                            link.isExternal ? (
+                                <a 
+                                    key={link.href}
+                                    href={link.href}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="drawer-nav-item"
+                                    onClick={() => setIsMenuOpen(false)}
+                                >
+                                    <div className="item-icon-wrap">
+                                        {link.icon}
+                                    </div>
+                                    <span className="item-label">{link.label}</span>
+                                    <ChevronRight size={16} className="item-arrow" />
+                                </a>
+                            ) : (
+                                <Link 
+                                    prefetch={false} 
+                                    key={link.href}
+                                    href={link.href}
+                                    className={`drawer-nav-item ${isActive(link.href)}`}
+                                    onClick={() => setIsMenuOpen(false)}
+                                >
+                                    <div className="item-icon-wrap">
+                                        {link.icon}
+                                    </div>
+                                    <span className="item-label">{link.label}</span>
+                                    <ChevronRight size={16} className="item-arrow" />
+                                </Link>
+                            )
                         ))}
                     </div>
                 </div>
