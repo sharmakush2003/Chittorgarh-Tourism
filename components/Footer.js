@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useLanguage } from "@/context/LanguageContext";
+import VisitorCounter from "@/components/VisitorCounter";
 
 
 const navLinks = [
@@ -32,7 +33,7 @@ export default function Footer() {
                             {t("nav.logoPart1") || "Chittorgarh"}<span> {t("nav.logoPart2") || "Tourism"}</span>
                         </div>
                         <p className="footer-tagline">{t("footer.desc")}</p>
-
+                        <VisitorCounter />
                     </div>
 
                     {/* Navigation column */}

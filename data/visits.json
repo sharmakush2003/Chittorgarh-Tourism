@@ -1,7 +1,9 @@
 {
-  "total": 6,
+  "total": 10,
   "referrers": {
     "localhost": 1,
-    "Direct": 5
-  }
+    "Direct": 8,
+    "http://localhost:3000/": 1
+  },
+  "baseline": 40
 }
