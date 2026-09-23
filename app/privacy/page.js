@@ -123,10 +123,16 @@ export default function PrivacyPolicy() {
                         {
                             title: "Contact Information",
                             content: (
-                                <>
-                                    <p>If you have any questions or require more information about our Privacy Policy, please do not hesitate to contact us at:</p>
-                                    <p style={{ marginTop: "0.75rem", color: "var(--gold)", fontWeight: 600 }}>Email: chittorgarh.rj09.tourism@gmail.com</p>
-                                </>
+                                <p>
+                                    If you have any questions or require more information about our Privacy Policy, please reach out via our{" "}
+                                    <Link prefetch={false} href="/contact-us" style={{ color: "var(--gold)", textDecoration: "underline", fontWeight: 600 }}>
+                                        Contact Us Portal
+                                    </Link>{" "}
+                                    or{" "}
+                                    <Link prefetch={false} href="/feedback" style={{ color: "var(--gold)", textDecoration: "underline", fontWeight: 600 }}>
+                                        Feedback Hub
+                                    </Link>.
+                                </p>
                             ),
                         },
                     ].map(({ title, content }) => (

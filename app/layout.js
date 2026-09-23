@@ -216,6 +216,26 @@ export default function RootLayout({ children }) {
         />
       </head>
       <body className={`${playfair.variable} ${inter.variable} ${martel.variable}`}>
+        {/* Google Analytics 4 (GA4) */}
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-9Z7PRTGVQC"
+          strategy="afterInteractive"
+        />
+        <Script
+          id="google-analytics"
+          strategy="afterInteractive"
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', 'G-9Z7PRTGVQC', {
+                page_path: window.location.pathname,
+              });
+            `,
+          }}
+        />
+
         <RoyalPreloader />
         <Script
           id="attraction-schema"
