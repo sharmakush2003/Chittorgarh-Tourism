@@ -1,15 +1,15 @@
 import PlanClient from "@/components/PlanClient";
 
 export const metadata = {
-    title: "Chittorgarh Fort 1-Day & 2-Day Trip Itinerary Planner",
-    description: "Plan your perfect trip to Chittorgarh Fort with our curated 1-day, 2-day, and 3-day travel itineraries. Discover what to see and when to go.",
+    title: "Chittorgarh Fort Itinerary Planner",
+    description: "Plan your trip to Chittorgarh Fort with our curated travel itineraries. Download travel guides, discover key monuments, timings, and tips.",
     alternates: {
         canonical: '/plan',
     },
-    keywords: ["Chittorgarh Fort 1-day trip itinerary", "Chittorgarh 2-day travel plan", "how many days are enough for Chittorgarh", "Rajasthan trip planner", "Chittorgarh tour guide"],
+    keywords: ["Chittorgarh Fort itinerary", "Chittorgarh Fort travel plan", "Chittorgarh travel guide", "Rajasthan trip planner", "Chittorgarh tour guide"],
     openGraph: {
-        title: "Chittorgarh Fort 1-Day & 2-Day Trip Itinerary Planner",
-        description: "Curated 1, 2, and 3-day travel itineraries for your perfect Chittorgarh trip.",
+        title: "Chittorgarh Fort Itinerary Planner",
+        description: "Curated travel itineraries and guides for your Chittorgarh Fort trip.",
         url: "/plan",
         siteName: "Chittorgarh Tourism",
     },
