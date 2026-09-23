@@ -74,6 +74,9 @@ export default function PlanClient() {
                 pdf.addImage(imgData, "JPEG", 0, 0, 210, 297);
             }
 
+            // Ensure viewer starts on Page 1 by default
+            pdf.setPage(1);
+
             const fileName = activeTab === "half" ? "Chittorgarh_Half_Day_Travel_Guide.pdf" : "Chittorgarh_Full_Day_Travel_Guide.pdf";
             pdf.save(fileName);
 
@@ -91,14 +94,13 @@ export default function PlanClient() {
             title: "Half Day: Express Citadel Tour (4–5 Hours)",
             desc: "An optimized, fast-track circuit covering the most iconic monuments of Chittorgarh Fort for travelers with limited time.",
             duration: "4–5 Hours (Morning / Afternoon)",
-            transport: "Auto-Rickshaw / E-Rickshaw / Cab",
-            ticket: "Single ASI Ticket Valid",
-            highlights: ["Vijay Stambha (Victory Tower)", "Rani Padmini Water Palace", "Gaumukh Sacred Reservoir", "Rana Kumbha Palace Ruins", "Single ASI Ticket Valid"],
+            location: "Chittorgarh Fort Citadel",
+            highlights: ["Vijay Stambha (Victory Tower)", "Rani Padmini Water Palace", "Gaumukh Sacred Reservoir", "Rana Kumbha Palace Ruins", "Meera Bai & Kumbha Temples"],
             landmarks: [
-                { title: "Vijay Stambha", img: "/Each page Pics/Fort pics/Vijay Stambh.jpg", desc: "9-story tower celebrating Rajputana triumph and valour" },
+                { title: "Vijay Stambha", img: "/Each page Pics/Fort pics/Vijay Stambh.jpg", desc: "9-story victory tower built by Maharana Kumbha (1440–1448 AD)" },
                 { title: "Rani Padmini Palace", img: "/Each page Pics/Fort pics/Padmini Palace.jpg", desc: "Historic summer pavilion surrounded by lotus water pool" },
-                { title: "Gaumukh Reservoir", img: "/Each page Pics/Fort pics/Gaumukh Reservoir.jpg", desc: "Sacred perennial spring flowing through cow-mouth stone" },
-                { title: "Rana Kumbha Palace", img: "/Each page Pics/Fort pics/Rana Kumbha Palace.jpg", desc: "Grandest historic palace & legendary royal residence" }
+                { title: "Gaumukh Reservoir", img: "/Each page Pics/Fort pics/Gaumukh Reservoir.jpg", desc: "Sacred perennial spring flowing through carved stone cow mouth" },
+                { title: "Rana Kumbha Palace", img: "/Each page Pics/Fort pics/Rana Kumbha Palace.jpg", desc: "Grandest historic royal residence & palace ruins" }
             ],
             schedule: [
                 { time: "09:00 AM", title: "Ascent & Rana Kumbha Palace", activity: "Ascend the fort through historic gates and tour the legendary palace ruins, Zenana Mahal, and museum artifacts." },
@@ -112,14 +114,13 @@ export default function PlanClient() {
             title: "Full Day: Grand Heritage & Cultural Tour (8–9 Hours)",
             desc: "A comprehensive, immersive journey through 1300 years of Rajputana valor, architecture, temples, sunset bastions, and the evening Sound & Light show.",
             duration: "Full Day (8–9 Hours)",
-            transport: "Private Cab / E-Rickshaw",
-            ticket: "Single ASI Ticket Valid",
+            location: "Chittorgarh Fort Citadel",
             highlights: ["7 Fortified Gates (Pols)", "Vijay Stambha (Climb 157 steps)", "Rani Padmini Water Palace", "Meera Bai Temple & Gaumukh Spring", "Spectacular Sound & Light Show"],
             landmarks: [
-                { title: "Vijay Stambha", img: "/Each page Pics/Fort pics/Vijay Stambh.jpg", desc: "9-story tower celebrating Rajputana triumph and valour" },
+                { title: "Vijay Stambha", img: "/Each page Pics/Fort pics/Vijay Stambh.jpg", desc: "9-story victory tower built by Maharana Kumbha (1440–1448 AD)" },
                 { title: "Rani Padmini Palace", img: "/Each page Pics/Fort pics/Padmini Palace.jpg", desc: "Historic summer pavilion surrounded by lotus water pool" },
-                { title: "Gaumukh Reservoir", img: "/Each page Pics/Fort pics/Gaumukh Reservoir.jpg", desc: "Sacred perennial spring flowing through cow-mouth stone" },
-                { title: "Rana Kumbha Palace", img: "/Each page Pics/Fort pics/Rana Kumbha Palace.jpg", desc: "Grandest historic palace & legendary royal residence" }
+                { title: "Gaumukh Reservoir", img: "/Each page Pics/Fort pics/Gaumukh Reservoir.jpg", desc: "Sacred perennial spring flowing through carved stone cow mouth" },
+                { title: "Rana Kumbha Palace", img: "/Each page Pics/Fort pics/Rana Kumbha Palace.jpg", desc: "Grandest historic royal residence & palace ruins" }
             ],
             schedule: [
                 { time: "08:30 AM", title: "Arrival & The Seven Gates (Pols)", activity: "Begin your ascent driving through the seven historic pols (Padan Pol to Ram Pol), honoring the memorials of Jaimal & Patta." },
@@ -843,12 +844,12 @@ export default function PlanClient() {
                                     <span>{currentPlan.duration}</span>
                                 </div>
                                 <div className="metric-pill">
-                                    <Car size={13} />
-                                    <span>{currentPlan.transport}</span>
+                                    <MapPin size={13} />
+                                    <span>{currentPlan.location}</span>
                                 </div>
                                 <div className="metric-pill">
-                                    <Ticket size={13} />
-                                    <span>{currentPlan.ticket}</span>
+                                    <Sparkles size={13} />
+                                    <span>UNESCO World Heritage</span>
                                 </div>
                             </div>
                         </div>
@@ -1019,7 +1020,7 @@ export default function PlanClient() {
                     </section>
 
                     {/* ══════════════════════════════════════════════════════════
-                        COMPACT, DENSE 2-PAGE HIGH-RESOLUTION A4 PDF GUIDEBOOK
+                        DENSE, FULLY-FILLED 2-PAGE HIGH-RESOLUTION A4 PDF GUIDEBOOK
                         (Zero empty space, 100% in English, No Government claims)
                     ══════════════════════════════════════════════════════════ */}
                     <div 
@@ -1038,71 +1039,97 @@ export default function PlanClient() {
                         }}
                     >
                         {/* ──────────────────────────────────────────────────────────
-                            PAGE 1: HERITAGE OVERVIEW, KEY LANDMARKS & PART 1 SCHEDULE
+                            PAGE 1: HERITAGE OVERVIEW, KEY LANDMARKS & TIMED SCHEDULE
                         ────────────────────────────────────────────────────────── */}
-                        <div className="pdf-a4-page" style={{ width: '794px', height: '1122px', backgroundColor: '#FFFFFF', padding: '26px 32px', boxSizing: 'border-box', position: 'relative', overflow: 'hidden', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', border: '1px solid #E7D7B5' }}>
+                        <div 
+                            className="pdf-a4-page" 
+                            style={{ 
+                                width: '794px', 
+                                height: '1122px', 
+                                maxHeight: '1122px',
+                                backgroundColor: '#FFFFFF', 
+                                padding: '24px 28px', 
+                                boxSizing: 'border-box', 
+                                position: 'relative', 
+                                overflow: 'hidden', 
+                                display: 'flex', 
+                                flexDirection: 'column', 
+                                justifyContent: 'space-between',
+                                border: '1px solid #E7D7B5' 
+                            }}
+                        >
                             {/* TOP GOLD ACCENT BAR */}
                             <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '6px', background: 'linear-gradient(90deg, #800000 0%, #D4AF37 50%, #800000 100%)' }} />
 
+                            {/* BRAND HEADER */}
+                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '2px solid #D4AF37', paddingBottom: '8px' }}>
+                                <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                                    <img 
+                                        src="/logo.jpg" 
+                                        alt="Chittorgarh Tourism" 
+                                        style={{ width: '48px', height: '48px', borderRadius: '50%', border: '2px solid #D4AF37', objectFit: 'cover' }} 
+                                        crossOrigin="anonymous"
+                                    />
+                                    <div>
+                                        <div style={{ fontSize: '20px', fontWeight: '900', color: '#800000', letterSpacing: '0.04em', textTransform: 'uppercase' }}>
+                                            Chittorgarh Tourism
+                                        </div>
+                                        <div style={{ fontSize: '10px', color: '#78716C', fontWeight: '700', letterSpacing: '0.08em', textTransform: 'uppercase' }}>
+                                            Heritage Travel Guide & Itinerary • UNESCO World Heritage Site
+                                        </div>
+                                    </div>
+                                </div>
+                                <div style={{ textAlign: 'right' }}>
+                                    <div style={{ backgroundColor: '#FAF5EA', border: '1.5px solid #D4AF37', borderRadius: '20px', padding: '5px 14px', display: 'inline-block' }}>
+                                        <span style={{ fontSize: '11px', fontWeight: '900', color: '#800000', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                                            {activeTab === 'half' ? 'Half Day Circuit (4–5 Hours)' : 'Full Day Grand Tour (8–9 Hours)'}
+                                        </span>
+                                    </div>
+                                    <div style={{ fontSize: '9px', color: '#78716C', marginTop: '2px', fontWeight: '600' }}>
+                                        www.chittorgarh-tourism.in
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* TRIP METRICS DOSSIER BAR */}
+                            <div style={{ backgroundColor: '#1C1917', borderRadius: '10px', padding: '10px 18px', border: '1px solid rgba(212, 175, 55, 0.5)', color: '#FFFFFF', display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '11px' }}>
+                                <div>
+                                    <span style={{ color: '#A8A29E' }}>Planned Visit:</span>{' '}
+                                    <strong style={{ color: '#F5E6AB' }}>{formData.date || 'Flexible Schedule'}</strong>
+                                </div>
+                                <div>
+                                    <span style={{ color: '#A8A29E' }}>Tour Scope:</span>{' '}
+                                    <strong style={{ color: '#FFFFFF' }}>{currentPlan.duration}</strong>
+                                </div>
+                                <div>
+                                    <span style={{ color: '#A8A29E' }}>Citadel Area:</span>{' '}
+                                    <strong style={{ color: '#FFFFFF' }}>Chittorgarh Fort Complex</strong>
+                                </div>
+                                <div>
+                                    <span style={{ color: '#A8A29E' }}>Site Status:</span>{' '}
+                                    <strong style={{ color: '#F5E6AB' }}>UNESCO World Heritage</strong>
+                                </div>
+                            </div>
+
+                            {/* CITADEL LEGACY OVERVIEW BANNER */}
+                            <div style={{ backgroundColor: '#FAF5EA', borderLeft: '4px solid #800000', border: '1px solid #E7D7B5', borderLeftWidth: '4px', borderRadius: '8px', padding: '10px 14px' }}>
+                                <div style={{ fontSize: '11.5px', fontWeight: '800', color: '#800000', textTransform: 'uppercase', marginBottom: '3px' }}>
+                                    🏰 The Greatest Citadel of Mewar Sovereignty
+                                </div>
+                                <div style={{ fontSize: '10px', color: '#44403C', lineHeight: '1.45' }}>
+                                    Spanning over <strong>700 acres atop a 180-meter cliff</strong>, Chittorgarh Fort is Asia's grandest living fortress. Revered across 13 centuries of Rajputana valor and chivalry, it features 84 sacred water bodies, 7 fortified gateways, and magnificent medieval palaces.
+                                </div>
+                            </div>
+
+                            {/* 4 KEY CITADEL MONUMENTS (2x2 GRID) */}
                             <div>
-                                {/* BRAND HEADER */}
-                                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '2px solid #D4AF37', paddingBottom: '10px', marginBottom: '14px' }}>
-                                    <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                                        <img 
-                                            src="/logo.jpg" 
-                                            alt="Chittorgarh Tourism" 
-                                            style={{ width: '44px', height: '44px', borderRadius: '50%', border: '2px solid #D4AF37', objectFit: 'cover' }} 
-                                            crossOrigin="anonymous"
-                                        />
-                                        <div>
-                                            <div style={{ fontSize: '18px', fontWeight: '800', color: '#800000', letterSpacing: '0.04em', textTransform: 'uppercase' }}>
-                                                Chittorgarh Tourism
-                                            </div>
-                                            <div style={{ fontSize: '9.5px', color: '#78716C', fontWeight: '700', letterSpacing: '0.08em', textTransform: 'uppercase' }}>
-                                                Heritage Travel Guide & Itinerary • UNESCO World Heritage Site
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div style={{ textAlign: 'right' }}>
-                                        <div style={{ backgroundColor: '#FAF5EA', border: '1px solid #D4AF37', borderRadius: '16px', padding: '4px 12px', display: 'inline-block' }}>
-                                            <span style={{ fontSize: '10.5px', fontWeight: '800', color: '#800000', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-                                                {activeTab === 'half' ? 'Half Day Circuit' : 'Full Day Grand Tour'}
-                                            </span>
-                                        </div>
-                                        <div style={{ fontSize: '8.5px', color: '#78716C', marginTop: '2px' }}>
-                                            www.chittorgarh-tourism.in
-                                        </div>
-                                    </div>
+                                <div style={{ fontSize: '11.5px', fontWeight: '900', color: '#800000', letterSpacing: '0.06em', textTransform: 'uppercase', marginBottom: '8px' }}>
+                                    🏛️ Must-Visit Architectural Highlights
                                 </div>
-
-                                {/* TRAVEL DOSSIER & METRICS BAR */}
-                                <div style={{ backgroundColor: '#1C1917', borderRadius: '10px', padding: '10px 16px', marginBottom: '14px', border: '1px solid rgba(212, 175, 55, 0.45)', color: '#FFFFFF', display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '10.5px' }}>
-                                    <div>
-                                        <span style={{ color: '#A8A29E' }}>Planned Date:</span>{' '}
-                                        <strong style={{ color: '#F5E6AB' }}>{formData.date || 'Flexible'}</strong>
-                                    </div>
-                                    <div>
-                                        <span style={{ color: '#A8A29E' }}>Duration:</span>{' '}
-                                        <strong style={{ color: '#FFFFFF' }}>{currentPlan.duration}</strong>
-                                    </div>
-                                    <div>
-                                        <span style={{ color: '#A8A29E' }}>Transit:</span>{' '}
-                                        <strong style={{ color: '#FFFFFF' }}>{currentPlan.transport}</strong>
-                                    </div>
-                                    <div>
-                                        <span style={{ color: '#A8A29E' }}>Pass:</span>{' '}
-                                        <strong style={{ color: '#FFFFFF' }}>Single ASI Ticket Valid</strong>
-                                    </div>
-                                </div>
-
-                                {/* 4 KEY LANDMARK PHOTO CARDS (2x2 GRID) */}
-                                <div style={{ fontSize: '11px', fontWeight: '800', color: '#800000', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '8px' }}>
-                                    🏛️ Must-Visit Citadel Architectural Highlights
-                                </div>
-                                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '10px', marginBottom: '14px' }}>
+                                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '10px' }}>
                                     {/* CARD 1: VIJAY STAMBHA */}
-                                    <div style={{ border: '1px solid #E7E5E4', borderRadius: '8px', overflow: 'hidden', backgroundColor: '#FAFAF9', display: 'flex', gap: '10px', padding: '6px' }}>
-                                        <div style={{ width: '90px', height: '80px', borderRadius: '6px', overflow: 'hidden', flexShrink: 0, backgroundColor: '#E7E5E4' }}>
+                                    <div style={{ border: '1px solid #E7E5E4', borderRadius: '8px', overflow: 'hidden', backgroundColor: '#FAFAF9', display: 'flex', gap: '10px', padding: '8px' }}>
+                                        <div style={{ width: '100px', height: '90px', borderRadius: '6px', overflow: 'hidden', flexShrink: 0, backgroundColor: '#E7E5E4' }}>
                                             <img 
                                                 src="/Each page Pics/Fort pics/Vijay Stambh.jpg" 
                                                 alt="Vijay Stambha" 
@@ -1111,18 +1138,18 @@ export default function PlanClient() {
                                             />
                                         </div>
                                         <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-                                            <div style={{ fontSize: '11px', fontWeight: '800', color: '#800000', marginBottom: '2px' }}>
+                                            <div style={{ fontSize: '11.5px', fontWeight: '800', color: '#800000', marginBottom: '3px' }}>
                                                 Vijay Stambha (Tower of Victory)
                                             </div>
-                                            <div style={{ fontSize: '9px', color: '#57534E', lineHeight: '1.35' }}>
-                                                9-storey triumph tower (1448 AD) built by Maharana Kumbha. Adorned with intricate Hindu deity carvings across 157 steps.
+                                            <div style={{ fontSize: '9.5px', color: '#57534E', lineHeight: '1.4' }}>
+                                                9-storey victory tower (1440–1448 AD) built by Maharana Kumbha to commemorate triumph over Malwa & Gujarat. Adorned with intricate Hindu deity sculptures across 157 steps.
                                             </div>
                                         </div>
                                     </div>
 
                                     {/* CARD 2: PADMINI PALACE */}
-                                    <div style={{ border: '1px solid #E7E5E4', borderRadius: '8px', overflow: 'hidden', backgroundColor: '#FAFAF9', display: 'flex', gap: '10px', padding: '6px' }}>
-                                        <div style={{ width: '90px', height: '80px', borderRadius: '6px', overflow: 'hidden', flexShrink: 0, backgroundColor: '#E7E5E4' }}>
+                                    <div style={{ border: '1px solid #E7E5E4', borderRadius: '8px', overflow: 'hidden', backgroundColor: '#FAFAF9', display: 'flex', gap: '10px', padding: '8px' }}>
+                                        <div style={{ width: '100px', height: '90px', borderRadius: '6px', overflow: 'hidden', flexShrink: 0, backgroundColor: '#E7E5E4' }}>
                                             <img 
                                                 src="/Each page Pics/Fort pics/Padmini Palace.jpg" 
                                                 alt="Rani Padmini Palace" 
@@ -1131,18 +1158,18 @@ export default function PlanClient() {
                                             />
                                         </div>
                                         <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-                                            <div style={{ fontSize: '11px', fontWeight: '800', color: '#800000', marginBottom: '2px' }}>
+                                            <div style={{ fontSize: '11.5px', fontWeight: '800', color: '#800000', marginBottom: '3px' }}>
                                                 Rani Padmini's Water Palace
                                             </div>
-                                            <div style={{ fontSize: '9px', color: '#57534E', lineHeight: '1.35' }}>
-                                                Pavilion floating amidst lotus waters. Renowned for historic mirror reflections and the legendary defense of 1303 AD.
+                                            <div style={{ fontSize: '9.5px', color: '#57534E', lineHeight: '1.4' }}>
+                                                Elegant structure surrounded by a lotus pool. Historic site of the legendary defense led by Queen Padmini during the historic 1303 AD siege.
                                             </div>
                                         </div>
                                     </div>
 
                                     {/* CARD 3: GAUMUKH RESERVOIR */}
-                                    <div style={{ border: '1px solid #E7E5E4', borderRadius: '8px', overflow: 'hidden', backgroundColor: '#FAFAF9', display: 'flex', gap: '10px', padding: '6px' }}>
-                                        <div style={{ width: '90px', height: '80px', borderRadius: '6px', overflow: 'hidden', flexShrink: 0, backgroundColor: '#E7E5E4' }}>
+                                    <div style={{ border: '1px solid #E7E5E4', borderRadius: '8px', overflow: 'hidden', backgroundColor: '#FAFAF9', display: 'flex', gap: '10px', padding: '8px' }}>
+                                        <div style={{ width: '100px', height: '90px', borderRadius: '6px', overflow: 'hidden', flexShrink: 0, backgroundColor: '#E7E5E4' }}>
                                             <img 
                                                 src="/Each page Pics/Fort pics/Gaumukh Reservoir.jpg" 
                                                 alt="Gaumukh Reservoir" 
@@ -1151,18 +1178,18 @@ export default function PlanClient() {
                                             />
                                         </div>
                                         <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-                                            <div style={{ fontSize: '11px', fontWeight: '800', color: '#800000', marginBottom: '2px' }}>
+                                            <div style={{ fontSize: '11.5px', fontWeight: '800', color: '#800000', marginBottom: '3px' }}>
                                                 Gaumukh Sacred Reservoir
                                             </div>
-                                            <div style={{ fontSize: '9px', color: '#57534E', lineHeight: '1.35' }}>
-                                                Sacred perennial cliff-side spring that sustained the citadel during lengthy sieges through a carved stone cow's mouth.
+                                            <div style={{ fontSize: '9.5px', color: '#57534E', lineHeight: '1.4' }}>
+                                                Sacred perennial cliff-side spring flowing from a carved stone cow's mouth. Primary water lifeline of Chittorgarh Fort for over a thousand years.
                                             </div>
                                         </div>
                                     </div>
 
                                     {/* CARD 4: RANA KUMBHA PALACE */}
-                                    <div style={{ border: '1px solid #E7E5E4', borderRadius: '8px', overflow: 'hidden', backgroundColor: '#FAFAF9', display: 'flex', gap: '10px', padding: '6px' }}>
-                                        <div style={{ width: '90px', height: '80px', borderRadius: '6px', overflow: 'hidden', flexShrink: 0, backgroundColor: '#E7E5E4' }}>
+                                    <div style={{ border: '1px solid #E7E5E4', borderRadius: '8px', overflow: 'hidden', backgroundColor: '#FAFAF9', display: 'flex', gap: '10px', padding: '8px' }}>
+                                        <div style={{ width: '100px', height: '90px', borderRadius: '6px', overflow: 'hidden', flexShrink: 0, backgroundColor: '#E7E5E4' }}>
                                             <img 
                                                 src="/Each page Pics/Fort pics/Rana Kumbha Palace.jpg" 
                                                 alt="Rana Kumbha Palace" 
@@ -1171,46 +1198,48 @@ export default function PlanClient() {
                                             />
                                         </div>
                                         <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-                                            <div style={{ fontSize: '11px', fontWeight: '800', color: '#800000', marginBottom: '2px' }}>
-                                                Rana Kumbha Palace & Vaults
+                                            <div style={{ fontSize: '11.5px', fontWeight: '800', color: '#800000', marginBottom: '3px' }}>
+                                                Rana Kumbha Palace Ruins
                                             </div>
-                                            <div style={{ fontSize: '9px', color: '#57534E', lineHeight: '1.35' }}>
-                                                Grandest historic royal ruins, birthplace of Maharana Udai Singh, featuring underground vaults and elephant stables.
+                                            <div style={{ fontSize: '9.5px', color: '#57534E', lineHeight: '1.4' }}>
+                                                Grandest historic royal ruins where Maharana Kumbha resided. Steeped in history, featuring underground vaults, elephant stables, and royal quarters.
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+                            </div>
 
-                                {/* PART 1 OF TIMED ITINERARY */}
-                                <div style={{ fontSize: '11px', fontWeight: '800', color: '#800000', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '8px' }}>
-                                    ⏱️ {activeTab === 'half' ? 'Express Half Day Circuit Route' : 'Morning Master Itinerary (Stops 1 to 4)'}
+                            {/* TIMED SCHEDULE PART 1 (MORNING CIRCUIT) */}
+                            <div>
+                                <div style={{ fontSize: '11.5px', fontWeight: '900', color: '#800000', letterSpacing: '0.06em', textTransform: 'uppercase', marginBottom: '8px' }}>
+                                    ⏱️ {activeTab === 'half' ? 'Express Half Day Itinerary (Stops 1 to 5)' : 'Morning Master Itinerary (Stops 1 to 4)'}
                                 </div>
-                                <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', marginBottom: '10px' }}>
+                                <div style={{ display: 'flex', flexDirection: 'column', gap: '7px' }}>
                                     {(activeTab === 'half' 
                                         ? currentPlan.schedule 
                                         : currentPlan.schedule.slice(0, 4)
                                     ).map((item, idx) => (
-                                        <div key={idx} style={{ display: 'flex', gap: '10px', padding: '7px 10px', backgroundColor: idx % 2 === 0 ? '#FAF8F5' : '#FFFFFF', border: '1px solid #E7E5E4', borderRadius: '6px', alignItems: 'center' }}>
-                                            <div style={{ backgroundColor: '#800000', color: '#FFFFFF', padding: '3px 8px', borderRadius: '4px', fontSize: '9px', fontWeight: '800', whiteSpace: 'nowrap', minWidth: '65px', textAlign: 'center' }}>
+                                        <div key={idx} style={{ display: 'flex', gap: '12px', padding: '9px 12px', backgroundColor: idx % 2 === 0 ? '#FAF8F5' : '#FFFFFF', border: '1px solid #E7E5E4', borderRadius: '8px', alignItems: 'center' }}>
+                                            <div style={{ backgroundColor: '#800000', color: '#FFFFFF', padding: '5px 10px', borderRadius: '6px', fontSize: '10px', fontWeight: '900', whiteSpace: 'nowrap', minWidth: '70px', textAlign: 'center' }}>
                                                 {item.time}
                                             </div>
                                             <div style={{ flex: 1 }}>
-                                                <div style={{ fontSize: '10.5px', fontWeight: '800', color: '#1C1917' }}>{item.title}</div>
-                                                <div style={{ fontSize: '9px', color: '#57534E', lineHeight: '1.3' }}>{item.activity}</div>
+                                                <div style={{ fontSize: '11px', fontWeight: '800', color: '#1C1917', marginBottom: '2px' }}>{item.title}</div>
+                                                <div style={{ fontSize: '9.5px', color: '#57534E', lineHeight: '1.35' }}>{item.activity}</div>
                                             </div>
                                         </div>
                                     ))}
                                 </div>
+                            </div>
 
-                                {/* FAST FACTS BANNER */}
-                                <div style={{ backgroundColor: '#FAF5EA', border: '1px solid #D4AF37', borderRadius: '6px', padding: '8px 12px', fontSize: '9.5px', color: '#44403C', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                    <span>🏰 <strong>Fort Statistics:</strong> 700 Acres • 180m Elevation • 84 Reservoirs • 7 Fortified Gates • 27 Historic Temples</span>
-                                    <span style={{ color: '#800000', fontWeight: '700' }}>ASI Protected</span>
-                                </div>
+                            {/* CITADEL FAST FACTS STRIP */}
+                            <div style={{ backgroundColor: '#FAF5EA', border: '1px solid #D4AF37', borderRadius: '8px', padding: '8px 14px', fontSize: '10px', color: '#44403C', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                <span>🏰 <strong>Fort Architecture:</strong> 700 Acres • 180m Elevation • 84 Water Reservoirs • 7 Defensive Pols • 27 Jain Temples</span>
+                                <span style={{ color: '#800000', fontWeight: '800' }}>ASI Protected Site</span>
                             </div>
 
                             {/* PAGE 1 FOOTER */}
-                            <div style={{ borderTop: '1px solid #E7E5E4', paddingTop: '8px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '8.5px', color: '#78716C' }}>
+                            <div style={{ borderTop: '1px solid #E7E5E4', paddingTop: '6px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '9px', color: '#78716C' }}>
                                 <div><strong>Chittorgarh Tourism Portal</strong> • Heritage Travel Guide</div>
                                 <div>Page 1 of 2</div>
                             </div>
@@ -1219,118 +1248,149 @@ export default function PlanClient() {
                         {/* ──────────────────────────────────────────────────────────
                             PAGE 2: AFTERNOON/EVENING ROUTE, MEWARI CUISINE & VISITOR DIRECTORY
                         ────────────────────────────────────────────────────────── */}
-                        <div className="pdf-a4-page" style={{ width: '794px', height: '1122px', backgroundColor: '#FFFFFF', padding: '26px 32px', boxSizing: 'border-box', position: 'relative', overflow: 'hidden', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', border: '1px solid #E7D7B5' }}>
+                        <div 
+                            className="pdf-a4-page" 
+                            style={{ 
+                                width: '794px', 
+                                height: '1122px', 
+                                maxHeight: '1122px',
+                                backgroundColor: '#FFFFFF', 
+                                padding: '24px 28px', 
+                                boxSizing: 'border-box', 
+                                position: 'relative', 
+                                overflow: 'hidden', 
+                                display: 'flex', 
+                                flexDirection: 'column', 
+                                justifyContent: 'space-between',
+                                border: '1px solid #E7D7B5' 
+                            }}
+                        >
                             {/* TOP GOLD ACCENT BAR */}
                             <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '6px', background: 'linear-gradient(90deg, #800000 0%, #D4AF37 50%, #800000 100%)' }} />
 
-                            <div>
-                                {/* PAGE 2 TOP HEADER */}
-                                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '2px solid #800000', paddingBottom: '8px', marginBottom: '12px' }}>
-                                    <div>
-                                        <div style={{ fontSize: '9px', color: '#D4AF37', fontWeight: '800', letterSpacing: '0.1em', textTransform: 'uppercase' }}>
-                                            {activeTab === 'half' ? 'PART 2 • EXPERIENCES & VISITOR HANDBOOK' : 'PART 2 • AFTERNOON ROUTE & DIRECTORY'}
-                                        </div>
-                                        <div style={{ fontSize: '16px', fontWeight: '800', color: '#800000', textTransform: 'uppercase' }}>
-                                            {activeTab === 'half' ? 'Cuisines, Artisan Markets & Guidelines' : 'Afternoon Schedule, Cuisines & Visitor Directory'}
-                                        </div>
+                            {/* PAGE 2 HEADER */}
+                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '2px solid #800000', paddingBottom: '8px' }}>
+                                <div>
+                                    <div style={{ fontSize: '9.5px', color: '#D4AF37', fontWeight: '900', letterSpacing: '0.1em', textTransform: 'uppercase' }}>
+                                        {activeTab === 'half' ? 'PART 2 • CULTURAL IMMERSION & VISITOR HANDBOOK' : 'PART 2 • AFTERNOON ROUTE & VISITOR DIRECTORY'}
                                     </div>
-                                    <div style={{ fontSize: '9.5px', color: '#78716C', fontWeight: '600' }}>Chittorgarh Tourism Guide</div>
+                                    <div style={{ fontSize: '18px', fontWeight: '900', color: '#800000', textTransform: 'uppercase' }}>
+                                        {activeTab === 'half' ? 'Cuisines, Artisan Crafts & Guidelines' : 'Afternoon Schedule, Cuisines & Visitor Directory'}
+                                    </div>
                                 </div>
+                                <div style={{ fontSize: '10px', color: '#78716C', fontWeight: '700' }}>Chittorgarh Tourism Guide</div>
+                            </div>
 
-                                {/* TIMED SCHEDULE / AFTERNOON STOPS (IF FULL DAY) */}
-                                {activeTab === 'full' && (
-                                    <>
-                                        <div style={{ fontSize: '11px', fontWeight: '800', color: '#800000', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '8px' }}>
-                                            ⏱️ Afternoon & Evening Schedule (Stops 5 to 8)
-                                        </div>
-                                        <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', marginBottom: '14px' }}>
-                                            {currentPlan.schedule.slice(4).map((item, idx) => (
-                                                <div key={idx} style={{ display: 'flex', gap: '10px', padding: '7px 10px', backgroundColor: idx % 2 === 0 ? '#FAF8F5' : '#FFFFFF', border: '1px solid #E7E5E4', borderRadius: '6px', alignItems: 'center' }}>
-                                                    <div style={{ backgroundColor: '#800000', color: '#FFFFFF', padding: '3px 8px', borderRadius: '4px', fontSize: '9px', fontWeight: '800', whiteSpace: 'nowrap', minWidth: '65px', textAlign: 'center' }}>
-                                                        {item.time}
-                                                    </div>
-                                                    <div style={{ flex: 1 }}>
-                                                        <div style={{ fontSize: '10.5px', fontWeight: '800', color: '#1C1917' }}>{item.title}</div>
-                                                        <div style={{ fontSize: '9px', color: '#57534E', lineHeight: '1.3' }}>{item.activity}</div>
-                                                    </div>
+                            {/* AFTERNOON TIMED SCHEDULE (FOR FULL DAY) OR EXPRESS ADVICE (FOR HALF DAY) */}
+                            {activeTab === 'full' ? (
+                                <div>
+                                    <div style={{ fontSize: '11.5px', fontWeight: '900', color: '#800000', letterSpacing: '0.06em', textTransform: 'uppercase', marginBottom: '8px' }}>
+                                        ⏱️ Afternoon & Evening Schedule (Stops 5 to 8)
+                                    </div>
+                                    <div style={{ display: 'flex', flexDirection: 'column', gap: '7px' }}>
+                                        {currentPlan.schedule.slice(4).map((item, idx) => (
+                                            <div key={idx} style={{ display: 'flex', gap: '12px', padding: '9px 12px', backgroundColor: idx % 2 === 0 ? '#FAF8F5' : '#FFFFFF', border: '1px solid #E7E5E4', borderRadius: '8px', alignItems: 'center' }}>
+                                                <div style={{ backgroundColor: '#800000', color: '#FFFFFF', padding: '5px 10px', borderRadius: '6px', fontSize: '10px', fontWeight: '900', whiteSpace: 'nowrap', minWidth: '70px', textAlign: 'center' }}>
+                                                    {item.time}
                                                 </div>
-                                            ))}
-                                        </div>
-                                    </>
-                                )}
-
-                                {activeTab === 'half' && (
-                                    <div style={{ backgroundColor: '#FAF5EA', border: '1px solid #D4AF37', borderRadius: '8px', padding: '12px 14px', marginBottom: '14px' }}>
-                                        <div style={{ fontSize: '11px', fontWeight: '800', color: '#800000', textTransform: 'uppercase', marginBottom: '4px' }}>
-                                            ⚡ Express Tour Recommendation
-                                        </div>
-                                        <div style={{ fontSize: '9.5px', color: '#44403C', lineHeight: '1.45' }}>
-                                            This half-day route is designed for maximum efficiency. If starting in the morning, reach the fort by 09:00 AM. For afternoon visitors, start by 02:00 PM to catch the golden sunset from Gaumukh and Kalika Mata before gates close at 06:00 PM.
-                                        </div>
-                                    </div>
-                                )}
-
-                                {/* TWO COLUMNS: CUISINES & ARTISAN SHOPPING */}
-                                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '10px', marginBottom: '12px' }}>
-                                    {/* BOX 1: MEWARI CUISINE */}
-                                    <div style={{ backgroundColor: '#FAF5EA', border: '1px solid #E7D7B5', borderRadius: '8px', padding: '10px 12px' }}>
-                                        <div style={{ fontSize: '10.5px', fontWeight: '800', color: '#800000', textTransform: 'uppercase', marginBottom: '6px' }}>
-                                            🍲 Must-Try Traditional Flavors
-                                        </div>
-                                        <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', fontSize: '9.5px', color: '#44403C' }}>
-                                            <div><strong>• Dal Baati Churma:</strong> Crispy baked dough balls dipped in pure desi ghee with sweet churma.</div>
-                                            <div><strong>• Ker Sangri:</strong> Desert wild berries and beans with traditional Mewari spices.</div>
-                                            <div><strong>• Gatte Ki Sabzi:</strong> Gram-flour dumplings simmered in spiced curd gravy.</div>
-                                            <div><strong>• Pyaaz Kachori & Ghevar:</strong> Crisp morning snack and saffron sweets.</div>
-                                        </div>
-                                    </div>
-
-                                    {/* BOX 2: SHOPPING & SOUVENIRS */}
-                                    <div style={{ border: '1px solid #E7E5E4', borderRadius: '8px', padding: '10px 12px', backgroundColor: '#FAFAF9' }}>
-                                        <div style={{ fontSize: '10.5px', fontWeight: '800', color: '#800000', textTransform: 'uppercase', marginBottom: '6px' }}>
-                                            🛍️ Authentic Artisan Souvenirs
-                                        </div>
-                                        <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', fontSize: '9.5px', color: '#44403C' }}>
-                                            <div><strong>• Akola Dabu Hand Block Prints:</strong> 500-year-old mud-resist natural indigo print fabrics.</div>
-                                            <div><strong>• Wooden Toys & Carvings:</strong> Handcrafted wooden shrines, toy horses and lacquered decor.</div>
-                                            <div><strong>• Pure Leather Mojaris:</strong> Hand-embroidered traditional footwear with zari work.</div>
-                                            <div><strong>• Sadar Bazaar Shopping:</strong> Spices, textiles, and brass metal crafts.</div>
-                                        </div>
+                                                <div style={{ flex: 1 }}>
+                                                    <div style={{ fontSize: '11px', fontWeight: '800', color: '#1C1917', marginBottom: '2px' }}>{item.title}</div>
+                                                    <div style={{ fontSize: '9.5px', color: '#57534E', lineHeight: '1.35' }}>{item.activity}</div>
+                                                </div>
+                                            </div>
+                                        ))}
                                     </div>
                                 </div>
-
-                                {/* ESSENTIAL VISITOR TIMINGS & ASI TICKETING */}
-                                <div style={{ backgroundColor: '#FAF8F5', border: '1px solid #D4AF37', borderRadius: '8px', padding: '10px 14px', marginBottom: '12px', fontSize: '9.5px', color: '#44403C' }}>
-                                    <div style={{ fontSize: '10.5px', fontWeight: '800', color: '#800000', textTransform: 'uppercase', marginBottom: '4px' }}>
-                                        🎟️ Archaeological Survey of India (ASI) Timings & Access
+                            ) : (
+                                <div style={{ backgroundColor: '#FAF5EA', border: '1px solid #D4AF37', borderRadius: '8px', padding: '12px 16px' }}>
+                                    <div style={{ fontSize: '11.5px', fontWeight: '800', color: '#800000', textTransform: 'uppercase', marginBottom: '4px' }}>
+                                        ⚡ Express Half-Day Exploration Strategy
                                     </div>
-                                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '6px' }}>
-                                        <div>• <strong>Fort Hours:</strong> 09:00 AM – 06:00 PM (Open all 365 days).</div>
-                                        <div>• <strong>Sound & Light Show:</strong> 07:00 PM (Hindi) | 08:00 PM (English).</div>
-                                        <div>• <strong>Advance E-Tickets:</strong> eticket.webfront.in/asi/quick/chf</div>
-                                        <div>• <strong>Recommended Stay:</strong> RTDC Hotel Panna (Tel: 01472-241089)</div>
+                                    <div style={{ fontSize: '10px', color: '#44403C', lineHeight: '1.5' }}>
+                                        • <strong>Morning Circuit (Recommended):</strong> Arrive at the fort entrance by 08:30 AM to tour Vijay Stambh and Rana Kumbha Palace during pleasant morning hours.<br />
+                                        • <strong>Afternoon Circuit:</strong> Arrive by 02:00 PM to explore palace grounds and watch the golden sunset over the Aravalli hills from Gaumukh Reservoir and Kalika Mata bastions.<br />
+                                        • <strong>Circuit Flow:</strong> Follow the well-marked fort route connecting Padan Pol, Rana Kumbha Palace, Victory Tower, Gaumukh Reservoir, and Padmini Palace.
                                     </div>
                                 </div>
+                            )}
 
-                                {/* 24/7 HELPLINE DIRECTORY */}
-                                <div style={{ backgroundColor: '#1C1917', color: '#FFFFFF', borderRadius: '8px', padding: '12px 16px', border: '1px solid rgba(212, 175, 55, 0.4)' }}>
-                                    <div style={{ fontSize: '10.5px', fontWeight: '800', color: '#D4AF37', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '8px', borderBottom: '1px solid rgba(212, 175, 55, 0.25)', paddingBottom: '4px' }}>
-                                        🚨 Emergency & Tourist Helpline Directory
+                            {/* ROYAL MEWARI CUISINES (2x2 GRID) */}
+                            <div>
+                                <div style={{ fontSize: '11.5px', fontWeight: '900', color: '#800000', textTransform: 'uppercase', marginBottom: '6px' }}>
+                                    🍲 Must-Try Traditional Rajasthani Delicacies
+                                </div>
+                                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '8px' }}>
+                                    <div style={{ backgroundColor: '#FAF5EA', border: '1px solid #E7D7B5', borderRadius: '8px', padding: '8px 12px' }}>
+                                        <div style={{ fontSize: '10.5px', fontWeight: '800', color: '#800000', marginBottom: '2px' }}>• Dal Baati Churma</div>
+                                        <div style={{ fontSize: '9.5px', color: '#44403C', lineHeight: '1.35' }}>Crispy baked dough balls dipped in pure desi ghee, served with 5-dal curry and sweet jaggery churma.</div>
                                     </div>
-                                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '6px 12px', fontSize: '9.5px' }}>
-                                        <div>• <strong>Police:</strong> <span style={{ color: '#F5E6AB' }}>112</span></div>
-                                        <div>• <strong>Fort Police:</strong> <span style={{ color: '#F5E6AB' }}>01472-240088</span></div>
-                                        <div>• <strong>Tourist Reception:</strong> <span style={{ color: '#F5E6AB' }}>01472-241089</span></div>
-                                        <div>• <strong>Ambulance:</strong> <span style={{ color: '#F5E6AB' }}>108</span></div>
-                                        <div>• <strong>District Hospital:</strong> <span style={{ color: '#F5E6AB' }}>01472-250555</span></div>
-                                        <div>• <strong>Railway Enquiry:</strong> <span style={{ color: '#F5E6AB' }}>139</span></div>
+                                    <div style={{ backgroundColor: '#FAF5EA', border: '1px solid #E7D7B5', borderRadius: '8px', padding: '8px 12px' }}>
+                                        <div style={{ fontSize: '10.5px', fontWeight: '800', color: '#800000', marginBottom: '2px' }}>• Ker Sangri</div>
+                                        <div style={{ fontSize: '9.5px', color: '#44403C', lineHeight: '1.35' }}>Authentic desert wild beans and dried berries cooked with traditional Mewari mustard and red spices.</div>
+                                    </div>
+                                    <div style={{ backgroundColor: '#FAF5EA', border: '1px solid #E7D7B5', borderRadius: '8px', padding: '8px 12px' }}>
+                                        <div style={{ fontSize: '10.5px', fontWeight: '800', color: '#800000', marginBottom: '2px' }}>• Gatte Ki Sabzi & Bajra Roti</div>
+                                        <div style={{ fontSize: '9.5px', color: '#44403C', lineHeight: '1.35' }}>Soft steamed gram-flour dumplings simmered in rich spiced curd gravy with hot millet bread.</div>
+                                    </div>
+                                    <div style={{ backgroundColor: '#FAF5EA', border: '1px solid #E7D7B5', borderRadius: '8px', padding: '8px 12px' }}>
+                                        <div style={{ fontSize: '10.5px', fontWeight: '800', color: '#800000', marginBottom: '2px' }}>• Pyaaz Kachori & Saffron Ghevar</div>
+                                        <div style={{ fontSize: '9.5px', color: '#44403C', lineHeight: '1.35' }}>Crisp morning snack paired with world-famous traditional honeycomb sweet drenched in saffron syrup.</div>
                                     </div>
                                 </div>
                             </div>
 
+                            {/* ARTISAN SHOPPING & SOUVENIRS */}
+                            <div>
+                                <div style={{ fontSize: '11.5px', fontWeight: '900', color: '#800000', textTransform: 'uppercase', marginBottom: '6px' }}>
+                                    🛍️ Authentic Handicrafts & Artisan Souvenirs
+                                </div>
+                                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '8px' }}>
+                                    <div style={{ border: '1px solid #E7E5E4', borderRadius: '8px', padding: '8px 10px', backgroundColor: '#FAFAF9' }}>
+                                        <div style={{ fontSize: '10.5px', fontWeight: '800', color: '#800000', marginBottom: '2px' }}>1. Akola Dabu Prints</div>
+                                        <div style={{ fontSize: '9px', color: '#57534E', lineHeight: '1.35' }}>500-year-old mud-resist natural indigo hand-block print fabrics from Akola artisans.</div>
+                                    </div>
+                                    <div style={{ border: '1px solid #E7E5E4', borderRadius: '8px', padding: '8px 10px', backgroundColor: '#FAFAF9' }}>
+                                        <div style={{ fontSize: '10.5px', fontWeight: '800', color: '#800000', marginBottom: '2px' }}>2. Wooden Toys & Shrines</div>
+                                        <div style={{ fontSize: '9px', color: '#57534E', lineHeight: '1.35' }}>Handcrafted carved wooden temples, painted toy horses, and lacquered home decor.</div>
+                                    </div>
+                                    <div style={{ border: '1px solid #E7E5E4', borderRadius: '8px', padding: '8px 10px', backgroundColor: '#FAFAF9' }}>
+                                        <div style={{ fontSize: '10.5px', fontWeight: '800', color: '#800000', marginBottom: '2px' }}>3. Pure Leather Mojaris</div>
+                                        <div style={{ fontSize: '9px', color: '#57534E', lineHeight: '1.35' }}>Hand-embroidered traditional Rajasthani footwear crafted with intricate zari threadwork.</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* ESSENTIAL VISITOR TIMINGS & ASI TICKETING */}
+                            <div style={{ backgroundColor: '#FAF8F5', border: '1px solid #D4AF37', borderRadius: '8px', padding: '9px 14px', fontSize: '10px', color: '#44403C' }}>
+                                <div style={{ fontSize: '10.5px', fontWeight: '800', color: '#800000', textTransform: 'uppercase', marginBottom: '4px' }}>
+                                    🎟️ Fort Timings & Visitor Information
+                                </div>
+                                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '6px' }}>
+                                    <div>• <strong>Fort Hours:</strong> 09:00 AM – 06:00 PM (Open all 365 days).</div>
+                                    <div>• <strong>Sound & Light Show:</strong> 07:00 PM (Hindi) | 08:00 PM (English).</div>
+                                    <div>• <strong>Advance E-Tickets:</strong> eticket.webfront.in/asi/quick/chf</div>
+                                    <div>• <strong>Recommended Stay:</strong> RTDC Hotel Panna (Tel: 01472-241089)</div>
+                                </div>
+                            </div>
+
+                            {/* 24/7 HELPLINE DIRECTORY */}
+                            <div style={{ backgroundColor: '#1C1917', color: '#FFFFFF', borderRadius: '8px', padding: '10px 16px', border: '1px solid rgba(212, 175, 55, 0.4)' }}>
+                                <div style={{ fontSize: '10.5px', fontWeight: '800', color: '#D4AF37', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '6px', borderBottom: '1px solid rgba(212, 175, 55, 0.25)', paddingBottom: '4px' }}>
+                                    🚨 Emergency & Tourist Helpline Directory
+                                </div>
+                                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '6px 12px', fontSize: '9.5px' }}>
+                                    <div>• <strong>Police:</strong> <span style={{ color: '#F5E6AB' }}>112</span></div>
+                                    <div>• <strong>Fort Police:</strong> <span style={{ color: '#F5E6AB' }}>01472-240088</span></div>
+                                    <div>• <strong>Tourist Reception:</strong> <span style={{ color: '#F5E6AB' }}>01472-241089</span></div>
+                                    <div>• <strong>Ambulance:</strong> <span style={{ color: '#F5E6AB' }}>108 / 102</span></div>
+                                    <div>• <strong>District Hospital:</strong> <span style={{ color: '#F5E6AB' }}>01472-250555</span></div>
+                                    <div>• <strong>Fire Helpline:</strong> <span style={{ color: '#F5E6AB' }}>101</span></div>
+                                </div>
+                            </div>
+
                             {/* PAGE 2 FOOTER */}
-                            <div style={{ borderTop: '1px solid #E7E5E4', paddingTop: '8px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '8.5px', color: '#78716C' }}>
-                                <div>Chittorgarh Tourism Portal • Planned Date: <strong>{formData.date || 'Flexible'}</strong> • Issued: {new Date().toLocaleDateString('en-GB')}</div>
+                            <div style={{ borderTop: '1px solid #E7E5E4', paddingTop: '6px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '9px', color: '#78716C' }}>
+                                <div>Chittorgarh Tourism Portal • Planned Date: <strong>{formData.date || 'Flexible'}</strong> • Verified Information</div>
                                 <div>Page 2 of 2</div>
                             </div>
                         </div>

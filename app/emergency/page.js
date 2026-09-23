@@ -128,6 +128,7 @@ export default function EmergencyPage() {
             const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
 
             pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
+            pdf.setPage(1);
             pdf.save("Chittorgarh-Emergency-Guide.pdf");
         } catch (err) {
             console.error("PDF generation failed:", err);
