@@ -218,7 +218,7 @@ export default function RootLayout({ children }) {
       <body className={`${playfair.variable} ${inter.variable} ${martel.variable}`}>
         {/* Google Analytics 4 (GA4) */}
         <Script
-          src="https://www.googletagmanager.com/gtag/js?id=G-9Z7PRTGVQC"
+          src="https://www.googletagmanager.com/gtag/js?id=G-CZV8Q3M555"
           strategy="afterInteractive"
         />
         <Script
@@ -229,7 +229,7 @@ export default function RootLayout({ children }) {
               window.dataLayer = window.dataLayer || [];
               function gtag(){dataLayer.push(arguments);}
               gtag('js', new Date());
-              gtag('config', 'G-9Z7PRTGVQC', {
+              gtag('config', 'G-CZV8Q3M555', {
                 page_path: window.location.pathname,
               });
             `,
