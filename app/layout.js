@@ -57,7 +57,6 @@ export const metadata = {
   ],
   authors: [{ name: "Chittorgarh Tourism" }],
   creator: "Chittorgarh Tourism",
-  manifest: "/manifest.json",
   robots: {
     index: false,
     follow: false,
@@ -72,15 +71,7 @@ export const metadata = {
     },
   },
   icons: {
-    apple: [
-      { url: "/icon-192.png", sizes: "192x192", type: "image/png" },
-      { url: "/icon-512.png", sizes: "512x512", type: "image/png" },
-    ],
-  },
-  appleWebApp: {
-    capable: true,
-    statusBarStyle: "black-translucent",
-    title: "Chittorgarh",
+    icon: "/favicon.ico",
   },
   openGraph: {
     title: "Chittorgarh Tourism — Complete Guide to Rajasthan's Greatest Fort",
@@ -118,11 +109,6 @@ export const viewport = {
   initialScale: 1,
   maximumScale: 1,
   themeColor: "#D4AF37",
-  appleWebApp: {
-    capable: true,
-    statusBarStyle: "black-translucent",
-    title: "Chittorgarh",
-  },
 };
 
 export default function RootLayout({ children }) {
@@ -201,25 +187,19 @@ export default function RootLayout({ children }) {
         <link rel="dns-prefetch" href={process.env.NEXT_PUBLIC_SITE_URL || "https://chittorgarh-tourism.in"} />
         <link rel="preconnect" href={process.env.NEXT_PUBLIC_SITE_URL || "https://chittorgarh-tourism.in"} crossOrigin="anonymous" />
         <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <meta name="mobile-web-app-capable" content="yes" />
-        <meta name="apple-mobile-web-app-capable" content="yes" />
-        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
         <meta name="theme-color" content="#D4AF37" />
         <script
           dangerouslySetInnerHTML={{
             __html: `
               window.addEventListener('beforeinstallprompt', (e) => {
-                console.log('PWA: beforeinstallprompt intercepted');
-                window.__pwaPrompt = e;
+                e.preventDefault();
+                return false;
               });
-              if ('serviceWorker' in navigator && ${process.env.NODE_ENV === 'production'}) {
-                window.addEventListener('load', () => {
-                  navigator.serviceWorker.register('/sw.js').then((reg) => {
-                    console.log('PWA: ServiceWorker registered with scope:', reg.scope);
-                  }).catch((err) => {
-                    console.error('PWA: ServiceWorker registration failed:', err);
-                  });
+              if (typeof window !== 'undefined' && 'serviceWorker' in navigator) {
+                navigator.serviceWorker.getRegistrations().then(function(registrations) {
+                  for(let registration of registrations) {
+                    registration.unregister();
+                  }
                 });
               }
             `,
