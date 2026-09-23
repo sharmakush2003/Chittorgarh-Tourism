@@ -1,13 +1,13 @@
 "use client";
 
 import { useLanguage } from "@/context/LanguageContext";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import Image from 'next/image';
 import Link from 'next/link';
 import { 
     Ticket, Calendar, Clock, MapPin, Sparkles, Send, CheckCircle2, 
     User, Mail, Compass, ArrowRight, ShieldCheck, Hotel, Car, Navigation, Star,
-    ChevronDown, ChevronUp
+    ChevronDown, ChevronUp, Download, FileText, Check, AlertCircle
 } from "lucide-react";
 import { triggerHaptic } from "@/lib/haptics";
 import { db } from "@/lib/firebase";
@@ -15,15 +15,14 @@ import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 
 export default function PlanClient() {
     const { t } = useLanguage();
-    const [activeTab, setActiveTab] = useState(1);
+    const [activeTab, setActiveTab] = useState("half");
     const [expandedSchedule, setExpandedSchedule] = useState(false);
+    const pdfTemplateRef = useRef(null);
 
-    // Form State
+    // Form State (Date only, minimum today)
+    const todayStr = new Date().toISOString().split('T')[0];
     const [formData, setFormData] = useState({
-        name: "",
-        email: "",
-        date: "",
-        interest: "1 Day Tour"
+        date: todayStr,
     });
     const [status, setStatus] = useState("idle");
 
@@ -32,130 +31,110 @@ export default function PlanClient() {
         setFormData(prev => ({ ...prev, [name]: value }));
     };
 
-    const handleSubmit = async (e) => {
+    const handleDownloadPDF = async (e) => {
         e.preventDefault();
-        triggerHaptic('light');
+        triggerHaptic('medium');
         setStatus("loading");
-
-        const controller = new AbortController();
-        const timeoutId = setTimeout(() => {
-            controller.abort();
-            setStatus("timeout");
-        }, 5000);
 
         if (db) {
             addDoc(collection(db, "itinerary_requests"), {
                 ...formData,
                 createdAt: serverTimestamp(),
-                itineraryType: `${activeTab} Day Itinerary`
-            }).catch(err => console.warn("Background Firestore write failed:", err));
+                itineraryType: activeTab === 'half' ? 'Half Day (4-5 Hours)' : 'Full Day (8-9 Hours)'
+            }).catch(err => console.warn("Background Firestore write skipped:", err));
         }
 
         try {
-            const response = await fetch('/api/send-itinerary', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                signal: controller.signal,
-                body: JSON.stringify({
-                    name: formData.name,
-                    email: formData.email,
-                    date: formData.date,
-                    interest: `${activeTab} Day Tour`,
-                    itinerary: itineraries[activeTab]
-                })
+            const { default: html2canvas } = await import("html2canvas");
+            const { jsPDF } = await import("jspdf");
+
+            const element = pdfTemplateRef.current;
+            if (!element) throw new Error("Template ref missing");
+
+            // Allow images to load and paint
+            await new Promise(resolve => setTimeout(resolve, 300));
+
+            const pages = element.querySelectorAll('.pdf-a4-page');
+            const pdf = new jsPDF({
+                orientation: "portrait",
+                unit: "mm",
+                format: "a4",
             });
 
-            clearTimeout(timeoutId);
+            for (let i = 0; i < pages.length; i++) {
+                if (i > 0) pdf.addPage();
+                const canvas = await html2canvas(pages[i], {
+                    scale: 2,
+                    useCORS: true,
+                    allowTaint: true,
+                    backgroundColor: "#FAF8F5",
+                    logging: false,
+                });
+                const imgData = canvas.toDataURL("image/jpeg", 0.95);
+                pdf.addImage(imgData, "JPEG", 0, 0, 210, 297);
+            }
 
-            if (controller.signal.aborted) return;
-            if (!response.ok) throw new Error("Server error");
+            const fileName = activeTab === "half" ? "Chittorgarh_Half_Day_Travel_Guide.pdf" : "Chittorgarh_Full_Day_Travel_Guide.pdf";
+            pdf.save(fileName);
 
             setStatus("success");
             triggerHaptic('success');
-            setFormData({ name: "", email: "", date: "", interest: "1 Day Tour" });
-            setTimeout(() => setStatus("idle"), 5000);
+            setTimeout(() => setStatus("idle"), 6000);
         } catch (error) {
-            clearTimeout(timeoutId);
-            if (error.name !== 'AbortError') {
-                console.error("Submission error:", error);
-                setStatus("error");
-            }
+            console.error("PDF generation error:", error);
+            setStatus("error");
         }
     };
 
     const itineraries = {
-        1: {
-            title: "1 Day: The Royal Heritage Tour (Premium)",
-            desc: "A meticulously curated journey through the heart of Rajputana valor.",
-            duration: "Full Day (8-10 Hours)",
+        half: {
+            title: "Half Day: Express Citadel Tour (4–5 Hours)",
+            desc: "An optimized, fast-track circuit covering the most iconic monuments of Chittorgarh Fort for travelers with limited time.",
+            duration: "4–5 Hours (Morning / Afternoon)",
+            transport: "Auto-Rickshaw / E-Rickshaw / Cab",
+            ticket: "Single ASI Ticket Valid",
+            highlights: ["Vijay Stambha (Victory Tower)", "Rani Padmini Water Palace", "Gaumukh Sacred Reservoir", "Rana Kumbha Palace Ruins", "Single ASI Ticket Valid"],
+            landmarks: [
+                { title: "Vijay Stambha", img: "/Each page Pics/Fort pics/Vijay Stambh.jpg", desc: "9-story tower celebrating Rajputana triumph and valour" },
+                { title: "Rani Padmini Palace", img: "/Each page Pics/Fort pics/Padmini Palace.jpg", desc: "Historic summer pavilion surrounded by lotus water pool" },
+                { title: "Gaumukh Reservoir", img: "/Each page Pics/Fort pics/Gaumukh Reservoir.jpg", desc: "Sacred perennial spring flowing through cow-mouth stone" },
+                { title: "Rana Kumbha Palace", img: "/Each page Pics/Fort pics/Rana Kumbha Palace.jpg", desc: "Grandest historic palace & legendary royal residence" }
+            ],
+            schedule: [
+                { time: "09:00 AM", title: "Ascent & Rana Kumbha Palace", activity: "Ascend the fort through historic gates and tour the legendary palace ruins, Zenana Mahal, and museum artifacts." },
+                { time: "10:15 AM", title: "Vijay Stambha & Kirti Stambh", activity: "Marvel at the 9-storey Victory Tower (1448 AD) and the 12th-century Jain Kirti Stambh dedicated to Lord Adinath." },
+                { time: "11:30 AM", title: "Rani Padmini's Water Palace", activity: "Explore the picturesque summer palace surrounded by lotus waters, famous for Queen Padmini's legendary defense." },
+                { time: "12:45 PM", title: "Gaumukh Sacred Reservoir & Kalika Mata", activity: "Witness the natural cliff spring flowing through a carved stone cow's mouth and visit the 8th-century Kalika Temple." },
+                { time: "01:30 PM", title: "Authentic Rajasthani Lunch", activity: "Relish an authentic Dal Baati Churma feast with pure desi ghee at local heritage restaurants near Fort Road." }
+            ]
+        },
+        full: {
+            title: "Full Day: Grand Heritage & Cultural Tour (8–9 Hours)",
+            desc: "A comprehensive, immersive journey through 1300 years of Rajputana valor, architecture, temples, sunset bastions, and the evening Sound & Light show.",
+            duration: "Full Day (8–9 Hours)",
             transport: "Private Cab / E-Rickshaw",
             ticket: "Single ASI Ticket Valid",
-            highlights: ["7 Massive Gates (Pols)", "Vijay Stambha (Climb 157 steps)", "Rani Padmini Palace", "Gaumukh Reservoir", "UNESCO World Heritage Site"],
+            highlights: ["7 Fortified Gates (Pols)", "Vijay Stambha (Climb 157 steps)", "Rani Padmini Water Palace", "Meera Bai Temple & Gaumukh Spring", "Spectacular Sound & Light Show"],
             landmarks: [
-                { title: "Chittorgarh Fort", img: "/hero_bg.png" },
-                { title: "Vijay Stambha", img: "/vijay_stambh.jpg" },
-                { title: "Padmini Palace", img: "/Each page Pics/Fort pics/Padmini Palace.jpg" },
-                { title: "Gaumukh Reservoir", img: "/gaumukh_reservoir.jpg" }
+                { title: "Vijay Stambha", img: "/Each page Pics/Fort pics/Vijay Stambh.jpg", desc: "9-story tower celebrating Rajputana triumph and valour" },
+                { title: "Rani Padmini Palace", img: "/Each page Pics/Fort pics/Padmini Palace.jpg", desc: "Historic summer pavilion surrounded by lotus water pool" },
+                { title: "Gaumukh Reservoir", img: "/Each page Pics/Fort pics/Gaumukh Reservoir.jpg", desc: "Sacred perennial spring flowing through cow-mouth stone" },
+                { title: "Rana Kumbha Palace", img: "/Each page Pics/Fort pics/Rana Kumbha Palace.jpg", desc: "Grandest historic palace & legendary royal residence" }
             ],
             schedule: [
-                { time: "08:30 AM", title: "Arrival & The Seven Gates", activity: "Begin your ascent driving through the seven historic pols (gates)." },
-                { time: "09:30 AM", title: "Rana Kumbha Palace & Museums", activity: "Explore the ruins of the grandest palace in the fort." },
-                { time: "11:00 AM", title: "Towers of Victory & Fame", activity: "Marvel at the Vijay Stambha (Tower of Victory)." },
-                { time: "12:30 PM", title: "Temples of Devotion", activity: "Visit the Kumbha Shyam Temple and the Meera Bai Temple." },
-                { time: "01:30 PM", title: "Royal Rajasthani Feast", activity: "Experience authentic Rajasthani thali." },
-                { time: "03:00 PM", title: "Rani Padmini's Palace", activity: "Visit the summer pavilion of Queen Padmini." },
-                { time: "04:30 PM", title: "Gaumukh Reservoir & Kalika Mata", activity: "Walk down to the Gaumukh Reservoir." },
-                { time: "07:00 PM", title: "Sound & Light Show", activity: "Conclude with the spectacular Sound & Light show." }
-            ]
-        },
-        2: {
-            title: "2 Days: Wildlife & Waterfalls Expedition",
-            desc: "Beyond the fort lies the untamed beauty of the Aravallis.",
-            duration: "2 Full Days (Fort + Wilderness)",
-            transport: "Car / Safari SUV",
-            ticket: "ASI Ticket + Sanctuary Permit",
-            highlights: ["Full Day 1 Fort Tour", "Bassi Wildlife Sanctuary Safari", "Orai Dam", "Menal Waterfalls", "Historic Temples"],
-            landmarks: [
-                { title: "Bassi Wildlife", img: "/images/bassi_path.jpg" },
-                { title: "Menal Waterfall", img: "/menal_waterfall.jpg" },
-                { title: "Sitamata Sanctuary", img: "/images/sitamata_1.jpg" }
-            ],
-            schedule: [
-                { time: "Day 1", title: "Complete Heritage Tour", activity: "Follow the comprehensive 1-Day Itinerary." },
-                { time: "Day 2 - 06:00 AM", title: "Sunrise Drive to Bassi", activity: "Depart early for Bassi Wildlife Sanctuary (25km)." },
-                { time: "Day 2 - 07:00 AM", title: "Jungle Safari", activity: "Board a Gypsy for a safari." },
-                { time: "Day 2 - 10:30 AM", title: "Bassi & Orai Dams", activity: "Visit the Bassi Dam and Orai Dam." },
-                { time: "Day 2 - 01:00 PM", title: "Picnic at Menal", activity: "Drive to Menal (approx 60km)." },
-                { time: "Day 2 - 03:00 PM", title: "Menal: The Waterfall Complex", activity: "Explore the Mahanaleshwar Temple complex." },
-                { time: "Day 2 - 05:30 PM", title: "Rural Drive Back", activity: "Return to Chittorgarh via the scenic rural route." },
-                { time: "Day 2 - 08:00 PM", title: "Dinner at Castle Bijaipur", activity: "Optional: drive to Castle Bijaipur for a royal dinner." }
-            ]
-        },
-        3: {
-            title: "3 Days: The Soul of Mewar",
-            desc: "A holistic journey covering History, Nature, Divinity, and Art.",
-            duration: "3 Complete Days",
-            transport: "Private Chauffeur / SUV",
-            ticket: "All Access Pass",
-            highlights: ["Fort & Wildlife", "Saawariya ji Seth Temple (Mandraphiya)", "Akola Indigo Printing", "Village Interaction", "Souvenir Shopping"],
-            landmarks: [
-                { title: "Sanwaliya Ji", img: "/images/sanwaliya_idol.jpg" },
-                { title: "Nagari Ruins", img: "/images/Nagari.jpg" },
-                { title: "Light & Sound Show", img: "/light_sound_show.jpg" }
-            ],
-            schedule: [
-                { time: "Days 1 & 2", title: "History & Nature", activity: "Complete the 2-Day Itinerary." },
-                { time: "Day 3 - 09:00 AM", title: "Pilgrimage to Mandraphiya", activity: "Drive 40km to the Saawariya ji Seth Temple." },
-                { time: "Day 3 - 11:30 AM", title: "Akola: The Indigo Village", activity: "Visit Akola (Chhipon-ka-Akola)." },
-                { time: "Day 3 - 01:30 PM", title: "Traditional Village Lunch", activity: "Experience hospitality in a rural home." },
-                { time: "Day 3 - 03:00 PM", title: "Artisan Shopping", activity: "Purchase fabrics directly from the source." },
-                { time: "Day 3 - 05:30 PM", title: "Local Market Exploration", activity: "Return to Chittorgarh city. Explore Sadar Bazaar." },
-                { time: "Day 3 - 08:00 PM", title: "Royal Farewell", activity: "Conclude your trip with a rooftop dinner." }
+                { time: "08:30 AM", title: "Arrival & The Seven Gates (Pols)", activity: "Begin your ascent driving through the seven historic pols (Padan Pol to Ram Pol), honoring the memorials of Jaimal & Patta." },
+                { time: "09:30 AM", title: "Rana Kumbha Palace Complex & State Museum", activity: "Explore the grandest royal residence, underground vaults, and inspect ancient weaponry at Fateh Prakash Museum." },
+                { time: "11:00 AM", title: "Vijay Stambha & Kirti Stambha", activity: "Climb the 157 steps for a panoramic bird's-eye fort view and inspect thousands of intricate Hindu deity carvings." },
+                { time: "12:30 PM", title: "Kumbha Shyam & Meera Bai Temple", activity: "Visit the 8th-century temple where saint-poet Meera Bai composed and sang soulful bhajans for Lord Krishna." },
+                { time: "01:30 PM", title: "Traditional Mewari Royal Lunch", activity: "Enjoy an authentic Rajasthani Thali featuring Dal Baati Churma, Ker Sangri, and Gatte ki Sabzi near Fort Road." },
+                { time: "03:00 PM", title: "Rani Padmini's Summer Palace & Suraj Pol", activity: "Walk through the water palace pavilion surrounded by lotus ponds and explore the eastern fortifications." },
+                { time: "04:30 PM", title: "Gaumukh Spring & Sunset at Kalika Mata", activity: "Witness the sacred cliff-side spring water and capture the breathtaking golden sunset from the fort bastions." },
+                { time: "07:00 PM", title: "Spectacular Sound & Light Show", activity: "Conclude your memorable day with the theatrical laser, light, and sound show narrating 1300 years of glorious Mewar history." }
             ]
         }
     };
 
-    const currentPlan = itineraries[activeTab];
+    const currentPlan = itineraries[activeTab] || itineraries.half;
 
     return (
         <div className="plan-page">
@@ -246,53 +225,47 @@ export default function PlanClient() {
                 }
 
                 .subtitle-hero-royal {
-                    max-width: 640px;
-                    margin: 0 auto 1.5rem;
-                    color: #FFFFFF;
-                    font-size: 0.98rem;
+                    font-size: clamp(0.95rem, 2vw, 1.15rem);
+                    color: rgba(255, 255, 255, 0.85);
+                    max-width: 680px;
                     line-height: 1.6;
-                    font-weight: 400;
-                    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.95);
+                    margin-bottom: 1.8rem;
                 }
 
                 .cta-dock {
                     display: flex;
-                    gap: 1rem;
                     justify-content: center;
-                    align-items: center;
-                    flex-wrap: wrap;
+                    margin-bottom: 1.5rem;
                 }
 
                 .btn-gold-ticket-cta {
                     display: inline-flex;
                     align-items: center;
-                    justify-content: center;
-                    gap: 0.6rem;
-                    padding: 0.75rem 1.8rem;
+                    gap: 0.5rem;
                     background: linear-gradient(135deg, #D4AF37 0%, #B8860B 100%);
-                    border-radius: 999px;
                     color: #0A0806;
-                    font-size: 0.85rem;
+                    padding: 0.8rem 1.8rem;
+                    border-radius: 999px;
                     font-weight: 800;
-                    letter-spacing: 0.06em;
+                    font-size: 0.88rem;
+                    letter-spacing: 0.05em;
                     text-transform: uppercase;
-                    text-decoration: none;
-                    box-shadow: 0 6px 20px rgba(212, 175, 55, 0.35);
+                    box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4);
                     transition: all 0.3s ease;
+                    text-decoration: none;
                 }
 
                 .btn-gold-ticket-cta:hover {
                     transform: translateY(-2px);
-                    box-shadow: 0 10px 25px rgba(212, 175, 55, 0.5);
-                    background: #FFF;
-                    color: #0A0806;
+                    box-shadow: 0 10px 28px rgba(212, 175, 55, 0.6);
+                    background: #FFFFFF;
                 }
 
-                /* TABS SECTION */
+                /* TABS */
                 .tabs-row {
                     display: flex;
                     justify-content: center;
-                    gap: 0.75rem;
+                    gap: 0.85rem;
                     margin-bottom: 2.2rem;
                     flex-wrap: wrap;
                 }
@@ -300,148 +273,139 @@ export default function PlanClient() {
                 .tab-pill {
                     display: inline-flex;
                     align-items: center;
-                    gap: 0.5rem;
-                    padding: 0.65rem 1.4rem;
-                    background: rgba(15, 10, 6, 0.82);
-                    border: 1px solid rgba(212, 175, 55, 0.3);
+                    gap: 0.55rem;
+                    padding: 0.75rem 1.6rem;
+                    background: rgba(20, 15, 10, 0.8);
+                    border: 1px solid rgba(212, 175, 55, 0.35);
                     border-radius: 999px;
-                    color: rgba(255, 255, 255, 0.9);
-                    font-size: 0.85rem;
-                    font-weight: 600;
+                    color: #F5E6AB;
+                    font-size: 0.88rem;
+                    font-weight: 700;
+                    letter-spacing: 0.03em;
                     cursor: pointer;
-                    transition: all 0.3s ease;
-                    backdrop-filter: blur(10px);
-                    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+                    transition: all 0.25s ease;
+                    backdrop-filter: blur(8px);
                 }
 
                 .tab-pill:hover {
-                    border-color: rgba(212, 175, 55, 0.7);
-                    color: #FFF;
-                    transform: translateY(-2px);
+                    background: rgba(212, 175, 55, 0.2);
+                    border-color: #D4AF37;
+                    transform: translateY(-1px);
                 }
 
                 .tab-pill.active {
                     background: linear-gradient(135deg, #D4AF37 0%, #B8860B 100%);
                     color: #0A0806;
-                    border-color: #D4AF37;
-                    font-weight: 800;
-                    box-shadow: 0 6px 22px rgba(212, 175, 55, 0.4);
+                    border-color: #F5E6AB;
+                    box-shadow: 0 4px 18px rgba(212, 175, 55, 0.45);
                 }
 
-                /* LUXURY GLASS ITINERARY CARD */
+                /* ITINERARY CARD */
                 .itinerary-glass-card {
-                    background: rgba(20, 15, 10, 0.88);
-                    border: 1px solid rgba(212, 175, 55, 0.38);
+                    background: rgba(20, 15, 10, 0.82);
+                    border: 1px solid rgba(212, 175, 55, 0.35);
                     border-radius: 24px;
                     overflow: hidden;
-                    backdrop-filter: blur(20px);
-                    -webkit-backdrop-filter: blur(20px);
-                    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.65);
-                    animation: fadeIn 0.4s ease;
+                    backdrop-filter: blur(16px);
+                    -webkit-backdrop-filter: blur(16px);
+                    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+                    margin-bottom: 3rem;
                 }
 
                 .card-header-luxury {
-                    background: linear-gradient(135deg, rgba(30, 22, 14, 0.95) 0%, rgba(18, 13, 8, 0.95) 100%);
-                    border-bottom: 1px solid rgba(212, 175, 55, 0.25);
-                    padding: 2.2rem 2rem 1.8rem;
-                    text-align: center;
+                    padding: 2.2rem 2.5rem 1.8rem;
+                    border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+                    background: linear-gradient(180deg, rgba(212, 175, 55, 0.08) 0%, transparent 100%);
                 }
 
                 .card-header-luxury h2 {
                     font-family: var(--ff-display), serif;
-                    font-size: clamp(1.4rem, 3.5vw, 2.1rem);
+                    font-size: clamp(1.5rem, 3.5vw, 2.2rem);
                     font-weight: 800;
                     color: #FFFFFF;
-                    margin-bottom: 0.4rem;
+                    margin-bottom: 0.5rem;
                 }
 
                 .card-header-luxury p {
-                    color: rgba(212, 175, 55, 0.9);
-                    font-size: 0.9rem;
-                    font-weight: 300;
+                    color: rgba(255, 255, 255, 0.82);
+                    font-size: 0.95rem;
+                    line-height: 1.5;
+                    margin-bottom: 1.4rem;
                 }
 
-                /* TRIP METRICS DOCK */
                 .metrics-dock {
                     display: flex;
-                    justify-content: center;
-                    gap: 1.25rem;
-                    margin-top: 1.25rem;
                     flex-wrap: wrap;
+                    gap: 0.6rem;
                 }
 
                 .metric-pill {
-                    display: flex;
+                    display: inline-flex;
                     align-items: center;
                     gap: 0.45rem;
-                    padding: 0.35rem 0.85rem;
-                    background: rgba(212, 175, 55, 0.1);
+                    background: rgba(255, 255, 255, 0.06);
                     border: 1px solid rgba(212, 175, 55, 0.3);
-                    border-radius: 999px;
-                    color: #F3E5AB;
-                    font-size: 0.72rem;
-                    font-weight: 700;
-                    letter-spacing: 0.04em;
-                    text-transform: uppercase;
+                    border-radius: 8px;
+                    padding: 0.4rem 0.85rem;
+                    font-size: 0.78rem;
+                    color: #F5E6AB;
+                    font-weight: 600;
                 }
 
                 .card-body-luxury {
-                    padding: 2.2rem 2rem;
+                    padding: 2.2rem 2.5rem;
                 }
 
-                /* LANDMARKS FEATURE PREVIEW */
                 .landmarks-preview-grid {
                     display: grid;
-                    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+                    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
                     gap: 1rem;
                     margin-bottom: 2rem;
                 }
 
                 .preview-card {
                     position: relative;
-                    height: 120px;
+                    height: 140px;
                     border-radius: 14px;
                     overflow: hidden;
-                    border: 1px solid rgba(212, 175, 55, 0.3);
-                    box-shadow: 0 6px 18px rgba(0,0,0,0.4);
-                    transition: transform 0.3s ease;
-                }
-
-                .preview-card:hover {
-                    transform: translateY(-3px);
-                    border-color: #D4AF37;
+                    border: 1px solid rgba(212, 175, 55, 0.25);
                 }
 
                 .preview-image {
                     width: 100%;
                     height: 100%;
                     object-fit: cover;
+                    transition: transform 0.5s ease;
+                }
+
+                .preview-card:hover .preview-image {
+                    transform: scale(1.08);
                 }
 
                 .preview-overlay {
                     position: absolute;
                     inset: 0;
-                    background: linear-gradient(to top, rgba(10, 8, 6, 0.9) 0%, transparent 60%);
+                    background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.2) 60%, transparent 100%);
                     display: flex;
                     align-items: flex-end;
-                    padding: 0.65rem 0.85rem;
+                    padding: 0.75rem;
                 }
 
                 .preview-title {
-                    font-size: 0.78rem;
+                    font-size: 0.82rem;
                     font-weight: 700;
-                    color: #FFF;
-                    font-family: var(--ff-display), serif;
+                    color: #FFFFFF;
+                    text-shadow: 0 2px 4px rgba(0,0,0,0.8);
                 }
 
                 .highlights-title {
-                    text-align: center;
-                    color: rgba(212, 175, 55, 0.85);
-                    font-size: 0.72rem;
+                    font-size: 0.75rem;
+                    letter-spacing: 0.12em;
                     text-transform: uppercase;
-                    letter-spacing: 0.16em;
-                    font-weight: 700;
-                    margin-bottom: 1rem;
+                    color: #D4AF37;
+                    font-weight: 800;
+                    margin-bottom: 0.75rem;
+                    text-align: center;
                 }
 
                 .highlights-grid {
@@ -806,8 +770,8 @@ export default function PlanClient() {
                         padding: 1.8rem 1.25rem;
                     }
                     .tab-pill {
-                        padding: 0.55rem 1rem;
-                        font-size: 0.78rem;
+                        padding: 0.55rem 1.1rem;
+                        font-size: 0.8rem;
                     }
                 }
             `}</style>
@@ -840,22 +804,30 @@ export default function PlanClient() {
                         </div>
                     </header>
 
-                    {/* ═══ ITINERARY TABS ════════════════════════ */}
+                    {/* ═══ ITINERARY TABS (HALF DAY vs FULL DAY) ════════════════════════ */}
                     <div className="tabs-row">
-                        {[1, 2, 3].map(day => (
-                            <button
-                                key={day}
-                                className={`tab-pill ${activeTab === day ? 'active' : ''}`}
-                                onClick={() => { 
-                                    setActiveTab(day); 
-                                    setExpandedSchedule(false);
-                                    triggerHaptic('medium'); 
-                                }}
-                            >
-                                <Compass size={16} />
-                                <span>{day} {t("plan.tabLabel")}</span>
-                            </button>
-                        ))}
+                        <button
+                            className={`tab-pill ${activeTab === 'half' ? 'active' : ''}`}
+                            onClick={() => { 
+                                setActiveTab('half'); 
+                                setExpandedSchedule(false);
+                                triggerHaptic('medium'); 
+                            }}
+                        >
+                            <Clock size={16} />
+                            <span>{t("plan.tab.half")}</span>
+                        </button>
+                        <button
+                            className={`tab-pill ${activeTab === 'full' ? 'active' : ''}`}
+                            onClick={() => { 
+                                setActiveTab('full'); 
+                                setExpandedSchedule(false);
+                                triggerHaptic('medium'); 
+                            }}
+                        >
+                            <Compass size={16} />
+                            <span>{t("plan.tab.full")}</span>
+                        </button>
                     </div>
 
                     {/* ═══ LUXURY GLASS ITINERARY CARD ═══════════ */}
@@ -926,7 +898,7 @@ export default function PlanClient() {
                                     <span>
                                         {expandedSchedule 
                                             ? "Hide Detailed Timeline Schedule" 
-                                            : `View Full Day Schedule (${currentPlan.schedule.length} Key Stops)`
+                                            : `View Full Schedule (${currentPlan.schedule.length} Key Stops)`
                                         }
                                     </span>
                                     {expandedSchedule ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
@@ -940,7 +912,7 @@ export default function PlanClient() {
                                         <div key={index} className="timeline-card-item">
                                             <div className="item-time-badge">
                                                 <Clock size={14} style={{ marginBottom: '2px' }} />
-                                                <span>{t(`plan.${activeTab}.sch.${index}.title`)}</span>
+                                                <span>{t(`plan.${activeTab}.sch.${index}.time`)}</span>
                                             </div>
                                             <div className="item-content">
                                                 <h3 className="node-title">{t(`plan.${activeTab}.sch.${index}.title`)}</h3>
@@ -958,8 +930,8 @@ export default function PlanClient() {
                                         <Hotel size={24} />
                                     </div>
                                     <div className="rtdc-info">
-                                        <h4>Official Stay: RTDC Hotel Panna</h4>
-                                        <p>Govt. approved heritage stay located near Fort Road, Chittorgarh.</p>
+                                        <h4>Recommended Stay: RTDC Hotel Panna</h4>
+                                        <p>Comfortable heritage stay located near Fort Road, Chittorgarh.</p>
                                     </div>
                                 </div>
                                 <a
@@ -975,53 +947,19 @@ export default function PlanClient() {
                         </div>
                     </div>
 
-                    {/* ═══ ROYAL BOOKING FORM ═════════════════════ */}
+                    {/* ═══ ROYAL PDF DOWNLOAD FORM ═══════════════ */}
                     <section className="form-section-luxury">
                         <div className="glass-form-card">
                             <div className="form-header">
+                                <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem', color: '#D4AF37', fontSize: '0.75rem', fontWeight: 700, letterSpacing: '0.15em', textTransform: 'uppercase', marginBottom: '0.5rem' }}>
+                                    <FileText size={14} />
+                                    <span>Travel Guide & Itinerary PDF</span>
+                                </div>
                                 <h3 className="form-title">{t("plan.form.title")}</h3>
-                                <p className="form-subtitle">Receive your customized Chittorgarh travel itinerary directly in your inbox.</p>
+                                <p className="form-subtitle">Get your customized, high-definition Chittorgarh travel guide with landmark photos, timings, and insider tips saved directly to your device.</p>
                             </div>
 
-                            <form onSubmit={handleSubmit}>
-                                <div className="form-group-luxury">
-                                    <label className="form-label-luxury">
-                                        <User size={13} />
-                                        <span>{t("plan.form.name")}</span>
-                                    </label>
-                                    <div className="input-wrapper">
-                                        <User size={16} className="input-icon" />
-                                        <input
-                                            type="text"
-                                            name="name"
-                                            className="input-field-luxury"
-                                            placeholder={t("plan.form.namePlaceholder")}
-                                            value={formData.name}
-                                            onChange={handleInputChange}
-                                            required
-                                        />
-                                    </div>
-                                </div>
-
-                                <div className="form-group-luxury">
-                                    <label className="form-label-luxury">
-                                        <Mail size={13} />
-                                        <span>{t("plan.form.email")}</span>
-                                    </label>
-                                    <div className="input-wrapper">
-                                        <Mail size={16} className="input-icon" />
-                                        <input
-                                            type="email"
-                                            name="email"
-                                            className="input-field-luxury"
-                                            placeholder={t("plan.form.emailPlaceholder")}
-                                            value={formData.email}
-                                            onChange={handleInputChange}
-                                            required
-                                        />
-                                    </div>
-                                </div>
-
+                            <form onSubmit={handleDownloadPDF}>
                                 <div className="form-group-luxury">
                                     <label className="form-label-luxury">
                                         <Calendar size={13} />
@@ -1033,6 +971,7 @@ export default function PlanClient() {
                                             type="date"
                                             name="date"
                                             className="input-field-luxury"
+                                            min={todayStr}
                                             value={formData.date}
                                             onChange={handleInputChange}
                                             required
@@ -1040,11 +979,9 @@ export default function PlanClient() {
                                     </div>
                                 </div>
 
-                                <input type="hidden" name="interest" value={`${activeTab} Day Tour`} />
-
                                 <div className="form-info-pill">
                                     <ShieldCheck size={16} />
-                                    <span>{t("plan.form.sending")} <strong>{activeTab} {t("plan.tabLabel")}</strong></span>
+                                    <span>{t("plan.form.sending")} <strong>{activeTab === 'half' ? 'Half Day (4–5 Hours)' : 'Full Day (8–9 Hours)'}</strong></span>
                                 </div>
 
                                 <button
@@ -1053,27 +990,351 @@ export default function PlanClient() {
                                     disabled={status === 'loading'}
                                     onClick={() => triggerHaptic('light')}
                                 >
-                                    {status === 'loading' ? t("plan.form.submitLoading") : (
+                                    {status === 'loading' ? (
+                                        <>
+                                            <span>{t("plan.form.submitLoading")}</span>
+                                        </>
+                                    ) : (
                                         <>
                                             <span>{t("plan.form.submitIdle")}</span>
-                                            <Send size={16} />
+                                            <Download size={18} />
                                         </>
                                     )}
                                 </button>
 
                                 {status === 'success' && (
                                     <div className="status-msg-box success">
+                                        <Check size={16} style={{ display: 'inline', marginRight: '6px' }} />
                                         {t("plan.form.success")}
                                     </div>
                                 )}
                                 {status === 'error' && (
                                     <div className="status-msg-box error">
+                                        <AlertCircle size={16} style={{ display: 'inline', marginRight: '6px' }} />
                                         {t("plan.form.error")}
                                     </div>
                                 )}
                             </form>
                         </div>
                     </section>
+
+                    {/* ══════════════════════════════════════════════════════════
+                        COMPACT, DENSE 2-PAGE HIGH-RESOLUTION A4 PDF GUIDEBOOK
+                        (Zero empty space, 100% in English, No Government claims)
+                    ══════════════════════════════════════════════════════════ */}
+                    <div 
+                        ref={pdfTemplateRef}
+                        style={{
+                            position: 'fixed',
+                            top: 0,
+                            left: '-9999px',
+                            width: '794px',
+                            zIndex: -9999,
+                            pointerEvents: 'none',
+                            backgroundColor: '#FAF8F5',
+                            color: '#1C1917',
+                            fontFamily: 'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+                            boxSizing: 'border-box'
+                        }}
+                    >
+                        {/* ──────────────────────────────────────────────────────────
+                            PAGE 1: HERITAGE OVERVIEW, KEY LANDMARKS & PART 1 SCHEDULE
+                        ────────────────────────────────────────────────────────── */}
+                        <div className="pdf-a4-page" style={{ width: '794px', height: '1122px', backgroundColor: '#FFFFFF', padding: '26px 32px', boxSizing: 'border-box', position: 'relative', overflow: 'hidden', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', border: '1px solid #E7D7B5' }}>
+                            {/* TOP GOLD ACCENT BAR */}
+                            <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '6px', background: 'linear-gradient(90deg, #800000 0%, #D4AF37 50%, #800000 100%)' }} />
+
+                            <div>
+                                {/* BRAND HEADER */}
+                                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '2px solid #D4AF37', paddingBottom: '10px', marginBottom: '14px' }}>
+                                    <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                                        <img 
+                                            src="/logo.jpg" 
+                                            alt="Chittorgarh Tourism" 
+                                            style={{ width: '44px', height: '44px', borderRadius: '50%', border: '2px solid #D4AF37', objectFit: 'cover' }} 
+                                            crossOrigin="anonymous"
+                                        />
+                                        <div>
+                                            <div style={{ fontSize: '18px', fontWeight: '800', color: '#800000', letterSpacing: '0.04em', textTransform: 'uppercase' }}>
+                                                Chittorgarh Tourism
+                                            </div>
+                                            <div style={{ fontSize: '9.5px', color: '#78716C', fontWeight: '700', letterSpacing: '0.08em', textTransform: 'uppercase' }}>
+                                                Heritage Travel Guide & Itinerary • UNESCO World Heritage Site
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div style={{ textAlign: 'right' }}>
+                                        <div style={{ backgroundColor: '#FAF5EA', border: '1px solid #D4AF37', borderRadius: '16px', padding: '4px 12px', display: 'inline-block' }}>
+                                            <span style={{ fontSize: '10.5px', fontWeight: '800', color: '#800000', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                                                {activeTab === 'half' ? 'Half Day Circuit' : 'Full Day Grand Tour'}
+                                            </span>
+                                        </div>
+                                        <div style={{ fontSize: '8.5px', color: '#78716C', marginTop: '2px' }}>
+                                            www.chittorgarh-tourism.in
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* TRAVEL DOSSIER & METRICS BAR */}
+                                <div style={{ backgroundColor: '#1C1917', borderRadius: '10px', padding: '10px 16px', marginBottom: '14px', border: '1px solid rgba(212, 175, 55, 0.45)', color: '#FFFFFF', display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '10.5px' }}>
+                                    <div>
+                                        <span style={{ color: '#A8A29E' }}>Planned Date:</span>{' '}
+                                        <strong style={{ color: '#F5E6AB' }}>{formData.date || 'Flexible'}</strong>
+                                    </div>
+                                    <div>
+                                        <span style={{ color: '#A8A29E' }}>Duration:</span>{' '}
+                                        <strong style={{ color: '#FFFFFF' }}>{currentPlan.duration}</strong>
+                                    </div>
+                                    <div>
+                                        <span style={{ color: '#A8A29E' }}>Transit:</span>{' '}
+                                        <strong style={{ color: '#FFFFFF' }}>{currentPlan.transport}</strong>
+                                    </div>
+                                    <div>
+                                        <span style={{ color: '#A8A29E' }}>Pass:</span>{' '}
+                                        <strong style={{ color: '#FFFFFF' }}>Single ASI Ticket Valid</strong>
+                                    </div>
+                                </div>
+
+                                {/* 4 KEY LANDMARK PHOTO CARDS (2x2 GRID) */}
+                                <div style={{ fontSize: '11px', fontWeight: '800', color: '#800000', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '8px' }}>
+                                    🏛️ Must-Visit Citadel Architectural Highlights
+                                </div>
+                                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '10px', marginBottom: '14px' }}>
+                                    {/* CARD 1: VIJAY STAMBHA */}
+                                    <div style={{ border: '1px solid #E7E5E4', borderRadius: '8px', overflow: 'hidden', backgroundColor: '#FAFAF9', display: 'flex', gap: '10px', padding: '6px' }}>
+                                        <div style={{ width: '90px', height: '80px', borderRadius: '6px', overflow: 'hidden', flexShrink: 0, backgroundColor: '#E7E5E4' }}>
+                                            <img 
+                                                src="/Each page Pics/Fort pics/Vijay Stambh.jpg" 
+                                                alt="Vijay Stambha" 
+                                                style={{ width: '100%', height: '100%', objectFit: 'cover' }} 
+                                                crossOrigin="anonymous"
+                                            />
+                                        </div>
+                                        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+                                            <div style={{ fontSize: '11px', fontWeight: '800', color: '#800000', marginBottom: '2px' }}>
+                                                Vijay Stambha (Tower of Victory)
+                                            </div>
+                                            <div style={{ fontSize: '9px', color: '#57534E', lineHeight: '1.35' }}>
+                                                9-storey triumph tower (1448 AD) built by Maharana Kumbha. Adorned with intricate Hindu deity carvings across 157 steps.
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {/* CARD 2: PADMINI PALACE */}
+                                    <div style={{ border: '1px solid #E7E5E4', borderRadius: '8px', overflow: 'hidden', backgroundColor: '#FAFAF9', display: 'flex', gap: '10px', padding: '6px' }}>
+                                        <div style={{ width: '90px', height: '80px', borderRadius: '6px', overflow: 'hidden', flexShrink: 0, backgroundColor: '#E7E5E4' }}>
+                                            <img 
+                                                src="/Each page Pics/Fort pics/Padmini Palace.jpg" 
+                                                alt="Rani Padmini Palace" 
+                                                style={{ width: '100%', height: '100%', objectFit: 'cover' }} 
+                                                crossOrigin="anonymous"
+                                            />
+                                        </div>
+                                        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+                                            <div style={{ fontSize: '11px', fontWeight: '800', color: '#800000', marginBottom: '2px' }}>
+                                                Rani Padmini's Water Palace
+                                            </div>
+                                            <div style={{ fontSize: '9px', color: '#57534E', lineHeight: '1.35' }}>
+                                                Pavilion floating amidst lotus waters. Renowned for historic mirror reflections and the legendary defense of 1303 AD.
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {/* CARD 3: GAUMUKH RESERVOIR */}
+                                    <div style={{ border: '1px solid #E7E5E4', borderRadius: '8px', overflow: 'hidden', backgroundColor: '#FAFAF9', display: 'flex', gap: '10px', padding: '6px' }}>
+                                        <div style={{ width: '90px', height: '80px', borderRadius: '6px', overflow: 'hidden', flexShrink: 0, backgroundColor: '#E7E5E4' }}>
+                                            <img 
+                                                src="/Each page Pics/Fort pics/Gaumukh Reservoir.jpg" 
+                                                alt="Gaumukh Reservoir" 
+                                                style={{ width: '100%', height: '100%', objectFit: 'cover' }} 
+                                                crossOrigin="anonymous"
+                                            />
+                                        </div>
+                                        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+                                            <div style={{ fontSize: '11px', fontWeight: '800', color: '#800000', marginBottom: '2px' }}>
+                                                Gaumukh Sacred Reservoir
+                                            </div>
+                                            <div style={{ fontSize: '9px', color: '#57534E', lineHeight: '1.35' }}>
+                                                Sacred perennial cliff-side spring that sustained the citadel during lengthy sieges through a carved stone cow's mouth.
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {/* CARD 4: RANA KUMBHA PALACE */}
+                                    <div style={{ border: '1px solid #E7E5E4', borderRadius: '8px', overflow: 'hidden', backgroundColor: '#FAFAF9', display: 'flex', gap: '10px', padding: '6px' }}>
+                                        <div style={{ width: '90px', height: '80px', borderRadius: '6px', overflow: 'hidden', flexShrink: 0, backgroundColor: '#E7E5E4' }}>
+                                            <img 
+                                                src="/Each page Pics/Fort pics/Rana Kumbha Palace.jpg" 
+                                                alt="Rana Kumbha Palace" 
+                                                style={{ width: '100%', height: '100%', objectFit: 'cover' }} 
+                                                crossOrigin="anonymous"
+                                            />
+                                        </div>
+                                        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+                                            <div style={{ fontSize: '11px', fontWeight: '800', color: '#800000', marginBottom: '2px' }}>
+                                                Rana Kumbha Palace & Vaults
+                                            </div>
+                                            <div style={{ fontSize: '9px', color: '#57534E', lineHeight: '1.35' }}>
+                                                Grandest historic royal ruins, birthplace of Maharana Udai Singh, featuring underground vaults and elephant stables.
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* PART 1 OF TIMED ITINERARY */}
+                                <div style={{ fontSize: '11px', fontWeight: '800', color: '#800000', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '8px' }}>
+                                    ⏱️ {activeTab === 'half' ? 'Express Half Day Circuit Route' : 'Morning Master Itinerary (Stops 1 to 4)'}
+                                </div>
+                                <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', marginBottom: '10px' }}>
+                                    {(activeTab === 'half' 
+                                        ? currentPlan.schedule 
+                                        : currentPlan.schedule.slice(0, 4)
+                                    ).map((item, idx) => (
+                                        <div key={idx} style={{ display: 'flex', gap: '10px', padding: '7px 10px', backgroundColor: idx % 2 === 0 ? '#FAF8F5' : '#FFFFFF', border: '1px solid #E7E5E4', borderRadius: '6px', alignItems: 'center' }}>
+                                            <div style={{ backgroundColor: '#800000', color: '#FFFFFF', padding: '3px 8px', borderRadius: '4px', fontSize: '9px', fontWeight: '800', whiteSpace: 'nowrap', minWidth: '65px', textAlign: 'center' }}>
+                                                {item.time}
+                                            </div>
+                                            <div style={{ flex: 1 }}>
+                                                <div style={{ fontSize: '10.5px', fontWeight: '800', color: '#1C1917' }}>{item.title}</div>
+                                                <div style={{ fontSize: '9px', color: '#57534E', lineHeight: '1.3' }}>{item.activity}</div>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+
+                                {/* FAST FACTS BANNER */}
+                                <div style={{ backgroundColor: '#FAF5EA', border: '1px solid #D4AF37', borderRadius: '6px', padding: '8px 12px', fontSize: '9.5px', color: '#44403C', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                    <span>🏰 <strong>Fort Statistics:</strong> 700 Acres • 180m Elevation • 84 Reservoirs • 7 Fortified Gates • 27 Historic Temples</span>
+                                    <span style={{ color: '#800000', fontWeight: '700' }}>ASI Protected</span>
+                                </div>
+                            </div>
+
+                            {/* PAGE 1 FOOTER */}
+                            <div style={{ borderTop: '1px solid #E7E5E4', paddingTop: '8px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '8.5px', color: '#78716C' }}>
+                                <div><strong>Chittorgarh Tourism Portal</strong> • Heritage Travel Guide</div>
+                                <div>Page 1 of 2</div>
+                            </div>
+                        </div>
+
+                        {/* ──────────────────────────────────────────────────────────
+                            PAGE 2: AFTERNOON/EVENING ROUTE, MEWARI CUISINE & VISITOR DIRECTORY
+                        ────────────────────────────────────────────────────────── */}
+                        <div className="pdf-a4-page" style={{ width: '794px', height: '1122px', backgroundColor: '#FFFFFF', padding: '26px 32px', boxSizing: 'border-box', position: 'relative', overflow: 'hidden', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', border: '1px solid #E7D7B5' }}>
+                            {/* TOP GOLD ACCENT BAR */}
+                            <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '6px', background: 'linear-gradient(90deg, #800000 0%, #D4AF37 50%, #800000 100%)' }} />
+
+                            <div>
+                                {/* PAGE 2 TOP HEADER */}
+                                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '2px solid #800000', paddingBottom: '8px', marginBottom: '12px' }}>
+                                    <div>
+                                        <div style={{ fontSize: '9px', color: '#D4AF37', fontWeight: '800', letterSpacing: '0.1em', textTransform: 'uppercase' }}>
+                                            {activeTab === 'half' ? 'PART 2 • EXPERIENCES & VISITOR HANDBOOK' : 'PART 2 • AFTERNOON ROUTE & DIRECTORY'}
+                                        </div>
+                                        <div style={{ fontSize: '16px', fontWeight: '800', color: '#800000', textTransform: 'uppercase' }}>
+                                            {activeTab === 'half' ? 'Cuisines, Artisan Markets & Guidelines' : 'Afternoon Schedule, Cuisines & Visitor Directory'}
+                                        </div>
+                                    </div>
+                                    <div style={{ fontSize: '9.5px', color: '#78716C', fontWeight: '600' }}>Chittorgarh Tourism Guide</div>
+                                </div>
+
+                                {/* TIMED SCHEDULE / AFTERNOON STOPS (IF FULL DAY) */}
+                                {activeTab === 'full' && (
+                                    <>
+                                        <div style={{ fontSize: '11px', fontWeight: '800', color: '#800000', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '8px' }}>
+                                            ⏱️ Afternoon & Evening Schedule (Stops 5 to 8)
+                                        </div>
+                                        <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', marginBottom: '14px' }}>
+                                            {currentPlan.schedule.slice(4).map((item, idx) => (
+                                                <div key={idx} style={{ display: 'flex', gap: '10px', padding: '7px 10px', backgroundColor: idx % 2 === 0 ? '#FAF8F5' : '#FFFFFF', border: '1px solid #E7E5E4', borderRadius: '6px', alignItems: 'center' }}>
+                                                    <div style={{ backgroundColor: '#800000', color: '#FFFFFF', padding: '3px 8px', borderRadius: '4px', fontSize: '9px', fontWeight: '800', whiteSpace: 'nowrap', minWidth: '65px', textAlign: 'center' }}>
+                                                        {item.time}
+                                                    </div>
+                                                    <div style={{ flex: 1 }}>
+                                                        <div style={{ fontSize: '10.5px', fontWeight: '800', color: '#1C1917' }}>{item.title}</div>
+                                                        <div style={{ fontSize: '9px', color: '#57534E', lineHeight: '1.3' }}>{item.activity}</div>
+                                                    </div>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </>
+                                )}
+
+                                {activeTab === 'half' && (
+                                    <div style={{ backgroundColor: '#FAF5EA', border: '1px solid #D4AF37', borderRadius: '8px', padding: '12px 14px', marginBottom: '14px' }}>
+                                        <div style={{ fontSize: '11px', fontWeight: '800', color: '#800000', textTransform: 'uppercase', marginBottom: '4px' }}>
+                                            ⚡ Express Tour Recommendation
+                                        </div>
+                                        <div style={{ fontSize: '9.5px', color: '#44403C', lineHeight: '1.45' }}>
+                                            This half-day route is designed for maximum efficiency. If starting in the morning, reach the fort by 09:00 AM. For afternoon visitors, start by 02:00 PM to catch the golden sunset from Gaumukh and Kalika Mata before gates close at 06:00 PM.
+                                        </div>
+                                    </div>
+                                )}
+
+                                {/* TWO COLUMNS: CUISINES & ARTISAN SHOPPING */}
+                                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '10px', marginBottom: '12px' }}>
+                                    {/* BOX 1: MEWARI CUISINE */}
+                                    <div style={{ backgroundColor: '#FAF5EA', border: '1px solid #E7D7B5', borderRadius: '8px', padding: '10px 12px' }}>
+                                        <div style={{ fontSize: '10.5px', fontWeight: '800', color: '#800000', textTransform: 'uppercase', marginBottom: '6px' }}>
+                                            🍲 Must-Try Traditional Flavors
+                                        </div>
+                                        <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', fontSize: '9.5px', color: '#44403C' }}>
+                                            <div><strong>• Dal Baati Churma:</strong> Crispy baked dough balls dipped in pure desi ghee with sweet churma.</div>
+                                            <div><strong>• Ker Sangri:</strong> Desert wild berries and beans with traditional Mewari spices.</div>
+                                            <div><strong>• Gatte Ki Sabzi:</strong> Gram-flour dumplings simmered in spiced curd gravy.</div>
+                                            <div><strong>• Pyaaz Kachori & Ghevar:</strong> Crisp morning snack and saffron sweets.</div>
+                                        </div>
+                                    </div>
+
+                                    {/* BOX 2: SHOPPING & SOUVENIRS */}
+                                    <div style={{ border: '1px solid #E7E5E4', borderRadius: '8px', padding: '10px 12px', backgroundColor: '#FAFAF9' }}>
+                                        <div style={{ fontSize: '10.5px', fontWeight: '800', color: '#800000', textTransform: 'uppercase', marginBottom: '6px' }}>
+                                            🛍️ Authentic Artisan Souvenirs
+                                        </div>
+                                        <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', fontSize: '9.5px', color: '#44403C' }}>
+                                            <div><strong>• Akola Dabu Hand Block Prints:</strong> 500-year-old mud-resist natural indigo print fabrics.</div>
+                                            <div><strong>• Wooden Toys & Carvings:</strong> Handcrafted wooden shrines, toy horses and lacquered decor.</div>
+                                            <div><strong>• Pure Leather Mojaris:</strong> Hand-embroidered traditional footwear with zari work.</div>
+                                            <div><strong>• Sadar Bazaar Shopping:</strong> Spices, textiles, and brass metal crafts.</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* ESSENTIAL VISITOR TIMINGS & ASI TICKETING */}
+                                <div style={{ backgroundColor: '#FAF8F5', border: '1px solid #D4AF37', borderRadius: '8px', padding: '10px 14px', marginBottom: '12px', fontSize: '9.5px', color: '#44403C' }}>
+                                    <div style={{ fontSize: '10.5px', fontWeight: '800', color: '#800000', textTransform: 'uppercase', marginBottom: '4px' }}>
+                                        🎟️ Archaeological Survey of India (ASI) Timings & Access
+                                    </div>
+                                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '6px' }}>
+                                        <div>• <strong>Fort Hours:</strong> 09:00 AM – 06:00 PM (Open all 365 days).</div>
+                                        <div>• <strong>Sound & Light Show:</strong> 07:00 PM (Hindi) | 08:00 PM (English).</div>
+                                        <div>• <strong>Advance E-Tickets:</strong> eticket.webfront.in/asi/quick/chf</div>
+                                        <div>• <strong>Recommended Stay:</strong> RTDC Hotel Panna (Tel: 01472-241089)</div>
+                                    </div>
+                                </div>
+
+                                {/* 24/7 HELPLINE DIRECTORY */}
+                                <div style={{ backgroundColor: '#1C1917', color: '#FFFFFF', borderRadius: '8px', padding: '12px 16px', border: '1px solid rgba(212, 175, 55, 0.4)' }}>
+                                    <div style={{ fontSize: '10.5px', fontWeight: '800', color: '#D4AF37', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '8px', borderBottom: '1px solid rgba(212, 175, 55, 0.25)', paddingBottom: '4px' }}>
+                                        🚨 Emergency & Tourist Helpline Directory
+                                    </div>
+                                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '6px 12px', fontSize: '9.5px' }}>
+                                        <div>• <strong>Police:</strong> <span style={{ color: '#F5E6AB' }}>112</span></div>
+                                        <div>• <strong>Fort Police:</strong> <span style={{ color: '#F5E6AB' }}>01472-240088</span></div>
+                                        <div>• <strong>Tourist Reception:</strong> <span style={{ color: '#F5E6AB' }}>01472-241089</span></div>
+                                        <div>• <strong>Ambulance:</strong> <span style={{ color: '#F5E6AB' }}>108</span></div>
+                                        <div>• <strong>District Hospital:</strong> <span style={{ color: '#F5E6AB' }}>01472-250555</span></div>
+                                        <div>• <strong>Railway Enquiry:</strong> <span style={{ color: '#F5E6AB' }}>139</span></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* PAGE 2 FOOTER */}
+                            <div style={{ borderTop: '1px solid #E7E5E4', paddingTop: '8px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '8.5px', color: '#78716C' }}>
+                                <div>Chittorgarh Tourism Portal • Planned Date: <strong>{formData.date || 'Flexible'}</strong> • Issued: {new Date().toLocaleDateString('en-GB')}</div>
+                                <div>Page 2 of 2</div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </main>
         </div>
