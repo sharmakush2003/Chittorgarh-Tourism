@@ -34,7 +34,9 @@ export default function EmergencyPage() {
     }, []);
 
     const mapsSearch = (query, lat, lng) =>
-        `https://www.google.com/maps/search/${query}/@${lat},${lng},15z`;
+        lat && lng 
+            ? `https://www.google.com/maps/search/${query}/@${lat},${lng},15z`
+            : `https://www.google.com/maps/search/${query}+near+Chittorgarh+Fort`;
 
     const CATEGORIES = [
         { type: "hospital", label: t('emg.cat.hospital'), query: "hospital", icon: <Hospital size={18} /> },
@@ -182,39 +184,23 @@ export default function EmergencyPage() {
             <div className="bg-overlay"></div>
             {/* Hero */}
             <section className="ep-hero">
+                <div className="ep-hero-box">
+                    <div className="ep-badge">
+                        <span className="ep-dot" /> {t('emg.badge')}
+                    </div>
+                    <h1>
+                        {t('emg.hero.title1')} <em>{t('emg.hero.title2')}</em><br />{t('emg.hero.title3')}
+                    </h1>
+                    <p>{t('emg.hero.sub')}</p>
 
-
-                <div className="ep-badge">
-                    <span className="ep-dot" /> {t('emg.badge')}
-                </div>
-                <h1>{t('emg.hero.title1')} <em>{t('emg.hero.title2')}</em><br />{t('emg.hero.title3')}</h1>
-                <p>{t('emg.hero.sub')}</p>
-                
-                <div style={{ marginBottom: '24px' }}>
-                    <button 
-                        onClick={downloadPDF} 
-                        disabled={isGeneratingPDF}
-                        style={{
-                            background: 'rgba(212,175,55,0.1)',
-                            border: '1px solid rgba(212,175,55,0.4)',
-                            color: '#D4AF37',
-                            padding: '12px 24px',
-                            borderRadius: '12px',
-                            cursor: 'pointer',
-                            fontSize: '0.9rem',
-                            fontWeight: '600',
-                            display: 'inline-flex',
-                            alignItems: 'center',
-                            gap: '10px'
-                        }}
-                    >
-                        {isGeneratingPDF ? `📄 ${t('emg.pdf.generating')}` : `📥 ${t('emg.pdf.btn')}`}
-                    </button>
-                </div>
-
-                <div className="ep-quick">
-                    <a href="tel:112" className="ep-dial p">🚔 {t('emg.quick.police')}</a>
-                    <a href="tel:108" className="ep-dial a">🚑 {t('emg.quick.ambulance')}</a>
+                    <div className="ep-quick">
+                        <a href="tel:112" className="ep-dial p">
+                            🚔 {t('emg.quick.police')}
+                        </a>
+                        <a href="tel:108" className="ep-dial a">
+                            🚑 {t('emg.quick.ambulance')}
+                        </a>
+                    </div>
                 </div>
             </section>
 
@@ -243,9 +229,9 @@ export default function EmergencyPage() {
                                         rel={c.link ? "noreferrer" : undefined}
                                         className="ep-call"
                                         style={{
-                                            background: `${s.accent}15`,
-                                            color: s.accent,
-                                            borderColor: `${s.accent}35`,
+                                            background: `${s.accent}25`,
+                                            color: "#FFFFFF",
+                                            borderColor: s.accent,
                                         }}
                                     >
                                         {c.link ? `🌐 ${t('emg.btn.pdf')}` : `📞 ${t('emg.btn.call', { number: c.number })}`}
@@ -257,51 +243,31 @@ export default function EmergencyPage() {
                 ))}
             </div>
 
-            {/* SOS Location Sharing — at bottom */}
-            <div className="ep-sos">
-                <div className="ep-sos-card">
-                    <div className="ep-sos-head">
-                        <h3>🆘 {t('emg.sos.title')}</h3>
-                        <p>{t('emg.sos.sub')}</p>
-                    </div>
-                    <div className="ep-sos-btns">
-                        <button 
-                            className={`sos-btn wa ${sosState === "locating" ? "" : "pulse-sos"}`} 
-                            onClick={() => sendSOS('whatsapp')}
-                            disabled={sosState === "locating"}
-                        >
-                            {sosState === "locating" ? `📍 ${t('emg.sos.locating')}` : `📲 ${t('emg.sos.whatsapp')}`}
-                        </button>
-                        <button 
-                            className="sos-btn sms" 
-                            onClick={() => sendSOS('sms')}
-                            disabled={sosState === "locating"}
-                        >
-                            🆘 {t('emg.sos.sms')}
-                        </button>
-                    </div>
-                    {sosState === "sent" && (
-                        <p style={{ color: "#4ade80", marginTop: "16px", fontSize: "0.85rem", fontWeight: "600" }}>
-                            ✅ {t('emg.sos.sent')}
-                        </p>
-                    )}
-                </div>
-            </div>
-
             {/* Nearby Places */}
             <div className="ep-nearby">
-                <div className="ep-nearby-head">
-                    <h3>📍 {t('emg.nearby.title')}</h3>
-                    <button className="ep-loc-btn" onClick={findNearby} disabled={locState === "loading"}>
-                        {locState === "loading" ? t('emg.nearby.locating') : locState === "done" ? `🔄 ${t('emg.nearby.refresh')}` : `📡 ${t('emg.nearby.btn')}`}
-                    </button>
-                </div>
-                {locState === "idle" && <p className="ep-loc-msg">{t('emg.nearby.idle')}</p>}
-                {locState === "error" && <p className="ep-loc-msg" style={{ color: "#f87171" }}>⚠️ {t('emg.nearby.error')}</p>}
-                {locState === "done" && coords && (
+                <div className="ep-nearby-container">
+                    <div className="ep-nearby-head">
+                        <h3>📍 {t('emg.nearby.title')}</h3>
+                        <button className="ep-loc-btn" onClick={findNearby} disabled={locState === "loading"}>
+                            {locState === "loading" ? t('emg.nearby.locating') : locState === "done" ? `🔄 ${t('emg.nearby.refresh')}` : `📡 ${t('emg.nearby.btn')}`}
+                        </button>
+                    </div>
+                    
+                    <div className="ep-loc-msg-wrapper">
+                        <p className="ep-loc-msg">
+                            {locState === "error" ? `⚠️ ${t('emg.nearby.error')}` : t('emg.nearby.idle')}
+                        </p>
+                    </div>
+
                     <div className="ep-nearby-grid">
                         {CATEGORIES.map(c => (
-                            <a key={c.type} href={mapsSearch(c.query, coords.lat, coords.lng)} target="_blank" rel="noreferrer" className="ep-nearby-item">
+                            <a 
+                                key={c.type} 
+                                href={mapsSearch(c.query, coords?.lat, coords?.lng)} 
+                                target="_blank" 
+                                rel="noreferrer" 
+                                className="ep-nearby-item"
+                            >
                                 <div className="ep-nearby-icon">{c.icon}</div>
                                 <div className="ep-nearby-content">
                                     <span className="ep-nearby-name">{c.label}</span>
@@ -311,7 +277,7 @@ export default function EmergencyPage() {
                             </a>
                         ))}
                     </div>
-                )}
+                </div>
             </div>
 
             {/* Disclaimer */}
