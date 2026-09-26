@@ -28,6 +28,7 @@ export default function PanchGauravClient() {
             key: "1", 
             pillarNo: "01",
             icon: Gem,
+            tagKey: "pg.tag.odop",
             tag: "ODOP PRODUCT",
             image: "/panch-gaurav/odop.png" 
         },
@@ -35,6 +36,7 @@ export default function PanchGauravClient() {
             key: "2", 
             pillarNo: "02",
             icon: Sprout,
+            tagKey: "pg.tag.agri",
             tag: "AGRICULTURE",
             image: "/panch-gaurav/crop.png" 
         },
@@ -42,6 +44,7 @@ export default function PanchGauravClient() {
             key: "3", 
             pillarNo: "03",
             icon: Landmark,
+            tagKey: "pg.tag.dest",
             tag: "DESTINATION",
             image: "/hero_bg.png" 
         },
@@ -49,6 +52,7 @@ export default function PanchGauravClient() {
             key: "4", 
             pillarNo: "04",
             icon: Dumbbell,
+            tagKey: "pg.tag.sport",
             tag: "TRADITIONAL SPORT",
             image: "/panch-gaurav/sport.png" 
         },
@@ -56,15 +60,16 @@ export default function PanchGauravClient() {
             key: "5", 
             pillarNo: "05",
             icon: Sprout,
+            tagKey: "pg.tag.flora",
             tag: "FLORA & HERB",
             image: "/panch-gaurav/plant.png" 
         }
     ];
 
     const objectives = [
-        { icon: ShieldCheck, titleKey: "pg.obj.1", desc: "Building local industrial self-sufficiency and empowering traditional Mewar stone artisans." },
-        { icon: Megaphone, titleKey: "pg.obj.2", desc: "Promoting homegrown crops, sacred plants, and authentic products to national & international markets." },
-        { icon: Users, titleKey: "pg.obj.3", desc: "Nurturing grassroots sports talent and fostering rural employment for farmers and youth." }
+        { icon: ShieldCheck, titleKey: "pg.obj.1", descKey: "pg.obj.1.desc", desc: "Building local industrial self-sufficiency and empowering traditional Mewar stone artisans." },
+        { icon: Megaphone, titleKey: "pg.obj.2", descKey: "pg.obj.2.desc", desc: "Promoting homegrown crops, sacred plants, and authentic products to national & international markets." },
+        { icon: Users, titleKey: "pg.obj.3", descKey: "pg.obj.3.desc", desc: "Nurturing grassroots sports talent and fostering rural employment for farmers and youth." }
     ];
 
     return (
@@ -471,16 +476,16 @@ export default function PanchGauravClient() {
                                         <div className="pillar-img-overlay"></div>
                                         <div className="pillar-badge-floating">
                                             <IconComp size={12} />
-                                            <span>{pillar.tag}</span>
+                                            <span>{t(pillar.tagKey) || pillar.tag}</span>
                                         </div>
                                     </div>
                                     <div className="pillar-body">
-                                        <span className="pillar-no-tag">PILLAR {pillar.pillarNo}</span>
+                                        <span className="pillar-no-tag">{t("pg.pillar.label")} {pillar.pillarNo}</span>
                                         <h3 className="pillar-title">{t(`pg.pillar.${pillar.key}.name`)}</h3>
                                         <p className="pillar-desc">{t(`pg.pillar.${pillar.key}.desc`)}</p>
                                         <div className="pillar-footer">
                                             <CheckCircle2 size={14} style={{ color: '#D4AF37' }} />
-                                            <span>Chittorgarh Special Initiative</span>
+                                            <span>{t("pg.pillar.initiative")}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -500,7 +505,7 @@ export default function PanchGauravClient() {
                                             <IconComp size={24} />
                                         </div>
                                         <h3 className="obj-card-title">{t(obj.titleKey)}</h3>
-                                        <p className="obj-card-desc">{obj.desc}</p>
+                                        <p className="obj-card-desc">{t(obj.descKey) || obj.desc}</p>
                                     </div>
                                 );
                             })}
@@ -516,7 +521,7 @@ export default function PanchGauravClient() {
                             className="btn-home-cta" 
                             onClick={() => triggerHaptic('light')}
                         >
-                            <span>Return to Home</span>
+                            <span>{t("pg.btn.home")}</span>
                             <ArrowRight size={16} />
                         </Link>
                     </div>

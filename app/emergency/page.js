@@ -292,7 +292,7 @@ export default function EmergencyPage() {
             </div>
 
             {/* Hidden PDF Template */}
-            <div id="emergency-pdf-template" ref={pdfTemplateRef}>
+            <div id="emergency-pdf-template" ref={pdfTemplateRef} style={{ display: 'none' }}>
                 <div className="pdf-header">
                     <h1>{t('emg.pdf.header')}</h1>
                     <p>{t('emg.pdf.sub')}</p>

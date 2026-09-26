@@ -140,7 +140,6 @@ body {
 .visitor-page,
 .panch-gaurav-page,
 .download-page,
-.ep,
 .v-feed-wrapper,
 .plan-page,
 .artisans-page {
@@ -153,7 +152,7 @@ body {
 /* ═══════════════════════════════════════════════════════
    EMERGENCY PAGE — Full CSS (styled-jsx doesn't work in App Router)
    ═══════════════════════════════════════════════════════ */
-.ep { position: relative; min-height: 100vh; background: transparent; color: #fff; font-family: var(--ff-body); padding-bottom: 60px; }
+.ep { position: relative; min-height: auto; background: transparent; color: #fff; font-family: var(--ff-body); padding-bottom: 20px; }
 
 /* Hero */
 .ep-hero { padding: 120px 16px 32px; text-align: center; max-width: 800px; margin: 0 auto; position: relative; z-index: 10; }
