@@ -423,11 +423,12 @@ export default function HomeClient() {
                     display: block;
                     font-size: clamp(2.2rem, 7.5vw, 5.2rem);
                     font-weight: 900;
-                    line-height: 1.1;
+                    line-height: 1.15;
                     letter-spacing: -0.02em;
                     background: linear-gradient(135deg, #FFFFFF 0%, #FFF5D0 100%);
                     -webkit-background-clip: text;
                     -webkit-text-fill-color: transparent;
+                    padding-bottom: 0.15em;
                 }
 
                 .hero-line2 {
