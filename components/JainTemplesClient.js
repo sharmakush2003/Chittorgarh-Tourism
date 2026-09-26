@@ -11,7 +11,6 @@ import {
 import { useRouter } from "next/navigation";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { triggerHaptic } from "@/lib/haptics";
-import QRScannerButton from "./QRScannerButton";
 import { useAudioGuide } from "@/hooks/useAudioGuide";
 import { Waveform } from "./Waveform";
 
@@ -604,9 +603,6 @@ export default function JainTemplesClient() {
                             {t("jain.references.official")}
                         </motion.a>
 
-                        <motion.div variants={itemVariants} style={{ marginTop: '4rem' }}>
-                            <QRScannerButton />
-                        </motion.div>
                     </div>
                 </motion.section>
             </main>

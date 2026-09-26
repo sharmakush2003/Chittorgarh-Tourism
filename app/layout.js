@@ -7,6 +7,7 @@ import LanguagePrompt from "@/components/LanguagePrompt";
 import Background3D from "@/components/Background3D";
 import HeritageGuide from "@/components/HeritageGuide";
 import RoyalPreloader from "@/components/RoyalPreloader";
+import ScrollToTop from "@/components/ScrollToTop";
 import { LanguageProvider } from "@/context/LanguageContext";
 import { AuthProvider } from "@/context/AuthContext";
 import "./globals.css";
@@ -255,6 +256,7 @@ export default function RootLayout({ children }) {
         <Background3D />
         <AuthProvider>
           <LanguageProvider>
+            <ScrollToTop />
             <Navbar />
             <LanguagePrompt />
             {children}

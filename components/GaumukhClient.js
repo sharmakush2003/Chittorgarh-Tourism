@@ -19,7 +19,6 @@ import {
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { triggerHaptic } from "@/lib/haptics";
-import QRScannerButton from "./QRScannerButton";
 import { useAudioGuide } from "@/hooks/useAudioGuide";
 
 export default function GaumukhClient() {
@@ -153,9 +152,6 @@ export default function GaumukhClient() {
                     </div>
                 </section>
 
-                <div style={{ textAlign: 'center', padding: '4rem 0' }}>
-                    <QRScannerButton />
-                </div>
             </main>
 
             <style jsx global>{`

@@ -11,7 +11,6 @@ import {
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { motion, useScroll, useTransform } from "framer-motion";
-import QRScannerButton from "./QRScannerButton";
 import { useAudioGuide } from "@/hooks/useAudioGuide";
 
 import { Waveform } from "./Waveform";
@@ -626,9 +625,6 @@ export default function FatehPrakashClient() {
                             {t("fateh.references.official")}
                         </motion.a>
 
-                        <motion.div variants={itemVariants} style={{ marginTop: '4rem' }}>
-                            <QRScannerButton />
-                        </motion.div>
                     </div>
                 </motion.section>
             </main>

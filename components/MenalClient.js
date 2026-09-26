@@ -11,7 +11,6 @@ import {
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { triggerHaptic } from "@/lib/haptics";
-import QRScannerButton from "./QRScannerButton";
 import { useAudioGuide } from "@/hooks/useAudioGuide";
  
 import { Waveform } from "./Waveform";
@@ -112,9 +111,6 @@ export default function MenalClient() {
                     </div>
                 </motion.section>
 
-                <div style={{ textAlign: 'center', padding: '4rem 0' }}>
-                    <QRScannerButton />
-                </div>
             </main>
 
             <style jsx global>{`

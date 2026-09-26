@@ -54,7 +54,7 @@ export default function HomeClient() {
                         transition={{ duration: 0.8, delay: 0.6 }}
                         className="hero-actions-dock"
                     >
-                        <Link prefetch={false} href="/plan" className="btn-gold-luxury" onClick={() => triggerHaptic('light')}>
+                        <Link prefetch={false} href="/explore" className="btn-gold-luxury" onClick={() => triggerHaptic('light')}>
                             {t("hero.cta1")}
                         </Link>
                         <Link prefetch={false} href="/panch-gaurav" className="btn-outline-luxury" onClick={() => triggerHaptic('medium')}>
@@ -227,14 +227,6 @@ export default function HomeClient() {
             <section className="cta-section" id="contact">
                 <div className="container">
                     <div className="cta-card-luxury">
-                        <motion.span
-                            initial={{ opacity: 0 }}
-                            whileInView={{ opacity: 1 }}
-                            viewport={{ once: true }}
-                            className="eyebrow"
-                        >
-                            {t("cta.eyebrow")}
-                        </motion.span>
                         <motion.h2 
                             initial={{ opacity: 0, y: 30 }}
                             whileInView={{ opacity: 1, y: 0 }}
@@ -259,7 +251,7 @@ export default function HomeClient() {
                             transition={{ delay: 0.4 }}
                             className="mt-6"
                         >
-                            <Link prefetch={false} href="/plan" className="btn-gold-luxury" onClick={() => triggerHaptic('light')}>
+                            <Link prefetch={false} href="/explore" className="btn-gold-luxury" onClick={() => triggerHaptic('light')}>
                                 {t("cta.btn")}
                             </Link>
                         </motion.div>

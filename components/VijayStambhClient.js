@@ -11,7 +11,6 @@ import {
 import { useRouter } from "next/navigation";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { triggerHaptic } from "@/lib/haptics";
-import QRScannerButton from "./QRScannerButton";
 import { Waveform } from "./Waveform";
 import { useAudioGuide } from "@/hooks/useAudioGuide";
 
@@ -542,9 +541,6 @@ export default function VijayStambhClient() {
                             {t("vijay.references.official")}
                         </motion.a>
 
-                        <motion.div variants={itemVariants} style={{ marginTop: '4rem' }}>
-                            <QRScannerButton />
-                        </motion.div>
                     </div>
                 </motion.section>
             </main>

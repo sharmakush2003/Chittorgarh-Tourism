@@ -18,7 +18,6 @@ import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { triggerHaptic } from "@/lib/haptics";
 import { Waveform } from "./Waveform";
-import QRScannerButton from "./QRScannerButton";
 import { useAudioGuide } from "@/hooks/useAudioGuide";
 
 
@@ -204,9 +203,6 @@ export default function SitamataClient() {
                     </div>
                 </motion.section>
 
-                <div style={{ textAlign: 'center', padding: '4rem 0' }}>
-                    <QRScannerButton />
-                </div>
             </main>
 
             <style jsx global>{`

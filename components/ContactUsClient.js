@@ -15,7 +15,6 @@ import {
 import { useRouter } from "next/navigation";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { triggerHaptic } from "@/lib/haptics";
-import QRScannerButton from "./QRScannerButton";
 
 const KineticScroll = ({ progress }) => {
     const width = useTransform(progress, [0, 1], ["0%", "100%"]);
@@ -91,16 +90,6 @@ export default function ContactUsClient() {
 
             {/* ═══ PARALLAX HERO SECTION ═══════════════════════════ */}
             <section className="fort-hero">
-                <motion.div 
-                    style={{ 
-                        scale: heroScale, 
-                        opacity: heroOpacity,
-                        y: heroTranslateY,
-                        backgroundImage: "url('/hero_bg.jpg')"
-                    }} 
-                    className="hero-bg"
-                />
-                <div className="hero-overlay"></div>
 
                 <div className="hero-content">
                     <motion.button 
@@ -127,7 +116,6 @@ export default function ContactUsClient() {
                     </motion.div>
                 </div>
                 
-                <div className="hero-bottom-fade"></div>
             </section>
 
             <main className="fort-main">
@@ -300,9 +288,6 @@ export default function ContactUsClient() {
                     </div>
                 </section>
 
-                <div style={{ textAlign: 'center', padding: '5rem 1rem 4rem' }}>
-                    <QRScannerButton />
-                </div>
             </main>
 
             <style jsx global>{`
@@ -310,14 +295,14 @@ export default function ContactUsClient() {
                     --ff-serif: 'Playfair Display', serif;
                     --ff-sans: 'Inter', sans-serif;
                     --gold: #d4af37;
-                    --gold-glow: rgba(212, 175, 55, 0.25);
-                    --glass-bg: rgba(20, 16, 12, 0.75);
-                    --glass-border: rgba(212, 175, 55, 0.2);
-                    --bg-dark: #080604;
+                    --gold-glow: rgba(212, 175, 55, 0.35);
+                    --glass-bg: rgba(26, 20, 14, 0.75);
+                    --glass-border: rgba(212, 175, 55, 0.28);
+                    --bg-dark: #090705;
                 }
 
                 .fort-page {
-                    background: #080604 !important;
+                    background-color: #090705 !important;
                     color: #fff;
                     min-height: 100vh;
                     font-family: var(--ff-sans);
@@ -325,6 +310,29 @@ export default function ContactUsClient() {
                     display: block;
                     position: relative;
                     z-index: 10;
+                }
+
+                .fort-page::before {
+                    content: '';
+                    position: fixed;
+                    inset: 0;
+                    background: url('/hero_bg.png') no-repeat center center / cover;
+                    opacity: 1;
+                    z-index: 0;
+                    pointer-events: none;
+                }
+
+                .fort-page::after {
+                    content: '';
+                    position: fixed;
+                    inset: 0;
+                    background: linear-gradient(to bottom, 
+                        rgba(15, 10, 6, 0.35) 0%, 
+                        rgba(15, 10, 6, 0.25) 40%,
+                        rgba(15, 10, 6, 0.65) 100%
+                    );
+                    z-index: 1;
+                    pointer-events: none;
                 }
 
                 /* UTILITIES */
@@ -376,22 +384,26 @@ export default function ContactUsClient() {
                 .aura-heading {
                     position: relative;
                     display: inline-block;
+                    background: linear-gradient(135deg, #FFF8DC 0%, #F5E5AD 40%, #D4AF37 100%);
+                    -webkit-background-clip: text;
+                    -webkit-text-fill-color: transparent;
+                    padding-bottom: 0.1em;
                 }
                 .aura-heading::before {
                     content: '';
                     position: absolute;
-                    inset: -15px -30px;
-                    background: radial-gradient(circle, rgba(212, 175, 55, 0.15) 0%, transparent 70%);
+                    inset: -20px -40px;
+                    background: radial-gradient(circle, rgba(212, 175, 55, 0.22) 0%, transparent 70%);
                     z-index: -1;
-                    filter: blur(15px);
+                    filter: blur(20px);
                 }
 
                 /* AMBIENT GLOW CIRCLE */
                 .ambient-glow-circle {
-                    width: 350px;
-                    height: 350px;
-                    background: radial-gradient(circle, rgba(212, 175, 55, 0.06) 0%, transparent 70%);
-                    filter: blur(40px);
+                    width: 500px;
+                    height: 500px;
+                    background: radial-gradient(circle, rgba(212, 175, 55, 0.14) 0%, rgba(212, 175, 55, 0.03) 50%, transparent 70%);
+                    filter: blur(50px);
                     z-index: 1;
                 }
 
@@ -422,7 +434,7 @@ export default function ContactUsClient() {
                 .hero-overlay {
                     position: absolute;
                     inset: 0;
-                    background: radial-gradient(circle at center, rgba(8, 6, 4, 0.45) 0%, rgba(8, 6, 4, 0.95) 100%) !important;
+                    background: radial-gradient(circle at center, rgba(16, 12, 8, 0.45) 0%, rgba(9, 7, 5, 0.9) 100%) !important;
                     z-index: -1;
                 }
 
@@ -431,8 +443,8 @@ export default function ContactUsClient() {
                     bottom: 0;
                     left: 0;
                     right: 0;
-                    height: 140px;
-                    background: linear-gradient(to bottom, transparent, var(--bg-dark));
+                    height: 160px;
+                    background: linear-gradient(to bottom, transparent, #0d0a07);
                     z-index: 1;
                 }
 
@@ -446,24 +458,26 @@ export default function ContactUsClient() {
                     display: inline-flex;
                     align-items: center;
                     gap: 0.6rem;
-                    color: #fff;
+                    color: #F3E5AB;
                     font-size: 0.78rem;
                     margin-bottom: 2.2rem;
                     text-transform: uppercase;
                     font-weight: 800;
                     letter-spacing: 2px;
-                    background: rgba(212, 175, 55, 0.08);
+                    background: rgba(212, 175, 55, 0.12);
+                    backdrop-filter: blur(10px);
                     padding: 0.75rem 1.5rem;
-                    border: 1px solid rgba(212, 175, 55, 0.35);
-                    border-radius: 6px;
+                    border: 1px solid rgba(212, 175, 55, 0.4);
+                    border-radius: 30px;
                     cursor: pointer;
                     transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+                    box-shadow: 0 4px 20px rgba(0,0,0,0.4);
                 }
                 .back-btn:hover {
                     background: var(--gold);
                     color: #000;
                     transform: translateX(-4px);
-                    box-shadow: 0 8px 20px var(--gold-glow);
+                    box-shadow: 0 8px 25px var(--gold-glow);
                 }
 
                 .hero-eyebrow {
@@ -471,29 +485,34 @@ export default function ContactUsClient() {
                     letter-spacing: 5px;
                     text-transform: uppercase;
                     font-size: 0.85rem;
-                    color: var(--gold);
+                    color: #F3E5AB;
                     margin-bottom: 1.2rem;
                     font-weight: 800;
+                    text-shadow: 0 2px 10px rgba(212, 175, 55, 0.3);
                 }
 
                 .hero-title {
-                    font-size: clamp(2.2rem, 6vw, 4.2rem);
-                    color: #fff;
+                    font-size: clamp(2.5rem, 6.5vw, 4.5rem);
+                    background: linear-gradient(135deg, #FFFFFF 0%, #FFF5D0 40%, #D4AF37 100%);
+                    -webkit-background-clip: text;
+                    -webkit-text-fill-color: transparent;
                     margin-bottom: 1.2rem;
-                    text-shadow: 0 4px 15px rgba(0,0,0,0.6);
+                    filter: drop-shadow(0 4px 20px rgba(0,0,0,0.8));
+                    padding-bottom: 0.1em;
                 }
 
                 .hero-desc {
-                    font-size: clamp(0.95rem, 2vw, 1.15rem);
-                    max-width: 600px;
+                    font-size: clamp(0.95rem, 2vw, 1.2rem);
+                    max-width: 620px;
                     margin: 0 auto;
-                    color: rgba(255,255,255,0.75) !important;
+                    color: rgba(255, 255, 255, 0.88) !important;
+                    text-shadow: 0 2px 10px rgba(0,0,0,0.8);
                 }
 
                 .fort-main {
                     display: block;
                     width: 100%;
-                    background: #080604;
+                    background: transparent;
                 }
 
                 .fort-section {
@@ -524,14 +543,14 @@ export default function ContactUsClient() {
 
                 /* GLASSMORPHISM CARD DESIGN */
                 .monument-card {
-                    background: var(--glass-bg);
-                    backdrop-filter: blur(25px);
-                    -webkit-backdrop-filter: blur(25px);
-                    border: 1px solid var(--glass-border);
-                    border-radius: 20px;
+                    background: linear-gradient(145deg, rgba(32, 24, 16, 0.8) 0%, rgba(16, 12, 8, 0.92) 100%);
+                    backdrop-filter: blur(30px);
+                    -webkit-backdrop-filter: blur(30px);
+                    border: 1px solid rgba(212, 175, 55, 0.28);
+                    border-radius: 24px;
                     overflow: hidden;
                     position: relative;
-                    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
+                    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), inset 0 1px 1px rgba(255, 255, 255, 0.1);
                     transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
                 }
 
@@ -539,9 +558,9 @@ export default function ContactUsClient() {
                     content: '';
                     position: absolute;
                     inset: 0;
-                    border-radius: 20px;
+                    border-radius: 24px;
                     padding: 1px;
-                    background: linear-gradient(to bottom, rgba(212, 175, 55, 0.3), transparent);
+                    background: linear-gradient(to bottom, rgba(212, 175, 55, 0.45), transparent 70%);
                     -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
                     -webkit-mask-composite: xor;
                     mask-composite: exclude;
@@ -549,14 +568,14 @@ export default function ContactUsClient() {
                 }
 
                 .monument-card:hover {
-                    border-color: rgba(212, 175, 55, 0.45);
+                    border-color: rgba(212, 175, 55, 0.55);
                     box-shadow: 
-                        0 20px 50px rgba(0, 0, 0, 0.7), 
-                        0 0 35px rgba(212, 175, 55, 0.12);
+                        0 25px 60px rgba(0, 0, 0, 0.8), 
+                        0 0 45px rgba(212, 175, 55, 0.18);
                 }
 
                 .mon-content {
-                    padding: 3rem 2.5rem;
+                    padding: 3.2rem 2.8rem;
                     display: flex;
                     flex-direction: column;
                     align-items: center;
@@ -564,60 +583,63 @@ export default function ContactUsClient() {
 
                 /* FEATURED NODAL CARD */
                 .nodal-card-featured {
-                    max-width: 650px;
+                    max-width: 680px;
                     width: 100%;
-                    background: linear-gradient(145deg, rgba(26, 20, 14, 0.85) 0%, rgba(12, 9, 6, 0.95) 100%);
-                    border: 1px solid rgba(212, 175, 55, 0.25);
+                    background: linear-gradient(145deg, rgba(38, 28, 18, 0.85) 0%, rgba(18, 13, 9, 0.95) 100%);
+                    border: 1px solid rgba(212, 175, 55, 0.35);
                 }
 
                 .badge-shield {
                     position: absolute;
-                    top: 20px;
-                    right: 20px;
-                    opacity: 0.6;
+                    top: 22px;
+                    right: 22px;
+                    opacity: 0.8;
+                    filter: drop-shadow(0 0 8px rgba(212, 175, 55, 0.4));
                 }
 
                 .user-icon-ring {
-                    width: 76px;
-                    height: 76px;
+                    width: 84px;
+                    height: 84px;
                     border-radius: 50%;
-                    border: 2px solid rgba(212, 175, 55, 0.35);
-                    background: rgba(212, 175, 55, 0.06);
+                    border: 2px solid rgba(212, 175, 55, 0.45);
+                    background: radial-gradient(circle, rgba(212, 175, 55, 0.18) 0%, rgba(212, 175, 55, 0.04) 100%);
                     display: flex;
                     align-items: center;
                     justify-content: center;
-                    margin-bottom: 1.4rem;
-                    box-shadow: 0 0 20px rgba(212, 175, 55, 0.15);
+                    margin-bottom: 1.6rem;
+                    box-shadow: 0 0 25px rgba(212, 175, 55, 0.25);
                     transition: all 0.4s ease;
                 }
                 .monument-card:hover .user-icon-ring {
                     border-color: var(--gold);
-                    transform: scale(1.05);
-                    box-shadow: 0 0 25px rgba(212, 175, 55, 0.3);
+                    transform: scale(1.06);
+                    box-shadow: 0 0 35px rgba(212, 175, 55, 0.45);
                 }
 
                 .mon-name {
-                    font-size: clamp(1.4rem, 4vw, 1.8rem);
+                    font-size: clamp(1.5rem, 4vw, 2rem);
                     margin-bottom: 0.8rem;
                     text-align: center;
                     letter-spacing: -0.01em;
+                    color: #FFF8DC;
                 }
 
                 .role-badge {
                     display: inline-block;
-                    color: var(--gold);
+                    color: #F5E5AD;
                     font-size: 0.72rem;
                     text-transform: uppercase;
                     letter-spacing: 1.5px;
                     font-weight: 700;
-                    margin-bottom: 2.2rem;
-                    padding: 0.45rem 1.1rem;
-                    background: rgba(212, 175, 55, 0.08);
-                    border: 1px solid rgba(212, 175, 55, 0.22);
+                    margin-bottom: 2.4rem;
+                    padding: 0.5rem 1.3rem;
+                    background: rgba(212, 175, 55, 0.12);
+                    border: 1px solid rgba(212, 175, 55, 0.35);
                     border-radius: 30px;
                     text-align: center;
                     max-width: 100%;
                     line-height: 1.5;
+                    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
                 }
 
                 .info-links-grid {
@@ -634,21 +656,21 @@ export default function ContactUsClient() {
                 .info-item-link {
                     display: flex;
                     align-items: center;
-                    gap: 1rem;
-                    padding: 1.1rem 1.2rem;
-                    background: rgba(255, 255, 255, 0.03);
-                    border: 1px solid rgba(212, 175, 55, 0.12);
-                    border-radius: 12px;
-                    color: rgba(255, 255, 255, 0.85);
+                    gap: 1.1rem;
+                    padding: 1.2rem 1.3rem;
+                    background: rgba(212, 175, 55, 0.05);
+                    border: 1px solid rgba(212, 175, 55, 0.22);
+                    border-radius: 14px;
+                    color: rgba(255, 255, 255, 0.9);
                     text-decoration: none;
                     transition: all 0.3s ease;
                     min-width: 0;
                 }
                 .info-item-link:hover {
-                    border-color: rgba(212, 175, 55, 0.4);
-                    background: rgba(212, 175, 55, 0.06);
+                    border-color: rgba(212, 175, 55, 0.6);
+                    background: rgba(212, 175, 55, 0.12);
                     color: #fff;
-                    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+                    box-shadow: 0 6px 25px rgba(212, 175, 55, 0.2);
                 }
 
                 .icon-wrapper {
@@ -656,15 +678,18 @@ export default function ContactUsClient() {
                     display: flex;
                     align-items: center;
                     justify-content: center;
-                    width: 38px;
-                    height: 38px;
-                    min-width: 38px;
-                    border-radius: 8px;
-                    background: rgba(212, 175, 55, 0.12);
+                    width: 42px;
+                    height: 42px;
+                    min-width: 42px;
+                    border-radius: 10px;
+                    background: rgba(212, 175, 55, 0.16);
+                    border: 1px solid rgba(212, 175, 55, 0.25);
                     transition: transform 0.3s ease;
                 }
                 .info-item-link:hover .icon-wrapper {
-                    transform: scale(1.08);
+                    transform: scale(1.1);
+                    background: var(--gold);
+                    color: #000;
                 }
 
                 .info-text {

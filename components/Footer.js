@@ -7,7 +7,7 @@ import { useLanguage } from "@/context/LanguageContext";
 const navLinks = [
     { key: "nav.home", href: "/" },
     { key: "nav.explore", href: "/explore" },
-    { key: "nav.planTrip", href: "/plan" },
+    { key: "nav.bookTickets", href: "https://eticket.webfront.in/asi/quick/chf", isExternal: true },
     { key: "nav.visitorInfo", href: "/visitor-info" },
     { key: "nav.contactUs", href: "/contact-us" },
 ];
@@ -40,10 +40,17 @@ export default function Footer() {
                             <ul className="footer-nav-list">
                                 {navLinks.map((l) => (
                                     <li key={l.href}>
-                                        <Link prefetch={false} href={l.href} className="footer-nav-link">
-                                            <span className="footer-nav-arrow">›</span>
-                                            {t(l.key) || l.fallback}
-                                        </Link>
+                                        {l.isExternal ? (
+                                            <a href={l.href} target="_blank" rel="noopener noreferrer" className="footer-nav-link">
+                                                <span className="footer-nav-arrow">›</span>
+                                                {t(l.key) || "Book Tickets"}
+                                            </a>
+                                        ) : (
+                                            <Link prefetch={false} href={l.href} className="footer-nav-link">
+                                                <span className="footer-nav-arrow">›</span>
+                                                {t(l.key) || l.fallback}
+                                            </Link>
+                                        )}
                                     </li>
                                 ))}
                             </ul>

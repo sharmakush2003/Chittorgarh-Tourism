@@ -15,6 +15,7 @@ import {
     ShieldAlert,
     MessageSquareQuote,
     Mail,
+    Ticket,
     X,
     ChevronRight,
     PhoneCall
@@ -84,8 +85,8 @@ export default function Navbar() {
     const navLinks = [
         { href: "/", label: getNavLabel("nav.home", "Home"), icon: <Home size={18} /> },
         { href: "/explore", label: getNavLabel("nav.explore", "Explore"), icon: <Compass size={18} /> },
+        { href: "https://eticket.webfront.in/asi/quick/chf", label: getNavLabel("nav.bookTickets", "Book Tickets"), icon: <Ticket size={18} />, isExternal: true },
         { href: "/stays", label: getNavLabel("nav.stays", "Stays"), icon: <BedDouble size={18} /> },
-        { href: "/plan", label: getNavLabel("nav.planTrip", "Plan Trip"), icon: <MapPin size={18} /> },
         { href: "/visitor-info", label: getNavLabel("nav.visitorInfo", "Visitor Info"), icon: <Info size={18} /> },
         { href: "/panch-gaurav", label: getNavLabel("nav.panchGaurav", "Panch Gaurav"), icon: <Award size={18} /> },
         { href: "/emergency", label: getNavLabel("nav.emergency", "Emergency"), icon: <ShieldAlert size={18} /> },

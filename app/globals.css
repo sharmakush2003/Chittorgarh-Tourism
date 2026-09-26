@@ -421,19 +421,24 @@ h1 {
   top: 0;
   left: 0;
   width: 100%;
-  padding: 1rem var(--container-px);
+  padding: 0.8rem var(--container-px);
   z-index: 1200;
   display: flex;
   justify-content: space-between;
   align-items: center;
   transition: var(--transition);
+  background: rgba(15, 10, 6, 0.95);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .navbar.scrolled {
-  background: rgba(15, 10, 6, 0.95);
-  backdrop-filter: blur(10px);
+  background: rgba(10, 8, 6, 0.98);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   padding: 0.8rem var(--container-px);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid rgba(212, 175, 55, 0.25);
 }
 
 .logo-name {
