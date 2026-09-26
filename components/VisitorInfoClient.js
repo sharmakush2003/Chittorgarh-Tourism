@@ -187,10 +187,6 @@ export default function VisitorInfoClient() {
     const [fromCity, setFromCity] = useState(null);
     const [cityMatch, setCityMatch] = useState(null);
     const [showPrompt, setShowPrompt] = useState(false);
-    const [sosState, setSosState] = useState("idle");
-    const [isGeneratingPDF, setIsGeneratingPDF] = useState(false);
-    const [currentDate, setCurrentDate] = useState("");
-    const pdfTemplateRef = useRef(null);
 
     const onCityDetected = (city) => {
         if (city) {
@@ -222,86 +218,7 @@ export default function VisitorInfoClient() {
         const saved = localStorage.getItem(FROM_CITY_KEY);
         if (saved) applyCity(saved);
         else setShowPrompt(true);
-        setCurrentDate(new Date().toLocaleDateString());
     }, []);
-
-    const sendSOS = async (mode) => {
-        if (sosState === "locating") return;
-        setSosState("locating");
-
-        const getCoords = () => new Promise((res, rej) => {
-            navigator.geolocation.getCurrentPosition(res, rej, { timeout: 8000 });
-        });
-
-        try {
-            const pos = await getCoords();
-            const { latitude, longitude } = pos.coords;
-            const mapLink = `https://www.google.com/maps?q=${latitude},${longitude}`;
-            const timestamp = new Date().toLocaleString();
-            
-            let msg = t('emg.sos.msg') || "EMERGENCY SOS - I need help!";
-            msg = msg.replace('{mapsUrl}', mapLink)
-                     .replace('{lat}', latitude.toFixed(6))
-                     .replace('{lng}', longitude.toFixed(6))
-                     .replace('{timestamp}', timestamp);
-
-            if (mode === 'whatsapp') {
-                window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`, '_blank');
-            } else {
-                window.location.href = `sms:?body=${encodeURIComponent(msg)}`;
-            }
-            setSosState("sent");
-            setTimeout(() => setSosState("idle"), 5000);
-        } catch (err) {
-            alert(t('emg.sos.error') || "Location access failed.");
-            setSosState("idle");
-        }
-    };
-
-    const emergencyGroups = [
-        { id: "police", category: t('emg.group.police'), icon: <ShieldAlert />, color: "#f87171", contacts: [{ name: t('emg.contact.pcr'), num: "01472-240088", note: t('emg.note.247') }, { name: t('emg.contact.policeHelpline'), num: "112", note: t('emg.note.emergency') }] },
-        { id: "medical", category: t('emg.group.medical'), icon: <Hospital />, color: "#f87171", contacts: [{ name: t('emg.contact.ambulanceErs'), num: "108", note: t('emg.note.emergency') }, { name: t('emg.contact.birla'), num: "09530388881", note: t('emg.note.247') }] },
-        { id: "tourist", category: t('emg.group.helpline'), icon: <Info />, color: "#D4AF37", contacts: [{ name: t('emg.contact.trc'), num: "01472-241089", note: t('emg.note.reception') }] },
-    ];
-
-    const downloadPDF = async () => {
-        setIsGeneratingPDF(true);
-        try {
-            const { default: html2canvas } = await import("html2canvas");
-            const { jsPDF } = await import("jspdf");
-
-            const element = pdfTemplateRef.current;
-            element.style.display = "block";
-
-            const canvas = await html2canvas(element, {
-                scale: 2,
-                useCORS: true,
-                backgroundColor: "#ffffff",
-                logging: false,
-            });
-
-            element.style.display = "none";
-            
-            const imgData = canvas.toDataURL("image/png");
-            const pdf = new jsPDF({
-                orientation: "portrait",
-                unit: "mm",
-                format: "a4",
-            });
-
-            const imgProps = pdf.getImageProperties(imgData);
-            const pdfWidth = pdf.internal.pageSize.getWidth();
-            const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
-
-            pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
-            pdf.save("Chittorgarh-Emergency-Guide.pdf");
-        } catch (err) {
-            console.error("PDF generation failed:", err);
-            alert("Failed to generate PDF. Please try again.");
-        } finally {
-            setIsGeneratingPDF(false);
-        }
-    };
 
     return (
         <div className="visitor-page">
@@ -945,127 +862,8 @@ export default function VisitorInfoClient() {
                             ))}
                         </div>
                     </section>
-
-                    {/* ═══ EMERGENCY & HELPLINES ════════════════ */}
-                    <section className="emg-section">
-                        <div className="v-section-header">
-                            <span className="royal-badge-pill" style={{ color: '#f87171', borderColor: 'rgba(248,113,113,0.4)' }}>
-                                <ShieldAlert size={13} />
-                                <span>{t("emg.hub.eyebrow")}</span>
-                            </span>
-                            <h2 className="v-sec-title">{t("emg.hub.title")}</h2>
-                        </div>
-
-                        <div className="emg-grid">
-                            {/* SOS LOCATION BROADCAST CARD */}
-                            <div className="emg-card sos-card-red">
-                                <div className="emg-icon-box">
-                                    <ShieldAlert size={26} />
-                                </div>
-                                <h3>{t("emg.sos.title")}</h3>
-                                <p>{t("emg.sos.sub")}</p>
-                                <div className="sos-btns">
-                                    <button className="v-btn-sos" onClick={() => sendSOS('whatsapp')} disabled={sosState === "locating"}>
-                                        <MessageSquare size={16} />
-                                        <span>{sosState === "locating" ? t("emg.sos.locating") : "WhatsApp"}</span>
-                                    </button>
-                                    <button className="v-btn-outline" style={{ borderColor: '#f87171', color: '#f87171' }} onClick={() => sendSOS('sms')} disabled={sosState === "locating"}>
-                                        <Phone size={16} />
-                                        <span>SMS</span>
-                                    </button>
-                                </div>
-                            </div>
-
-                            {/* POLICE */}
-                            <div className="emg-card">
-                                <div className="emg-icon-box">
-                                    <ShieldAlert size={24} />
-                                </div>
-                                <h3>{t("emg.group.police")}</h3>
-                                <div className="emg-contact-list">
-                                    <div className="emg-item">
-                                        <div className="emg-label">
-                                            {t("emg.contact.pcr")}
-                                            <small>{t("emg.note.247")}</small>
-                                        </div>
-                                        <a href="tel:01472240088" className="emg-val">01472-240088</a>
-                                    </div>
-                                    <div className="emg-item">
-                                        <div className="emg-label">
-                                            {t("emg.contact.policeHelpline")}
-                                            <small>{t("emg.note.emergency")}</small>
-                                        </div>
-                                        <a href="tel:112" className="emg-val">112</a>
-                                    </div>
-                                </div>
-                            </div>
-
-                            {/* MEDICAL */}
-                            <div className="emg-card">
-                                <div className="emg-icon-box">
-                                    <Hospital size={24} />
-                                </div>
-                                <h3>{t("emg.group.medical")}</h3>
-                                <div className="emg-contact-list">
-                                    <div className="emg-item">
-                                        <div className="emg-label">
-                                            {t("emg.contact.ambulanceErs")}
-                                            <small>{t("emg.note.emergency")}</small>
-                                        </div>
-                                        <a href="tel:108" className="emg-val">108</a>
-                                    </div>
-                                    <div className="emg-item">
-                                        <div className="emg-label">
-                                            {t("emg.contact.birla")}
-                                            <small>{t("emg.note.247")}</small>
-                                        </div>
-                                        <a href="tel:09530388881" className="emg-val">09530388881</a>
-                                    </div>
-                                </div>
-                            </div>
-
-                            {/* TOURIST HELPLINE & PDF */}
-                            <div className="emg-card">
-                                <div className="emg-icon-box">
-                                    <Info size={24} />
-                                </div>
-                                <h3>{t("emg.group.helpline")}</h3>
-                                <div className="emg-contact-list">
-                                    <div className="emg-item">
-                                        <div className="emg-label">
-                                            {t("emg.contact.trc")}
-                                            <small>{t("emg.note.reception")}</small>
-                                        </div>
-                                        <a href="tel:01472241089" className="emg-val">01472-241089</a>
-                                    </div>
-                                    <button className="v-btn-gold" style={{ marginTop: '0.8rem' }} onClick={downloadPDF} disabled={isGeneratingPDF}>
-                                        <Download size={16} />
-                                        <span>{isGeneratingPDF ? "Generating PDF..." : t("emg.pdf.btn")}</span>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
                 </div>
             </main>
-
-            {/* HIDDEN PDF TEMPLATE */}
-            <div ref={pdfTemplateRef} style={{ display: "none", position: "fixed", left: "-9999px", top: 0, width: "800px", background: "#fff", color: "#000", padding: "40px" }}>
-                <div style={{ textAlign: "center", marginBottom: "30px", borderBottom: "2px solid #D4AF37", paddingBottom: "20px" }}>
-                    <h1 style={{ color: "#D4AF37", margin: 0 }}>CHITTORGARH TOURISM</h1>
-                </div>
-                {emergencyGroups.map(group => (
-                    <div key={group.id} style={{ marginBottom: "25px" }}>
-                        <h2 style={{ color: group.color, borderBottom: "1px solid #eee", paddingBottom: "5px" }}>{group.category}</h2>
-                        {group.contacts.map(contact => (
-                            <div key={contact.num} style={{ marginBottom: "10px", display: "flex", justifyContent: "space-between" }}>
-                                <div><strong>{contact.name}</strong><br/><span style={{ fontSize: "12px", color: "#666" }}>{contact.note}</span></div>
-                                <div style={{ fontSize: "18px", fontWeight: "bold" }}>{contact.num}</div>
-                            </div>
-                        ))}
-                    </div>
-                ))}
-            </div>
         </div>
     );
 }
