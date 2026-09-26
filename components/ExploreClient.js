@@ -32,7 +32,7 @@ export default function ExploreClient() {
             image: "/hero_bg.png",
             bookingLink: "https://eticket.webfront.in/asi/quick/chf",
             category: "forts",
-            badge: "UNESCO World Heritage"
+            badge: t("attr.fort.badge")
         },
         {
             id: 'vijay',
@@ -45,7 +45,7 @@ export default function ExploreClient() {
             image: "/vijay_stambh.jpg",
             imgPos: "top",
             category: "forts",
-            badge: "Tower of Victory"
+            badge: t("attr.vijay.badge")
         },
         {
             id: 'kirti',
@@ -58,7 +58,7 @@ export default function ExploreClient() {
             image: "/kirti_stambha.jpg",
             imgPos: "top",
             category: "forts",
-            badge: "Tower of Fame"
+            badge: t("attr.kirti.badge")
         },
         {
             id: 'kumbha_palace',
@@ -70,19 +70,19 @@ export default function ExploreClient() {
             link: "/kumbha-palace",
             image: "/rana_kumbha_palace.jpg",
             category: "forts",
-            badge: "Royal Residence"
+            badge: t("attr.kumbha_palace.badge")
         },
         {
             id: 'padmini',
-            title: t("padmini.hero.title"),
-            desc: t("padmini.hero.desc"),
-            time: "10:00 AM - 5:00 PM",
-            dist: "Within Fort",
+            title: t("attr.padmini.name"),
+            desc: t("attr.padmini.desc"),
+            time: t("attr.padmini.time"),
+            dist: t("attr.padmini.dist"),
             delay: 4,
             link: "/padmini-palace",
             image: "/Each page Pics/Fort pics/Padmini Palace.jpg",
             category: "forts",
-            badge: "Water Palace"
+            badge: t("attr.padmini.badge")
         },
         {
             id: 'fateh',
@@ -95,7 +95,7 @@ export default function ExploreClient() {
             image: "/fateh_prakash_palace.jpg",
             bookingLink: "https://obms-tourist.rajasthan.gov.in/place-details/Government-Museum-Chittorgarh",
             category: "forts",
-            badge: "Govt Museum"
+            badge: t("attr.fateh.badge")
         },
         {
             id: 'gaumukh',
@@ -107,7 +107,7 @@ export default function ExploreClient() {
             link: "/gaumukh",
             image: "/gaumukh_reservoir.jpg",
             category: "nature",
-            badge: "Sacred Water Reservoir"
+            badge: t("attr.gaumukh.badge")
         },
         {
             id: 'kalika',
@@ -119,7 +119,7 @@ export default function ExploreClient() {
             link: "/kalika-temple",
             image: "/kalika_mata_temple.jpg",
             category: "temples",
-            badge: "8th-Century Shrine"
+            badge: t("attr.kalika.badge")
         },
         {
             id: 'meera',
@@ -131,7 +131,7 @@ export default function ExploreClient() {
             link: "/meera-bai-temple",
             image: "/meerabai_temple.jpg",
             category: "temples",
-            badge: "Devotional Heritage"
+            badge: t("attr.meera.badge")
         },
         {
             id: 'kumbha_shyam',
@@ -143,7 +143,7 @@ export default function ExploreClient() {
             link: "/kumbha-shyam",
             image: "/kumbha_shyam_temple.jpg",
             category: "temples",
-            badge: "Rajput Architecture"
+            badge: t("attr.kumbha_shyam.badge")
         },
         {
             id: 'jain',
@@ -155,7 +155,7 @@ export default function ExploreClient() {
             link: "/jain-temples",
             image: "/jain_temples.jpg",
             category: "temples",
-            badge: "27 Ancient Shrines"
+            badge: t("attr.jain.badge")
         },
         {
             id: 'ratan',
@@ -167,7 +167,7 @@ export default function ExploreClient() {
             link: "/ratan-palace",
             image: "/ratan_singh_palace.jpg",
             category: "forts",
-            badge: "Ratneshwar Lake View"
+            badge: t("attr.ratan.badge")
         },
         {
             id: 'light',
@@ -180,7 +180,7 @@ export default function ExploreClient() {
             image: "/light_sound_show.jpg",
             bookingLink: "https://obms-tourist.rajasthan.gov.in/place-details/Chittorgarh-Fort-light-and-sound-show",
             category: "shows",
-            badge: "Evening Spectacle"
+            badge: t("attr.light.badge")
         },
         {
             id: 'sanwaliya',
@@ -192,7 +192,7 @@ export default function ExploreClient() {
             link: "/sanwaliya",
             image: "/images/sanwaliya_idol.jpg",
             category: "temples",
-            badge: "Mandaphiya Pilgrimage"
+            badge: t("attr.sanwaliya.badge")
         },
         {
             id: 'menal',
@@ -204,7 +204,7 @@ export default function ExploreClient() {
             link: "/menal",
             image: "/menal_waterfall.jpg",
             category: "nature",
-            badge: "Scenic Gorge & Falls"
+            badge: t("attr.menal.badge")
         },
         {
             id: 'nagari',
@@ -216,7 +216,7 @@ export default function ExploreClient() {
             link: "/nagari",
             image: "/images/Nagari.jpg",
             category: "nature",
-            badge: "Ancient Archaeological Site"
+            badge: t("attr.nagari.badge")
         },
         {
             id: 'bassi',
@@ -228,7 +228,7 @@ export default function ExploreClient() {
             link: "/bassi",
             image: "/images/bassi_path.jpg",
             category: "nature",
-            badge: "Wildlife Sanctuary"
+            badge: t("attr.bassi.badge")
         },
         {
             id: 'sitamata',
@@ -240,16 +240,16 @@ export default function ExploreClient() {
             link: "/sitamata",
             image: "/images/sitamata_1.jpg",
             category: "nature",
-            badge: "Flying Squirrel Haven"
+            badge: t("attr.sitamata.badge")
         }
     ];
 
     const categories = [
-        { id: 'all', label: 'All Landmarks', icon: Sparkles },
-        { id: 'forts', label: 'Fort & Palaces', icon: Hotel },
-        { id: 'temples', label: 'Sacred Temples', icon: Flower },
-        { id: 'nature', label: 'Water & Nature', icon: MapPin },
-        { id: 'shows', label: 'Shows & Events', icon: Ticket }
+        { id: 'all', labelKey: 'exp.cat.all', label: 'All Landmarks', icon: Sparkles },
+        { id: 'forts', labelKey: 'exp.cat.forts', label: 'Fort & Palaces', icon: Hotel },
+        { id: 'temples', labelKey: 'exp.cat.temples', label: 'Sacred Temples', icon: Flower },
+        { id: 'nature', labelKey: 'exp.cat.nature', label: 'Water & Nature', icon: MapPin },
+        { id: 'shows', labelKey: 'exp.cat.shows', label: 'Shows & Events', icon: Ticket }
     ];
 
     const filteredAttractions = useMemo(() => {
@@ -274,11 +274,11 @@ export default function ExploreClient() {
                 <header className="header-section text-center">
                     <div className="royal-badge-pill">
                         <Sparkles size={14} className="sparkle-gold" />
-                        <span>OFFICIAL TOURISM DESTINATIONS</span>
+                        <span>{t("exp.eyebrow")}</span>
                     </div>
                     <h1 className="title text-gold-royal">{t("exp.header")}</h1>
                     <p className="subtitle-royal">
-                        Immerse yourself in the valor, sacred temples, majestic towers, and royal palaces of Rajasthan’s legendary citadel.
+                        {t("exp.subtitle")}
                     </p>
                     <div className="gold-divider-luxury"></div>
 
@@ -288,7 +288,7 @@ export default function ExploreClient() {
                             <Search size={18} className="search-icon" />
                             <input
                                 type="text"
-                                placeholder="Search Vijay Stambh, Padmini Palace, Temples..."
+                                placeholder={t("exp.searchPlaceholder")}
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
                                 className="search-input"
@@ -315,7 +315,7 @@ export default function ExploreClient() {
                                         }}
                                     >
                                         <IconComp size={14} />
-                                        <span>{cat.label}</span>
+                                        <span>{t(cat.labelKey) || cat.label}</span>
                                     </button>
                                 );
                             })}
@@ -346,10 +346,10 @@ export default function ExploreClient() {
                     ) : (
                         <div className="empty-search-box">
                             <Flower size={48} className="empty-icon" />
-                            <h3>No Attractions Found</h3>
-                            <p>We couldn&apos;t find anything matching &quot;{searchQuery}&quot;. Try searching for another landmark.</p>
+                            <h3>{t("exp.noAttractions")}</h3>
+                            <p>{t("exp.noAttractionsSub", { query: searchQuery })}</p>
                             <button className="reset-search-btn" onClick={() => { setSearchQuery(''); setActiveCategory('all'); }}>
-                                Reset Filters
+                                {t("exp.resetFilters")}
                             </button>
                         </div>
                     )}

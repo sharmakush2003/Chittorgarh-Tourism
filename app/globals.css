@@ -237,6 +237,135 @@ body {
   .ep-nearby-arrow { font-size: 0.9rem; }
 }
 
+/* ═══════════════════════════════════════════════════════
+   HERO & AUDIO GUIDE BAR — GLOBAL MOBILE RESPONSIVE FIXES
+   ═══════════════════════════════════════════════════════ */
+.audio-bar {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 0.75rem !important;
+  padding: 0.75rem 1.6rem !important;
+  margin-top: 1.75rem !important;
+  border-radius: 999px !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+  width: auto !important;
+  height: auto !important;
+  text-align: center !important;
+}
+
+.audio-bar span {
+  font-size: 0.88rem !important;
+  letter-spacing: 1.5px !important;
+  white-space: nowrap !important;
+  font-weight: 800 !important;
+}
+
+.audio-bar svg {
+  width: 18px !important;
+  height: 18px !important;
+  flex-shrink: 0 !important;
+}
+
+@media (max-width: 768px) {
+  .fort-hero {
+    min-height: auto !important;
+    height: auto !important;
+    padding-top: 100px !important;
+    padding-bottom: 2.5rem !important;
+    align-items: flex-start !important;
+  }
+
+  .hero-content {
+    max-width: 100% !important;
+    padding: 0 1rem !important;
+    box-sizing: border-box !important;
+  }
+
+  .hero-eyebrow {
+    font-size: 0.75rem !important;
+    letter-spacing: 3px !important;
+    margin-bottom: 1rem !important;
+  }
+
+  .hero-title {
+    font-size: clamp(1.8rem, 7vw, 2.8rem) !important;
+    line-height: 1.15 !important;
+    margin-bottom: 1rem !important;
+    text-shadow: 0 4px 15px rgba(0,0,0,0.9) !important;
+  }
+
+  .hero-desc {
+    font-size: 0.92rem !important;
+    line-height: 1.55 !important;
+    margin: 0 auto 1.5rem !important;
+  }
+
+  .back-btn {
+    margin-bottom: 1rem !important;
+    padding: 0.5rem 1.1rem !important;
+    font-size: 0.75rem !important;
+  }
+
+  .fort-section {
+    padding: 3rem 1rem !important;
+  }
+
+  .section-header {
+    margin-bottom: 2.5rem !important;
+  }
+
+  .section-title {
+    font-size: clamp(1.8rem, 6vw, 2.5rem) !important;
+    margin-bottom: 1rem !important;
+  }
+
+  .glass-panel {
+    padding: 1.5rem 1rem !important;
+    border-radius: 16px !important;
+    margin: 0 auto !important;
+    box-sizing: border-box !important;
+    max-width: 100% !important;
+  }
+
+  .fort-page p, 
+  .glass-panel p {
+    font-size: 0.92rem !important;
+    line-height: 1.6 !important;
+    margin-bottom: 1rem !important;
+  }
+
+  .audio-bar {
+    padding: 0.55rem 1.1rem !important;
+    gap: 0.5rem !important;
+    margin-top: 1.25rem !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  .audio-bar span {
+    font-size: 0.75rem !important;
+    letter-spacing: 0.8px !important;
+  }
+
+  .audio-bar svg {
+    width: 16px !important;
+    height: 16px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-title {
+    font-size: clamp(1.6rem, 6.5vw, 2.2rem) !important;
+  }
+
+  .audio-bar span {
+    font-size: 0.72rem !important;
+    letter-spacing: 0.5px !important;
+  }
+}
+
 img {
   display: block;
   max-width: 100%;

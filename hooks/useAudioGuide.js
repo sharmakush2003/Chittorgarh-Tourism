@@ -87,7 +87,9 @@ export function useAudioGuide() {
         utterance.onstart = () => setPlayingAudio(sectionId);
         utterance.onend = () => setPlayingAudio(null);
         utterance.onerror = (event) => {
-            console.error("useAudioGuide: SpeechSynthesis error", event);
+            if (event.error !== 'interrupted' && event.error !== 'canceled') {
+                console.error("useAudioGuide: SpeechSynthesis error", event);
+            }
             setPlayingAudio(null);
         };
 
