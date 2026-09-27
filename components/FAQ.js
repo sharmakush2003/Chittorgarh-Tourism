@@ -87,7 +87,7 @@ export default function FAQ() {
             <style jsx>{`
                 .faq-section {
                     padding: 3rem 0;
-                    background: var(--dark-bg);
+                    background: transparent;
                 }
 
                 .section-header {
@@ -103,8 +103,9 @@ export default function FAQ() {
                 }
 
                 .faq-item {
-                    background: var(--dark-soft);
-                    border: 1px solid rgba(212, 175, 55, 0.15);
+                    background: rgba(20, 14, 8, 0.75);
+                    backdrop-filter: blur(12px);
+                    border: 1px solid rgba(212, 175, 55, 0.2);
                     border-radius: 10px;
                     overflow: hidden;
                     cursor: pointer;

@@ -14,6 +14,10 @@ export default function HomeClient() {
     
     return (
         <div className="home-page-container">
+            {/* ═══ FIXED BACKGROUND ══════════════════════ */}
+            <div className="fixed-bg"></div>
+            <div className="bg-overlay"></div>
+
             {/* ═══ HERO SECTION ══════════════════════════════════ */}
             <header id="home" className="hero-redesigned">
                 <div className="hero-bg-overlay"></div>
@@ -265,9 +269,10 @@ export default function HomeClient() {
             {/* ═══ LUXURY DARK OBSIDIAN & GOLD THEME CSS ══════════════ */}
             <style jsx global>{`
                 .home-page-container {
-                    background: linear-gradient(180deg, #0A0806 0%, #140F0A 25%, #18130D 50%, #110D08 75%, #0A0806 100%);
-                    color: #FFFFFF;
+                    position: relative;
                     min-height: 100vh;
+                    background: transparent;
+                    color: #FFFFFF;
                     font-family: var(--ff-body), sans-serif;
                 }
 
@@ -350,11 +355,11 @@ export default function HomeClient() {
                 /* HERO SECTION */
                 .hero-redesigned {
                     position: relative;
-                    min-height: 90vh;
+                    min-height: 88vh;
                     display: flex;
                     align-items: center;
                     justify-content: center;
-                    background: url('/hero_new.jpg') no-repeat center center / cover;
+                    background: transparent;
                     padding: 7.5rem 1.25rem 4rem;
                     overflow: hidden;
                 }
@@ -362,7 +367,7 @@ export default function HomeClient() {
                 .hero-bg-overlay {
                     position: absolute;
                     inset: 0;
-                    background: linear-gradient(to bottom, rgba(10, 8, 6, 0.6) 0%, rgba(10, 8, 6, 0.88) 80%, #0A0806 100%);
+                    background: linear-gradient(to bottom, rgba(15, 10, 6, 0.3) 0%, rgba(15, 10, 6, 0.45) 50%, rgba(10, 8, 5, 0.7) 100%);
                     z-index: 1;
                 }
 
@@ -504,7 +509,8 @@ export default function HomeClient() {
                 /* STATS BAR */
                 .stats-bar-section {
                     padding: 2.5rem 0;
-                    background: rgba(15, 12, 8, 0.95);
+                    background: rgba(15, 10, 6, 0.65);
+                    backdrop-filter: blur(12px);
                     border-top: 1px solid rgba(212, 175, 55, 0.25);
                     border-bottom: 1px solid rgba(212, 175, 55, 0.25);
                 }
@@ -520,7 +526,7 @@ export default function HomeClient() {
                     align-items: center;
                     gap: 1rem;
                     padding: 1.25rem 1.5rem;
-                    background: rgba(26, 20, 14, 0.92);
+                    background: rgba(20, 14, 8, 0.75);
                     backdrop-filter: blur(16px);
                     border: 1px solid rgba(212, 175, 55, 0.3);
                     border-radius: 16px;
@@ -568,21 +574,21 @@ export default function HomeClient() {
                 }
 
                 .highlight-card {
-                    background: rgba(24, 18, 12, 0.95) !important;
-                    backdrop-filter: blur(20px);
+                    background: rgba(20, 14, 8, 0.78) !important;
+                    backdrop-filter: blur(16px);
                     border: 1px solid rgba(212, 175, 55, 0.3);
                     border-radius: 20px;
                     overflow: hidden;
                     transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
                     display: flex;
                     flex-direction: column;
-                    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
+                    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
                 }
 
                 .highlight-card:hover {
                     transform: translateY(-10px);
                     border-color: rgba(212, 175, 55, 0.75);
-                    box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.9), 0 0 30px rgba(212, 175, 55, 0.2);
+                    box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.8), 0 0 30px rgba(212, 175, 55, 0.2);
                 }
 
                 .card-image-wrapper {
@@ -605,7 +611,7 @@ export default function HomeClient() {
                 .card-overlay {
                     position: absolute;
                     inset: 0;
-                    background: linear-gradient(to bottom, transparent 20%, rgba(24, 18, 12, 0.98) 100%);
+                    background: linear-gradient(to bottom, transparent 20%, rgba(20, 14, 8, 0.9) 100%);
                 }
 
                 .card-content {
@@ -656,8 +662,8 @@ export default function HomeClient() {
                 }
 
                 .feature-card {
-                    background: rgba(24, 18, 12, 0.95) !important;
-                    backdrop-filter: blur(20px);
+                    background: rgba(20, 14, 8, 0.78) !important;
+                    backdrop-filter: blur(16px);
                     border: 1px solid rgba(212, 175, 55, 0.3);
                     border-radius: 16px;
                     padding: 1.75rem 1.5rem;
@@ -666,13 +672,13 @@ export default function HomeClient() {
                     flex-direction: column;
                     align-items: center;
                     transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
-                    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+                    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
                 }
 
                 .feature-card:hover {
                     transform: translateY(-5px);
                     border-color: rgba(212, 175, 55, 0.7);
-                    box-shadow: 0 18px 40px -10px rgba(0, 0, 0, 0.8);
+                    box-shadow: 0 18px 40px -10px rgba(0, 0, 0, 0.7);
                 }
 
                 .feature-icon {
@@ -705,7 +711,7 @@ export default function HomeClient() {
 
                 /* QUOTE BAND */
                 .quote-band {
-                    background: linear-gradient(180deg, rgba(15, 12, 8, 0.9) 0%, rgba(28, 21, 14, 0.95) 50%, rgba(15, 12, 8, 0.9) 100%);
+                    background: linear-gradient(180deg, rgba(15, 10, 6, 0.5) 0%, rgba(20, 14, 8, 0.75) 50%, rgba(15, 10, 6, 0.5) 100%);
                     text-align: center;
                     padding: 3rem 0;
                     border-top: 1px solid rgba(212, 175, 55, 0.25);
@@ -734,13 +740,13 @@ export default function HomeClient() {
 
                 /* CTA CARD */
                 .cta-card-luxury {
-                    background: linear-gradient(135deg, rgba(30, 23, 15, 0.95) 0%, rgba(20, 15, 9, 0.98) 100%);
-                    backdrop-filter: blur(20px);
+                    background: linear-gradient(135deg, rgba(25, 18, 11, 0.85) 0%, rgba(15, 10, 6, 0.9) 100%);
+                    backdrop-filter: blur(16px);
                     border: 1px solid rgba(212, 175, 55, 0.4);
                     border-radius: 20px;
                     padding: 2.25rem 2rem;
                     text-align: center;
-                    box-shadow: 0 20px 50px -15px rgba(0, 0, 0, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+                    box-shadow: 0 20px 50px -15px rgba(0, 0, 0, 0.7), inset 0 1px 0 rgba(255, 255, 255, 0.1);
                 }
 
                 .cta-title {
