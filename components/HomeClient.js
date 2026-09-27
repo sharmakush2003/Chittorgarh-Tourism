@@ -365,10 +365,7 @@ export default function HomeClient() {
                 }
 
                 .hero-bg-overlay {
-                    position: absolute;
-                    inset: 0;
-                    background: linear-gradient(to bottom, rgba(15, 10, 6, 0.3) 0%, rgba(15, 10, 6, 0.45) 50%, rgba(10, 8, 5, 0.7) 100%);
-                    z-index: 1;
+                    display: none;
                 }
 
                 .hero-ambient-glow {
@@ -400,7 +397,7 @@ export default function HomeClient() {
                     text-transform: uppercase;
                     color: #F3E5AB;
                     padding: 0.4rem 1.2rem;
-                    background: rgba(10, 8, 6, 0.75);
+                    background: rgba(10, 8, 6, 0.65);
                     backdrop-filter: blur(12px);
                     border: 1px solid rgba(212, 175, 55, 0.4);
                     border-radius: 999px;
@@ -414,6 +411,7 @@ export default function HomeClient() {
                 .hero-title {
                     font-family: var(--ff-display), serif;
                     margin-bottom: 1.5rem;
+                    filter: drop-shadow(0 4px 15px rgba(0, 0, 0, 0.9));
                 }
 
                 .hero-line1 {
@@ -441,11 +439,12 @@ export default function HomeClient() {
 
                 .hero-sub {
                     font-size: clamp(0.95rem, 2vw, 1.2rem);
-                    color: rgba(255, 255, 255, 0.9);
+                    color: rgba(255, 255, 255, 0.95);
                     max-width: 680px;
                     margin: 0 auto 2.2rem;
                     line-height: 1.7;
-                    font-weight: 300;
+                    font-weight: 400;
+                    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.95);
                 }
 
                 .hero-actions-dock {
@@ -509,8 +508,8 @@ export default function HomeClient() {
                 /* STATS BAR */
                 .stats-bar-section {
                     padding: 2.5rem 0;
-                    background: rgba(15, 10, 6, 0.65);
-                    backdrop-filter: blur(12px);
+                    background: rgba(15, 10, 6, 0.3);
+                    backdrop-filter: blur(10px);
                     border-top: 1px solid rgba(212, 175, 55, 0.25);
                     border-bottom: 1px solid rgba(212, 175, 55, 0.25);
                 }
@@ -526,9 +525,9 @@ export default function HomeClient() {
                     align-items: center;
                     gap: 1rem;
                     padding: 1.25rem 1.5rem;
-                    background: rgba(20, 14, 8, 0.75);
-                    backdrop-filter: blur(16px);
-                    border: 1px solid rgba(212, 175, 55, 0.3);
+                    background: rgba(15, 10, 6, 0.55);
+                    backdrop-filter: blur(12px);
+                    border: 1px solid rgba(212, 175, 55, 0.35);
                     border-radius: 16px;
                     transition: all 0.3s ease;
                 }
@@ -543,12 +542,12 @@ export default function HomeClient() {
                     width: 46px;
                     height: 46px;
                     border-radius: 12px;
-                    background: rgba(212, 175, 55, 0.15);
-                    border: 1px solid rgba(212, 175, 55, 0.4);
+                    background: rgba(212, 175, 55, 0.25);
+                    border: 1px solid rgba(212, 175, 55, 0.5);
                     display: flex;
                     align-items: center;
                     justify-content: center;
-                    color: #D4AF37;
+                    color: #F5E6AB;
                     flex-shrink: 0;
                 }
 
@@ -556,14 +555,17 @@ export default function HomeClient() {
                     font-family: var(--ff-display), serif;
                     font-size: 1.3rem;
                     font-weight: 800;
-                    color: #FFF;
+                    color: #F5E6AB;
                     line-height: 1.2;
+                    text-shadow: 0 2px 10px rgba(0,0,0,0.9);
                 }
 
                 .stat-lbl {
                     font-size: 0.75rem;
-                    color: rgba(255, 255, 255, 0.7);
+                    color: #FFFFFF;
+                    font-weight: 600;
                     margin-top: 0.15rem;
+                    text-shadow: 0 1px 6px rgba(0,0,0,0.9);
                 }
 
                 /* HIGHLIGHTS GRID */
