@@ -411,7 +411,6 @@ export default function HomeClient() {
                 .hero-title {
                     font-family: var(--ff-display), serif;
                     margin-bottom: 1.5rem;
-                    filter: drop-shadow(0 4px 15px rgba(0, 0, 0, 0.9));
                 }
 
                 .hero-line1 {
@@ -434,7 +433,6 @@ export default function HomeClient() {
                     color: #D4AF37;
                     line-height: 1.1;
                     margin-top: 0.2rem;
-                    text-shadow: 0 4px 20px rgba(0,0,0,0.6);
                 }
 
                 .hero-sub {
@@ -444,7 +442,6 @@ export default function HomeClient() {
                     margin: 0 auto 2.2rem;
                     line-height: 1.7;
                     font-weight: 400;
-                    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.95);
                 }
 
                 .hero-actions-dock {
