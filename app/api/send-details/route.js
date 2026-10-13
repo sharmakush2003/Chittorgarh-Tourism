@@ -154,7 +154,7 @@ export async function POST(request) {
     }
 
     const mailOptions = {
-      from: `"Chittorgarh Tourism" <${emailUser}>`,
+      from: `"चित्तौड़गढ़ पर्यटन" <${emailUser}>`,
       to: email,
       subject: emailSubject,
       html: `
@@ -181,7 +181,7 @@ export async function POST(request) {
           <!-- HEADER / BRANDING -->
           <tr>
             <td style="padding: 30px 40px 20px; text-align:center;">
-              <p style="margin:0; color:#D4AF37; font-size:10px; font-weight:700; letter-spacing:5px; text-transform:uppercase;">Chittorgarh Tourism</p>
+              <p style="margin:0; color:#D4AF37; font-size:10px; font-weight:700; letter-spacing:5px; text-transform:uppercase;">चित्तौड़गढ़ पर्यटन</p>
             </td>
           </tr>
 
@@ -249,7 +249,7 @@ export async function POST(request) {
 
               <div style="border-top:1px solid rgba(255,255,255,0.06); padding-top:25px;">
                 <p style="margin:0; font-size:11px; color:rgba(255,255,255,0.4); letter-spacing:0.5px;">
-                  &copy; ${year} Chittorgarh Tourism. All rights reserved.
+                  &copy; ${year} चित्तौड़गढ़ पर्यटन. All rights reserved.
                 </p>
                 <p style="margin:8px 0 0; font-size:12px; color:#D4AF37; font-weight:600; letter-spacing:0.5px;">
                 </p>

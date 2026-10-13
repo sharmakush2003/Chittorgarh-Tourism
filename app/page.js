@@ -1,12 +1,12 @@
 import HomeClient from "@/components/HomeClient";
 
 export const metadata = {
-  title: "Chittorgarh Tourism — Complete Guide to Rajasthan's Greatest Fort",
+  title: "चित्तौड़गढ़ पर्यटन — Complete Guide to Rajasthan's Greatest Fort",
   description: "Explore Chittorgarh Fort, the largest fort in India. Discover history, palaces, temples, and plan your visit with our ultimate travel guide to Chittorgarh, Rajasthan.",
   keywords: [
     "Chittorgarh",
     "Chittorgarh Fort",
-    "Chittorgarh Tourism",
+    "चित्तौड़गढ़ पर्यटन",
     "How to reach Chittorgarh",
     "Best time to visit Chittorgarh",
     "Rajasthan's largest fort",
@@ -14,10 +14,10 @@ export const metadata = {
     "Chittaurgarh Fort"
   ],
   openGraph: {
-    title: "Chittorgarh Tourism — Complete Guide to Rajasthan's Greatest Fort",
+    title: "चित्तौड़गढ़ पर्यटन — Complete Guide to Rajasthan's Greatest Fort",
     description: "Discover the ultimate travel guide for Chittorgarh Fort. Find out the best places to see, local tips, and how to plan your journey to Rajasthan.",
     url: "/",
-    siteName: "Chittorgarh Tourism",
+    siteName: "चित्तौड़गढ़ पर्यटन",
   },
 };
 

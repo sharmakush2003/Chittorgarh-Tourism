@@ -1,7 +1,7 @@
 import GaumukhClient from "@/components/GaumukhClient";
 
 export const metadata = {
-  title: "Gaumukh Reservoir | Official Chittorgarh Tourism",
+  title: "Gaumukh Reservoir | चित्तौड़गढ़ पर्यटन",
   description: "A sacred perennial spring located within the Chittorgarh Fort.",
 };
 

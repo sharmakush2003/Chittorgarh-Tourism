@@ -1,8 +1,8 @@
 export const metadata = {
-    title: "Explore Attractions | Chittorgarh Tourism",
+    title: "Explore Attractions | चित्तौड़गढ़ पर्यटन",
     description: "Navigate through the legendary Chittorgarh Fort, Vijay Stambha, and historic temples. Discover distances, opening times, and rich heritage facts.",
     openGraph: {
-        title: "Explore Attractions | Chittorgarh Tourism",
+        title: "Explore Attractions | चित्तौड़गढ़ पर्यटन",
         description: "Navigate through the legendary Chittorgarh Fort, Vijay Stambha, and historic temples.",
         url: "/explore",
     }

@@ -1,7 +1,7 @@
 import GuideListClient from "@/components/GuideListClient";
 
 export const metadata = {
-    title: "Official Tourist Guide List | Chittorgarh Tourism",
+    title: "Official Tourist Guide List | चित्तौड़गढ़ पर्यटन",
     description: "Official list of Rajasthan Tourism Department approved tour guides for Chittorgarh Citadel, including license numbers and contact details.",
 };
 

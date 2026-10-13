@@ -147,7 +147,7 @@ export default function ItineraryClient() {
                         </div>
 
                         {/* Label above heading */}
-                        <p className="hero-eyebrow">Chittorgarh Tourism</p>
+                        <p className="hero-eyebrow">चित्तौड़गढ़ पर्यटन</p>
 
                         <h1 className="hero-title">{t("itin.heroTitle") || "Suggested Itineraries"}</h1>
 

@@ -33,8 +33,8 @@ const martel = Martel({
 export const metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://chittorgarh-tourism.in'),
   title: {
-    default: "Chittorgarh Tourism — Official Guide to Rajasthan's Greatest Fort",
-    template: "%s | Chittorgarh Tourism"
+    default: "चित्तौड़गढ़ पर्यटन — Official Guide to Rajasthan's Greatest Fort",
+    template: "%s | चित्तौड़गढ़ पर्यटन"
   },
   description: "Official guide to Chittorgarh Fort, Rajasthan. Explore the UNESCO World Heritage Site, Rani Padmini's Palace, Vijay Stambh, and plan your perfect heritage trip.",
   alternates: {
@@ -51,12 +51,12 @@ export const metadata = {
     },
   },
   keywords: [
-    "Chittorgarh", "Chittorgarh Fort", "Chittorgarh Tourism", "best places to visit in Chittorgarh",
+    "Chittorgarh", "Chittorgarh Fort", "चित्तौड़गढ़ पर्यटन", "best places to visit in Chittorgarh",
     "Chittorgarh Fort travel guide", "Rajasthan Tourism", "Mewar History", "Rani Padmini",
     "Vijay Stambh", "Kirti Stambh", "Chittaurgarh"
   ],
-  authors: [{ name: "Chittorgarh Tourism" }],
-  creator: "Chittorgarh Tourism",
+  authors: [{ name: "चित्तौड़गढ़ पर्यटन" }],
+  creator: "चित्तौड़गढ़ पर्यटन",
   robots: {
     index: false,
     follow: false,
@@ -79,10 +79,10 @@ export const metadata = {
     apple: "/rtdc-logo.jpeg",
   },
   openGraph: {
-    title: "Chittorgarh Tourism — Complete Guide to Rajasthan's Greatest Fort",
+    title: "चित्तौड़गढ़ पर्यटन — Complete Guide to Rajasthan's Greatest Fort",
     description: "Discover the saga of bravery and sacrifice. Plan your ultimate trip to Rajasthan's mightiest citadel.",
     url: process.env.NEXT_PUBLIC_SITE_URL || 'https://chittorgarh-tourism.in',
-    siteName: "Chittorgarh Tourism",
+    siteName: "चित्तौड़गढ़ पर्यटन",
     images: [
       {
         url: "/Poster-For-Chittorgarh-Tourism.png",
@@ -97,7 +97,7 @@ export const metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Chittorgarh Tourism — Complete Guide to Rajasthan's Greatest Fort",
+    title: "चित्तौड़गढ़ पर्यटन — Complete Guide to Rajasthan's Greatest Fort",
     description: "Plan your ultimate trip. Discover Rajasthan's mightiest citadel and best local attractions.",
     images: ["/Poster-For-Chittorgarh-Tourism.png"],
   },
@@ -106,7 +106,7 @@ export const metadata = {
     address: false,
     email: false,
   },
-  applicationName: "Chittorgarh Tourism",
+  applicationName: "चित्तौड़गढ़ पर्यटन",
 };
 
 export const viewport = {
@@ -151,7 +151,7 @@ export default function RootLayout({ children }) {
   const organizationSchema = {
     '@context': 'https://schema.org',
     '@type': 'Organization',
-    name: 'Chittorgarh Tourism',
+    name: 'चित्तौड़गढ़ पर्यटन',
     url: process.env.NEXT_PUBLIC_SITE_URL || 'https://chittorgarh-tourism.in',
     logo: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://chittorgarh-tourism.in'}/logo.jpg`,
     sameAs: [

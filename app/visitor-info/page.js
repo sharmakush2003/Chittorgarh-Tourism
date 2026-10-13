@@ -1,7 +1,7 @@
 import VisitorInfoLoader from "@/components/VisitorInfoLoader";
 
 export const metadata = {
-    title: "Visitor Information Hub | Chittorgarh Tourism",
+    title: "Visitor Information Hub | चित्तौड़गढ़ पर्यटन",
     description: "Your complete guide to reaching Chittorgarh Fort and essential emergency services including SOS, hospitals, and transport bookings.",
     alternates: {
         canonical: '/visitor-info',

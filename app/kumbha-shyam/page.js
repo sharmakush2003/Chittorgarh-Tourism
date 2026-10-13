@@ -1,7 +1,7 @@
 import KumbhaShyamClient from "@/components/KumbhaShyamClient";
 
 export const metadata = {
-  title: "Kumbha Shyam Temple | Official Chittorgarh Tourism",
+  title: "Kumbha Shyam Temple | चित्तौड़गढ़ पर्यटन",
   description: "An 8th-century masterpiece of devotion and architecture.",
 };
 

@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 import dynamic from 'next/dynamic';
 
 const LoadingScreen = () => (
@@ -12,7 +12,7 @@ const LoadingScreen = () => (
         gap: '1rem'
     }}>
         <div className="v-hub-loader"></div>
-        <span style={{ color: '#D4AF37', letterSpacing: '2px', fontSize: '0.8rem', fontWeight: 'bold' }}>CHITTORGARH TOURISM</span>
+        <span style={{ color: '#D4AF37', letterSpacing: '2px', fontSize: '0.8rem', fontWeight: 'bold' }}>चित्तौड़गढ़ पर्यटन</span>
         <style dangerouslySetInnerHTML={{ __html: `
             .v-hub-loader {
                 width: 40px;

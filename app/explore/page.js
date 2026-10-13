@@ -11,7 +11,7 @@ export const metadata = {
         title: "Best Historical Places to Visit in Chittorgarh Fort",
         description: "Explore Rajasthan's finest heritage attractions and hidden temples in and around Chittorgarh Fort.",
         url: "/explore",
-        siteName: "Chittorgarh Tourism",
+        siteName: "चित्तौड़गढ़ पर्यटन",
     },
 };
 

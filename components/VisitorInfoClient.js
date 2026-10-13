@@ -145,9 +145,9 @@ function LocationPrompt({ onCityDetected, t }) {
                 )}
                 {step === "loading" && (
                     <div className="v-loc-loading">
-                        <div className="spinner"></div>
-                        <p>{t("htr.detecting")}</p>
-                        <p className="v-small-note">{t("htr.allowAccess")}</p>
+                        <div className="v-loc-spinner"></div>
+                        <h3 className="v-loc-loading-title">{t("htr.detecting")}</h3>
+                        <p className="v-loc-loading-sub">{t("htr.allowAccess")}</p>
                     </div>
                 )}
                 {step === "manual" && (
@@ -360,23 +360,24 @@ export default function VisitorInfoClient() {
                 }
 
                 .v-loc-card {
-                    background: var(--ivory);
-                    border: 1px solid var(--border-light);
-                    border-radius: var(--radius-lg);
+                    background: #FFFFFF;
+                    border: 1px solid rgba(176, 138, 74, 0.35);
+                    border-radius: var(--radius-lg, 20px);
                     padding: 3rem 2rem;
                     max-width: 480px;
                     width: 100%;
                     text-align: center;
-                    box-shadow: var(--shadow-md);
+                    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.45);
+                    color: #1C1B19;
                 }
 
                 .v-loc-icon {
                     font-size: 3rem;
-                    margin-bottom: 1rem;
+                    margin-bottom: 1.25rem;
                 }
 
                 .v-error-text {
-                    color: #000000;
+                    color: #B91C1C;
                     margin-bottom: 1rem;
                     font-size: 0.9rem;
                     font-weight: 600;
@@ -385,16 +386,56 @@ export default function VisitorInfoClient() {
                 .v-loc-title {
                     font-family: var(--ff-display), serif;
                     font-size: 1.8rem;
-                    color: var(--charcoal);
+                    color: #1C1B19 !important;
                     margin-bottom: 0.8rem;
                     font-weight: 800;
                 }
 
                 .v-loc-desc {
-                    color: var(--text-muted);
+                    color: #4A463F !important;
                     margin-bottom: 2rem;
                     line-height: 1.6;
-                    font-size: 0.92rem;
+                    font-size: 0.95rem;
+                    font-weight: 500;
+                }
+
+                .v-loc-loading {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: center;
+                    padding: 1rem 0;
+                }
+
+                .v-loc-spinner {
+                    width: 46px;
+                    height: 46px;
+                    border: 4px solid rgba(212, 175, 55, 0.2);
+                    border-top-color: #D4AF37;
+                    border-radius: 50%;
+                    animation: v-loc-spin 1s linear infinite;
+                    margin-bottom: 1.25rem;
+                }
+
+                @keyframes v-loc-spin {
+                    to { transform: rotate(360deg); }
+                }
+
+                .v-loc-loading-title {
+                    font-family: var(--ff-display), serif;
+                    font-size: 1.45rem;
+                    font-weight: 800;
+                    color: #1C1B19 !important;
+                    margin-bottom: 0.5rem;
+                }
+
+                .v-loc-loading-sub {
+                    font-size: 0.95rem;
+                    color: #4A463F !important;
+                    line-height: 1.5;
+                    max-width: 360px;
+                    margin: 0 auto;
+                    font-weight: 500;
                 }
 
                 .v-loc-actions {
@@ -802,7 +843,7 @@ export default function VisitorInfoClient() {
                                     {cityMatch?.local 
                                         ? t("htr.welcomeLocal").replace("{city}", fromCity) 
                                         : t("htr.travellingFrom").replace("{city}", fromCity)}
-                                    {cityMatch?.km && ` Â· ${cityMatch.km} km`}
+                                    {cityMatch?.km && ` • ${cityMatch.km} km`}
                                 </span>
                             </div>
                         )}

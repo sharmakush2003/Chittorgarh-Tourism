@@ -269,7 +269,7 @@ async function createQRCard(item) {
     ctx.font = 'bold 20px "Segoe UI", Arial, sans-serif';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
-    ctx.fillText('CHITTORGARH TOURISM', width / 2, pillY + pillH / 2);
+    ctx.fillText('चित्तौड़गढ़ पर्यटन', width / 2, pillY + pillH / 2);
 
     // Landmark Name (Large Title)
     ctx.fillStyle = '#FFFFFF';

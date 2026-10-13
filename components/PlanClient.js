@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useLanguage } from "@/context/LanguageContext";
 import { useState, useRef } from "react";
@@ -1066,13 +1066,13 @@ export default function PlanClient() {
                                 <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                                     <img 
                                         src="/logo.jpg" 
-                                        alt="Chittorgarh Tourism" 
+                                        alt="चित्तौड़गढ़ पर्यटन" 
                                         style={{ width: '48px', height: '48px', borderRadius: '50%', border: '2px solid #D4AF37', objectFit: 'cover' }} 
                                         crossOrigin="anonymous"
                                     />
                                     <div>
                                         <div style={{ fontSize: '20px', fontWeight: '900', color: '#800000', letterSpacing: '0.04em', textTransform: 'uppercase' }}>
-                                            Chittorgarh Tourism
+                                            चित्तौड़गढ़ पर्यटन
                                         </div>
                                         <div style={{ fontSize: '10px', color: '#78716C', fontWeight: '700', letterSpacing: '0.08em', textTransform: 'uppercase' }}>
                                             Heritage Travel Guide & Itinerary â€¢ UNESCO World Heritage Site
@@ -1240,7 +1240,7 @@ export default function PlanClient() {
 
                             {/* PAGE 1 FOOTER */}
                             <div style={{ borderTop: '1px solid #E7E5E4', paddingTop: '6px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '9px', color: '#78716C' }}>
-                                <div><strong>Chittorgarh Tourism Portal</strong> â€¢ Heritage Travel Guide</div>
+                                <div><strong>चित्तौड़गढ़ पर्यटन पोर्टल</strong> • Heritage Travel Guide</div>
                                 <div>Page 1 of 2</div>
                             </div>
                         </div>
@@ -1278,7 +1278,7 @@ export default function PlanClient() {
                                         {activeTab === 'half' ? 'Cuisines, Artisan Crafts & Guidelines' : 'Afternoon Schedule, Cuisines & Visitor Directory'}
                                     </div>
                                 </div>
-                                <div style={{ fontSize: '10px', color: '#78716C', fontWeight: '700' }}>Chittorgarh Tourism Guide</div>
+                                <div style={{ fontSize: '10px', color: '#78716C', fontWeight: '700' }}>चित्तौड़गढ़ पर्यटन गाइड</div>
                             </div>
 
                             {/* AFTERNOON TIMED SCHEDULE (FOR FULL DAY) OR EXPRESS ADVICE (FOR HALF DAY) */}
@@ -1390,7 +1390,7 @@ export default function PlanClient() {
 
                             {/* PAGE 2 FOOTER */}
                             <div style={{ borderTop: '1px solid #E7E5E4', paddingTop: '6px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '9px', color: '#78716C' }}>
-                                <div>Chittorgarh Tourism Portal â€¢ Planned Date: <strong>{formData.date || 'Flexible'}</strong> â€¢ Verified Information</div>
+                                <div>चित्तौड़गढ़ पर्यटन पोर्टल • Planned Date: <strong>{formData.date || 'Flexible'}</strong> • Verified Information</div>
                                 <div>Page 2 of 2</div>
                             </div>
                         </div>

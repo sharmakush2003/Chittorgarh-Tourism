@@ -2,16 +2,16 @@ import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 
 export const metadata = {
-    title: "Terms & Conditions | Chittorgarh Tourism",
-    description: "Terms and Conditions for Chittorgarh Tourism – Rajasthan's Greatest Fort Official Guide.",
+    title: "Terms & Conditions | चित्तौड़गढ़ पर्यटन",
+    description: "Terms and Conditions for चित्तौड़गढ़ पर्यटन – Rajasthan's Greatest Fort Official Guide.",
     alternates: {
         canonical: '/terms',
     },
     openGraph: {
-        title: "Terms & Conditions | Chittorgarh Tourism",
-        description: "Read the terms and conditions for using the Chittorgarh Tourism guide.",
+        title: "Terms & Conditions | चित्तौड़गढ़ पर्यटन",
+        description: "Read the terms and conditions for using the चित्तौड़गढ़ पर्यटन guide.",
         url: "/terms",
-        siteName: "Chittorgarh Tourism",
+        siteName: "चित्तौड़गढ़ पर्यटन",
     },
 };
 
@@ -72,7 +72,7 @@ export default function TermsAndConditions() {
                         {
                             title: "Agreement to Terms",
                             content: (
-                                <p>By accessing and using <strong style={{ color: "var(--gold)" }}>Chittorgarh Tourism</strong> (chittorgarh-tourism.in), you agree to be bound by these Terms & Conditions. This platform is a non-commercial, informational resource dedicated to the history and beauty of Chittorgarh.</p>
+                                <p>By accessing and using <strong style={{ color: "var(--gold)" }}>चित्तौड़गढ़ पर्यटन</strong> (chittorgarh-tourism.in), you agree to be bound by these Terms & Conditions. This platform is a non-commercial, informational resource dedicated to the history and beauty of Chittorgarh.</p>
                             ),
                         },
                         {

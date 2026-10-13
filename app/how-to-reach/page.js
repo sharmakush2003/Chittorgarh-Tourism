@@ -11,7 +11,7 @@ export const metadata = {
         title: "How to reach Chittorgarh Fort from Udaipur & Jaipur by Train",
         description: "Complete transport guide to reach Chittorgarh from major Indian cities by train, bus or flight.",
         url: "/how-to-reach",
-        siteName: "Chittorgarh Tourism",
+        siteName: "चित्तौड़गढ़ पर्यटन",
     },
 };
 

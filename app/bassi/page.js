@@ -1,7 +1,7 @@
 import BassiClient from '@/components/BassiClient';
 
 export const metadata = {
-  title: 'Bassi Wildlife Sanctuary | Chittorgarh Tourism',
+  title: 'Bassi Wildlife Sanctuary | चित्तौड़गढ़ पर्यटन',
   description: 'Explore the serene Bassi Wildlife Sanctuary, a haven for diverse wildlife, birds, and historic hunting towers in Rajasthan.',
 };
 

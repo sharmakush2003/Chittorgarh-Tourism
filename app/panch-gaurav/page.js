@@ -11,7 +11,7 @@ export const metadata = {
         title: "Panch Gaurav Program | Integrated District-Level Initiative",
         description: "Promoting Rajasthan's local resources, crops, sports, and heritage through the Panch Gaurav initiative.",
         url: "/panch-gaurav",
-        siteName: "Chittorgarh Tourism",
+        siteName: "चित्तौड़गढ़ पर्यटन",
     },
 };
 

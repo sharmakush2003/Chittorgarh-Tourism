@@ -2,16 +2,16 @@ import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 
 export const metadata = {
-    title: "Privacy Policy | Chittorgarh Tourism",
-    description: "Privacy Policy for Chittorgarh Tourism – Rajasthan's Greatest Fort Official Guide.",
+    title: "Privacy Policy | चित्तौड़गढ़ पर्यटन",
+    description: "Privacy Policy for चित्तौड़गढ़ पर्यटन – Rajasthan's Greatest Fort Official Guide.",
     alternates: {
         canonical: '/privacy',
     },
     openGraph: {
-        title: "Privacy Policy | Chittorgarh Tourism",
-        description: "Your privacy is important to us. Read how we handle data at Chittorgarh Tourism.",
+        title: "Privacy Policy | चित्तौड़गढ़ पर्यटन",
+        description: "Your privacy is important to us. Read how we handle data at चित्तौड़गढ़ पर्यटन.",
         url: "/privacy",
-        siteName: "Chittorgarh Tourism",
+        siteName: "चित्तौड़गढ़ पर्यटन",
     },
 };
 
@@ -72,7 +72,7 @@ export default function PrivacyPolicy() {
                         {
                             title: "Introduction",
                             content: (
-                                <p>Welcome to <strong style={{ color: "var(--gold)" }}>Chittorgarh Tourism</strong> (chittorgarh-tourism.in). We are a purely informational and awareness-driven portal dedicated to the heritage, culture, and travel guides of Chittorgarh, Rajasthan. Your privacy is of paramount importance to us.</p>
+                                <p>Welcome to <strong style={{ color: "var(--gold)" }}>चित्तौड़गढ़ पर्यटन</strong> (chittorgarh-tourism.in). We are a purely informational and awareness-driven portal dedicated to the heritage, culture, and travel guides of Chittorgarh, Rajasthan. Your privacy is of paramount importance to us.</p>
                             ),
                         },
                         {

@@ -11,7 +11,7 @@ export const metadata = {
         title: "Best Hotels & Premium Stays near Chittorgarh Fort",
         description: "Premium hotels and heritage stays near Chittorgarh Fort, Rajasthan.",
         url: "/stays",
-        siteName: "Chittorgarh Tourism",
+        siteName: "चित्तौड़गढ़ पर्यटन",
     },
 };
 

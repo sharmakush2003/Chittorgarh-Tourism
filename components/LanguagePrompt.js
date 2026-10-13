@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useState, useEffect } from "react";
 import { useLanguage } from "@/context/LanguageContext";
@@ -8,7 +8,7 @@ import { usePathname } from "next/navigation";
 
 const LANGUAGES = [
     { code: "en", name: "English" },
-    { code: "hi", name: "Hindi (à¤¹à¤¿à¤‚à¤¦à¥€)" },
+    { code: "hi", name: "Hindi (हिन्दी)" },
 ];
 
 export default function LanguagePrompt() {

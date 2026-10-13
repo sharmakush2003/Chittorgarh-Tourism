@@ -6,12 +6,12 @@ export const metadata = {
     alternates: {
         canonical: '/nagari',
     },
-    keywords: ["Nagari Chittorgarh", "Majhimika", "Madhyamika", "Ancient India Archaeology", "Sibi Tribe", "Shiva Temple Nagari", "Chittorgarh Tourism"],
+    keywords: ["Nagari Chittorgarh", "Majhimika", "Madhyamika", "Ancient India Archaeology", "Sibi Tribe", "Shiva Temple Nagari", "चित्तौड़गढ़ पर्यटन"],
     openGraph: {
         title: "Ancient Nagari (Majhimika) - Archaeological Wonders near Chittorgarh",
         description: "A journey back to 443 BC. Explore the historic ruins and archaeological significance of Nagari.",
         url: "/nagari",
-        siteName: "Chittorgarh Tourism",
+        siteName: "चित्तौड़गढ़ पर्यटन",
         images: [
             {
                 url: "/nagari_hero.png",

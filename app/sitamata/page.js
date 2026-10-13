@@ -11,7 +11,7 @@ export const metadata = {
         title: "Sitamata Wildlife Sanctuary - Teak Forests & Flying Squirrels",
         description: "A biodiverse haven spanning the Aravalli and Vindhyachal ranges. Discover the rare flying squirrel and lush teak forests.",
         url: "/sitamata",
-        siteName: "Chittorgarh Tourism",
+        siteName: "चित्तौड़गढ़ पर्यटन",
         images: [
             {
                 url: "/sitamata_hero.png",

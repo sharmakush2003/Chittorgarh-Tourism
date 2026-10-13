@@ -246,7 +246,7 @@ export default function ContactUsClient() {
                                 <motion.a
                                     whileHover={{ scale: 1.04 }}
                                     whileTap={{ scale: 0.98 }}
-                                    href={`mailto:Kushsharma.cor@gmail.com?subject=Media Contribution - Chittorgarh Tourism Portal`}
+                                    href={`mailto:Kushsharma.cor@gmail.com?subject=Media Contribution - चित्तौड़गढ़ पर्यटन Portal`}
                                     className="action-cta-btn"
                                     onClick={() => triggerHaptic('medium')}
                                 >

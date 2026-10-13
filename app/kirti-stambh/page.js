@@ -11,7 +11,7 @@ export const metadata = {
         title: "Kirti Stambha (Tower of Fame) - Chittorgarh Fort",
         description: "Explore the magnificent Kirti Stambh, a masterpiece of medieval Jain architecture in Chittorgarh Fort.",
         url: "/kirti-stambh",
-        siteName: "Chittorgarh Tourism",
+        siteName: "चित्तौड़गढ़ पर्यटन",
         images: [
             {
                 url: "/kirti_stambha.jpg",
