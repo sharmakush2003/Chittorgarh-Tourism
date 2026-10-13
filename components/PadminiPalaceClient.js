@@ -1,0 +1,706 @@
+"use client";
+import ImageGallery from "@/components/ImageGallery";
+
+import { useLanguage } from "@/context/LanguageContext";
+import React, { useState, useEffect, useRef } from "react";
+import { 
+    Play, 
+    Pause, 
+    ArrowLeft,
+    MapPin,
+    ScrollText,
+    ChevronDown,
+    ChevronUp,
+    Camera,
+    Info,
+    Flower2,
+    Columns,
+    Crown,
+    X,
+    Map,
+    Headphones
+} from "lucide-react";
+import { useRouter } from "next/navigation";
+import { motion } from "framer-motion";
+import { triggerHaptic } from "@/lib/haptics";
+import { useAudioGuide } from "@/hooks/useAudioGuide";
+
+export default function PadminiPalaceClient() {
+    const { t, lang } = useLanguage();
+    const router = useRouter();
+    const { playingAudio, handleAudioPlay } = useAudioGuide();
+    const [expandedSections, setExpandedSections] = useState({});
+
+    const ARCH_FEATURES = [
+        { id: "padmini_arch.pool", icon: <Flower2 size={20} /> },
+        { id: "padmini_arch.pavilion", icon: <Columns size={20} /> },
+        { id: "padmini_arch.zenana", icon: <Crown size={20} /> }
+    ];
+
+    return (
+        <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 1 }}
+            className="fort-page"
+        >
+            {/* â•â•â• HERO SECTION â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
+            <section className="fort-title-section">
+                
+                
+                
+                <motion.div 
+                    initial={{ y: 30, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    transition={{ delay: 0.2, duration: 0.8 }}
+                    className="hero-content"
+                >
+                    <button className="back-btn" onClick={() => {
+                        triggerHaptic('light');
+                        router.push('/explore');
+                    }}>
+                        <ArrowLeft size={16} /> {t("btn.back") || "Back"}
+                    </button>
+                    <span className="hero-eyebrow">{t("padmini.hero.eyebrow")}</span>
+                    <h1 className="hero-title">{t("padmini.hero.title")}</h1>
+                    <p className="hero-desc" style={{ 'color': '#333 !important' }}>{t("padmini.hero.desc")}</p>
+                    
+
+                </motion.div>
+            </section>
+
+
+
+            <main className="fort-main">
+
+
+                {/* â•â•â• OVERVIEW â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
+                <motion.section 
+                    initial={{ opacity: 0, y: 40 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    id="overview" 
+                    className="fort-section mesh-bg"
+                >
+                    <div className="section-header">
+                        <h2 className="section-title text-gold">{t("padmini.section.overview")}</h2>
+                        <div className="title-divider"></div>
+                    </div>
+                    <div className="overview-grid">
+                        <div className="overview-text">
+                            <p className="lead-para">{t("padmini.overview.p1")}</p>
+                            <p>{t("padmini.overview.p2")}</p>
+                            
+                            <button 
+                                className={`audio-btn ${playingAudio === 'overview' ? 'playing' : ''}`}
+                                onClick={() => handleAudioPlay('overview', ['padmini.overview.p1', 'padmini.overview.p2'])}
+                                style={{ marginTop: '2rem' }}
+                            >
+                                {playingAudio === 'overview' ? <Pause size={18} fill="currentColor" /> : <Play size={18} fill="currentColor" />}
+                                <span>{playingAudio === 'overview' ? t("fort.audio.playing") : t("fort.audio.listen")}</span>
+                            </button>
+                        </div>
+                    </div>
+                </motion.section>
+
+                {/* â•â•â• HISTORY â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
+
+                {/* â•â•â• ARCHITECTURE â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
+                <section id="architecture" className="fort-section">
+                    <motion.div 
+                        initial={{ opacity: 0, y: 30 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        className="section-header"
+                    >
+                        <h2 className="section-title text-gold">{t("padmini.section.architecture")}</h2>
+                        <div className="title-divider"></div>
+                    </motion.div>
+
+                    <div className="monuments-list">
+                        {ARCH_FEATURES.map((m, idx) => (
+                            <motion.div 
+                                key={m.id} 
+                                initial={{ opacity: 0, y: 20 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                transition={{ delay: idx * 0.1 }}
+                                className="monument-card premium-glass"
+                            >
+
+
+                                <div className="mon-content">
+                                    <h3 className="mon-name" style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                                        <span style={{ color: 'var(--gold)' }}>{m.icon}</span> 
+                                        {t(`attr.${m.id}.name`)}
+                                    </h3>
+                                    <p className={`mon-desc ${expandedSections[m.id] ? 'expanded' : ''}`}>
+                                        {t(`attr.${m.id}.desc`)}
+                                    </p>
+                                    
+                                    <button 
+                                        className="read-more-btn"
+                                        onClick={() => {
+                                            setExpandedSections(prev => ({...prev, [m.id]: !prev[m.id]}));
+                                        }}
+                                    >
+                                        {expandedSections[m.id] ? (
+                                            <><ChevronUp size={16} /> {t("btn.readLess") || "Read Less"}</>
+                                        ) : (
+                                            <><ChevronDown size={16} /> {t("btn.readMore") || "Read More"}</>
+                                        )}
+                                    </button>
+                                    
+                                    <button 
+                                        className={`audio-btn ${playingAudio === m.id ? 'playing' : ''}`}
+                                        onClick={() => handleAudioPlay(m.id, [`attr.${m.id}.name`, `attr.${m.id}.desc`])}
+                                    >
+                                        {playingAudio === m.id ? <Pause size={18} fill="currentColor" /> : <Play size={18} fill="currentColor" />}
+                                        <span>{playingAudio === m.id ? t("fort.audio.playing") : t("fort.audio.listen")}</span>
+                                    </button>
+                                </div>
+                            </motion.div>
+                        ))}
+                    </div>
+                </section>
+
+            
+                {/* ═══ GALLERY ══════════════════════════ */}
+                
+                {/* ═══ GALLERY ══════════════════════════ */}
+                <motion.section initial={{opacity: 0}} whileInView={{opacity: 1}} transition={{duration: 0.5}} 
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={{ once: true, margin: "-50px" }}
+                    
+                    className="fort-section"
+                    style={{ paddingTop: 0, paddingBottom: '6rem' }}
+                >
+                    <div className="section-header" style={{ marginBottom: '3.5rem' }}>
+                        <motion.h2  className="section-title" style={{ fontSize: '2.5rem', background: 'none', WebkitTextFillColor: '#111', color: '#111', filter: 'none' }}>
+                            Gallery
+                        </motion.h2>
+                        <motion.div  className="title-divider"></motion.div>
+                    </div>
+                    <div className="page-gallery-grid">
+                        <motion.img src="/Padmini Palaace Images/Padmini Palace 1.jpg" alt="Padmini Palace" className="p-gal-img" />
+                        <motion.img src="/Padmini Palaace Images/Padmini Palace.jpg" alt="Padmini Palace" className="p-gal-img" />
+                        <motion.img src="/Padmini Palaace Images/Padmini Palace3.jpg" alt="Padmini Palace" className="p-gal-img" />
+                        <motion.img src="/Padmini Palaace Images/Padmini Palace7.JPG" alt="Padmini Palace" className="p-gal-img" />
+                    </div>
+                </motion.section>
+
+            </main>
+
+            <style jsx global>{`
+                :root {
+                    --ff-serif: 'Playfair Display', serif;
+                    --ff-sans: 'Inter', sans-serif;
+                    --gold: #d4af37;
+                }
+
+                .fort-page {
+                    background: #ffffff !important;
+                    color: #333;
+                    min-height: 100vh;
+                    font-family: var(--ff-sans);
+                    overflow-x: hidden;
+                    display: block;
+                    position: relative;
+                }
+
+                h1, h2, h3, h4 {
+                    font-family: var(--ff-serif);
+                    font-weight: 700;
+                    letter-spacing: -0.02em;
+                    color: #111 !important;
+                    background: none !important;
+                    /* -webkit-background-clip: text; */
+                    -webkit-text-fill-color: #111 !important;
+                    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+                }
+
+                .fort-page h1, .fort-page h2, .fort-page h3, .fort-page h4, .fort-page .timeline-year {
+                    line-height: 1.3 !important;
+                    margin: 0;
+                    padding: 0;
+                }
+
+                .fort-page p {
+                    color: #000 !important;
+                    font-weight: 500;
+                    line-height: 1.8;
+                    font-size: 1.15rem;
+                    margin-bottom: 2rem;
+                }
+
+                /* --- Language Specific --- */
+                :global([data-lang="hi"]) .fort-page {
+                    --ff-serif: 'Martel', serif;
+                }
+
+                :global([data-lang="hi"]) h1, 
+                :global([data-lang="hi"]) h2, 
+                :global([data-lang="hi"]) h3 {
+                    font-family: 'Martel', serif !important;
+                    font-weight: 900 !important;
+                    line-height: 1.5 !important;
+                    letter-spacing: normal !important;
+                }
+
+                :global([data-lang="hi"]) .fort-page p {
+                    font-family: 'Martel', serif !important;
+                    font-weight: 500 !important;
+                    line-height: 1.8 !important;
+                    letter-spacing: normal !important;
+                }
+
+
+                .fort-hero {
+                    min-height: 100vh; 
+                    height: auto;
+                    position: relative;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    text-align: center;
+                    padding: 8rem 1.5rem 4rem;
+                    z-index: 2;
+                }
+
+                .hero-bg {
+                    position: absolute;
+                    inset: 0;
+                    background-size: cover;
+                    background-repeat: no-repeat;
+                    z-index: -2;
+                }
+
+                .hero-overlay {
+                    position: absolute;
+                    inset: 0;
+                    background: linear-gradient(to bottom, 
+                        rgba(10, 8, 4, 0.6) 0%, 
+                        rgba(10, 8, 4, 0.98) 100%
+                    ) !important;
+                    z-index: -1;
+                }
+
+                
+                .fort-title-section {
+                    padding: 10rem 1.5rem 3rem;
+                    background: #ffffff;
+                    text-align: center;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: center;
+                    z-index: 5;
+                    position: relative;
+                }
+                .hero-content {
+                    max-width: 1000px;
+                    padding: 0 1.5rem;
+                    z-index: 10;
+                    width: 100%;
+                }
+                .page-gallery-grid {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+                    gap: 1.5rem;
+                    padding: 0 1.5rem;
+                    max-width: 1200px;
+                    margin: 0 auto;
+                }
+                .p-gal-img {
+                    width: 100%;
+                    height: auto;
+                    border-radius: 16px;
+                    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+                    transition: transform 0.4s ease, box-shadow 0.4s ease;
+                    display: block;
+                }
+                .p-gal-img:hover {
+                    transform: translateY(-5px);
+                    box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+                }
+
+
+                .back-btn {
+                    display: inline-flex;
+                    align-items: center;
+                    gap: 0.5rem;
+                    color: #333;
+                    font-size: 0.8rem;
+                    margin-bottom: 3rem;
+                    text-transform: uppercase;
+                    font-weight: 800;
+                    background: rgba(212, 175, 55, 0.2);
+                    padding: 0.75rem 1.5rem;
+                    border: 1px solid rgba(212, 175, 55, 0.4);
+                    border-radius: 4px;
+                    cursor: pointer;
+                    transition: background 0.2s, transform 0.2s;
+                    font-family: var(--ff-sans);
+                }
+                .back-btn:hover {
+                    background: rgba(212, 175, 55, 0.35);
+                    transform: translateX(-4px);
+                }
+
+                .hero-eyebrow {
+                    display: block;
+                    letter-spacing: 4px;
+                    text-transform: uppercase;
+                    font-size: 0.9rem;
+                    color: var(--gold);
+                    margin-bottom: 1.5rem;
+                    font-weight: 800;
+                }
+
+                .hero-title {
+                    font-size: clamp(3.5rem, 10vw, 5rem);
+                    line-height: 1.1;
+                    margin-bottom: 1.5rem;
+                    background: none !important;
+                    -webkit-text-fill-color: #111 !important;
+                    color: #111 !important;
+                    text-shadow: none !important;
+                    filter: none !important;
+                }
+
+                .hero-desc {
+                    font-size: clamp(1rem, 2.5vw, 1.2rem);
+                    max-width: 700px;
+                    margin: 0 auto 3rem;
+                }
+
+                .hero-stats {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    flex-wrap: wrap;
+                    gap: 2rem;
+                    padding-top: 3rem;
+                    border-top: 1px solid rgba(212, 175, 55, 0.3);
+                }
+
+                .stat-item {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    gap: 0;
+                }
+
+                .stat-val {
+                    font-size: clamp(2rem, 6vw, 3.5rem);
+                    color: var(--gold);
+                    font-family: var(--ff-serif);
+                    line-height: 1.1;
+                    font-weight: 800;
+                }
+
+                .stat-label {
+                    font-size: clamp(0.7rem, 2vw, 0.9rem);
+                    color: rgba(255, 255, 255, 0.8);
+                    text-transform: uppercase;
+                    letter-spacing: 2px;
+                    font-weight: 600;
+                    margin-top: 0;
+                }
+
+                .stat-divider {
+                    width: 1px;
+                    height: 40px;
+                    background: rgba(212, 175, 55, 0.3);
+                }
+
+                    border-bottom: 2px solid var(--gold);
+                }
+
+                .fort-main {
+                    display: block;
+                    width: 100%;
+                }
+
+                .fort-section {
+                    display: block;
+                    position: relative;
+                    height: auto !important;
+                    min-height: auto !important;
+                    padding: 5rem 1.5rem;
+                    max-width: 1200px;
+                    margin: 0 auto;
+                    background: #ffffff !important;
+                }
+
+                .section-header {
+                    margin-bottom: 4rem;
+                    text-align: center;
+                }
+
+                .section-title {
+                    font-size: clamp(2.2rem, 6vw, 4rem);
+                    margin-bottom: 1.5rem;
+                    color: var(--gold) !important;
+                }
+
+                .title-divider {
+                    width: 60px;
+                    height: 3px;
+                    background: var(--gold);
+                    margin: 0 auto;
+                }
+
+                .overview-grid {
+                    display: grid;
+                    grid-template-columns: 1fr;
+                    gap: 3rem;
+                }
+                
+                @media (min-width: 900px) {
+                    .overview-grid { grid-template-columns: 1.5fr 1fr; }
+                }
+
+                .info-chips {
+                    display: flex;
+                    flex-wrap: wrap;
+                    gap: 1rem;
+                    margin-top: 2rem;
+                }
+
+                .chip {
+                    display: inline-flex;
+                    align-items: center;
+                    gap: 0.5rem;
+                    background: rgba(255,255,255,0.05);
+                    padding: 0.5rem 1rem;
+                    border-radius: 20px;
+                    font-size: 0.85rem;
+                    border: 1px solid rgba(255,255,255,0.1);
+                }
+
+                .history-timeline {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 3.5rem;
+                    position: relative;
+                }
+
+                .timeline-item {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 2rem;
+                    padding: 2.5rem;
+                    background: rgba(255, 255, 255, 0.02);
+                    border: 1px solid rgba(212, 175, 55, 0.15);
+                    border-radius: 16px;
+                    position: relative;
+                    transition: all 0.4s ease;
+                }
+
+                .timeline-item:hover {
+                    border-color: var(--gold);
+                    background: rgba(212, 175, 55, 0.05);
+                    transform: translateY(-5px);
+                }
+
+                @media (min-width: 768px) {
+                    .timeline-item {
+                        flex-direction: row;
+                        align-items: center;
+                        gap: 4rem;
+                        padding: 4rem;
+                    }
+                    .timeline-item:nth-child(even) {
+                        flex-direction: row-reverse;
+                    }
+                }
+
+                .timeline-img-wrapper {
+                    width: 100%;
+                    flex: 1;
+                    max-width: 450px;
+                    aspect-ratio: 16/10;
+                    border-radius: 12px;
+                    overflow: hidden;
+                    border: 1px solid rgba(212, 175, 55, 0.3);
+                    box-shadow: 0 15px 40px rgba(0,0,0,0.6);
+                }
+
+                .timeline-img {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                    transition: transform 0.8s cubic-bezier(0.165, 0.84, 0.44, 1);
+                }
+
+                .timeline-item:hover .timeline-img {
+                    transform: scale(1.1);
+                }
+
+                .timeline-content {
+                    flex: 1.2;
+                }
+
+                .timeline-year {
+                    font-size: 2.2rem;
+                    color: var(--gold);
+                    margin-bottom: 1.5rem;
+                    display: inline-block;
+                }
+
+                .timeline-title {
+                    font-size: 1.6rem;
+                    margin-bottom: 1rem;
+                }
+
+                .monuments-list {
+                    display: grid;
+                    grid-template-columns: 1fr;
+                    gap: 2.5rem;
+                }
+
+                @media (min-width: 768px) {
+                    .monuments-list { grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 3rem; }
+                }
+
+                .monument-card {
+                    background: rgba(255, 255, 255, 0.8);
+                    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+                    backdrop-filter: blur(12px);
+                    -webkit-backdrop-filter: blur(12px);
+                    border: 1px solid rgba(212, 175, 55, 0.3);
+                    border-radius: 20px;
+                    overflow: hidden;
+                    display: flex;
+                    flex-direction: column;
+                    transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+                }
+
+                .monument-card:hover {
+                    background: rgba(255, 255, 255, 0.05);
+                    border-color: rgba(212, 175, 55, 0.4);
+                    transform: translateY(-8px);
+                    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 25px rgba(212, 175, 55, 0.1);
+                }
+
+                .mon-image-wrapper {
+                    width: 100%;
+                    height: 220px;
+                    position: relative;
+                    overflow: hidden;
+                }
+
+                .mon-card-img {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                    transition: transform 0.5s ease;
+                }
+
+                .monument-card:hover .mon-card-img {
+                    transform: scale(1.1);
+                }
+
+                .mon-content {
+                    padding: 2rem;
+                    flex: 1;
+                    display: flex;
+                    flex-direction: column;
+                }
+
+                .mon-desc {
+                    font-size: 1.1rem;
+                    line-height: 1.7;
+                    color: #000;
+                    margin-bottom: 1rem;
+                    display: -webkit-box;
+                    -webkit-line-clamp: 3;
+                    -webkit-box-orient: vertical;
+                    overflow: hidden;
+                }
+
+                .mon-desc.expanded {
+                    -webkit-line-clamp: unset;
+                    display: block;
+                }
+
+                .read-more-btn {
+                    background: none;
+                    border: none;
+                    color: var(--gold);
+                    cursor: pointer;
+                    display: flex;
+                    align-items: center;
+                    gap: 0.4rem;
+                    margin-top: 1rem;
+                    margin-bottom: 1.5rem;
+                    font-weight: 700;
+                    font-size: 0.9rem;
+                    transition: all 0.3s ease;
+                    text-transform: uppercase;
+                    letter-spacing: 1px;
+                }
+
+                .read-more-btn:hover {
+                    color: #333;
+                    text-shadow: 0 0 10px rgba(212,175,55,0.5);
+                    transform: translateX(5px);
+                }
+
+                .mon-name {
+                    font-size: 1.8rem;
+                    margin-bottom: 1rem;
+                }
+
+                .audio-btn {
+                    background: rgba(212, 175, 15, 0.1);
+                    border: 1px solid rgba(212, 175, 55, 0.3);
+                    color: var(--gold) !important;
+                    padding: 0.8rem 1.5rem;
+                    font-size: 0.85rem;
+                    font-weight: 700;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 0.8rem;
+                    border-radius: 8px;
+                    cursor: pointer;
+                    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+                    width: 100%;
+                    margin-top: auto;
+                    text-transform: uppercase;
+                    letter-spacing: 1px;
+                }
+
+                .audio-btn:hover {
+                    background: var(--gold);
+                    color: #000 !important;
+                    transform: translateY(-3px);
+                    box-shadow: 0 10px 25px rgba(212, 175, 55, 0.4);
+                }
+
+                @media (max-width: 768px) {
+                    .fort-hero { 
+                        align-items: flex-start;
+                        padding-top: 110px; 
+                        padding-bottom: 4rem; 
+                        min-height: 100vh; 
+                    }
+                    .back-btn {
+                        margin-bottom: 2rem;
+                    }
+                    .hero-title { font-size: 2.8rem; line-height: 1.15 !important; margin-bottom: 1.5rem; }
+                    .hero-desc { font-size: 1rem; margin-bottom: 2rem; }
+                    .hero-stats { flex-direction: column; gap: 1.5rem; border-top: none; padding-top: 1rem; }
+                    .stat-divider { display: none; }
+                    
+                    .fort-section { padding: 4rem 1.25rem; }
+                    .section-header { margin-bottom: 3rem; }
+                    .section-title { font-size: 2.4rem; }
+                }
+            `}</style>
+        </motion.div>
+    );
+}
+

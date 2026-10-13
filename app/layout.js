@@ -1,0 +1,277 @@
+import { Playfair_Display, Inter, Martel } from "next/font/google";
+import Script from "next/script";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
+import ScrollReveal from "@/components/ScrollReveal";
+import LanguagePrompt from "@/components/LanguagePrompt";
+import Background3D from "@/components/Background3D";
+import HeritageGuide from "@/components/HeritageGuide";
+import RoyalPreloader from "@/components/RoyalPreloader";
+import ScrollToTop from "@/components/ScrollToTop";
+import { LanguageProvider } from "@/context/LanguageContext";
+import { AuthProvider } from "@/context/AuthContext";
+import "./globals.css";
+
+const playfair = Playfair_Display({
+  subsets: ["latin"],
+  variable: "--font-playfair",
+  weight: ["400", "500", "600", "700"],
+  style: ["normal", "italic"],
+});
+
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-inter",
+  weight: ["300", "400", "500", "600", "700"],
+});
+
+const martel = Martel({
+  subsets: ["latin", "devanagari"],
+  variable: "--font-martel",
+  weight: ["400", "700", "900"],
+});
+
+export const metadata = {
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://chittorgarh-tourism.in'),
+  title: {
+    default: "Chittorgarh Tourism — Official Guide to Rajasthan's Greatest Fort",
+    template: "%s | Chittorgarh Tourism"
+  },
+  description: "Official guide to Chittorgarh Fort, Rajasthan. Explore the UNESCO World Heritage Site, Rani Padmini's Palace, Vijay Stambh, and plan your perfect heritage trip.",
+  alternates: {
+    canonical: '/',
+    languages: {
+      'en': '/',
+      'hi': '/?lang=hi',
+      'fr': '/?lang=fr',
+      'de': '/?lang=de',
+      'ja': '/?lang=ja',
+      'ru': '/?lang=ru',
+      'es': '/?lang=es',
+      'it': '/?lang=it',
+    },
+  },
+  keywords: [
+    "Chittorgarh", "Chittorgarh Fort", "Chittorgarh Tourism", "best places to visit in Chittorgarh",
+    "Chittorgarh Fort travel guide", "Rajasthan Tourism", "Mewar History", "Rani Padmini",
+    "Vijay Stambh", "Kirti Stambh", "Chittaurgarh"
+  ],
+  authors: [{ name: "Chittorgarh Tourism" }],
+  creator: "Chittorgarh Tourism",
+  robots: {
+    index: false,
+    follow: false,
+    nocache: true,
+    googleBot: {
+      index: false,
+      follow: false,
+      noimageindex: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
+  icons: {
+    icon: [
+      { url: "/rtdc-logo.jpeg" },
+      { url: "/favicon.ico" },
+    ],
+    shortcut: "/rtdc-logo.jpeg",
+    apple: "/rtdc-logo.jpeg",
+  },
+  openGraph: {
+    title: "Chittorgarh Tourism — Complete Guide to Rajasthan's Greatest Fort",
+    description: "Discover the saga of bravery and sacrifice. Plan your ultimate trip to Rajasthan's mightiest citadel.",
+    url: process.env.NEXT_PUBLIC_SITE_URL || 'https://chittorgarh-tourism.in',
+    siteName: "Chittorgarh Tourism",
+    images: [
+      {
+        url: "/Poster-For-Chittorgarh-Tourism.png",
+        width: 1200,
+        height: 630,
+        alt: "Chittorgarh Fort Tourism",
+        type: "image/png",
+      }
+    ],
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Chittorgarh Tourism — Complete Guide to Rajasthan's Greatest Fort",
+    description: "Plan your ultimate trip. Discover Rajasthan's mightiest citadel and best local attractions.",
+    images: ["/Poster-For-Chittorgarh-Tourism.png"],
+  },
+  formatDetection: {
+    telephone: false,
+    address: false,
+    email: false,
+  },
+  applicationName: "Chittorgarh Tourism",
+};
+
+export const viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+  themeColor: "#D4AF37",
+};
+
+export default function RootLayout({ children }) {
+  const touristAttractionSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'TouristAttraction',
+    name: 'Chittorgarh Fort',
+    description: "Rajasthan's mightiest citadel and a UNESCO World Heritage Site.",
+    url: process.env.NEXT_PUBLIC_SITE_URL || 'https://chittorgarh-tourism.in',
+    image: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://chittorgarh-tourism.in'}/Poster-For-Chittorgarh-Tourism.png`,
+    address: {
+      '@type': 'PostalAddress',
+      addressLocality: 'Chittorgarh',
+      addressRegion: 'Rajasthan',
+      addressCountry: 'IN'
+    },
+    geo: {
+      '@type': 'GeoCoordinates',
+      latitude: '24.8887',
+      longitude: '74.6269'
+    },
+    openingHoursSpecification: [
+      {
+        '@type': 'OpeningHoursSpecification',
+        dayOfWeek: [
+          'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'
+        ],
+        opens: '09:00',
+        closes: '18:00'
+      }
+    ],
+    priceRange: '₹40 - ₹600'
+  };
+
+  const organizationSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    name: 'Chittorgarh Tourism',
+    url: process.env.NEXT_PUBLIC_SITE_URL || 'https://chittorgarh-tourism.in',
+    logo: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://chittorgarh-tourism.in'}/logo.jpg`,
+    sameAs: [
+      'https://www.facebook.com/chittorgarhtourism',
+      'https://www.instagram.com/chittorgarhtourism',
+      'https://twitter.com/chittorgarhtour'
+    ]
+  };
+
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": process.env.NEXT_PUBLIC_SITE_URL || 'https://chittorgarh-tourism.in'
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Explore",
+        "item": `${process.env.NEXT_PUBLIC_SITE_URL || 'https://chittorgarh-tourism.in'}/explore`
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Plan Your Visit",
+        "item": `${process.env.NEXT_PUBLIC_SITE_URL || 'https://chittorgarh-tourism.in'}/plan`
+      }
+    ]
+  };
+
+  return (
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        <link rel="dns-prefetch" href={process.env.NEXT_PUBLIC_SITE_URL || "https://chittorgarh-tourism.in"} />
+        <link rel="preconnect" href={process.env.NEXT_PUBLIC_SITE_URL || "https://chittorgarh-tourism.in"} crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
+        <meta name="theme-color" content="#D4AF37" />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.addEventListener('beforeinstallprompt', (e) => {
+                e.preventDefault();
+                return false;
+              });
+              if (typeof window !== 'undefined') {
+                if ('serviceWorker' in navigator) {
+                  navigator.serviceWorker.getRegistrations().then(function(registrations) {
+                    for(let registration of registrations) {
+                      registration.unregister();
+                    }
+                  });
+                }
+                if ('caches' in window) {
+                  caches.keys().then(function(names) {
+                    for(let name of names) {
+                      caches.delete(name);
+                    }
+                  });
+                }
+              }
+            `,
+          }}
+        />
+      </head>
+      <body className={`${playfair.variable} ${inter.variable} ${martel.variable}`}>
+        {/* Google Analytics 4 (GA4) */}
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-CZV8Q3M5SS"
+          strategy="afterInteractive"
+        />
+        <Script
+          id="google-analytics"
+          strategy="afterInteractive"
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', 'G-CZV8Q3M5SS', {
+                page_path: window.location.pathname,
+              });
+            `,
+          }}
+        />
+
+        <RoyalPreloader />
+        <Script
+          id="attraction-schema"
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(touristAttractionSchema) }}
+        />
+        <Script
+          id="breadcrumb-schema"
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+        />
+        <Script
+          id="org-schema"
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
+        />
+        <Background3D />
+        <AuthProvider>
+          <LanguageProvider>
+            <ScrollToTop />
+            <Navbar />
+            <LanguagePrompt />
+            {children}
+            <HeritageGuide />
+            <Footer />
+            <ScrollReveal />
+          </LanguageProvider>
+        </AuthProvider>
+      </body>
+    </html>
+  );
+}
+export const revalidate = 86400;

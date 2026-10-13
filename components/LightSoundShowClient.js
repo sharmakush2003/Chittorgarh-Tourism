@@ -1,0 +1,760 @@
+﻿"use client";
+import Image from 'next/image';
+
+import { useLanguage } from "@/context/LanguageContext";
+import React, { useState, useEffect, useRef } from "react";
+import { 
+    Play, 
+    Pause, 
+    ArrowLeft,
+    Clock,
+    Phone,
+    Info,
+    Ticket
+} from "lucide-react";
+import { useRouter } from "next/navigation";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { useAudioGuide } from "@/hooks/useAudioGuide";
+
+import { Waveform } from "./Waveform";
+
+const KineticScroll = ({ progress }) => {
+    const width = useTransform(progress, [0, 1], ["0%", "100%"]);
+    return (
+        <motion.div 
+            style={{ 
+                position: 'fixed',
+                bottom: 0,
+                left: 0,
+                height: '4px',
+                background: 'linear-gradient(90deg, transparent, #fff, var(--gold))',
+                zIndex: 1000,
+                width,
+                boxShadow: '0 -2px 15px rgba(255,255,255,0.3)'
+            }} 
+        />
+    );
+};
+
+export default function LightSoundShowClient() {
+    const { t, lang } = useLanguage();
+    const router = useRouter();
+    const { playingAudio, handleAudioPlay } = useAudioGuide();
+    const [isMounted, setIsMounted] = useState(false);
+    const containerRef = useRef(null);
+
+    useEffect(() => {
+        setIsMounted(true);
+    }, []);
+
+    const { scrollYProgress } = useScroll({
+        target: containerRef,
+        offset: ["start start", "end end"]
+    });
+
+    const heroScale = useTransform(scrollYProgress, [0, 0.2], [1, 1.05]);
+    const heroOpacity = useTransform(scrollYProgress, [0, 0.2], [1, 0]);
+
+    const containerVariants = {
+        hidden: { opacity: 0 },
+        visible: {
+            opacity: 1,
+            transition: {
+                staggerChildren: 0.15,
+                delayChildren: 0.3
+            }
+        }
+    };
+
+    const itemVariants = {
+        hidden: { y: 30, opacity: 0, filter: "blur(10px)" },
+        visible: {
+            y: 0,
+            opacity: 1,
+            filter: "blur(0px)",
+            transition: {
+                duration: 1,
+                ease: [0.16, 1, 0.3, 1]
+            }
+        }
+    };
+
+    const sentenceVariants = {
+        hidden: { y: 15, opacity: 0, filter: "blur(8px)" },
+        visible: {
+            y: 0,
+            opacity: 1,
+            filter: "blur(0px)",
+            transition: {
+                duration: 0.8,
+                ease: [0.16, 1, 0.3, 1]
+            }
+        }
+    };
+
+    return (
+        <motion.div 
+            ref={containerRef}
+            initial="hidden"
+            animate="visible"
+            variants={containerVariants}
+            className="fort-page"
+        >
+            <KineticScroll progress={scrollYProgress} />
+            <style jsx global>{`
+                .page-gallery-grid {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+                    gap: 1.5rem;
+                    padding: 0 1.5rem;
+                    max-width: 1200px;
+                    margin: 0 auto;
+                }
+                .p-gal-img {
+                    width: 100%;
+                    height: auto;
+                    border-radius: 16px;
+                    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+                    transition: transform 0.4s ease, box-shadow 0.4s ease;
+                    display: block;
+                }
+                .p-gal-img:hover {
+                    transform: translateY(-5px);
+                    box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+                }
+
+                :root {
+                    --ff-serif: 'Playfair Display', serif;
+                    --ff-sans: 'Inter', sans-serif;
+                    --gold: #d4af37;
+                    --gold-glow: rgba(212, 175, 55, 0.3);
+                    --light-blue: #ade8f4;
+                }
+
+                .fort-page {
+                    background: #050505 !important;
+                    color: #fff;
+                    min-height: 100vh;
+                    font-family: var(--ff-sans);
+                    overflow-x: hidden;
+                    display: block;
+                    position: relative;
+                }
+
+                h1, h2, h3, h4 {
+                    font-family: var(--ff-serif);
+                    font-weight: 700;
+                    letter-spacing: -0.01em;
+                    background: linear-gradient(135deg, #fff 0%, var(--gold) 60%, #b8860b 100%);
+                    /* -webkit-background-clip: text; */
+                    -webkit-text-fill-color: #111 !important;
+                    filter: drop-shadow(0 4px 8px rgba(0,0,0,0.5));
+                    position: relative;
+                }
+
+                /* Dynamic Light Aura */
+                .aura-heading {
+                    position: relative;
+                }
+                .aura-heading::before {
+                    content: '';
+                    position: absolute;
+                    inset: -30px -60px;
+                    background: radial-gradient(circle, rgba(212, 175, 55, 0.2) 0%, transparent 75%);
+                    z-index: -1;
+                    filter: blur(25px);
+                    animation: lightTrace 5s infinite outline alternate ease-in-out;
+                }
+
+                @keyframes lightTrace {
+                    0% { opacity: 0.3; transform: scale(0.9) skewX(-2deg); filter: blur(20px); }
+                    50% { opacity: 0.8; transform: scale(1.1) skewX(2deg); filter: blur(30px); }
+                    100% { opacity: 0.4; transform: scale(0.95) skewX(-1deg); filter: blur(25px); }
+                }
+
+                .fort-page p {
+                    color: #e0e0e0 !important;
+                    line-height: 1.8;
+                    font-size: 1.2rem;
+                    margin-bottom: 2rem;
+                    text-align: center;
+                    font-weight: 300;
+                }
+
+                /* --- Language Specific --- */
+                :global([data-lang="hi"]) .fort-page {
+                    --ff-serif: 'Martel', serif;
+                }
+
+                :global([data-lang="hi"]) h1, 
+                :global([data-lang="hi"]) h2, 
+                :global([data-lang="hi"]) h3 {
+                    font-family: 'Martel', serif !important;
+                    font-weight: 900 !important;
+                    line-height: 1.5 !important;
+                    letter-spacing: normal !important;
+                }
+
+                :global([data-lang="hi"]) .fort-page p {
+                    font-family: 'Martel', serif !important;
+                    font-weight: 400 !important;
+                    line-height: 1.8 !important;
+                    letter-spacing: normal !important;
+                }
+
+                /* --- Glassmorphism 2.0 --- */
+                .glass-panel {
+                    background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.01) 100%);
+                    backdrop-filter: blur(20px);
+                    border: 1px solid rgba(212, 175, 55, 0.2);
+                    border-radius: 20px;
+                    padding: 3.5rem;
+                    box-shadow: 
+                        0 15px 45px rgba(0,0,0,0.6),
+                        inset 0 0 20px rgba(255,255,255,0.02);
+                    transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+                }
+                .glass-panel:hover {
+                    border-color: rgba(255, 255, 255, 0.4);
+                    background: rgba(255, 255, 255, 0.04);
+                }
+
+                .fort-hero {
+                    height: 100vh;
+                    position: relative;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    text-align: center;
+                    overflow: hidden;
+                    z-index: 2;
+                }
+
+                .hero-bg {
+                    position: absolute;
+                    inset: 0;
+                    background-size: cover;
+                    background-position: center;
+                    z-index: -2;
+                    will-change: transform;
+                }
+
+                .hero-overlay {
+                    position: absolute;
+                    inset: 0;
+                    background: radial-gradient(circle at center, rgba(5, 5, 5, 0.5) 0%, rgba(5, 5, 5, 0.95) 100%);
+                    z-index: -1;
+                }
+
+                .hero-content {
+                    max-width: 1100px;
+                    padding: 0 1.5rem;
+                    z-index: 10;
+                }
+
+                .back-btn {
+                    display: inline-flex;
+                    align-items: center;
+                    gap: 0.75rem;
+                    color: #fff;
+                    font-size: 0.85rem;
+                    letter-spacing: 2px;
+                    text-transform: uppercase;
+                    font-weight: 700;
+                    background: rgba(255, 255, 255, 0.05);
+                    backdrop-filter: blur(10px);
+                    padding: 0.8rem 2rem;
+                    border: 1px solid rgba(255, 255, 255, 0.2);
+                    border-radius: 50px;
+                    cursor: pointer;
+                    transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+                    margin-bottom: 3rem;
+                }
+                .back-btn:hover {
+                    background: #fff;
+                    color: #000;
+                    transform: translateY(-3px);
+                    box-shadow: 0 15px 30px rgba(255,255,255,0.2);
+                }
+
+                .cta-btn {
+                    display: inline-flex;
+                    align-items: center;
+                    gap: 0.75rem;
+                    color: #000;
+                    font-size: 1rem;
+                    letter-spacing: 2px;
+                    text-transform: uppercase;
+                    font-weight: 800;
+                    background: var(--gold);
+                    padding: 1.2rem 3rem;
+                    border: none;
+                    border-radius: 50px;
+                    cursor: pointer;
+                    transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+                    margin-top: 2rem;
+                    box-shadow: 0 10px 30px var(--gold-glow);
+                }
+                .cta-btn:hover {
+                    background: #fff;
+                    transform: translateY(-5px) scale(1.05);
+                    box-shadow: 0 20px 40px rgba(255,255,255,0.3);
+                }
+
+                .hero-eyebrow {
+                    display: block;
+                    letter-spacing: 8px;
+                    text-transform: uppercase;
+                    font-size: 1rem;
+                    color: var(--gold);
+                    margin-bottom: 2rem;
+                    font-weight: 800;
+                }
+
+                .hero-title {
+                    font-size: clamp(3.5rem, 12vw, 7.5rem);
+                    line-height: 1;
+                    margin-bottom: 3rem;
+                    text-shadow: 
+                        0 20px 50px rgba(0,0,0,1),
+                        0 0 100px rgba(0,0,0,0.8);
+                    -webkit-text-stroke: 1px rgba(0,0,0,0.7);
+                    position: relative;
+                }
+
+                .hero-desc {
+                    font-size: clamp(1.2rem, 3vw, 1.5rem);
+                    max-width: 900px;
+                    margin: 0 auto;
+                    color: rgba(255, 255, 255, 0.9) !important;
+                }
+
+
+
+                .fort-section {
+                    padding: 12rem 1.5rem;
+                    position: relative;
+                }
+
+                .section-header {
+                    text-align: center;
+                    margin-bottom: 8rem;
+                }
+
+                .section-title {
+                    font-size: clamp(3rem, 8vw, 5.5rem);
+                    margin-bottom: 2.5rem;
+                    color: #fff !important;
+                }
+
+                .title-divider {
+                    width: 150px;
+                    height: 3px;
+                    background: linear-gradient(90deg, transparent, #fff, transparent);
+                    margin: 0 auto;
+                    box-shadow: 0 0 10px rgba(255,255,255,0.5);
+                }
+
+                .audio-bar {
+                    background: rgba(255, 255, 255, 0.03);
+                    backdrop-filter: blur(15px);
+                    border: 1px solid rgba(255, 255, 255, 0.2);
+                    border-radius: 60px;
+                    padding: 1.25rem 3.5rem;
+                    display: inline-flex;
+                    align-items: center;
+                    gap: 2rem;
+                    margin-top: 4rem;
+                    cursor: pointer;
+                    transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+                }
+                .audio-bar:hover {
+                    background: rgba(255, 255, 255, 0.1);
+                    border-color: #fff;
+                    transform: scale(1.05);
+                    box-shadow: 0 20px 40px rgba(255,255,255,0.1);
+                }
+                .audio-bar.playing {
+                    background: #fff;
+                    color: #000;
+                    border-color: #fff;
+                    box-shadow: 0 15px 50px rgba(255,255,255,0.4);
+                }
+                .audio-bar.playing :global(svg) {
+                    fill: #000;
+                }
+
+                .light-glow {
+                    position: absolute;
+                    width: 600px;
+                    height: 600px;
+                    background: radial-gradient(circle, rgba(212, 175, 55, 0.08) 0%, transparent 70%);
+                    pointer-events: none;
+                    z-index: -1;
+                    filter: blur(40px);
+                }
+
+                .info-grid {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+                    gap: 3rem;
+                    max-width: 1200px;
+                    margin: 0 auto;
+                }
+
+                .info-card {
+                    background: linear-gradient(135deg, rgba(255, 255, 255, 0.04) 0%, rgba(255, 255, 255, 0.01) 100%);
+                    border: 1px solid rgba(255, 255, 255, 0.1);
+                    border-radius: 24px;
+                    padding: 4rem 2rem;
+                    text-align: center;
+                    transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+                    position: relative;
+                    overflow: hidden;
+                }
+                .info-card::before {
+                    content: '';
+                    position: absolute;
+                    inset: 0;
+                    background: radial-gradient(circle at center, rgba(212, 175, 55, 0.05) 0%, transparent 70%);
+                    opacity: 0;
+                    transition: opacity 0.5s ease;
+                }
+                .info-card:hover {
+                    border-color: rgba(212, 175, 55, 0.4);
+                    transform: translateY(-15px);
+                    box-shadow: 0 30px 60px rgba(0,0,0,0.4);
+                }
+                .info-card:hover::before {
+                    opacity: 1;
+                }
+
+                .info-icon {
+                    color: var(--gold);
+                    margin-bottom: 2rem;
+                    display: inline-block;
+                    filter: drop-shadow(0 0 10px var(--gold-glow));
+                }
+
+                .info-label {
+                    display: block;
+                    text-transform: uppercase;
+                    letter-spacing: 4px;
+                    font-size: 0.8rem;
+                    margin-bottom: 1rem;
+                    color: rgba(255, 255, 255, 0.5);
+                    font-weight: 700;
+                }
+
+                .info-value {
+                    font-family: var(--ff-serif);
+                    font-size: 1.75rem;
+                    color: #fff;
+                    font-weight: 600;
+                    position: relative;
+                }
+
+                .collection-grid {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+                    gap: 2.5rem;
+                    max-width: 1200px;
+                    margin: 0 auto;
+                }
+                @media (max-width: 480px) {
+                    .collection-grid {
+                        grid-template-columns: 1fr;
+                        gap: 1.5rem;
+                    }
+                }
+                .gallery-item {
+                    padding: 0;
+                    overflow: hidden;
+                    border: 1px solid rgba(255, 255, 255, 0.2);
+                    box-shadow: 0 30px 60px rgba(0,0,0,0.8);
+                    position: relative;
+                    aspect-ratio: 16/10;
+                }
+
+                @media (max-width: 768px) {
+                    .fort-hero {
+                        align-items: flex-start;
+                        padding-top: 110px;
+                        min-height: 100vh;
+                        height: auto;
+                        padding-bottom: 4rem;
+                    }
+                    .back-btn {
+                        margin-bottom: 2rem;
+                    }
+                    .fort-section { padding: 8rem 1.25rem; }
+                    .section-header { margin-bottom: 4rem; }
+                    .hero-title { font-size: 2.8rem; line-height: 1.2 !important; }
+                    .hero-desc { font-size: 1.05rem; }
+                    .glass-panel { padding: 2.5rem 1.25rem; }
+                    .info-grid { grid-template-columns: 1fr; gap: 2rem; }
+                    
+                    .collection-grid {
+                        grid-template-columns: 1fr;
+                        gap: 1.5rem;
+                    }
+                }
+
+
+
+                html {
+                    scroll-behavior: smooth;
+                }
+            `}</style>
+
+            {/* â•â•â• HERO SECTION â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
+            <section className="fort-hero">
+                <motion.div 
+                    style={{ 
+                        scale: heroScale,
+                        backgroundImage: "url('/light_sound_show.jpg')"
+                    }} 
+                    className="hero-bg"
+                ></motion.div>
+                <div className="hero-overlay"></div>
+                
+                <motion.div 
+                    variants={containerVariants}
+                    className="hero-content"
+                >
+                    <motion.button variants={itemVariants} className="back-btn" onClick={() => router.push('/explore')}>
+                        <ArrowLeft size={18} /> {t("btn.back") || "Back"}
+                    </motion.button>
+                    <motion.span variants={itemVariants} className="hero-eyebrow">{t("light_show.hero.eyebrow")}</motion.span>
+                    <motion.h1 variants={itemVariants} className="hero-title aura-heading">{t("light_show.hero.title")}</motion.h1>
+                    <motion.p variants={itemVariants} className="hero-desc">
+                        {t("light_show.hero.desc")?.split('. ').map((sentence, idx) => (
+                            <motion.span 
+                                key={idx} 
+                                variants={sentenceVariants}
+                                style={{ display: 'inline-block', marginRight: '0.4em' }}
+                            >
+                                {sentence}{idx < t("light_show.hero.desc").split('. ').length - 1 ? '.' : ''}
+                            </motion.span>
+                        ))}
+                    </motion.p>
+
+                    <motion.div variants={itemVariants} style={{ marginTop: '2rem' }}>
+                        <a 
+                            href="https://obms-tourist.rajasthan.gov.in/place-details/Chittorgarh-Fort-light-and-sound-show" 
+                            target="_blank" 
+                            rel="noopener noreferrer"
+                            className="cta-btn"
+                        >
+                            <Ticket size={22} /> {t("btn.bookTickets")}
+                        </a>
+                    </motion.div>
+                </motion.div>
+                
+                {/* NO SCROLL INDICATOR */}
+            </section>
+
+
+
+            <main className="fort-main">
+                {/* â•â•â• OVERVIEW â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
+                <motion.section 
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={{ once: true, margin: "-100px" }}
+                    variants={containerVariants}
+                    id="overview" 
+                    className="fort-section"
+                >
+                    <div className="light-glow" style={{ top: '10%', left: '10%' }}></div>
+                    <div className="section-header">
+                        <motion.h2 variants={itemVariants} className="section-title aura-heading">{t("light_show.section.overview")}</motion.h2>
+                        <motion.div variants={itemVariants} className="title-divider"></motion.div>
+                    </div>
+                    <div className="glass-panel" style={{ textAlign: 'center' }}>
+                        <motion.p variants={itemVariants} className="lead-para" style={{ color: '#fff !important', fontSize: '1.4rem', fontWeight: 300 }}>
+                            {t("light_show.overview.p1")?.split('. ').map((sentence, idx) => (
+                                <motion.span key={idx} variants={sentenceVariants} style={{ display: 'inline-block', marginRight: '0.4em' }}>
+                                    {sentence}{idx < t("light_show.overview.p1").split('. ').length - 1 ? '.' : ''}
+                                </motion.span>
+                            ))}
+                        </motion.p>
+                        
+                        <motion.div 
+                            variants={itemVariants}
+                            className={`audio-bar ${playingAudio === 'overview' ? 'playing' : ''}`}
+                            onClick={() => handleAudioPlay('overview', 'light_show.overview.p1')}
+                        >
+                            {playingAudio === 'overview' ? <Waveform /> : <Play size={28} fill="currentColor" />}
+                            <span style={{ fontWeight: 800, letterSpacing: '3px', textTransform: 'uppercase', fontSize: '1rem' }}>
+                                {playingAudio === 'overview' ? t("fort.audio.playing") : t("fort.audio.listen")}
+                            </span>
+                        </motion.div>
+                    </div>
+                </motion.section>
+
+                {/* â•â•â• EXPERIENCE â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
+                <motion.section 
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={{ once: true, margin: "-100px" }}
+                    variants={containerVariants}
+                    id="experience" 
+                    className="fort-section"
+                    style={{ background: 'rgba(20, 15, 10, 0.4)' }}
+                >
+                    <div className="light-glow" style={{ bottom: '15%', right: '10%' }}></div>
+                    <div className="section-header">
+                        <motion.h2 variants={itemVariants} className="section-title aura-heading">{t("light_show.section.experience")}</motion.h2>
+                        <motion.div variants={itemVariants} className="title-divider"></motion.div>
+                    </div>
+
+                    <div className="glass-panel" style={{ textAlign: 'center' }}>
+                        <motion.p variants={itemVariants} style={{ color: '#fff !important', fontSize: '1.3rem' }}>
+                            {t("light_show.experience.p1")?.split('. ').map((sentence, idx) => (
+                                <motion.span key={idx} variants={sentenceVariants} style={{ display: 'inline-block', marginRight: '0.4em' }}>
+                                    {sentence}{idx < t("light_show.experience.p1").split('. ').length - 1 ? '.' : ''}
+                                </motion.span>
+                            ))}
+                        </motion.p>
+                        
+                        <motion.div 
+                            variants={itemVariants}
+                            className={`audio-bar ${playingAudio === 'experience' ? 'playing' : ''}`}
+                            onClick={() => handleAudioPlay('experience', 'light_show.experience.p1')}
+                        >
+                            {playingAudio === 'experience' ? <Waveform /> : <Play size={28} fill="currentColor" />}
+                            <span style={{ fontWeight: 800, letterSpacing: '3px', textTransform: 'uppercase', fontSize: '1rem' }}>
+                                {playingAudio === 'experience' ? t("fort.audio.playing") : t("fort.audio.listen")}
+                            </span>
+                        </motion.div>
+                    </div>
+                </motion.section>
+
+                {/* â•â•â• GALLERY â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
+                <motion.section 
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={{ once: true, margin: "-100px" }}
+                    variants={containerVariants}
+                    id="gallery" 
+                    className="fort-section"
+                >
+                    <div className="section-header">
+                        <motion.h2 variants={itemVariants} className="section-title aura-heading">{t("light_show.section.gallery") || "Visual Splendor"}</motion.h2>
+                        <motion.div variants={itemVariants} className="title-divider"></motion.div>
+                    </div>
+
+                    <div className="collection-grid">
+                        <motion.div 
+                            variants={itemVariants}
+                            whileHover={{ scale: 1.02 }}
+                            className="glass-panel gallery-item"
+                        >
+                            <Image 
+                                src="/images/ls-show-1.jpg" 
+                                alt="Light and Sound Show Display 1"
+                                style={{ objectFit: "cover",  width: '100%', height: '100%', objectFit: 'cover', opacity: 0.9 }}
+                             width={1200} height={800}/>
+                        </motion.div>
+                        <motion.div 
+                            variants={itemVariants}
+                            whileHover={{ scale: 1.02 }}
+                            className="glass-panel gallery-item"
+                        >
+                            <Image 
+                                src="/images/ls-show-2.jpg" 
+                                alt="Light and Sound Show Display 2"
+                                style={{ objectFit: "cover",  width: '100%', height: '100%', objectFit: 'cover', opacity: 0.9 }}
+                             width={1200} height={800}/>
+                        </motion.div>
+                    </div>
+                </motion.section>
+
+                {/* â•â•â• DETAILS â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
+                <motion.section 
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={{ once: true, margin: "-100px" }}
+                    variants={containerVariants}
+                    id="details" 
+                    className="fort-section"
+                >
+                    <div className="section-header">
+                        <motion.h2 variants={itemVariants} className="section-title aura-heading">{t("light_show.section.details")}</motion.h2>
+                        <motion.div variants={itemVariants} className="title-divider"></motion.div>
+                    </div>
+                    
+                    <div className="info-grid">
+                        <motion.div variants={itemVariants} className="info-card">
+                            <Clock className="info-icon" size={48} />
+                            <span className="info-label">{t("lbl.bestTime") || "Timing"}</span>
+                            <span className="info-value">{t("light_show.details.timing")}</span>
+                        </motion.div>
+                        
+                        <motion.div variants={itemVariants} className="info-card">
+                            <Phone className="info-icon" size={48} />
+                            <span className="info-label">{t("lbl.contact") || "Contact"}</span>
+                            <span className="info-value">{t("light_show.details.contact")}</span>
+                        </motion.div>
+ 
+                        <motion.div variants={itemVariants} className="info-card">
+                            <Info className="info-icon" size={48} />
+                            <span className="info-label">{t("lbl.distance") || "Location"}</span>
+                            <span className="info-value">{t("light_show.details.location")}</span>
+                        </motion.div>
+                    </div>
+                </motion.section>
+
+                {/* â•â•â• REFERENCES â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
+                <motion.section 
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={{ once: true }}
+                    variants={containerVariants}
+                    className="fort-section"
+                    style={{ paddingBottom: '12rem' }}
+                >
+                    <div className="section-inner" style={{ textAlign: 'center' }}>
+                        <motion.h2 variants={itemVariants} className="section-title" style={{ fontSize: '2.5rem' }}>{t("light_show.references.title")}</motion.h2>
+                        <motion.div variants={itemVariants} className="title-divider" style={{ width: '80px', marginBottom: '4rem' }}></motion.div>
+                        
+                        <motion.a 
+                            variants={itemVariants}
+                            href={t("light_show.references.official_url")} 
+                            target="_blank" 
+                            rel="noopener noreferrer"
+                            className="back-btn"
+                            style={{ margin: 0, padding: '1rem 3rem' }}
+                        >
+                            {t("light_show.references.official")}
+                        </motion.a>
+
+                    </div>
+                </motion.section>
+            
+                {/* ═══ GALLERY ══════════════════════════ */}
+                <motion.section 
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={{ once: true, margin: "-50px" }}
+                    className="fort-section"
+                    style={{ paddingTop: 0, paddingBottom: '6rem' }}
+                >
+                    <div className="section-header" style={{ marginBottom: '3.5rem' }}>
+                        <motion.h2 className="section-title" style={{ fontSize: '2.5rem', background: 'none', color: '#111', filter: 'none' }}>
+                            Gallery
+                        </motion.h2>
+                        <motion.div className="title-divider"></motion.div>
+                    </div>
+                    <div className="page-gallery-grid">
+                        <motion.img src="/Light Show Images/Light & Sound1.jpg" alt="Gallery Image" className="p-gal-img" />
+                        <motion.img src="/Light Show Images/Light & Sound2.jpg" alt="Gallery Image" className="p-gal-img" />
+                        <motion.img src="/Light Show Images/Light & Sound4.jpg" alt="Gallery Image" className="p-gal-img" />
+                    </div>
+                </motion.section>
+</main>
+        </motion.div>
+    );
+}
+
