@@ -14,13 +14,46 @@ import {
     Sparkles,
     Building2,
     CheckCircle2,
-    BookOpen
+    BookOpen,
+    IndianRupee,
+    Users,
+    Clock
 } from "lucide-react";
 
 export default function GuideListClient() {
     const { t, lang } = useLanguage();
     const isHindi = lang === "hi";
     const [isMobile, setIsMobile] = useState(false);
+
+    const guideRates = [
+        {
+            tourists: "1 - 4",
+            touristsLabelEn: "1 – 4 Tourists",
+            touristsLabelHi: "1 – 4 पर्यटक",
+            stateFull: 1150,
+            stateHalf: 800,
+            localFull: 1000,
+            localHalf: 725,
+        },
+        {
+            tourists: "5 - 15",
+            touristsLabelEn: "5 – 15 Tourists",
+            touristsLabelHi: "5 – 15 पर्यटक",
+            stateFull: 1550,
+            stateHalf: 1150,
+            localFull: 1300,
+            localHalf: 875,
+        },
+        {
+            tourists: "16 - 35",
+            touristsLabelEn: "16 – 35 Tourists",
+            touristsLabelHi: "16 – 35 पर्यटक",
+            stateFull: 2500,
+            stateHalf: 1550,
+            localFull: 1600,
+            localHalf: 1025,
+        },
+    ];
 
     useEffect(() => {
         const checkMobile = () => {
@@ -231,6 +264,604 @@ export default function GuideListClient() {
                                 <ExternalLink size={18} />
                                 {isHindi ? "PDF नए टैब में खोलें" : "Open PDF in New Tab"}
                             </a>
+                        </div>
+                    </div>
+
+                    {/* Authorised Guide Rate List Showcase Box */}
+                    <div id="guide-rate-list" style={{
+                        marginTop: "28px",
+                        background: "radial-gradient(120% 120% at 50% 0%, rgba(28, 26, 20, 0.95) 0%, rgba(13, 13, 18, 0.98) 100%)",
+                        borderRadius: "20px",
+                        padding: isMobile ? "16px 12px" : "28px 28px",
+                        border: "1px solid rgba(212, 175, 55, 0.4)",
+                        boxShadow: "0 20px 50px rgba(0, 0, 0, 0.7), 0 0 30px rgba(212, 175, 55, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.1)",
+                        textAlign: "left",
+                        position: "relative",
+                        overflow: "hidden"
+                    }}>
+                        {/* Decorative Top Accent Glow */}
+                        <div style={{
+                            position: "absolute",
+                            top: 0,
+                            left: "15%",
+                            right: "15%",
+                            height: "2px",
+                            background: "linear-gradient(90deg, transparent, #d4af37, #fef08a, #d4af37, transparent)",
+                            boxShadow: "0 0 12px #d4af37"
+                        }} />
+
+                        {/* Rate List Header */}
+                        <div style={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                            alignItems: isMobile ? "flex-start" : "center",
+                            flexDirection: isMobile ? "column" : "row",
+                            gap: "10px",
+                            marginBottom: "18px",
+                            paddingBottom: "14px",
+                            borderBottom: "1px solid rgba(212, 175, 55, 0.2)"
+                        }}>
+                            <div>
+                                <div style={{
+                                    display: "inline-flex",
+                                    alignItems: "center",
+                                    gap: "6px",
+                                    background: "linear-gradient(90deg, rgba(212, 175, 55, 0.2) 0%, rgba(212, 175, 55, 0.05) 100%)",
+                                    border: "1px solid rgba(212, 175, 55, 0.45)",
+                                    color: "#fbbf24",
+                                    padding: "4px 12px",
+                                    borderRadius: "50px",
+                                    fontSize: "0.72rem",
+                                    fontWeight: "800",
+                                    letterSpacing: "0.6px",
+                                    textTransform: "uppercase",
+                                    marginBottom: "8px",
+                                    boxShadow: "0 2px 8px rgba(212, 175, 55, 0.15)"
+                                }}>
+                                    <IndianRupee size={12} />
+                                    {isHindi ? "राजस्थान सरकार अधिकृत शुल्क" : "Official Govt. Tariff"}
+                                </div>
+
+                                <h2 style={{
+                                    fontSize: isMobile ? "1.25rem" : "1.65rem",
+                                    fontWeight: "800",
+                                    background: "linear-gradient(135deg, #ffffff 40%, #fde047 80%, #d4af37 100%)",
+                                    WebkitBackgroundClip: "text",
+                                    WebkitTextFillColor: "transparent",
+                                    margin: 0,
+                                    letterSpacing: "-0.01em"
+                                }}>
+                                    {isHindi ? "अधिकृत टूरिस्ट गाइड दर सूची" : "Authorised Guide Rate List"}
+                                </h2>
+
+                                <p style={{
+                                    color: "#94a3b8",
+                                    fontSize: isMobile ? "0.78rem" : "0.86rem",
+                                    margin: "4px 0 0 0",
+                                    lineHeight: 1.4
+                                }}>
+                                    {isHindi
+                                        ? "पर्यटन विभाग, राजस्थान सरकार द्वारा स्वीकृत आधिकारिक मानक दरें"
+                                        : "Prescribed standard tariff by Department of Tourism, Govt. of Rajasthan"
+                                    }
+                                </p>
+                            </div>
+
+                            <div style={{
+                                display: "inline-flex",
+                                alignItems: "center",
+                                gap: "6px",
+                                fontSize: "0.72rem",
+                                padding: "5px 12px",
+                                borderRadius: "20px",
+                                background: "rgba(212, 175, 55, 0.08)",
+                                border: "1px solid rgba(212, 175, 55, 0.25)",
+                                color: "#f8fafc",
+                                fontWeight: "700"
+                            }}>
+                                <Sparkles size={12} style={{ color: "#d4af37" }} />
+                                <span>{isHindi ? "सभी दरें INR (₹) में" : "All Rates in INR (₹)"}</span>
+                            </div>
+                        </div>
+
+                        {/* MOBILE VIEW: Ultra-Attractive, Modern Tier Cards (Zero Broken Words, Rich Gradients) */}
+                        {isMobile ? (
+                            <div style={{
+                                display: "flex",
+                                flexDirection: "column",
+                                gap: "12px"
+                            }}>
+                                {guideRates.map((item) => (
+                                    <div
+                                        key={item.tourists}
+                                        style={{
+                                            background: "linear-gradient(180deg, rgba(25, 25, 34, 0.7) 0%, rgba(15, 15, 20, 0.8) 100%)",
+                                            borderRadius: "14px",
+                                            border: "1px solid rgba(212, 175, 55, 0.25)",
+                                            padding: "12px",
+                                            boxShadow: "0 8px 20px rgba(0, 0, 0, 0.35)",
+                                            display: "flex",
+                                            flexDirection: "column",
+                                            gap: "10px"
+                                        }}
+                                    >
+                                        {/* Slab Badge Header */}
+                                        <div style={{
+                                            display: "flex",
+                                            alignItems: "center",
+                                            justifyContent: "space-between",
+                                            paddingBottom: "8px",
+                                            borderBottom: "1px solid rgba(255, 255, 255, 0.07)"
+                                        }}>
+                                            <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                                                <div style={{
+                                                    width: "28px",
+                                                    height: "28px",
+                                                    borderRadius: "8px",
+                                                    background: "linear-gradient(135deg, rgba(212, 175, 55, 0.3) 0%, rgba(212, 175, 55, 0.1) 100%)",
+                                                    border: "1px solid rgba(212, 175, 55, 0.4)",
+                                                    display: "flex",
+                                                    alignItems: "center",
+                                                    justifyContent: "center",
+                                                    color: "#fbbf24"
+                                                }}>
+                                                    <Users size={14} />
+                                                </div>
+                                                <span style={{ fontSize: "0.98rem", fontWeight: "800", color: "#ffffff" }}>
+                                                    {item.tourists} {isHindi ? "पर्यटक" : "Tourists"}
+                                                </span>
+                                            </div>
+                                            <span style={{
+                                                fontSize: "0.68rem",
+                                                fontWeight: "700",
+                                                padding: "2px 8px",
+                                                borderRadius: "12px",
+                                                background: "rgba(255, 255, 255, 0.06)",
+                                                border: "1px solid rgba(255, 255, 255, 0.12)",
+                                                color: "#cbd5e1"
+                                            }}>
+                                                {isHindi ? "समूह स्लैब" : "Group Slab"}
+                                            </span>
+                                        </div>
+
+                                        {/* Tier 1: State Level Guide */}
+                                        <div style={{
+                                            background: "linear-gradient(135deg, rgba(212, 175, 55, 0.12) 0%, rgba(25, 22, 15, 0.6) 100%)",
+                                            borderRadius: "10px",
+                                            border: "1px solid rgba(212, 175, 55, 0.35)",
+                                            padding: "9px 11px"
+                                        }}>
+                                            <div style={{
+                                                display: "flex",
+                                                alignItems: "center",
+                                                justifyContent: "space-between",
+                                                marginBottom: "8px"
+                                            }}>
+                                                <span style={{
+                                                    fontSize: "0.78rem",
+                                                    fontWeight: "800",
+                                                    color: "#fbbf24",
+                                                    display: "inline-flex",
+                                                    alignItems: "center",
+                                                    gap: "5px",
+                                                    letterSpacing: "0.2px"
+                                                }}>
+                                                    ⭐ {isHindi ? "राज्य स्तरीय गाइड" : "State Level Guide"}
+                                                </span>
+                                                <span style={{ fontSize: "0.65rem", color: "#d4af37", fontWeight: "600" }}>
+                                                    {isHindi ? "State Level" : "Apex Tier"}
+                                                </span>
+                                            </div>
+
+                                            <div style={{
+                                                display: "grid",
+                                                gridTemplateColumns: "1fr 1fr",
+                                                gap: "8px"
+                                            }}>
+                                                {/* Full Day */}
+                                                <div style={{
+                                                    background: "rgba(0, 0, 0, 0.45)",
+                                                    borderRadius: "8px",
+                                                    padding: "8px 6px",
+                                                    border: "1px solid rgba(212, 175, 55, 0.22)",
+                                                    textAlign: "center",
+                                                    display: "flex",
+                                                    flexDirection: "column",
+                                                    alignItems: "center",
+                                                    justifyContent: "center",
+                                                    minHeight: "60px"
+                                                }}>
+                                                    <div style={{
+                                                        fontSize: "0.72rem",
+                                                        color: "#94a3b8",
+                                                        fontWeight: "700",
+                                                        whiteSpace: "nowrap",
+                                                        height: "18px",
+                                                        lineHeight: "18px",
+                                                        display: "flex",
+                                                        alignItems: "center",
+                                                        justifyContent: "center",
+                                                        marginBottom: "3px"
+                                                    }}>
+                                                        {isHindi ? "पूरा दिन (8h)" : "Full Day (8h)"}
+                                                    </div>
+                                                    <div style={{
+                                                        fontSize: "1.08rem",
+                                                        fontWeight: "900",
+                                                        color: "#fef08a",
+                                                        height: "24px",
+                                                        lineHeight: "24px",
+                                                        display: "flex",
+                                                        alignItems: "center",
+                                                        justifyContent: "center",
+                                                        whiteSpace: "nowrap"
+                                                    }}>
+                                                        ₹{item.stateFull.toLocaleString("en-IN")}
+                                                    </div>
+                                                </div>
+
+                                                {/* Half Day */}
+                                                <div style={{
+                                                    background: "rgba(0, 0, 0, 0.45)",
+                                                    borderRadius: "8px",
+                                                    padding: "8px 6px",
+                                                    border: "1px solid rgba(212, 175, 55, 0.22)",
+                                                    textAlign: "center",
+                                                    display: "flex",
+                                                    flexDirection: "column",
+                                                    alignItems: "center",
+                                                    justifyContent: "center",
+                                                    minHeight: "60px"
+                                                }}>
+                                                    <div style={{
+                                                        fontSize: "0.72rem",
+                                                        color: "#94a3b8",
+                                                        fontWeight: "700",
+                                                        whiteSpace: "nowrap",
+                                                        height: "18px",
+                                                        lineHeight: "18px",
+                                                        display: "flex",
+                                                        alignItems: "center",
+                                                        justifyContent: "center",
+                                                        marginBottom: "3px"
+                                                    }}>
+                                                        {isHindi ? "आधा दिन (4h)" : "Half Day (4h)"}
+                                                    </div>
+                                                    <div style={{
+                                                        fontSize: "1.08rem",
+                                                        fontWeight: "900",
+                                                        color: "#fde047",
+                                                        height: "24px",
+                                                        lineHeight: "24px",
+                                                        display: "flex",
+                                                        alignItems: "center",
+                                                        justifyContent: "center",
+                                                        whiteSpace: "nowrap"
+                                                    }}>
+                                                        ₹{item.stateHalf.toLocaleString("en-IN")}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        {/* Tier 2: Local Level Guide */}
+                                        <div style={{
+                                            background: "linear-gradient(135deg, rgba(56, 189, 248, 0.1) 0%, rgba(15, 23, 30, 0.6) 100%)",
+                                            borderRadius: "10px",
+                                            border: "1px solid rgba(56, 189, 248, 0.3)",
+                                            padding: "9px 11px"
+                                        }}>
+                                            <div style={{
+                                                display: "flex",
+                                                alignItems: "center",
+                                                justifyContent: "space-between",
+                                                marginBottom: "8px"
+                                            }}>
+                                                <span style={{
+                                                    fontSize: "0.78rem",
+                                                    fontWeight: "800",
+                                                    color: "#38bdf8",
+                                                    display: "inline-flex",
+                                                    alignItems: "center",
+                                                    gap: "5px",
+                                                    letterSpacing: "0.2px"
+                                                }}>
+                                                    🏛️ {isHindi ? "स्थानीय गाइड" : "Local Level Guide"}
+                                                </span>
+                                                <span style={{ fontSize: "0.65rem", color: "#7dd3fc", fontWeight: "600" }}>
+                                                    {isHindi ? "Local Level" : "Citadel Expert"}
+                                                </span>
+                                            </div>
+
+                                            <div style={{
+                                                display: "grid",
+                                                gridTemplateColumns: "1fr 1fr",
+                                                gap: "8px"
+                                            }}>
+                                                {/* Full Day */}
+                                                <div style={{
+                                                    background: "rgba(0, 0, 0, 0.45)",
+                                                    borderRadius: "8px",
+                                                    padding: "8px 6px",
+                                                    border: "1px solid rgba(56, 189, 248, 0.22)",
+                                                    textAlign: "center",
+                                                    display: "flex",
+                                                    flexDirection: "column",
+                                                    alignItems: "center",
+                                                    justifyContent: "center",
+                                                    minHeight: "60px"
+                                                }}>
+                                                    <div style={{
+                                                        fontSize: "0.72rem",
+                                                        color: "#94a3b8",
+                                                        fontWeight: "700",
+                                                        whiteSpace: "nowrap",
+                                                        height: "18px",
+                                                        lineHeight: "18px",
+                                                        display: "flex",
+                                                        alignItems: "center",
+                                                        justifyContent: "center",
+                                                        marginBottom: "3px"
+                                                    }}>
+                                                        {isHindi ? "पूरा दिन (8h)" : "Full Day (8h)"}
+                                                    </div>
+                                                    <div style={{
+                                                        fontSize: "1.08rem",
+                                                        fontWeight: "900",
+                                                        color: "#bae6fd",
+                                                        height: "24px",
+                                                        lineHeight: "24px",
+                                                        display: "flex",
+                                                        alignItems: "center",
+                                                        justifyContent: "center",
+                                                        whiteSpace: "nowrap"
+                                                    }}>
+                                                        ₹{item.localFull.toLocaleString("en-IN")}
+                                                    </div>
+                                                </div>
+
+                                                {/* Half Day */}
+                                                <div style={{
+                                                    background: "rgba(0, 0, 0, 0.45)",
+                                                    borderRadius: "8px",
+                                                    padding: "8px 6px",
+                                                    border: "1px solid rgba(56, 189, 248, 0.22)",
+                                                    textAlign: "center",
+                                                    display: "flex",
+                                                    flexDirection: "column",
+                                                    alignItems: "center",
+                                                    justifyContent: "center",
+                                                    minHeight: "60px"
+                                                }}>
+                                                    <div style={{
+                                                        fontSize: "0.72rem",
+                                                        color: "#94a3b8",
+                                                        fontWeight: "700",
+                                                        whiteSpace: "nowrap",
+                                                        height: "18px",
+                                                        lineHeight: "18px",
+                                                        display: "flex",
+                                                        alignItems: "center",
+                                                        justifyContent: "center",
+                                                        marginBottom: "3px"
+                                                    }}>
+                                                        {isHindi ? "आधा दिन (4h)" : "Half Day (4h)"}
+                                                    </div>
+                                                    <div style={{
+                                                        fontSize: "1.08rem",
+                                                        fontWeight: "900",
+                                                        color: "#7dd3fc",
+                                                        height: "24px",
+                                                        lineHeight: "24px",
+                                                        display: "flex",
+                                                        alignItems: "center",
+                                                        justifyContent: "center",
+                                                        whiteSpace: "nowrap"
+                                                    }}>
+                                                        ₹{item.localHalf.toLocaleString("en-IN")}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        ) : (
+                            /* DESKTOP VIEW: Luxury Official Tariff Table */
+                            <div style={{
+                                overflowX: "auto",
+                                borderRadius: "14px",
+                                border: "1px solid rgba(212, 175, 55, 0.3)",
+                                background: "rgba(0, 0, 0, 0.5)",
+                                boxShadow: "0 10px 30px rgba(0, 0, 0, 0.4)"
+                            }}>
+                                <table style={{
+                                    width: "100%",
+                                    borderCollapse: "collapse",
+                                    textAlign: "center",
+                                    fontSize: "0.92rem"
+                                }}>
+                                    <thead>
+                                        {/* Row 1 Header */}
+                                        <tr style={{ background: "rgba(212, 175, 55, 0.15)", borderBottom: "1px solid rgba(212, 175, 55, 0.3)" }}>
+                                            <th rowSpan={2} style={{
+                                                padding: "16px 18px",
+                                                fontWeight: "800",
+                                                color: "#ffffff",
+                                                textAlign: "left",
+                                                borderRight: "1px solid rgba(212, 175, 55, 0.25)",
+                                                width: "25%"
+                                            }}>
+                                                <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                                                    <Users size={16} style={{ color: "#d4af37" }} />
+                                                    <span>{isHindi ? "पर्यटकों की संख्या" : "No. of Tourist"}</span>
+                                                </div>
+                                            </th>
+                                            <th colSpan={2} style={{
+                                                padding: "12px 16px",
+                                                fontWeight: "800",
+                                                color: "#fbbf24",
+                                                borderRight: "1px solid rgba(212, 175, 55, 0.25)",
+                                                fontSize: "0.98rem",
+                                                letterSpacing: "0.3px"
+                                            }}>
+                                                ⭐ {isHindi ? "राज्य स्तरीय गाइड (State Level)" : "State Level Guide"}
+                                            </th>
+                                            <th colSpan={2} style={{
+                                                padding: "12px 16px",
+                                                fontWeight: "800",
+                                                color: "#38bdf8",
+                                                fontSize: "0.98rem",
+                                                letterSpacing: "0.3px"
+                                            }}>
+                                                🏛️ {isHindi ? "स्थानीय गाइड (Local Level)" : "Local Level Guide"}
+                                            </th>
+                                        </tr>
+                                        {/* Row 2 Sub-Headers */}
+                                        <tr style={{ background: "rgba(255, 255, 255, 0.04)", borderBottom: "1px solid rgba(212, 175, 55, 0.2)" }}>
+                                            <th style={{ padding: "10px 12px", color: "#cbd5e1", fontWeight: "700", fontSize: "0.82rem", borderRight: "1px solid rgba(255, 255, 255, 0.08)" }}>
+                                                {isHindi ? "पूरा दिन (8h)" : "Full Day (8h)"}
+                                            </th>
+                                            <th style={{ padding: "10px 12px", color: "#cbd5e1", fontWeight: "700", fontSize: "0.82rem", borderRight: "1px solid rgba(212, 175, 55, 0.25)" }}>
+                                                {isHindi ? "आधा दिन (4h)" : "Half Day (4h)"}
+                                            </th>
+                                            <th style={{ padding: "10px 12px", color: "#cbd5e1", fontWeight: "700", fontSize: "0.82rem", borderRight: "1px solid rgba(255, 255, 255, 0.08)" }}>
+                                                {isHindi ? "पूरा दिन (8h)" : "Full Day (8h)"}
+                                            </th>
+                                            <th style={{ padding: "10px 12px", color: "#cbd5e1", fontWeight: "700", fontSize: "0.82rem" }}>
+                                                {isHindi ? "आधा दिन (4h)" : "Half Day (4h)"}
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {guideRates.map((row, idx) => (
+                                            <tr 
+                                                key={row.tourists}
+                                                style={{
+                                                    background: idx % 2 === 0 ? "rgba(255, 255, 255, 0.02)" : "rgba(255, 255, 255, 0.05)",
+                                                    borderBottom: idx < guideRates.length - 1 ? "1px solid rgba(255, 255, 255, 0.07)" : "none"
+                                                }}
+                                            >
+                                                <td style={{
+                                                    padding: "16px 18px",
+                                                    textAlign: "left",
+                                                    fontWeight: "800",
+                                                    color: "#ffffff",
+                                                    borderRight: "1px solid rgba(212, 175, 55, 0.25)"
+                                                }}>
+                                                    <span style={{
+                                                        display: "inline-block",
+                                                        background: "linear-gradient(135deg, rgba(212, 175, 55, 0.2) 0%, rgba(212, 175, 55, 0.08) 100%)",
+                                                        padding: "5px 12px",
+                                                        borderRadius: "8px",
+                                                        border: "1px solid rgba(212, 175, 55, 0.35)",
+                                                        color: "#ffffff",
+                                                        fontWeight: "800"
+                                                    }}>
+                                                        {row.tourists}
+                                                    </span>
+                                                    <span style={{ fontSize: "0.8rem", color: "#94a3b8", marginLeft: "8px", fontWeight: "600" }}>
+                                                        {isHindi ? "पर्यटक" : "Tourists"}
+                                                    </span>
+                                                </td>
+                                                {/* State - Full */}
+                                                <td style={{
+                                                    padding: "16px 12px",
+                                                    fontWeight: "800",
+                                                    color: "#fef08a",
+                                                    borderRight: "1px solid rgba(255, 255, 255, 0.08)",
+                                                    fontSize: "1.1rem"
+                                                }}>
+                                                    ₹{row.stateFull.toLocaleString("en-IN")}
+                                                </td>
+                                                {/* State - Half */}
+                                                <td style={{
+                                                    padding: "16px 12px",
+                                                    fontWeight: "800",
+                                                    color: "#fde047",
+                                                    borderRight: "1px solid rgba(212, 175, 55, 0.25)",
+                                                    fontSize: "1.05rem"
+                                                }}>
+                                                    ₹{row.stateHalf.toLocaleString("en-IN")}
+                                                </td>
+                                                {/* Local - Full */}
+                                                <td style={{
+                                                    padding: "16px 12px",
+                                                    fontWeight: "800",
+                                                    color: "#bae6fd",
+                                                    borderRight: "1px solid rgba(255, 255, 255, 0.08)",
+                                                    fontSize: "1.1rem"
+                                                }}>
+                                                    ₹{row.localFull.toLocaleString("en-IN")}
+                                                </td>
+                                                {/* Local - Half */}
+                                                <td style={{
+                                                    padding: "16px 12px",
+                                                    fontWeight: "800",
+                                                    color: "#7dd3fc",
+                                                    fontSize: "1.05rem"
+                                                }}>
+                                                    ₹{row.localHalf.toLocaleString("en-IN")}
+                                                </td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </div>
+                        )}
+
+                        {/* Timing and Verification Footer Pills */}
+                        <div style={{
+                            marginTop: "16px",
+                            paddingTop: "12px",
+                            borderTop: "1px solid rgba(212, 175, 55, 0.2)",
+                            display: "flex",
+                            flexDirection: isMobile ? "column" : "row",
+                            justifyContent: "space-between",
+                            alignItems: isMobile ? "flex-start" : "center",
+                            gap: "10px",
+                            fontSize: isMobile ? "0.74rem" : "0.82rem",
+                            color: "#94a3b8"
+                        }}>
+                            <div style={{ display: "flex", flexWrap: "wrap", gap: "10px", alignItems: "center" }}>
+                                <div style={{
+                                    display: "inline-flex",
+                                    alignItems: "center",
+                                    gap: "6px",
+                                    background: "rgba(255, 255, 255, 0.04)",
+                                    padding: "4px 10px",
+                                    borderRadius: "20px",
+                                    border: "1px solid rgba(255, 255, 255, 0.08)"
+                                }}>
+                                    <Clock size={13} style={{ color: "#d4af37" }} />
+                                    <span><strong style={{ color: "#fff" }}>{isHindi ? "आधा दिन:" : "Half Day:"}</strong> {isHindi ? "4 घंटे तक" : "Up to 4 Hours"}</span>
+                                </div>
+                                <div style={{
+                                    display: "inline-flex",
+                                    alignItems: "center",
+                                    gap: "6px",
+                                    background: "rgba(255, 255, 255, 0.04)",
+                                    padding: "4px 10px",
+                                    borderRadius: "20px",
+                                    border: "1px solid rgba(255, 255, 255, 0.08)"
+                                }}>
+                                    <Clock size={13} style={{ color: "#d4af37" }} />
+                                    <span><strong style={{ color: "#fff" }}>{isHindi ? "पूरा दिन:" : "Full Day:"}</strong> {isHindi ? "8 घंटे तक" : "Up to 8 Hours"}</span>
+                                </div>
+                            </div>
+                            <div style={{
+                                display: "inline-flex",
+                                alignItems: "center",
+                                gap: "6px",
+                                color: "#cbd5e1",
+                                background: "rgba(34, 197, 94, 0.08)",
+                                padding: "4px 10px",
+                                borderRadius: "20px",
+                                border: "1px solid rgba(34, 197, 94, 0.2)"
+                            }}>
+                                <CheckCircle2 size={13} style={{ color: "#22c55e" }} />
+                                <span>{isHindi ? "हमेशा वैध सरकारी पहचान पत्र (ID Card) देखकर ही गाइड तय करें" : "Always verify Rajasthan Tourism ID badge before hiring"}</span>
+                            </div>
                         </div>
                     </div>
                 </div>
